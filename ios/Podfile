@@ -1,5 +1,6 @@
 # Uncomment this line to define a global platform for your project
-platform :ios, '15.0'
+$iOSVersion = '15.0'
+platform :ios, $iOSVersion
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -38,10 +39,29 @@ target 'Runner' do
 end
 
 post_install do |installer|
+  installer.pods_project.build_configurations.each do |config|
+    config.build_settings["EXCLUDED_ARCHS[sdk=*]"] = "armv7"
+    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = $iOSVersion
+  end
+
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
+
     target.build_configurations.each do |config|
-      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
+      if Gem::Version.new($iOSVersion) > Gem::Version.new(config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'])
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = $iOSVersion
+      end
+
+      # Docs: ttps://pub.dev/packages/permission_handler#setup (Under iOS)
+      config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
+        '$(inherited)',
+
+        'PERMISSION_APP_TRACKING_TRANSPARENCY=1',
+        'PERMISSION_MICROPHONE=1',
+      ]
+
+      config.build_settings['SWIFT_STRICT_CONCURRENCY'] = 'targeted'
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = $iOSVersion
     end
   end
 end

@@ -21,6 +21,10 @@ dependencies:
   firebase_messaging: ^15.2.6
   firebase_auth: ^5.5.1
 
+  # Sign In
+  google_sign_in: ^6.2.1
+  sign_in_with_apple: ^6.1.3
+
   # State management
   provider: ^6.1.5+1
 
@@ -37,12 +41,9 @@ dependencies:
 
   # Data
   intl: ^0.19.0
-  latlong2: ^0.9.1
-  device_info_plus: ^11.5.0
   jiffy: ^6.2.1
   jwt_decoder: ^2.0.1
   encrypt: ^5.0.3
-  crypto: ^3.0.6
   geolocator: ^14.0.2
   geocoding: ^3.0.0
   file_picker: ^10.1.9
@@ -56,13 +57,8 @@ dependencies:
   flutter_easyloading: ^3.0.5
   cached_network_image: ^3.3.1
   dotted_line: ^3.2.2
-  google_sign_in: ^6.1.6
-  maps_launcher: ^3.0.0+1
-  sign_in_with_apple: ^7.0.1
-  readmore: ^3.0.0
   flutter_rating_bar: ^4.0.1
   extended_image: ^10.0.1
-  flutter_staggered_grid_view: ^0.7.0
   webview_flutter: ^3.0.4
   photo_view: ^0.15.0
   table_calendar: ^3.0.9
@@ -72,16 +68,11 @@ dependencies:
   flutter_slidable: ^4.0.0
   google_maps_flutter: ^2.5.0
   dropdown_button2: ^2.3.9
-  timeline_list: ^0.1.1
-  timelines: ^0.1.0
-  timeline_tile: ^2.0.0
   share_plus: ^11.0.0
   shimmer: ^3.0.0
-  focus_detector: 2.0.1
   flutter_local_notifications: ^19.2.1
   socket_io_client: ^3.1.2
   flutter_datetime_picker_plus: ^2.2.0
-  floating: ^6.0.0
   month_year_picker: ^0.4.0+1
   intl_phone_field: ^3.2.0
   fluttertoast: ^8.2.12
@@ -98,11 +89,6 @@ dependencies:
   place_picker:
     path: locationpicker
 
-  image: any
-  image_picker_for_web: any
-  shared_preferences_web: any
-  flutter_web_plugins: any
-  http: any
 dependency_overrides:
 
 dev_dependencies:
@@ -127,8 +113,6 @@ dev_dependencies:
   # Tests
   mockito: ^5.4.4
   covadge: ^0.0.1
-  fake_cloud_firestore: ^3.1.0
-  firebase_storage_mocks: ^0.7.0
 
   # UI
   flutter_launcher_icons: ^0.14.3
@@ -161,7 +145,7 @@ flavorizr:
         firebase:
           config: ".firebase/stg/google-services.json"
       ios:
-        bundleId: "com.app.mybackyardusa.stg"
+        bundleId: "com.celect.mybackyardapp.stg"
         firebase:
           config: ".firebase/stg/GoogleService-Info.plist"
     prod:
@@ -172,7 +156,7 @@ flavorizr:
         firebase:
           config: ".firebase/prod/google-services.json"
       ios:
-        bundleId: "com.app.mybackyardusa"
+        bundleId: "com.celect.mybackyardapp"
         firebase:
           config: ".firebase/prod/GoogleService-Info.plist"
 

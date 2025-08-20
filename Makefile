@@ -84,8 +84,8 @@ apply-lint:
 	fvm dart fix --apply
 
 ANDROID_APP_ID=com.app.mybackyardusa
-IOS_APP_ID=com.app.mybackyardusa
-FIREBASE_ID_PROD=mybackyardusa
+IOS_APP_ID=com.celect.mybackyardapp
+FIREBASE_ID_PROD=my-backyard-944b1
 FIREBASE_ID_STG=mybackyardusa-stg
 
 FIREBASE_OPTIONS_PATH=./lib/core/firebase_options/firebase_options
