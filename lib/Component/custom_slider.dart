@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import '../Utils/my_colors.dart';
 
 class CustomSlider extends StatelessWidget {
-  CustomSlider({
+  final double val, min, max;
+  final int? divisions;
+  final Function(double)? onChange;
+
+  const CustomSlider({
     super.key,
     required this.val,
     required this.onChange,
@@ -11,9 +15,6 @@ class CustomSlider extends StatelessWidget {
     required this.max,
     this.divisions,
   });
-  double val, min, max;
-  int? divisions;
-  final Function(double)? onChange;
 
   @override
   Widget build(BuildContext context) {

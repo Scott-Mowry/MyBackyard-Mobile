@@ -1,22 +1,23 @@
 import 'package:backyard/Utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../Component/custom_text.dart';
 import '../Utils/my_colors.dart';
 
 class MyButton extends StatelessWidget {
-  double? height, width, fontSize, radius, horPadding;
-  String? title, weight, prefixIconPath;
-  Color? bgColor, borderColor, textColor;
-  Function? onTap;
-  bool gradient = false, showPrefix;
-  IconData? prefixIconData;
-  Color? prefixIconColor;
-  bool? loading;
-  double? prefixIconSize;
-  MainAxisAlignment mainAxisAlignment;
+  final double? height, width, fontSize, radius, horPadding;
+  final String? title, weight, prefixIconPath;
+  final Color? bgColor, borderColor, textColor;
+  final Function? onTap;
+  final bool gradient, showPrefix;
+  final IconData? prefixIconData;
+  final Color? prefixIconColor;
+  final bool? loading;
+  final double? prefixIconSize;
+  final MainAxisAlignment mainAxisAlignment;
 
-  MyButton({
+  const MyButton({
     super.key,
     this.height,
     this.mainAxisAlignment = MainAxisAlignment.center,
@@ -38,8 +39,6 @@ class MyButton extends StatelessWidget {
     this.title,
     this.bgColor,
   });
-
-  MyColors colors = MyColors();
 
   @override
   Widget build(BuildContext context) {

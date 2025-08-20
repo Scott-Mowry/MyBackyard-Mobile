@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
+
 import 'package:backyard/Arguments/content_argument.dart';
 import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_toast.dart';
@@ -12,21 +13,23 @@ import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/app_strings.dart';
 import 'package:backyard/Utils/enum.dart';
+import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/Widget/Dialog/profile_complete_dialog.dart';
+import 'package:backyard/View/base_view.dart';
 import 'package:backyard/main.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:backyard/Utils/my_colors.dart';
-import 'package:backyard/View/base_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
-import '../../Component/custom_text.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../Component/custom_text.dart';
+
 class SubscriptionScreen extends StatefulWidget {
-  SubscriptionScreen({super.key, this.fromCompleteProfile = false});
-  bool fromCompleteProfile = false;
+  final bool fromCompleteProfile;
+
+  const SubscriptionScreen({super.key, this.fromCompleteProfile = false});
 
   @override
   State<SubscriptionScreen> createState() => _SubscriptionScreenState();
@@ -541,7 +544,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                   },
           ),
         ],
-      ), textScaler: TextScaler.linear(1.03),
+      ),
+      textScaler: TextScaler.linear(1.03),
     );
   }
 

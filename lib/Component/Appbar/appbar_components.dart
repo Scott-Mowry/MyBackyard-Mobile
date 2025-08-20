@@ -64,8 +64,9 @@ class EditIcon extends StatelessWidget {
 }
 
 class ChatIcon extends StatelessWidget {
-  ChatIcon({super.key, this.onTap});
-  Function? onTap;
+  final Function? onTap;
+
+  const ChatIcon({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -83,8 +84,9 @@ class ChatIcon extends StatelessWidget {
 }
 
 class CustomBackButton extends StatelessWidget {
-  CustomBackButton({super.key, this.color});
-  Color? color;
+  final Color? color;
+
+  const CustomBackButton({super.key, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -99,8 +101,10 @@ class CustomBackButton extends StatelessWidget {
 }
 
 class FilterIcon extends StatelessWidget {
-  FilterIcon({super.key, this.onTap});
-  Function? onTap;
+  final Function? onTap;
+
+  const FilterIcon({super.key, this.onTap});
+
   @override
   Widget build(BuildContext context) {
     return IconContainer(
@@ -116,7 +120,12 @@ class FilterIcon extends StatelessWidget {
 }
 
 class CustomAppBar extends StatelessWidget {
-  CustomAppBar({
+  final double horizontal, top, bottom;
+  final String screenTitle;
+  final Color? titleColor;
+  final Widget? leading, trailing;
+
+  const CustomAppBar({
     super.key,
     this.horizontal = 0,
     this.top = 0,
@@ -126,10 +135,7 @@ class CustomAppBar extends StatelessWidget {
     this.leading,
     this.trailing,
   });
-  double horizontal, top, bottom;
-  String screenTitle;
-  Color? titleColor;
-  Widget? leading, trailing;
+
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -1,13 +1,15 @@
-import 'package:flutter/material.dart';
 import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class CartSeller extends StatefulWidget {
-  CartSeller({super.key, required this.onYes});
-  Function onYes;
+  final Function onYes;
+
+  const CartSeller({super.key, required this.onYes});
+
   @override
   State<CartSeller> createState() => _CartSellerState();
 }

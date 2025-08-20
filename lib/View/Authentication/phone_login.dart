@@ -3,29 +3,31 @@ import 'dart:developer';
 import 'package:backyard/Component/Appbar/appbar_components.dart';
 import 'package:backyard/Component/custom_background_image.dart';
 import 'package:backyard/Component/custom_padding.dart';
-import 'package:backyard/Component/custom_textfield.dart';
+import 'package:backyard/Component/custom_text_form_field.dart';
 import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/View/Authentication/enter_otp.dart';
+import 'package:backyard/View/Widget/appLogo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl_phone_field/helpers.dart';
 import 'package:sizer/sizer.dart';
-import 'package:backyard/View/Widget/appLogo.dart';
+
 import '../../Component/custom_buttom.dart';
 import '../../Component/custom_text.dart';
 import '../../Utils/image_path.dart';
 import '../../Utils/my_colors.dart';
 
 class PhoneLogin extends StatelessWidget {
+  final TextEditingController phone = TextEditingController();
+  final String dialCode = "1";
+  final String countryCode = "US";
+  final GlobalKey<FormState> _form = GlobalKey<FormState>();
+
   PhoneLogin({super.key});
-  TextEditingController phone = TextEditingController();
-  String dialCode = "1";
-  String countryCode = "US";
-  final _form = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,7 @@ class PhoneLogin extends StatelessWidget {
                       SizedBox(height: 2.h),
                       Form(
                         key: _form,
-                        child: MyTextField(
+                        child: CustomTextFormField(
                           prefixWidget: Image.asset(ImagePath.phone, scale: 2, color: MyColors().primaryColor),
                           controller: phone,
                           hintText: 'Phone Number',

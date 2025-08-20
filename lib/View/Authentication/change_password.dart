@@ -1,18 +1,19 @@
 import 'package:backyard/Component/Appbar/appbar_components.dart';
 import 'package:backyard/Component/custom_background_image.dart';
 import 'package:backyard/Component/custom_padding.dart';
-import 'package:backyard/Component/custom_textfield.dart';
+import 'package:backyard/Component/custom_text_form_field.dart';
 import 'package:backyard/Component/validations.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/auth_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';
+import 'package:backyard/Utils/my_colors.dart';
+import 'package:backyard/View/Widget/appLogo.dart';
 import 'package:backyard/main.dart';
 import 'package:flutter/material.dart';
-import 'package:backyard/Utils/my_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:backyard/View/Widget/appLogo.dart';
+
 import '../../Component/custom_buttom.dart';
 import '../../Component/custom_text.dart';
 import '../../Utils/image_path.dart';
@@ -74,7 +75,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                       key: _form,
                       child: Column(
                         children: [
-                          MyTextField(
+                          CustomTextFormField(
                             hintText: 'Password',
                             controller: password,
                             maxLength: 35,
@@ -92,7 +93,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             validation: (p0) => p0?.validatePass,
                           ),
                           SizedBox(height: 2.h),
-                          MyTextField(
+                          CustomTextFormField(
                             hintText: 'Confirm Password',
                             controller: confPassword,
                             maxLength: 35,

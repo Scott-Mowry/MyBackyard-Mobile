@@ -1,6 +1,6 @@
 import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_padding.dart';
-import 'package:backyard/Component/custom_textfield.dart';
+import 'package:backyard/Component/custom_text_form_field.dart';
 import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Component/validations.dart';
 import 'package:backyard/Model/day_schedule.dart';
@@ -214,7 +214,7 @@ class _TimeSchedulingEditScreenState extends State<TimeSchedulingEditScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        MyTextField(
+        CustomTextFormField(
           readOnly: true,
           enable: false,
           controller: TextEditingController(text: timeFormatterHour(time)),
@@ -223,7 +223,7 @@ class _TimeSchedulingEditScreenState extends State<TimeSchedulingEditScreen> {
           borderRadius: 10,
         ),
         Text(":", style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600)),
-        MyTextField(
+        CustomTextFormField(
           controller: TextEditingController(text: timeFormatterMinute(time)),
           readOnly: true,
           hintText: "Mins",
@@ -232,7 +232,7 @@ class _TimeSchedulingEditScreenState extends State<TimeSchedulingEditScreen> {
           borderRadius: 10,
         ),
         Text(":", style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600)),
-        MyTextField(
+        CustomTextFormField(
           controller: TextEditingController(text: timeFormatterAM(time)),
           readOnly: true,
           enable: false,

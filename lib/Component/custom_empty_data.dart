@@ -4,7 +4,13 @@ import 'custom_text.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomEmptyData extends StatelessWidget {
-  CustomEmptyData({
+  final String? title, subTitle, image;
+  final Function? onTapSubTitle;
+  final Color? imageColor;
+  final bool? hasLoader;
+  final double? paddingVertical;
+
+  const CustomEmptyData({
     super.key,
     this.title,
     this.image,
@@ -14,11 +20,6 @@ class CustomEmptyData extends StatelessWidget {
     this.paddingVertical,
     this.onTapSubTitle,
   });
-  String? title, subTitle, image;
-  Function? onTapSubTitle;
-  Color? imageColor;
-  bool? hasLoader;
-  double? paddingVertical;
 
   @override
   Widget build(BuildContext context) {

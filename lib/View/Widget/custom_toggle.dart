@@ -2,18 +2,19 @@ import 'package:backyard/View/Widget/theme_button.dart';
 import 'package:flutter/material.dart';
 
 class CustomToggle extends StatelessWidget {
+  int selectedIndex;
+  final List? buttons;
+  final double? fontSize;
+  final Function? onTap;
+
   CustomToggle({super.key, this.buttons, required this.selectedIndex, this.fontSize = 12, this.onTap});
-  int selectedIndex = 0;
-  List? buttons;
-  double? fontSize;
-  Function? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
       child: Container(
-        width: MediaQuery.of(context).size.width * .9,
+        width: MediaQuery.sizeOf(context).width * .9,
         height: 55,
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5.0)),
         child: Row(

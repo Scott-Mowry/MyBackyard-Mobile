@@ -9,9 +9,10 @@ import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
 class OfferAvailedDialog extends StatelessWidget {
-  OfferAvailedDialog({super.key, required this.onYes, this.title});
-  Function onYes;
-  String? title;
+  final Function onYes;
+  final String? title;
+
+  const OfferAvailedDialog({super.key, required this.onYes, this.title});
   @override
   Widget build(BuildContext c) {
     return Container(

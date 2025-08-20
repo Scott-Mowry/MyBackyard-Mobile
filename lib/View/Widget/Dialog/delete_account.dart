@@ -1,17 +1,19 @@
 import 'package:backyard/Component/custom_radio_tile.dart';
-import 'package:backyard/Component/custom_textfield.dart';
+import 'package:backyard/Component/custom_text_form_field.dart';
 import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+
 import '../../../../../Component/custom_buttom.dart';
 import '../../../../../Component/custom_text.dart';
 
 class DeleteDialog extends StatefulWidget {
-  DeleteDialog({super.key, required this.title, required this.subTitle, required this.onYes});
-  String title, subTitle;
-  Function onYes;
+  final String title, subTitle;
+  final Function onYes;
+
+  const DeleteDialog({super.key, required this.title, required this.subTitle, required this.onYes});
 
   @override
   State<DeleteDialog> createState() => _DeleteDialogState();
@@ -98,7 +100,7 @@ class _DeleteDialogState extends State<DeleteDialog> {
                   ),
                   SizedBox(height: 1.h),
                   if (i == 2) ...[
-                    MyTextField(
+                    CustomTextFormField(
                       height: 8.h,
                       hintText: 'Description',
                       showLabel: false,

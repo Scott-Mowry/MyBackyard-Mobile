@@ -9,9 +9,10 @@ import 'package:backyard/Utils/my_colors.dart';
 import 'package:sizer/sizer.dart';
 
 class CardTile extends StatelessWidget {
-  CardTile({super.key, required this.index, required this.c});
-  int index;
-  CardModel c;
+  final int index;
+  final CardModel c;
+
+  const CardTile({super.key, required this.index, required this.c});
   @override
   Widget build(BuildContext context) {
     return Padding(

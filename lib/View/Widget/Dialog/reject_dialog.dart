@@ -4,15 +4,17 @@ import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+
 import '../../../../../Component/custom_buttom.dart';
 import '../../../../../Component/custom_text.dart';
-import '../../../Component/custom_textfield.dart';
+import '../../../Component/custom_text_form_field.dart';
 import '../../../Component/custom_toast.dart';
 
 class RejectDialog extends StatefulWidget {
-  RejectDialog({super.key, required this.onYes, this.title, this.subTitle, this.description});
-  Function(String) onYes;
-  String? title, subTitle, description;
+  final Function(String) onYes;
+  final String? title, subTitle, description;
+
+  const RejectDialog({super.key, required this.onYes, this.title, this.subTitle, this.description});
 
   @override
   State<RejectDialog> createState() => _RejectDialogState();
@@ -114,7 +116,7 @@ class _RejectDialogState extends State<RejectDialog> {
                   ),
                   SizedBox(height: 1.h),
                   if (i == 2) ...[
-                    MyTextField(
+                    CustomTextFormField(
                       height: 8.h,
                       hintText: 'Description',
                       showLabel: false,

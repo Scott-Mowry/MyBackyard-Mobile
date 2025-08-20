@@ -60,9 +60,10 @@ import 'package:flutter/material.dart';
 // }
 
 class CustomRadioTile extends StatelessWidget {
-  CustomRadioTile({super.key, required this.v, this.color});
-  bool v = true;
-  Color? color;
+  final bool v;
+  final Color? color;
+
+  const CustomRadioTile({super.key, required this.v, this.color});
 
   @override
   Widget build(BuildContext context) {

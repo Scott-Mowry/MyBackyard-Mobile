@@ -1,19 +1,20 @@
 import 'package:backyard/Component/Appbar/appbar_components.dart';
 import 'package:backyard/Component/custom_background_image.dart';
 import 'package:backyard/Component/custom_padding.dart';
-import 'package:backyard/Component/custom_textfield.dart';
+import 'package:backyard/Component/custom_text_form_field.dart';
 import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Component/validations.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/auth_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
-import 'package:backyard/View/Authentication/enter_otp.dart';
-import 'package:flutter/material.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:backyard/View/Authentication/enter_otp.dart';
+import 'package:backyard/View/Widget/appLogo.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
-import 'package:backyard/View/Widget/appLogo.dart';
+
 import '../../Component/custom_buttom.dart';
 import '../../Component/custom_terms_condition.dart';
 import '../../Component/custom_text.dart';
@@ -57,7 +58,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     SizedBox(height: 2.h),
                     Form(
                       key: _form,
-                      child: MyTextField(
+                      child: CustomTextFormField(
                         hintText: 'Email',
                         controller: email,
                         maxLength: 35,
@@ -77,7 +78,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
               ),
             ),
-            if (MediaQuery.of(context).viewInsets.bottom == 0) ...[const CustomTermsCondition(), SizedBox(height: 4.h)],
+            if (MediaQuery.viewInsetsOf(context).bottom == 0) ...[const CustomTermsCondition(), SizedBox(height: 4.h)],
           ],
         ),
       ),

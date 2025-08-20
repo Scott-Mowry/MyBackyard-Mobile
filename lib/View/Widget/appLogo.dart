@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:backyard/Utils/image_path.dart';
+import 'package:flutter/material.dart';
 
 class AppLogo extends StatefulWidget {
-  AppLogo({super.key, this.onTap, this.scale});
-  Function? onTap;
-  double? scale;
+  final Function? onTap;
+  final double? scale;
+
+  const AppLogo({super.key, this.onTap, this.scale});
 
   @override
   State<AppLogo> createState() => _AppLogoState();

@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomTitleText extends StatelessWidget {
-  CustomTitleText({super.key, this.title, this.leftPadding, this.size, this.colon = true});
-  String? title;
-  bool? colon;
-  double? size, leftPadding;
+  final String? title;
+  final bool? colon;
+  final double? size, leftPadding;
+
+  const CustomTitleText({super.key, this.title, this.leftPadding, this.size, this.colon = true});
 
   @override
   Widget build(BuildContext context) {

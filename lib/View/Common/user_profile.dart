@@ -1,4 +1,3 @@
-
 import 'package:backyard/Component/Appbar/appbar_components.dart';
 import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_empty_data.dart';
@@ -6,8 +5,8 @@ import 'package:backyard/Component/custom_image.dart';
 import 'package:backyard/Component/custom_padding.dart';
 import 'package:backyard/Component/custom_switch.dart';
 import 'package:backyard/Component/validations.dart';
-import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Controller/home_controller.dart';
+import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Model/file_network.dart';
 import 'package:backyard/Service/bus_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';
@@ -15,27 +14,27 @@ import 'package:backyard/Utils/enum.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/User/give_review.dart';
 import 'package:backyard/View/User/offers.dart';
+import 'package:backyard/View/base_view.dart';
 import 'package:backyard/main.dart';
 import 'package:flutter/material.dart';
-import 'package:backyard/View/base_view.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
+
 import '../../../Utils/image_path.dart';
 import '../../Component/custom_text.dart';
-import 'package:sizer/sizer.dart';
 import '../../Model/user_model.dart';
 import '../../Utils/app_router_name.dart';
 import '../../Utils/utils.dart';
 
-/// Only this file to be used for both profile views for business and user etc
-/// Made separate profile for business as in ALfa there needs to be much handling
-
 class UserProfile extends StatefulWidget {
-  UserProfile({super.key, this.isMe = true, this.isBusinessProfile = false, this.user, this.isUser = true});
-  bool isMe = true;
-  bool isUser = true;
-  bool isBusinessProfile = false;
-  User? user;
+  final bool isMe;
+  final bool isUser;
+  final bool isBusinessProfile;
+  final User? user;
+
+  const UserProfile({super.key, this.isMe = true, this.isBusinessProfile = false, this.user, this.isUser = true});
+
   @override
   State<UserProfile> createState() => _UserProfileState();
 }

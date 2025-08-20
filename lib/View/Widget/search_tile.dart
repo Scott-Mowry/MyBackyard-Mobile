@@ -1,11 +1,18 @@
-import 'package:flutter/material.dart';
 import 'package:backyard/Component/Appbar/appbar_components.dart';
-import 'package:backyard/Component/custom_textfield.dart';
+import 'package:backyard/Component/custom_text_form_field.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class SearchTile extends StatefulWidget {
-  SearchTile({
+  final TextEditingController? search;
+  final Function(String)? onChange;
+  final Function? onTap, onTapFilter;
+  final bool showFilter;
+  final bool disabled;
+  final bool readOnly;
+
+  const SearchTile({
     super.key,
     this.onChange,
     this.disabled = false,
@@ -15,12 +22,6 @@ class SearchTile extends StatefulWidget {
     this.onTap,
     this.onTapFilter,
   });
-  TextEditingController? search;
-  final Function(String)? onChange;
-  final Function? onTap, onTapFilter;
-  bool showFilter;
-  bool disabled;
-  bool readOnly = false;
 
   @override
   State<SearchTile> createState() => _SearchTileState();
@@ -46,7 +47,7 @@ class _SearchTileState extends State<SearchTile> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Flexible(
-            child: MyTextField(
+            child: CustomTextFormField(
               enable: !widget.disabled,
               hintText: "Search...",
               controller: widget.search,

@@ -3,8 +3,9 @@ import '../../../Component/custom_text.dart';
 import 'package:sizer/sizer.dart';
 
 class TitleDescription extends StatelessWidget {
-  TitleDescription({super.key, this.title, this.description});
-  String? title, description;
+  final String? title, description;
+
+  const TitleDescription({super.key, this.title, this.description});
 
   @override
   Widget build(BuildContext context) {

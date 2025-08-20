@@ -604,11 +604,12 @@ class _OffersState extends State<Offers> {
 }
 
 class OfferTile extends StatelessWidget {
-  OfferTile({super.key, this.index, this.fromSaved = false, this.model, this.availed = false});
-  int? index;
-  Offer? model;
+  final int? index;
+  final Offer? model;
   final bool fromSaved;
-  bool availed = false;
+  final bool availed;
+
+  const OfferTile({super.key, this.index, this.fromSaved = false, this.model, this.availed = false});
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeController>(

@@ -3,13 +3,14 @@
 // found in the LICENSE file.
 
 import 'dart:math' as math;
+
 import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Utils/my_colors.dart';
-import 'package:sizer/sizer.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:sizer/sizer.dart';
 
 const Duration _monthScrollDuration = Duration(milliseconds: 200);
 
@@ -877,10 +878,7 @@ class _DayPickerState extends State<_DayPicker> {
       return getProperty(datePickerTheme) ?? getProperty(defaults);
     }
 
-    T? resolve<T>(
-      WidgetStateProperty<T>? Function(DatePickerThemeData? theme) getProperty,
-      Set<WidgetState> states,
-    ) {
+    T? resolve<T>(WidgetStateProperty<T>? Function(DatePickerThemeData? theme) getProperty, Set<WidgetState> states) {
       return effectiveValue((DatePickerThemeData? theme) {
         return getProperty(theme)?.resolve(states);
       });
@@ -1104,10 +1102,7 @@ class _YearPickerState extends State<YearPicker> {
       return getProperty(datePickerTheme) ?? getProperty(defaults);
     }
 
-    T? resolve<T>(
-      WidgetStateProperty<T>? Function(DatePickerThemeData? theme) getProperty,
-      Set<WidgetState> states,
-    ) {
+    T? resolve<T>(WidgetStateProperty<T>? Function(DatePickerThemeData? theme) getProperty, Set<WidgetState> states) {
       return effectiveValue((DatePickerThemeData? theme) {
         return getProperty(theme)?.resolve(states);
       });
@@ -1231,5 +1226,3 @@ class _YearPickerGridDelegate extends SliverGridDelegate {
   @override
   bool shouldRelayout(_YearPickerGridDelegate oldDelegate) => false;
 }
-
-const _YearPickerGridDelegate _yearPickerGridDelegate = _YearPickerGridDelegate();

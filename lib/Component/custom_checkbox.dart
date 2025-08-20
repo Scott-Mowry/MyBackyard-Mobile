@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:flutter/material.dart';
 
 class CheckBoxWidget extends StatefulWidget {
+  final ValueChanged<bool> onChange;
+  final bool? disableCheck;
+  bool defaultVal;
+
   CheckBoxWidget({super.key, required this.onChange, required this.defaultVal, this.disableCheck});
-  ValueChanged<bool> onChange;
-  bool defaultVal = false;
-  bool? disableCheck = false;
 
   @override
   State<CheckBoxWidget> createState() => _CheckBoxWidgetState();
@@ -25,9 +26,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           checkboxTheme: CheckboxThemeData(
             checkColor: WidgetStateProperty.resolveWith((_) => Colors.black),
             fillColor: WidgetStateProperty.resolveWith((_) => Colors.transparent),
-            side: WidgetStateBorderSide.resolveWith(
-              (states) => BorderSide(width: 1.0, color: MyColors().primaryColor),
-            ),
+            side: WidgetStateBorderSide.resolveWith((states) => BorderSide(width: 1.0, color: MyColors().primaryColor)),
           ),
           // Your color
         ),

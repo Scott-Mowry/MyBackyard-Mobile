@@ -1,18 +1,20 @@
 import 'dart:io';
-import 'package:backyard/Service/general_apis.dart';
-import 'package:flutter/material.dart';
+
 import 'package:backyard/Component/custom_text.dart';
+import 'package:backyard/Service/general_apis.dart';
 import 'package:backyard/Utils/app_strings.dart';
 import 'package:backyard/Utils/my_colors.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
 import 'navigation_service.dart';
 
 class ContentScreen extends StatefulWidget {
-  String? title, contentType;
-  Function(bool)? isMerchantSetupDone;
+  final String? title, contentType;
+  final Function(bool)? isMerchantSetupDone;
 
-  ContentScreen({super.key, this.title, this.contentType, this.isMerchantSetupDone});
+  const ContentScreen({super.key, this.title, this.contentType, this.isMerchantSetupDone});
 
   @override
   State<ContentScreen> createState() => _ContentScreenState();

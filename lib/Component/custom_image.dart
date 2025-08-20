@@ -8,7 +8,16 @@ import 'package:extended_image/extended_image.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomImage extends StatelessWidget {
-  CustomImage({super.key, 
+  final String? url;
+  final BoxFit? fit;
+  final BoxShape? shape;
+  final bool? isProfile;
+  final bool? border;
+  final double? width, height, radius;
+  final BorderRadius? borderRadius;
+  final bool photoView;
+
+  const CustomImage({super.key, 
     this.url,
     this.shape,
     this.fit,
@@ -20,14 +29,6 @@ class CustomImage extends StatelessWidget {
     this.radius,
     this.photoView = true,
   });
-  String? url;
-  BoxFit? fit;
-  BoxShape? shape;
-  bool? isProfile;
-  bool? border;
-  double? width, height, radius;
-  BorderRadius? borderRadius;
-  bool photoView = true;
 
   @override
   Widget build(BuildContext context) {

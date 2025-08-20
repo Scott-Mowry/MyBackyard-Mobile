@@ -61,7 +61,7 @@ import 'package:flutter/services.dart';
 extension AppValidator on String {
   //-------------- Password Validator -------------------
   get validatePass {
-    if (!RegularExpressions.PASSWORD_VALID_REGIX.hasMatch(this) && isNotEmpty) {
+    if (!RegularExpressions.passwordValidRegex.hasMatch(this) && isNotEmpty) {
       return "Password must be of 8 characters long and contain atleast 1 uppercase, 1 lowercase, 1 digit and 1 special character";
     } else if (isEmpty) {
       return "Password field can't be empty.";
@@ -71,7 +71,7 @@ extension AppValidator on String {
 
   //-------------- Email Validator -------------------
   get validateEmail {
-    if (!RegularExpressions.EMAIL_VALID_REGIX.hasMatch(this) && isNotEmpty) {
+    if (!RegularExpressions.emailValidRegex.hasMatch(this) && isNotEmpty) {
       return "Please enter valid email address";
     } else if (isEmpty) {
       return "Email field cannot be empty";

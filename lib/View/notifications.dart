@@ -269,8 +269,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
 }
 
 class NotifcationTile extends StatelessWidget {
-  NotifcationTile({super.key, required this.n});
-  NotificationModel n;
+  final NotificationModel n;
+
+  const NotifcationTile({super.key, required this.n});
 
   @override
   Widget build(BuildContext context) {

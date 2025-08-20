@@ -8,21 +8,24 @@ import 'package:backyard/Model/file_network.dart';
 import 'package:backyard/Service/bus_apis.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/User/offers.dart';
+import 'package:backyard/View/base_view.dart';
 import 'package:backyard/main.dart';
 import 'package:flutter/material.dart';
-import 'package:backyard/View/base_view.dart';
 import 'package:provider/provider.dart';
-import '../../Component/custom_text.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../Component/custom_text.dart';
 import '../../Model/user_model.dart';
 
 /// TO BE DELETED
 /// Made separate profile for business as in ALfa there needs to be much handling
 
 class CustomerProfile extends StatefulWidget {
-  CustomerProfile({super.key, this.isMe = true, this.user});
-  bool isMe = true;
-  User? user;
+  final bool isMe;
+  final User? user;
+
+  const CustomerProfile({super.key, this.isMe = true, this.user});
+
   @override
   State<CustomerProfile> createState() => _CustomerProfileState();
 }

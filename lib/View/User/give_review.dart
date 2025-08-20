@@ -1,17 +1,18 @@
+import 'package:backyard/Component/custom_buttom.dart';
+import 'package:backyard/Component/custom_padding.dart';
+import 'package:backyard/Component/custom_text_form_field.dart';
 import 'package:backyard/Component/validations.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/bus_apis.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter/material.dart';
-import 'package:backyard/Component/custom_buttom.dart';
-import 'package:backyard/Component/custom_padding.dart';
-import 'package:backyard/Component/custom_textfield.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/base_view.dart';
-import '../../Component/custom_text.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../Component/custom_text.dart';
 
 class GiveReviewArguments {
   GiveReviewArguments({this.busId});
@@ -74,7 +75,7 @@ class _GiveReviewState extends State<GiveReview> {
             SizedBox(height: 2.h),
             Form(
               key: _form,
-              child: MyTextField(
+              child: CustomTextFormField(
                 height: 16.h,
                 hintText: 'Write your review...',
                 showLabel: false,
@@ -87,13 +88,12 @@ class _GiveReviewState extends State<GiveReview> {
                 textColor: MyColors().black,
                 borderRadius: 10,
                 maxLength: 275,
-                validate: true,
                 validation: (p0) => p0?.validateEmpty("Review Message"),
               ),
             ),
             const Spacer(),
             SizedBox(height: 2.h),
-            if (MediaQuery.of(context).viewInsets.bottom == 0) ...[
+            if (MediaQuery.viewInsetsOf(context).bottom == 0) ...[
               MyButton(
                 title: 'Submit Review',
                 onTap: () async {
@@ -130,7 +130,7 @@ class _GiveReviewState extends State<GiveReview> {
             ],
 
             // SizedBox(
-            //   height: MediaQuery.of(context).viewInsets.bottom,
+            //   height: MediaQuery.viewInsetsOf(context).bottom,
             // ),
             SizedBox(height: 2.h),
           ],

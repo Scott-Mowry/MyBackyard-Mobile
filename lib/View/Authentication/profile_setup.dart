@@ -1,7 +1,10 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
+
 import 'package:backyard/Arguments/screen_arguments.dart';
+import 'package:backyard/Component/Appbar/appbar_components.dart';
+import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_switch.dart';
 import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Component/validations.dart';
@@ -12,26 +15,25 @@ import 'package:backyard/Service/api.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/auth_apis.dart';
 import 'package:backyard/Service/general_apis.dart';
-import 'package:backyard/Utils/enum.dart';
-import 'package:backyard/main.dart';
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
-import 'package:backyard/Component/Appbar/appbar_components.dart';
 import 'package:backyard/Service/navigation_service.dart';
+import 'package:backyard/Utils/enum.dart';
 import 'package:backyard/Utils/my_colors.dart';
-import 'package:intl_phone_field/helpers.dart';
-import 'package:place_picker/place_picker.dart';
 import 'package:backyard/Utils/utils.dart';
 import 'package:backyard/View/Widget/upload_media.dart';
 import 'package:backyard/View/base_view.dart';
+import 'package:backyard/main.dart';
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
-import 'package:backyard/Component/custom_buttom.dart';
+import 'package:intl_phone_field/helpers.dart';
+import 'package:place_picker/place_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
+
 import '../../../../Utils/image_path.dart';
 import '../../../Component/custom_text.dart';
-import 'package:sizer/sizer.dart';
 import '../../Component/custom_background_image.dart';
 import '../../Component/custom_padding.dart';
-import '../../Component/custom_textfield.dart';
+import '../../Component/custom_text_form_field.dart';
 import '../../Utils/app_router_name.dart';
 import '../Widget/Dialog/profile_complete_dialog.dart';
 // import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
@@ -291,7 +293,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        MyTextField(
+                        CustomTextFormField(
                           controller: firstName,
                           hintText: business ? "Business Name" : 'First Name',
                           maxLength: 30,
@@ -305,7 +307,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                         ),
                         SizedBox(height: 1.5.h),
                         if (!business) ...[
-                          MyTextField(
+                          CustomTextFormField(
                             controller: lastName,
                             hintText: 'Last Name',
                             maxLength: 30,
@@ -320,7 +322,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                           SizedBox(height: 1.5.h),
                         ],
                         if (userController.user?.socialType == null || userController.user?.socialType == "phone") ...[
-                          MyTextField(
+                          CustomTextFormField(
                             hintText: 'Email Address',
                             controller: emailC,
                             maxLength: 35,
@@ -341,7 +343,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                           SizedBox(height: 1.5.h),
                         ],
                         if (business)
-                          MyTextField(
+                          CustomTextFormField(
                             prefixWidget: Image.asset(
                               ImagePath.phone,
                               scale: 2,
@@ -377,7 +379,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                           ),
                         if (business) SizedBox(height: 1.5.h),
                         if (!business) ...[
-                          MyTextField(
+                          CustomTextFormField(
                             controller: zipCode,
                             hintText: 'Zip Code',
                             maxLength: 6,
@@ -407,7 +409,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                               ],
                             ),
                         ] else ...[
-                          MyTextField(
+                          CustomTextFormField(
                             prefixWidget: Image.asset(
                               ImagePath.location,
                               scale: 2,
@@ -422,7 +424,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                             backgroundColor: !widget.editProfile ? null : MyColors().container,
                           ),
                           SizedBox(height: 1.5.h),
-                          MyTextField(
+                          CustomTextFormField(
                             height: 8.h,
                             hintText: 'Description',
                             showLabel: false,
@@ -444,7 +446,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
             ),
           ),
           SizedBox(height: 2.h),
-          if (MediaQuery.of(context).viewInsets.bottom == 0) ...[
+          if (MediaQuery.viewInsetsOf(context).bottom == 0) ...[
             if (widget.editProfile && business) ...[
               MyButton(
                 width: Utils.isTablet ? 60.w : 90.w,
@@ -461,13 +463,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
               ),
               SizedBox(height: 2.h),
             ],
-            MyButton(
-              width: Utils.isTablet ? 60.w : 90.w,
-              title: buttonTitle,
-              onTap: () {
-                onSubmit();
-              },
-            ),
+            MyButton(width: Utils.isTablet ? 60.w : 90.w, title: buttonTitle, onTap: onSubmit),
             SizedBox(height: 2.h),
           ],
         ],
@@ -489,9 +485,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
 
   onSubmit() async {
     FocusManager.instance.primaryFocus?.unfocus();
-    setState(() {
-      errorText = (imageProfile ?? "").isEmpty;
-    });
+    setState(() => errorText = (imageProfile ?? "").isEmpty);
     if ((_form.currentState?.validate() ?? false) && !(errorText)) {
       if (widget.editProfile) {
         AppNetwork.loadingProgressIndicator();

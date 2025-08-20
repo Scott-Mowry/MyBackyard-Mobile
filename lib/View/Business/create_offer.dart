@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+
 import 'package:backyard/Component/Appbar/appbar_components.dart';
 import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_dropdown.dart';
@@ -7,7 +8,7 @@ import 'package:backyard/Component/custom_image.dart';
 import 'package:backyard/Component/custom_padding.dart';
 import 'package:backyard/Component/custom_refresh.dart';
 import 'package:backyard/Component/custom_text.dart';
-import 'package:backyard/Component/custom_textfield.dart';
+import 'package:backyard/Component/custom_text_form_field.dart';
 import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Component/validations.dart';
 import 'package:backyard/Controller/home_controller.dart';
@@ -19,20 +20,23 @@ import 'package:backyard/Service/general_apis.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/Widget/Dialog/custom_dialog.dart';
 import 'package:backyard/View/Widget/upload_media.dart';
+import 'package:backyard/View/base_view.dart';
 import 'package:backyard/main.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:backyard/View/base_view.dart';
 import 'package:provider/provider.dart';
-import '../../../Utils/image_path.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../Utils/image_path.dart';
 import '../../Model/category_product_model.dart';
 import '../../Service/navigation_service.dart';
 
 class CreateOffer extends StatefulWidget {
-  CreateOffer({super.key, this.edit = false, this.model});
-  bool edit = false;
-  Offer? model;
+  final bool edit;
+  final Offer? model;
+
+  const CreateOffer({super.key, this.edit = false, this.model});
+
   @override
   State<CreateOffer> createState() => _CreateOfferState();
 }
@@ -325,13 +329,12 @@ class _CreateOfferState extends State<CreateOffer> {
                                   SizedBox(height: 2.h),
                                   customTitle(title: 'Title'),
                                   SizedBox(height: 1.h),
-                                  MyTextField(
+                                  CustomTextFormField(
                                     hintText: 'Title',
                                     controller: titleController,
                                     maxLength: 32,
                                     showLabel: false,
                                     backgroundColor: MyColors().container,
-                                    validate: true,
                                     validation: (p0) => p0?.validateEmpty("Title"),
                                     // borderColor: MyColors().secondaryColor,
                                     // hintTextColor: MyColors().grey,
@@ -354,7 +357,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                   SizedBox(height: 2.h),
                                   customTitle(title: 'Actual Price'),
                                   SizedBox(height: 1.h),
-                                  MyTextField(
+                                  CustomTextFormField(
                                     hintText: 'Actual Price',
                                     controller: actualPriceController,
                                     maxLength: 6,
@@ -362,7 +365,6 @@ class _CreateOfferState extends State<CreateOffer> {
                                     showLabel: false,
                                     numberWithDecimal: true,
                                     backgroundColor: MyColors().container,
-                                    validate: true,
                                     validation: (p0) => p0?.validateEmpty("Actual Price"),
                                     // borderColor: MyColors().secondaryColor,
                                     // hintTextColor: MyColors().grey,
@@ -371,7 +373,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                   SizedBox(height: 2.h),
                                   customTitle(title: 'Discount Price'),
                                   SizedBox(height: 1.h),
-                                  MyTextField(
+                                  CustomTextFormField(
                                     hintText: 'Discount Price',
                                     controller: discountController,
                                     maxLength: 6,
@@ -379,7 +381,6 @@ class _CreateOfferState extends State<CreateOffer> {
                                     showLabel: false,
                                     numberWithDecimal: true,
                                     backgroundColor: MyColors().container,
-                                    validate: true,
                                     validation: (p0) => p0?.validateEmpty("Discount Price"),
                                     // borderColor: MyColors().secondaryColor,
                                     // hintTextColor: MyColors().grey,
@@ -401,8 +402,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                   //   showLabel: false,
                                   //   onlyNumber: true,
                                   //   backgroundColor: MyColors().container,
-                                  //   validate: true,
-                                  //   validation: (p0) =>
+                                  //                     //   validation: (p0) =>
                                   //       p0?.validateEmpty("Reward Points"),
                                   //   // borderColor: MyColors().secondaryColor,
                                   //   // hintTextColor: MyColors().grey,
@@ -413,14 +413,13 @@ class _CreateOfferState extends State<CreateOffer> {
                                   // ),
                                   customTitle(title: 'Short Details'),
                                   SizedBox(height: 1.h),
-                                  MyTextField(
+                                  CustomTextFormField(
                                     height: 8.h,
                                     hintText: 'Short Details',
                                     showLabel: false,
                                     maxLines: 5,
                                     minLines: 5,
                                     controller: shortDetailController,
-                                    validate: true,
                                     validation: (p0) => p0?.validateEmpty("Short Detail"),
                                     borderRadius: 10,
                                     maxLength: 275,
@@ -429,14 +428,13 @@ class _CreateOfferState extends State<CreateOffer> {
                                   SizedBox(height: 2.h),
                                   customTitle(title: 'Description'),
                                   SizedBox(height: 1.h),
-                                  MyTextField(
+                                  CustomTextFormField(
                                     height: 8.h,
                                     hintText: 'Description',
                                     showLabel: false,
                                     maxLines: 5,
                                     minLines: 5,
                                     controller: descriptionController,
-                                    validate: true,
                                     validation: (p0) => p0?.validateEmpty("Description"),
                                     borderRadius: 10,
                                     maxLength: 275,

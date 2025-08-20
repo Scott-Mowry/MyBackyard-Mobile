@@ -7,7 +7,12 @@ import 'package:backyard/Utils/my_colors.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomDialog extends StatelessWidget {
-  CustomDialog({super.key, 
+  final Function onYes;
+  final Function? button2;
+  final Widget? child;
+  final String? title, description, image, b1, b2;
+
+  const CustomDialog({super.key, 
     required this.onYes,
     this.title,
     this.button2,
@@ -17,10 +22,6 @@ class CustomDialog extends StatelessWidget {
     this.b1,
     this.b2,
   });
-  Function onYes;
-  Function? button2;
-  Widget? child;
-  String? title, description, image, b1, b2;
   @override
   Widget build(BuildContext c) {
     return Container(

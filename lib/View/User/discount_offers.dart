@@ -2,37 +2,39 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+
 import 'package:backyard/Arguments/content_argument.dart';
 import 'package:backyard/Arguments/screen_arguments.dart';
+import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_image.dart';
+import 'package:backyard/Component/custom_padding.dart';
 import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Model/offer_model.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/bus_apis.dart';
+import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/app_size.dart';
+import 'package:backyard/Utils/image_path.dart';
+import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/Utils/utils.dart';
 import 'package:backyard/View/Widget/Dialog/custom_dialog.dart';
+import 'package:backyard/View/base_view.dart';
 import 'package:backyard/main.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
-import 'package:backyard/Component/custom_buttom.dart';
-import 'package:backyard/Component/custom_padding.dart';
-import 'package:backyard/Service/navigation_service.dart';
-import 'package:backyard/Utils/image_path.dart';
-import 'package:backyard/Utils/my_colors.dart';
-import 'package:backyard/View/base_view.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:sizer/sizer.dart';
+
 import '../../Component/custom_bottomsheet_indicator.dart';
 import '../../Component/custom_text.dart';
-import 'package:sizer/sizer.dart';
 import '../../Utils/enum.dart';
-import 'package:pdf/widgets.dart' as pw;
 
 class DiscountOffersArguments {
   const DiscountOffersArguments({this.model, this.fromSaved});
@@ -383,7 +385,7 @@ class _DiscountOffersState extends State<DiscountOffers> {
                     ),
                   ),
                   SizedBox(height: 2.h),
-                  SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
+                  SizedBox(height: MediaQuery.viewInsetsOf(context).bottom),
                 ],
               ),
             );

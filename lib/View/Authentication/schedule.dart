@@ -1,6 +1,7 @@
 import 'package:backyard/Component/custom_buttom.dart';
+import 'package:backyard/Component/custom_padding.dart';
 import 'package:backyard/Component/custom_text.dart';
-import 'package:backyard/Component/custom_textfield.dart';
+import 'package:backyard/Component/custom_text_form_field.dart';
 import 'package:backyard/Component/validations.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Model/day_schedule.dart';
@@ -12,17 +13,18 @@ import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/Authentication/edit_schedule_time.dart';
+import 'package:backyard/View/base_view.dart';
 import 'package:backyard/main.dart';
 import 'package:flutter/material.dart';
-import 'package:backyard/Component/custom_padding.dart';
-import 'package:backyard/View/base_view.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class Schedule extends StatefulWidget {
-  Schedule({super.key, this.edit = false, this.args});
-  bool edit = false;
-  Map<String, dynamic>? args;
+  final bool edit;
+  final Map<String, dynamic>? args;
+
+  const Schedule({super.key, this.edit = false, this.args});
+
   @override
   State<Schedule> createState() => _ScheduleState();
 }
@@ -243,7 +245,7 @@ class _ScheduleState extends State<Schedule> {
   }
 
   Widget timeField(DaySchedule val) {
-    return MyTextField(
+    return CustomTextFormField(
       controller: TextEditingController(text: getValues(val)),
       onTap: () => onTapField(val),
       hintText: "None",

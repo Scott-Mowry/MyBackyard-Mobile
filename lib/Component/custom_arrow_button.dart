@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CustomArrow extends StatelessWidget {
-  CustomArrow({super.key, required this.icon, required this.onTap});
-  IconData icon;
-  Function onTap;
+  final IconData icon;
+  final Function onTap;
+
+  const CustomArrow({super.key, required this.icon, required this.onTap});
+
   @override
   Widget build(BuildContext context) {
     return InkWell(

@@ -6,15 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+final List<MenuModel> items = [
+  MenuModel(image: ImagePath.home2, title: 'Home'),
+  MenuModel(image: ImagePath.home2, title: 'Home'),
+  MenuModel(image: ImagePath.home2, title: 'Home'),
+  MenuModel(image: ImagePath.home2, title: 'Home'),
+  MenuModel(image: ImagePath.home2, title: 'Home'),
+];
+
 class CustomBottomBar extends StatelessWidget {
-  CustomBottomBar({super.key});
-  List<MenuModel> items = [
-    MenuModel(image: ImagePath.home2, title: 'Home'),
-    MenuModel(image: ImagePath.home2, title: 'Home'),
-    MenuModel(image: ImagePath.home2, title: 'Home'),
-    MenuModel(image: ImagePath.home2, title: 'Home'),
-    MenuModel(image: ImagePath.home2, title: 'Home'),
-  ];
+  const CustomBottomBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Stack(

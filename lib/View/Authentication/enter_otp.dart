@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+
 import 'package:backyard/Component/Appbar/appbar_components.dart';
 import 'package:backyard/Component/custom_background_image.dart';
 import 'package:backyard/Component/custom_padding.dart';
@@ -10,35 +11,36 @@ import 'package:backyard/Service/general_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/utils.dart';
+import 'package:backyard/View/Widget/appLogo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:backyard/View/Widget/appLogo.dart';
 import 'package:provider/provider.dart';
+
 import '../../../Component/custom_text.dart';
 import '../../../Utils/my_colors.dart';
 import '../../Component/custom_toast.dart';
-import 'package:flutter/services.dart';
 // import 'package:timer_builder/timer_builder.dart';
 
 class EnterOTPArguements {
-  EnterOTPArguements({this.phoneNumber, this.verification, this.fromForgot});
+  final String? verification;
+  final String? phoneNumber;
+  final bool? fromForgot;
 
-  String? verification;
-  String? phoneNumber;
-  bool? fromForgot;
+  const EnterOTPArguements({this.phoneNumber, this.verification, this.fromForgot});
 }
 
 class EnterOTP extends StatefulWidget {
-  EnterOTP({super.key, this.phoneNumber, this.verification, this.fromForgot});
-
-  String? verification;
   final String? phoneNumber;
-  bool? fromForgot;
+  final bool? fromForgot;
+  String? verification;
+
+  EnterOTP({super.key, this.phoneNumber, this.verification, this.fromForgot});
 
   @override
   State<EnterOTP> createState() => _EnterOTPState();
@@ -168,7 +170,7 @@ class _EnterOTPState extends State<EnterOTP> {
                 ),
               ),
             ),
-            if (MediaQuery.of(context).viewInsets.bottom == 0)
+            if (MediaQuery.viewInsetsOf(context).bottom == 0)
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(

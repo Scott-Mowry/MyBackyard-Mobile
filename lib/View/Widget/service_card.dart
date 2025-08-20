@@ -1,14 +1,17 @@
-import 'package:flutter/material.dart';
 import 'package:backyard/Component/custom_checkbox.dart';
 import 'package:backyard/Utils/image_path.dart';
-import '../../Component/custom_text.dart';
+import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../Component/custom_text.dart';
 import '../../Utils/my_colors.dart';
 
 class ServiceCard extends StatelessWidget {
-  ServiceCard({super.key, required this.onTap, required this.select});
-  Function onTap;
+  final Function onTap;
   bool select;
+
+  ServiceCard({super.key, required this.onTap, required this.select});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -36,9 +39,8 @@ class ServiceCard extends StatelessWidget {
               shrinkWrap: true,
               itemBuilder: (buildContext, int i) {
                 return Padding(
-                  padding: EdgeInsets.only(
-                    bottom: 2.h,
-                  ), //+EdgeInsets.only(left: selectedIndex.value==0?1.w:0, right:selectedIndex.value==buttons!.length?1.w:0 ),
+                  padding: EdgeInsets.only(bottom: 2.h),
+                  //+EdgeInsets.only(left: selectedIndex.value==0?1.w:0, right:selectedIndex.value==buttons!.length?1.w:0 ),
                   child: Container(
                     decoration: BoxDecoration(color: MyColors().blackLight, borderRadius: BorderRadius.circular(10)),
                     padding: EdgeInsets.all(2.w),

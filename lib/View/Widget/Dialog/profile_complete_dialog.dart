@@ -1,15 +1,17 @@
 import 'dart:developer';
-import 'package:backyard/Utils/image_path.dart';
-import 'package:flutter/material.dart';
+
 import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Service/navigation_service.dart';
+import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfileCompleteDialog extends StatefulWidget {
-  ProfileCompleteDialog({super.key, required this.onYes});
-  Function onYes;
+  final Function onYes;
+
+  const ProfileCompleteDialog({super.key, required this.onYes});
 
   @override
   State<ProfileCompleteDialog> createState() => _ProfileCompleteDialogState();

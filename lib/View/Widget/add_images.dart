@@ -9,11 +9,13 @@ import '../../Model/file_network.dart';
 import '../../Utils/image_path.dart';
 
 class AddImages extends StatelessWidget {
-  AddImages({super.key, required this.imagePath, this.onTapAdd, this.onTapRemove, required this.editProfile});
-  List<FileNetwork> imagePath = [];
-  int tempLength = 3;
-  bool editProfile;
-  Function? onTapAdd, onTapRemove;
+  final List<FileNetwork> imagePath;
+  final int tempLength = 3;
+  final bool editProfile;
+  final Function? onTapAdd;
+  final Function? onTapRemove;
+
+  const AddImages({super.key, required this.imagePath, this.onTapAdd, this.onTapRemove, required this.editProfile});
 
   @override
   Widget build(BuildContext context) {

@@ -26,7 +26,7 @@ class ThemeButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
-      // width: MediaQuery.of(context).size.width,
+      // width: MediaQuery.sizeOf(context).width,
       child: ElevatedButton(
         onPressed: () => onChange(),
         style: ButtonStyle(

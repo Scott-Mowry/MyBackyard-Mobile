@@ -6,8 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:photo_view/photo_view.dart';
 
 class PhotoViewScreen extends StatelessWidget {
-  PhotoViewScreen({super.key, this.path});
-  String? path;
+  final String? path;
+
+  const PhotoViewScreen({super.key, this.path});
 
   @override
   Widget build(BuildContext context) {

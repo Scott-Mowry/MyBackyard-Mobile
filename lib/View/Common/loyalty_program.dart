@@ -89,10 +89,9 @@ class LoyaltyProgram extends StatelessWidget {
 }
 
 class HistoryTile extends StatelessWidget {
-  HistoryTile({super.key, this.availed = false});
-  // String? title;
-  // String? amount;
-  bool availed = false;
+  final bool availed;
+  
+  const HistoryTile({super.key, this.availed = false});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

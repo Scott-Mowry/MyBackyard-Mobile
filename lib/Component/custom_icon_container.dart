@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class IconContainer extends StatelessWidget {
-  IconContainer({super.key, this.child, this.image, required this.onTap, this.size, this.padding});
-  Widget? child;
-  Function onTap;
-  String? image;
-  double? size, padding;
+  final Widget? child;
+  final Function onTap;
+  final String? image;
+  final double? size, padding;
+
+  const IconContainer({super.key, this.child, this.image, required this.onTap, this.size, this.padding});
 
   @override
   Widget build(BuildContext context) {

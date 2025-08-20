@@ -1,14 +1,25 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+
+import 'package:backyard/Component/Appbar/appbar_components.dart';
+import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_dropdown.dart';
 import 'package:backyard/Component/custom_radio_tile.dart';
+import 'package:backyard/Component/custom_text_form_field.dart';
+import 'package:backyard/Component/custom_toast.dart';
+import 'package:backyard/Controller/home_controller.dart';
+import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Model/category_model.dart';
 import 'package:backyard/Model/category_product_model.dart';
 import 'package:backyard/Service/bus_apis.dart';
 import 'package:backyard/Service/general_apis.dart';
 import 'package:backyard/Service/socket_service.dart';
+import 'package:backyard/Utils/app_size.dart';
 import 'package:backyard/Utils/enum.dart';
+import 'package:backyard/Utils/image_path.dart';
+import 'package:backyard/Utils/my_colors.dart';
+import 'package:backyard/Utils/utils.dart';
 import 'package:backyard/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -16,20 +27,11 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:place_picker/place_picker.dart';
-import 'package:backyard/Component/Appbar/appbar_components.dart';
-import 'package:backyard/Component/custom_buttom.dart';
-import 'package:backyard/Component/custom_textfield.dart';
-import 'package:backyard/Component/custom_toast.dart';
-import 'package:backyard/Controller/user_controller.dart';
-import 'package:backyard/Controller/home_controller.dart';
-import 'package:backyard/Utils/app_size.dart';
-import 'package:backyard/Utils/image_path.dart';
-import 'package:backyard/Utils/my_colors.dart';
-import 'package:backyard/Utils/utils.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
+
 import '../../../Component/custom_bottomsheet_indicator.dart';
 import '../../../Component/custom_text.dart';
-import 'package:sizer/sizer.dart';
 
 class UserHome extends StatefulWidget {
   const UserHome({super.key});
@@ -533,7 +535,7 @@ class _UserHomeState extends State<UserHome> {
   //                   height: 2.h,
   //                 ),
   //                 SizedBox(
-  //                   height: MediaQuery.of(context).viewInsets.bottom,
+  //                   height: MediaQuery.viewInsetsOf(context).bottom,
   //                 )
   //               ],
   //             ),
@@ -838,7 +840,7 @@ class _UserHomeState extends State<UserHome> {
         SizedBox(height: 2.h),
         customTitle(title: 'Locations'),
         SizedBox(height: 1.h),
-        MyTextField(
+        CustomTextFormField(
           hintText: 'Locations',
           // controller: name,
           // maxLength: 2,
@@ -853,7 +855,7 @@ class _UserHomeState extends State<UserHome> {
         SizedBox(height: 2.h),
         customTitle(title: 'Discount Percentages'),
         SizedBox(height: 1.h),
-        MyTextField(
+        CustomTextFormField(
           hintText: 'Discount Percentages',
           // controller: name,
           maxLength: 2,

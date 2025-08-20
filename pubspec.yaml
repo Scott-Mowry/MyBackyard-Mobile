@@ -124,15 +124,15 @@ flutter:
     - assets/icons/
     - assets/random/
 
-  fonts:
-    - family: Jost
-      fonts:
-        - asset: assets/fonts/Jost-VariableFont_wght.ttf
-          style: normal
-    - family: Mulish
-      fonts:
-        - asset: assets/fonts/Mulish-VariableFont_wght.ttf
-          style: normal
+#  fonts:
+#    - family: Jost
+#      fonts:
+#        - asset: assets/fonts/Jost-VariableFont_wght.ttf
+#          style: normal
+#    - family: Mulish
+#      fonts:
+#        - asset: assets/fonts/Mulish-VariableFont_wght.ttf
+#          style: normal
 
 flavorizr:
   ide: idea

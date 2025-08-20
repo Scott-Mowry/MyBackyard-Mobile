@@ -3,29 +3,30 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:backyard/Component/custom_buttom.dart';
+import 'package:backyard/Component/custom_padding.dart';
+import 'package:backyard/Component/custom_text_form_field.dart';
+import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/auth_apis.dart';
+import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/View/Widget/Dialog/profile_complete_dialog.dart';
-import 'package:month_year_picker/month_year_picker.dart';
-import 'package:flutter/material.dart';
-import 'package:backyard/Component/custom_buttom.dart';
-import 'package:backyard/Component/custom_padding.dart';
-import 'package:backyard/Component/custom_textfield.dart';
-import 'package:backyard/Component/custom_toast.dart';
-import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/View/base_view.dart';
-import 'package:provider/provider.dart';
-import '../../../Component/custom_text.dart';
-import 'package:sizer/sizer.dart';
-import '../../Utils/my_colors.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:month_year_picker/month_year_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
+
+import '../../../Component/custom_text.dart';
+import '../../Utils/my_colors.dart';
 
 class AddCard extends StatefulWidget {
-  AddCard({super.key, this.test});
+  final Map<String, dynamic>? test;
 
-  Map<String, dynamic>? test;
+  const AddCard({super.key, this.test});
 
   @override
   State<AddCard> createState() => _AddCardState();
@@ -64,7 +65,7 @@ class _AddCardState extends State<AddCard> {
               SizedBox(height: 2.h),
               customTitle(title: 'Card Holder'),
               SizedBox(height: 1.h),
-              MyTextField(
+              CustomTextFormField(
                 hintText: 'Card Holder',
                 controller: name,
                 maxLength: 32,
@@ -74,7 +75,7 @@ class _AddCardState extends State<AddCard> {
               SizedBox(height: 2.h),
               customTitle(title: 'Card Number'),
               SizedBox(height: 1.h),
-              MyTextField(
+              CustomTextFormField(
                 hintText: 'Card Number',
                 cardFormat: true,
                 inputType: TextInputType.number,
@@ -92,7 +93,7 @@ class _AddCardState extends State<AddCard> {
                       children: [
                         customTitle(title: 'Expiry'),
                         SizedBox(height: 1.h),
-                        MyTextField(
+                        CustomTextFormField(
                           hintText: 'MM/YY',
                           cardExpiration: true,
                           maxLength: 5,
@@ -116,7 +117,7 @@ class _AddCardState extends State<AddCard> {
                       children: [
                         customTitle(title: 'CVC'),
                         SizedBox(height: 1.h),
-                        MyTextField(
+                        CustomTextFormField(
                           showLabel: false,
                           hintText: 'CVC',
                           inputType: TextInputType.number,

@@ -4,11 +4,12 @@ import 'package:sizer/sizer.dart';
 import '../../Component/custom_text.dart';
 
 class ViewAll extends StatelessWidget {
-  ViewAll({super.key, this.title, this.onTap, this.trailing, this.showTrailing = true});
-  String? title;
-  Function? onTap;
-  Widget? trailing;
-  bool showTrailing = true;
+  final String? title;
+  final Function? onTap;
+  final Widget? trailing;
+  final bool showTrailing;
+
+  const ViewAll({super.key, this.title, this.onTap, this.trailing, this.showTrailing = true});
 
   @override
   Widget build(BuildContext context) {

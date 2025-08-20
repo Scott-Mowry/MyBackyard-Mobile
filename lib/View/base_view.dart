@@ -1,32 +1,38 @@
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/image_path.dart';
-import 'package:flutter/material.dart';
-import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class BaseView extends StatelessWidget {
-  final Widget? child, floating;
-  final showAppBar;
-  final String? screenTitle, screenSubtitle;
-  String bgImage = ImagePath.splashImage;
+  final Widget? child;
+  final Widget? floating;
+  final bool? showAppBar;
+  final String? screenTitle;
+  final String? screenSubtitle;
+  final String bgImage;
   final Widget? leadingAppBar;
   final Widget? trailingAppBar;
-  Function? onTapTrailing, onTapSubtitle;
-  bool? extendBodyBehindAppBar;
-  Color? backgroundColor, screenTitleColor, statusBarColor, appbarColor, backColor;
-  final bool? bottomSafeArea,
-      topSafeArea,
-      showBackButton,
-      showBackgroundImage,
-      showBottomBar,
-      resizeBottomInset,
-      showDrawer;
-  Function? onTapBackButton, onTapFloatingButton;
-  // BottomBarController bottomBarController = Get.put(BottomBarController());
+  final Function? onTapTrailing;
+  final Function? onTapSubtitle;
+  final bool? extendBodyBehindAppBar;
+  final Color? backgroundColor;
+  final Color? screenTitleColor;
+  final Color? statusBarColor;
+  final Color? appbarColor;
+  final Color? backColor;
+  final bool? bottomSafeArea;
+  final bool? topSafeArea;
+  final bool? showBackButton;
+  final bool? showBackgroundImage;
+  final bool? showBottomBar;
+  final bool? resizeBottomInset;
+  final bool? showDrawer;
+  final Function? onTapBackButton;
   final GlobalKey? scafoldkey;
 
-  BaseView({
+  const BaseView({
     super.key,
     this.child,
     this.screenTitle,

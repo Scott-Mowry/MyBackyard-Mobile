@@ -3,9 +3,10 @@ import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Utils/my_colors.dart';
 
 class ScreenTitle extends StatelessWidget {
-  String? title;
-  FontWeight? fontWeight;
-  ScreenTitle({super.key, this.title, this.fontWeight});
+  final String? title;
+  final FontWeight? fontWeight;
+
+  const ScreenTitle({super.key, this.title, this.fontWeight});
 
   @override
   Widget build(BuildContext context) {
