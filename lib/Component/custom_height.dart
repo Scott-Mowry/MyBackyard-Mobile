@@ -5,25 +5,15 @@ class CustomHeight extends StatelessWidget {
   final PageView? pageView;
   final ListView? listView;
 
-  const CustomHeight({
-    Key? key,
-    required this.prototype,
-    this.listView,
-    this.pageView,
-  }) : super(key: key);
+  const CustomHeight({super.key, required this.prototype, this.listView, this.pageView});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        IgnorePointer(
-          child: Opacity(
-            opacity: 0.0,
-            child: prototype,
-          ),
-        ),
+        IgnorePointer(child: Opacity(opacity: 0.0, child: prototype)),
         SizedBox(width: double.infinity),
-        Positioned.fill(child: pageView??listView!),
+        Positioned.fill(child: pageView ?? listView!),
       ],
     );
   }

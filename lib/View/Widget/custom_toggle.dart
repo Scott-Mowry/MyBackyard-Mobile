@@ -1,17 +1,8 @@
-import 'package:backyard/Component/custom_buttom.dart';
-import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/View/Widget/theme_button.dart';
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
 
 class CustomToggle extends StatelessWidget {
-  CustomToggle(
-      {Key? key,
-      this.buttons,
-      required this.selectedIndex,
-      this.fontSize = 12,
-      this.onTap})
-      : super(key: key);
+  CustomToggle({super.key, this.buttons, required this.selectedIndex, this.fontSize = 12, this.onTap});
   int selectedIndex = 0;
   List? buttons;
   double? fontSize;
@@ -24,8 +15,7 @@ class CustomToggle extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width * .9,
         height: 55,
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(5.0)),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5.0)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -34,9 +24,7 @@ class CustomToggle extends StatelessWidget {
                 text: buttons![0],
                 borderColor: Colors.white,
                 textColor: selectedIndex == 0 ? Colors.white : Colors.grey,
-                color: selectedIndex == 0
-                    ? Theme.of(context).primaryColorDark
-                    : Colors.white,
+                color: selectedIndex == 0 ? Theme.of(context).primaryColorDark : Colors.white,
                 borderWidth: 4.0,
                 elevation: 0,
                 onChange: () {
@@ -53,9 +41,7 @@ class CustomToggle extends StatelessWidget {
                 text: buttons![1],
                 borderColor: Colors.white,
                 textColor: selectedIndex == 1 ? Colors.white : Colors.grey,
-                color: selectedIndex == 1
-                    ? Theme.of(context).primaryColorDark
-                    : Colors.white,
+                color: selectedIndex == 1 ? Theme.of(context).primaryColorDark : Colors.white,
                 borderWidth: 4.0,
                 elevation: 0,
                 onChange: () {
@@ -73,9 +59,7 @@ class CustomToggle extends StatelessWidget {
                   text: buttons![2],
                   borderColor: Colors.white,
                   textColor: selectedIndex == 2 ? Colors.white : Colors.grey,
-                  color: selectedIndex == 2
-                      ? Theme.of(context).primaryColorDark
-                      : Colors.white,
+                  color: selectedIndex == 2 ? Theme.of(context).primaryColorDark : Colors.white,
                   borderWidth: 4.0,
                   elevation: 0,
                   onChange: () {
@@ -93,9 +77,7 @@ class CustomToggle extends StatelessWidget {
                   text: buttons![3],
                   borderColor: Colors.white,
                   textColor: selectedIndex == 3 ? Colors.white : Colors.grey,
-                  color: selectedIndex == 3
-                      ? Theme.of(context).primaryColorDark
-                      : Colors.white,
+                  color: selectedIndex == 3 ? Theme.of(context).primaryColorDark : Colors.white,
                   borderWidth: 4.0,
                   elevation: 0,
                   onChange: () {
@@ -203,4 +185,5 @@ class CustomToggle extends StatelessWidget {
     // );
   }
 }
+
 //

@@ -16,7 +16,7 @@ import '../Utils/image_path.dart';
 import '../Service/socket_service.dart';
 
 class SplashScreen extends StatefulWidget {
-  SplashScreen({super.key});
+  const SplashScreen({super.key});
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
@@ -67,9 +67,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void userFunction(Map<String, dynamic> user) {
     log("USER MODEL: ${json.encode(user)}");
-    context
-        .read<UserController>()
-        .setUser(User.setUser2(user, token: user["bearer_token"]));
+    context.read<UserController>().setUser(User.setUser2(user, token: user["bearer_token"]));
     log("Bearer Token:");
     log(context.read<UserController>().user?.token ?? "");
     SocketService.instance?.userResponse();
@@ -104,33 +102,19 @@ class _SplashScreenState extends State<SplashScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                    height:
-                        // 106.h
-                        50.h),
+                  height:
+                      // 106.h
+                      50.h,
+                ),
                 // AppLogo(scale: 1.899),
                 Image.asset(ImagePath.appLogoAnimation, scale: 1.899),
                 Utils.isTablet ? 45.verticalSpace : 20.verticalSpace,
                 // 65.verticalSpace,
-                const MyText(
-                  height: 1,
-                  size: 25,
-                  title: 'The Best',
-                  fontWeight: FontWeight.w600,
-                ),
+                const MyText(height: 1, size: 25, title: 'The Best', fontWeight: FontWeight.w600),
                 11.verticalSpace,
-                const MyText(
-                  height: 1,
-                  size: 40,
-                  title: 'Deals are',
-                  fontWeight: FontWeight.w600,
-                ),
+                const MyText(height: 1, size: 40, title: 'Deals are', fontWeight: FontWeight.w600),
                 11.verticalSpace,
-                const MyText(
-                  height: 1,
-                  size: 30,
-                  title: 'Local & Family Owned',
-                  fontWeight: FontWeight.w600,
-                ),
+                const MyText(height: 1, size: 30, title: 'Local & Family Owned', fontWeight: FontWeight.w600),
                 12.5.verticalSpace,
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15.sp),
@@ -139,14 +123,13 @@ class _SplashScreenState extends State<SplashScreen> {
                     size: 16,
                     letterSpacing: 1.3,
                     align: TextAlign.center,
-                    title:
-                        'Support Local Family Owned Business While Saving Money Doing It',
+                    title: 'Support Local Family Owned Business While Saving Money Doing It',
                     fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

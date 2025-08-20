@@ -39,53 +39,34 @@ class PhoneLogin extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomAppBar(
-                screenTitle: '',
-                leading: CustomBackButton(),
-                bottom: 6.h,
-              ),
+              CustomAppBar(screenTitle: '', leading: CustomBackButton(), bottom: 6.h),
               AppLogo(),
-              SizedBox(
-                height: 2.h,
-              ),
+              SizedBox(height: 2.h),
               Expanded(
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      const MyText(
-                        title: 'Login With Phone',
-                        size: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
+                      SizedBox(height: 2.h),
+                      const MyText(title: 'Login With Phone', size: 20, fontWeight: FontWeight.w600),
+                      SizedBox(height: 2.h),
                       Form(
                         key: _form,
                         child: MyTextField(
-                          prefixWidget: Image.asset(
-                            ImagePath.phone,
-                            scale: 2,
-                            color: MyColors().primaryColor,
-                          ),
+                          prefixWidget: Image.asset(ImagePath.phone, scale: 2, color: MyColors().primaryColor),
                           controller: phone,
                           hintText: 'Phone Number',
                           prefixText: "+1",
                           inputType: TextInputType.phone,
                           contact: true,
                           validation: (value) {
-                            final cleanedPhoneNumber = value
-                                .toString()
-                                .replaceAll(RegExp(r'[()-\s]'),
-                                    ''); // Remove brackets, dashes, and spaces
+                            final cleanedPhoneNumber = value.toString().replaceAll(
+                              RegExp(r'[()-\s]'),
+                              '',
+                            ); // Remove brackets, dashes, and spaces
                             log(cleanedPhoneNumber);
 
-                            if (cleanedPhoneNumber == null ||
-                                !isNumeric(cleanedPhoneNumber)) {
+                            if (!isNumeric(cleanedPhoneNumber)) {
                               return "Phone number field can\"t be empty";
                             }
                             if (cleanedPhoneNumber.length < 10) {
@@ -99,14 +80,13 @@ class PhoneLogin extends StatelessWidget {
                       // PhoneNumberTextField(
                       //     controller: phone, onCountryChanged:(c){dialCode=c.dialCode; print(c.dialCode);countryCode=c.code;phone.text='';}
                       // ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
+                      SizedBox(height: 2.h),
                       MyButton(
-                          title: "Continue",
-                          onTap: () {
-                            onSubmit();
-                          }),
+                        title: "Continue",
+                        onTap: () {
+                          onSubmit();
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -118,37 +98,36 @@ class PhoneLogin extends StatelessWidget {
     );
   }
 
-  Future<void> signInWithPhone(
-      {required String phoneNumber,
-      required VoidCallback setProgressBar,
-      required VoidCallback cancelProgressBar}) async {
+  Future<void> signInWithPhone({
+    required String phoneNumber,
+    required VoidCallback setProgressBar,
+    required VoidCallback cancelProgressBar,
+  }) async {
     try {
       setProgressBar();
       //  print("$countryCode$phoneNumber");
       FirebaseAuth.instance.verifyPhoneNumber(
-          phoneNumber: "+1$phoneNumber",
-          timeout: const Duration(seconds: 60),
-          verificationCompleted: (AuthCredential authCredential) async {},
-          verificationFailed: (FirebaseAuthException authException) {
-            cancelProgressBar();
-            CustomToast().showToast(message: "Invalid Phone Number");
-          },
-          codeSent: (String verificationId, int? forceResendingToken) {
-            cancelProgressBar();
-            CustomToast().showToast(
-                message:
-                    "OTP Verification code has been sent to your phone number",
-                toastLength: Toast.LENGTH_LONG,
-                timeInSecForIosWeb: 5);
-            AppNavigation.navigateTo(
-              AppRouteName.ENTER_OTP_SCREEN_ROUTE,
-              arguments: EnterOTPArguements(
-                phoneNumber: phoneNumber,
-                verification: verificationId,
-              ),
-            );
-          },
-          codeAutoRetrievalTimeout: (String verificationId) {});
+        phoneNumber: "+1$phoneNumber",
+        timeout: const Duration(seconds: 60),
+        verificationCompleted: (AuthCredential authCredential) async {},
+        verificationFailed: (FirebaseAuthException authException) {
+          cancelProgressBar();
+          CustomToast().showToast(message: "Invalid Phone Number");
+        },
+        codeSent: (String verificationId, int? forceResendingToken) {
+          cancelProgressBar();
+          CustomToast().showToast(
+            message: "OTP Verification code has been sent to your phone number",
+            toastLength: Toast.LENGTH_LONG,
+            timeInSecForIosWeb: 5,
+          );
+          AppNavigation.navigateTo(
+            AppRouteName.ENTER_OTP_SCREEN_ROUTE,
+            arguments: EnterOTPArguements(phoneNumber: phoneNumber, verification: verificationId),
+          );
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {},
+      );
     } catch (error) {
       log("error");
       cancelProgressBar();
@@ -160,13 +139,14 @@ class PhoneLogin extends StatelessWidget {
     FocusManager.instance.primaryFocus?.unfocus();
     if (_form.currentState?.validate() ?? false) {
       await signInWithPhone(
-          phoneNumber: phone.text.replaceAll(" ", ""),
-          setProgressBar: () {
-            AppNetwork.loadingProgressIndicator();
-          },
-          cancelProgressBar: () {
-            AppNavigation.navigatorPop();
-          });
+        phoneNumber: phone.text.replaceAll(" ", ""),
+        setProgressBar: () {
+          AppNetwork.loadingProgressIndicator();
+        },
+        cancelProgressBar: () {
+          AppNavigation.navigatorPop();
+        },
+      );
     }
   }
 }

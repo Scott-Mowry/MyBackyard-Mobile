@@ -2,7 +2,7 @@ import 'month_year_picker_localizations.dart';
 
 /// The translations for Chinese (`zh`).
 class MonthYearPickerLocalizationsZh extends MonthYearPickerLocalizations {
-  MonthYearPickerLocalizationsZh([String locale = 'zh']) : super(locale);
+  MonthYearPickerLocalizationsZh([super.locale = 'zh']);
 
   @override
   String get helpText => '请选择年月';

@@ -3,9 +3,16 @@ import 'package:flutter/material.dart';
 import '../Utils/my_colors.dart';
 
 class CustomSlider extends StatelessWidget {
-  CustomSlider({Key? key,required this.val,required this.onChange,required this.min,required this.max,this.divisions}) : super(key: key);
-  double val,min,max;
-  int?divisions;
+  CustomSlider({
+    super.key,
+    required this.val,
+    required this.onChange,
+    required this.min,
+    required this.max,
+    this.divisions,
+  });
+  double val, min, max;
+  int? divisions;
   final Function(double)? onChange;
 
   @override
@@ -14,24 +21,18 @@ class CustomSlider extends StatelessWidget {
       height: 30,
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: SliderTheme(
-          data: SliderTheme.of(context).copyWith(
-              thumbColor: MyColors().grey,
-              trackShape: CustomTrackShape(),
-              // disabledActiveTrackColor: Colors.red,
-              // disabledInactiveTrackColor: Colors.red,
-              activeTrackColor:  MyColors().lightGrey2,
-              activeTickMarkColor:  MyColors().lightGrey2,
-              inactiveTrackColor: MyColors().grey,
-              inactiveTickMarkColor: MyColors().grey,
-              trackHeight: 8
-          ),
-          child: Slider(
-            value: val,
-            min: min,
-            max: max,
-            divisions: divisions??19,
-            onChanged:onChange,
-          )
+        data: SliderTheme.of(context).copyWith(
+          thumbColor: MyColors().grey,
+          trackShape: CustomTrackShape(),
+          // disabledActiveTrackColor: Colors.red,
+          // disabledInactiveTrackColor: Colors.red,
+          activeTrackColor: MyColors().lightGrey2,
+          activeTickMarkColor: MyColors().lightGrey2,
+          inactiveTrackColor: MyColors().grey,
+          inactiveTickMarkColor: MyColors().grey,
+          trackHeight: 8,
+        ),
+        child: Slider(value: val, min: min, max: max, divisions: divisions ?? 19, onChanged: onChange),
       ),
     );
   }
@@ -53,4 +54,3 @@ class CustomTrackShape extends RoundedRectSliderTrackShape {
     return Rect.fromLTWH(trackLeft, trackTop, trackWidth, trackHeight);
   }
 }
-

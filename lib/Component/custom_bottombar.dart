@@ -7,9 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomBottomBar extends StatelessWidget {
-  CustomBottomBar({
-    Key? key,
-  }) : super(key: key);
+  CustomBottomBar({super.key});
   List<MenuModel> items = [
     MenuModel(image: ImagePath.home2, title: 'Home'),
     MenuModel(image: ImagePath.home2, title: 'Home'),
@@ -64,38 +62,42 @@ class CustomBottomBar extends StatelessWidget {
   }
 
   item({required MenuModel i, required int index}) {
-    return Builder(builder: (context) {
-      return Consumer<HomeController>(builder: (context, val, _) {
-        return InkWell(
-          onTap: () {
-            val.setIndex(index);
+    return Builder(
+      builder: (context) {
+        return Consumer<HomeController>(
+          builder: (context, val, _) {
+            return InkWell(
+              onTap: () {
+                val.setIndex(index);
+              },
+              child: SizedBox(
+                width: 18.w,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      i.image!,
+                      // color: currentIndex == items.indexOf(0)
+                      //     ? Colors.blue
+                      //     : Colors.grey,
+                      scale: 2,
+                    ),
+                    Text(
+                      i.title!,
+                      style: TextStyle(
+                        // color: currentIndex == items.indexOf(item)
+                        //     ? Colors.blue
+                        //     : Colors.grey,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
           },
-          child: SizedBox(
-            width: 18.w,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  i.image!,
-                  // color: currentIndex == items.indexOf(0)
-                  //     ? Colors.blue
-                  //     : Colors.grey,
-                  scale: 2,
-                ),
-                Text(
-                  i.title!,
-                  style: TextStyle(
-                    // color: currentIndex == items.indexOf(item)
-                    //     ? Colors.blue
-                    //     : Colors.grey,
-                    fontSize: 12,
-                  ),
-                ),
-              ],
-            ),
-          ),
         );
-      });
-    });
+      },
+    );
   }
 }

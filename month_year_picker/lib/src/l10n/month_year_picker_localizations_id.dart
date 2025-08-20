@@ -2,7 +2,7 @@ import 'month_year_picker_localizations.dart';
 
 /// The translations for Indonesian (`id`).
 class MonthYearPickerLocalizationsId extends MonthYearPickerLocalizations {
-  MonthYearPickerLocalizationsId([String locale = 'id']) : super(locale);
+  MonthYearPickerLocalizationsId([super.locale = 'id']);
 
   @override
   String get helpText => 'PILIH BULAN/TAHUN';

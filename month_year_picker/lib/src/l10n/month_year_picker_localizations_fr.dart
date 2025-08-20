@@ -2,7 +2,7 @@ import 'month_year_picker_localizations.dart';
 
 /// The translations for French (`fr`).
 class MonthYearPickerLocalizationsFr extends MonthYearPickerLocalizations {
-  MonthYearPickerLocalizationsFr([String locale = 'fr']) : super(locale);
+  MonthYearPickerLocalizationsFr([super.locale = 'fr']);
 
   @override
   String get helpText => 'SELECTIONNER MOIS/ANNEE';

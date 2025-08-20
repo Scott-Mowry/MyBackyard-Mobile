@@ -1,223 +1,178 @@
-# Uncomment the following lines if you want to use the pubspec.yaml format for IOS
-# FLUTTER VERSION (3.16.0) 3.2.0
-# name: backyard
-# description: "A new Flutter project."
-# publish_to: "none" # Remove this line if you wish to publish to pub.dev
-
-# version: 1.0.0+30 #Android Version
-
-# environment:
-#   sdk: ">=3.2.0 <4.0.0"
-
-# dependencies:
-#   flutter:
-#     sdk: flutter
-
-#   # The following adds the Cupertino Icons font to your application.
-#   # Use with the CupertinoIcons class for iOS style icons.
-#   cupertino_icons: ^1.0.2
-#   device_info_plus:
-#   provider:
-#   dio:
-#   in_app_purchase:
-#   google_fonts: ^5.1.0
-#   latlong2:
-#   shared_preferences: ^2.2.0
-#   flutter_screenutil:
-#   image_cropper:
-#   image_picker:
-#   mask_text_input_formatter: ^2.5.0
-#   intl: ^0.18.1
-#   file_picker: ^5.3.3
-#   sizer: ^2.0.15
-#   pin_code_fields: ^8.0.1
-#   flutter_easyloading: ^3.0.5
-#   cached_network_image:
-#   dotted_line: ^3.2.2
-#   google_sign_in: ^6.1.6
-#   maps_launcher: ^2.2.1
-#   sign_in_with_apple: ^5.0.0
-#   readmore: ^2.2.0
-#   jwt_decoder:
-#   flutter_rating_bar: ^4.0.1
-#   firebase_core: ^2.15.1
-#   extended_image: ^8.1.0
-#   flutter_staggered_grid_view: ^0.7.0
-#   webview_flutter: ^3.0.4
-#   photo_view: ^0.14.0
-#   table_calendar: ^3.0.9
-#   circular_countdown_timer: ^0.2.3
-#   # video_thumbnail: ^0.5.3
-#   carousel_slider: ^4.2.1
-#   flutter_switch: ^0.3.2
-#   flutter_slidable: ^3.0.0
-#   google_maps_flutter: ^2.5.0
-#   # fijkplayer: ^0.11.0
-#   dropdown_button2: ^2.3.9
-#   timeline_list: ^0.0.6
-#   timelines: ^0.1.0
-#   timeline_tile: ^2.0.0
-#   share_plus: ^7.1.0
-#   shimmer: ^3.0.0
-#   permission_handler: 10.2.0
-#   focus_detector: 2.0.1
-#   flutter_local_notifications: ^9.1.1
-#   firebase_messaging: ^14.7.1
-#   firebase_auth: ^4.12.0
-#   #  flutter_stripe: ^9.5.0+1
-#   jiffy: ^6.2.1
-#   socket_io_client: ^2.0.3+1
-#   flutter_datetime_picker_plus:
-#   floating: 2.0.1
-#   # video_player: 2.2.3
-#   url_launcher: ^6.3.0
-#   #  firebase_dynamic_links: ^5.4.4
-#   #  flutter_google_places_hoc081098: ^2.0.0-beta.0
-#   #  animated_horizontal_calendar: ^0.0.3
-#   month_year_picker:
-#     # path: month_year_picker
-#   intl_phone_field:
-#     # path: intl_phone_field
-#   place_picker:
-#     path: locationpicker
-#   # flutter_stripe: ^9.6.0
-#   fluttertoast:
-#   geolocator: ^10.1.0
-#   geocoding: ^3.0.0
-#   qr_code_scanner: ^1.0.1
-#   qr_flutter:
-#   encrypt:
-#   crypto:
-#   pdf:
-#   printing:
-#   persistent_bottom_nav_bar:
-#     path: bottombar
-#   dotted_border: ^2.1.0
-
-# dependency_overrides:
-#   # stripe_android: "9.5.0+1"
-
-# dev_dependencies:
-#   flutter_test:
-#     sdk: flutter
-
-#   flutter_lints: ^2.0.0
-
-# flutter:
-#   uses-material-design: true
-
-#   assets:
-#     - assets/images/
-#     - assets/icons/
-#     - assets/random/
-#--------------------------------------------------------------------------------
-# Uncomment the following lines if you want to use the pubspec.yaml format for IOS
-# FLUTTER VERSION (3.29.3) 3.7.2
 name: backyard
 description: "A new Flutter project."
-publish_to: "none" # Remove this line if you wish to publish to pub.dev
-
-version: 2.0.0+1 #IOS Version
+publish_to: "none"
+version: 2.0.0+0
 
 environment:
+  flutter: ">=3.29.2 <4.0.0"
   sdk: ">=3.7.2 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.2
-  device_info_plus:
-  provider:
-  dio:
-  in_app_purchase:
-  google_fonts: ^6.2.1
-  latlong2:
-  shared_preferences: ^2.2.0
-  flutter_screenutil:
-  image_cropper:
-  image_picker:
-  mask_text_input_formatter: ^2.5.0
+  # HTTP Client
+  dio: ^5.6.0
+  pretty_dio_logger: ^1.3.1
+  curl_logger_dio_interceptor: ^1.0.0
+
+  # Firebase
+  firebase_core: ^3.12.1
+  firebase_messaging: ^15.2.6
+  firebase_auth: ^5.5.1
+
+  # State management
+  provider: ^6.1.5+1
+
+  mobx: ^2.3.3+1
+  flutter_mobx: ^2.2.1+1
+  get_it: ^7.6.7
+  injectable: ^2.4.1
+  auto_route: ^9.2.2
+  flutter_secure_storage: ^9.0.0
+  shared_preferences: ^2.2.2
+  clock: ^1.1.1
+  permission_handler: ^11.3.1
+  url_launcher: ^6.3.0
+
+  # Data
   intl: ^0.19.0
+  latlong2: ^0.9.1
+  device_info_plus: ^11.5.0
+  jiffy: ^6.2.1
+  jwt_decoder: ^2.0.1
+  encrypt: ^5.0.3
+  crypto: ^3.0.6
+  geolocator: ^14.0.2
+  geocoding: ^3.0.0
   file_picker: ^10.1.9
+  in_app_purchase: ^3.2.3
+
+  # UI
+  google_fonts: ^6.2.1
+  flutter_screenutil: ^5.9.3
   sizer: ^3.0.5
   pin_code_fields: ^8.0.1
   flutter_easyloading: ^3.0.5
-  cached_network_image:
+  cached_network_image: ^3.3.1
   dotted_line: ^3.2.2
   google_sign_in: ^6.1.6
   maps_launcher: ^3.0.0+1
   sign_in_with_apple: ^7.0.1
   readmore: ^3.0.0
-  jwt_decoder:
   flutter_rating_bar: ^4.0.1
-  firebase_core: ^3.13.1
   extended_image: ^10.0.1
   flutter_staggered_grid_view: ^0.7.0
   webview_flutter: ^3.0.4
   photo_view: ^0.15.0
   table_calendar: ^3.0.9
   circular_countdown_timer: ^0.2.3
-  # video_thumbnail: ^0.5.3
   carousel_slider: ^5.0.0
   flutter_switch: ^0.3.2
   flutter_slidable: ^4.0.0
   google_maps_flutter: ^2.5.0
-  # fijkplayer: ^0.11.0
   dropdown_button2: ^2.3.9
   timeline_list: ^0.1.1
   timelines: ^0.1.0
   timeline_tile: ^2.0.0
   share_plus: ^11.0.0
   shimmer: ^3.0.0
-  permission_handler: ^12.0.0+1
   focus_detector: 2.0.1
   flutter_local_notifications: ^19.2.1
-  firebase_messaging: ^15.2.6
-  firebase_auth: ^5.5.4
-  #  flutter_stripe: ^9.5.0+1
-  jiffy: ^6.2.1
   socket_io_client: ^3.1.2
-  flutter_datetime_picker_plus:
+  flutter_datetime_picker_plus: ^2.2.0
   floating: ^6.0.0
-  # video_player: ^2.10.0
-  # url_launcher: ^6.3.1
-  #  firebase_dynamic_links: ^5.4.4
-  #  flutter_google_places_hoc081098: ^2.0.0-beta.0
-  #  animated_horizontal_calendar: ^0.0.3
-  month_year_picker:
-    # path: month_year_picker
-  intl_phone_field:
-    # path: intl_phone_field
+  month_year_picker: ^0.4.0+1
+  intl_phone_field: ^3.2.0
+  fluttertoast: ^8.2.12
+  qr_code_scanner: ^1.0.1
+  qr_flutter: ^4.1.0
+  pdf: ^3.11.3
+  printing: ^5.14.2
+  persistent_bottom_nav_bar: ^6.2.1
+  dotted_border: ^3.0.1
+  image_cropper: ^9.1.0
+  image_picker : ^1.2.0
+  mask_text_input_formatter: ^2.5.0
+
   place_picker:
     path: locationpicker
-  # flutter_stripe: ^9.6.0
-  fluttertoast:
-  geolocator: ^10.1.0
-  geocoding: ^4.0.0
-  qr_code_scanner: ^1.0.1
-  qr_flutter:
-  encrypt:
-  crypto:
-  pdf:
-  printing:
-  persistent_bottom_nav_bar:
-    path: bottombar
-  dotted_border: ^3.0.1
 
+  image: any
+  image_picker_for_web: any
+  shared_preferences_web: any
+  flutter_web_plugins: any
+  http: any
 dependency_overrides:
-  # stripe_android: "9.5.0+1"
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^5.0.0
+  # Env
+  flutter_flavorizr: ^2.2.1
 
+  # Lint
+  flutter_lints: ^5.0.0
+  analyzer: ^6.4.1
+
+  # Data
+  build_runner: ^2.4.8
+  json_serializable: ^6.7.1
+  mobx_codegen: ^2.7.0
+  copy_with_extension_gen: ^5.0.4
+  auto_route_generator: ^9.0.0
+  injectable_generator: ^2.6.1
+
+  # Tests
+  mockito: ^5.4.4
+  covadge: ^0.0.1
+  fake_cloud_firestore: ^3.1.0
+  firebase_storage_mocks: ^0.7.0
+
+  # UI
+  flutter_launcher_icons: ^0.14.3
+  flutter_native_splash: ^2.4.6
 flutter:
   uses-material-design: true
-
   assets:
     - assets/images/
     - assets/icons/
     - assets/random/
+
+  fonts:
+    - family: Jost
+      fonts:
+        - asset: assets/fonts/Jost-VariableFont_wght.ttf
+          style: normal
+    - family: Mulish
+      fonts:
+        - asset: assets/fonts/Mulish-VariableFont_wght.ttf
+          style: normal
+
+flavorizr:
+  ide: idea
+  flavors:
+    stg:
+      app:
+        name: "[Stg]Backyard"
+      android:
+        applicationId: "com.app.mybackyardusa.stg"
+        firebase:
+          config: ".firebase/stg/google-services.json"
+      ios:
+        bundleId: "com.app.mybackyardusa.stg"
+        firebase:
+          config: ".firebase/stg/GoogleService-Info.plist"
+    prod:
+      app:
+        name: "Backyard"
+      android:
+        applicationId: "com.app.mybackyardusa"
+        firebase:
+          config: ".firebase/prod/google-services.json"
+      ios:
+        bundleId: "com.app.mybackyardusa"
+        firebase:
+          config: ".firebase/prod/GoogleService-Info.plist"
+

@@ -2,7 +2,7 @@ import 'month_year_picker_localizations.dart';
 
 /// The translations for Portuguese (`pt`).
 class MonthYearPickerLocalizationsPt extends MonthYearPickerLocalizations {
-  MonthYearPickerLocalizationsPt([String locale = 'pt']) : super(locale);
+  MonthYearPickerLocalizationsPt([super.locale = 'pt']);
 
   @override
   String get helpText => 'ESCOLHER MÊS/ANO';

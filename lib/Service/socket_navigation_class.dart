@@ -23,9 +23,7 @@ class SocketNavigationClass {
       final responseDataJson = responseData as Map<String, dynamic>;
       if (responseDataJson["object_type"] == "get_user") {
         try {
-          navigatorKey.currentContext
-              ?.read<UserController>()
-              .setSubId(User.setUser(responseDataJson["data"][0]));
+          navigatorKey.currentContext?.read<UserController>().setSubId(User.setUser(responseDataJson["data"][0]));
         } catch (e) {
           log(e.toString());
         }
@@ -42,8 +40,7 @@ class SocketNavigationClass {
       if (responseDataJson["object_type"] == "get_buses") {
         navigatorKey.currentContext?.read<UserController>().clearMarkers();
         List<User> users = [];
-        users = List<User>.from(
-            (responseDataJson["data"] ?? {}).map((x) => User.setUser(x)));
+        users = List<User>.from((responseDataJson["data"] ?? {}).map((x) => User.setUser(x)));
         navigatorKey.currentContext?.read<UserController>().setBusList(users);
         for (var user in users) {
           navigatorKey.currentContext?.read<UserController>().addMarker(user);

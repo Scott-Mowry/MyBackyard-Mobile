@@ -1,8 +1,4 @@
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:backyard/Component/custom_empty_data.dart';
-import 'package:backyard/Component/custom_image.dart';
 import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Controller/home_controller.dart';
 import 'package:backyard/Utils/image_path.dart';
@@ -11,10 +7,11 @@ import 'package:provider/provider.dart';
 import '../../../../../Utils/my_colors.dart';
 import 'package:sizer/sizer.dart';
 import '../../Component/custom_refresh.dart';
-import '../../Model/user_model.dart';
 import '../base_view.dart';
 
 class AllReviews extends StatefulWidget {
+  const AllReviews({super.key});
+
   @override
   State<AllReviews> createState() => _AllReviewsState();
 }
@@ -30,30 +27,22 @@ class _AllReviewsState extends State<AllReviews> {
   @override
   Widget build(BuildContext context) {
     return BaseView(
-        screenTitle: 'Rating & Reviews',
-        showAppBar: true,
-        showBackButton: true,
-        resizeBottomInset: false,
-        bgImage: '',
-        child: CustomRefresh(
-          onRefresh: () async {
-            await getData(loading: false);
-          },
-          child: Consumer<HomeController>(builder: (context, val, _) {
+      screenTitle: 'Rating & Reviews',
+      showAppBar: true,
+      showBackButton: true,
+      resizeBottomInset: false,
+      bgImage: '',
+      child: CustomRefresh(
+        onRefresh: () async {
+          await getData(loading: false);
+        },
+        child: Consumer<HomeController>(
+          builder: (context, val, _) {
             return Column(
               children: [
-                SizedBox(
-                  height: 3.h,
-                ),
-                MyText(
-                  title: '${22}',
-                  fontWeight: FontWeight.w700,
-                  size: 40,
-                  clr: MyColors().primaryColor2,
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 3.h),
+                MyText(title: '${22}', fontWeight: FontWeight.w700, size: 40, clr: MyColors().primaryColor2),
+                SizedBox(height: 2.h),
                 RatingBar(
                   // initialRating:5,
                   initialRating: 22,
@@ -64,33 +53,17 @@ class _AllReviewsState extends State<AllReviews> {
                   updateOnDrag: false,
                   ignoreGestures: true,
                   ratingWidget: RatingWidget(
-                    full: Image.asset(
-                      ImagePath.star,
-                      width: 4.w,
-                    ),
-                    half: Image.asset(
-                      ImagePath.starHalf,
-                      width: 4.w,
-                    ),
-                    empty: Image.asset(
-                      ImagePath.starOutlined,
-                      width: 4.w,
-                    ),
+                    full: Image.asset(ImagePath.star, width: 4.w),
+                    half: Image.asset(ImagePath.starHalf, width: 4.w),
+                    empty: Image.asset(ImagePath.starOutlined, width: 4.w),
                   ),
                   itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
                   onRatingUpdate: (rating) {},
                   itemSize: 5.w,
                 ),
-                SizedBox(
-                  height: 1.h,
-                ),
-                MyText(
-                  title: '${22} Reviews',
-                  size: 15,
-                ),
-                SizedBox(
-                  height: 3.h,
-                ),
+                SizedBox(height: 1.h),
+                MyText(title: '${22} Reviews', size: 15),
+                SizedBox(height: 3.h),
                 // Expanded(
                 //   child: Container(
                 //     padding: EdgeInsets.symmetric(horizontal: 4.w,vertical:  4.w),
@@ -147,8 +120,10 @@ class _AllReviewsState extends State<AllReviews> {
                 // ),
               ],
             );
-          }),
-        ));
+          },
+        ),
+      ),
+    );
   }
 
   Future<void> getData({bool? loading}) async {

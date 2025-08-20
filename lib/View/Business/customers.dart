@@ -18,7 +18,6 @@ import 'package:backyard/main.dart';
 import 'package:flutter/material.dart';
 import 'package:backyard/View/base_view.dart';
 import 'package:provider/provider.dart';
-import '../../../Utils/image_path.dart';
 import 'package:sizer/sizer.dart';
 import '../../Service/navigation_service.dart';
 
@@ -64,116 +63,99 @@ class _CustomersState extends State<Customers> {
         topSafeArea: false,
         child: CustomRefresh(
           onRefresh: () => getCustomers(),
-          child: Consumer<HomeController>(builder: (context, val, _) {
-            return CustomPadding(
-              topPadding: 0.h,
-              horizontalPadding: 0.w,
-              child: Column(
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: MyColors().whiteColor,
-                      borderRadius:
-                          BorderRadius.vertical(bottom: Radius.circular(15)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2), // Shadow color
-                          blurRadius: 10, // Spread of the shadow
-                          spreadRadius: 5, // Size of the shadow
-                          offset: const Offset(0, 4), // Position of the shadow
-                        ),
-                      ],
+          child: Consumer<HomeController>(
+            builder: (context, val, _) {
+              return CustomPadding(
+                topPadding: 0.h,
+                horizontalPadding: 0.w,
+                child: Column(
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: MyColors().whiteColor,
+                        borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2), // Shadow color
+                            blurRadius: 10, // Spread of the shadow
+                            spreadRadius: 5, // Size of the shadow
+                            offset: const Offset(0, 4), // Position of the shadow
+                          ),
+                        ],
+                      ),
+                      padding: EdgeInsets.only(top: 7.h) + EdgeInsets.symmetric(horizontal: 4.w),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CustomAppBar(
+                            screenTitle: "Customers",
+                            leading: MenuIcon(),
+                            trailing: NotificationIcon(),
+                            bottom: 2.h,
+                          ),
+                          SearchTile(
+                            disabled: val.loading,
+                            showFilter: false,
+                            // search: location,
+                            onTap: () async {
+                              // await getAddress(context);
+                            },
+                            onChange: (v) async {
+                              // await getAddress(context);
+                            },
+                          ),
+                          SizedBox(height: 2.h),
+                        ],
+                      ),
                     ),
-                    padding: EdgeInsets.only(top: 7.h) +
-                        EdgeInsets.symmetric(horizontal: 4.w),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        CustomAppBar(
-                          screenTitle: "Customers",
-                          leading: MenuIcon(),
-                          trailing: NotificationIcon(),
-                          bottom: 2.h,
-                        ),
-                        SearchTile(
-                          disabled: val.loading,
-                          showFilter: false,
-                          // search: location,
-                          onTap: () async {
-                            // await getAddress(context);
-                          },
-                          onChange: (v) async {
-                            // await getAddress(context);
-                          },
-                        ),
-                        SizedBox(
-                          height: 2.h,
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  // Expanded(
-                  //     child: ListView.builder(
-                  //         itemCount: 0,
-                  //         //s.length,
-                  //         padding: EdgeInsets.symmetric(
-                  //             horizontal: 3.w, vertical: 0.h),
-                  //         physics: AlwaysScrollableScrollPhysics(
-                  //             parent: const ClampingScrollPhysics()),
-                  //         shrinkWrap: true,
-                  //         itemBuilder: (_, i) => CustomerTile(
-                  //               position: (i + 1) >= 1 && (i + 1) <= 3
-                  //                   ? (i + 1)
-                  //                   : null,
-                  //             ))),
-                  val.loading
-                      ? Center(
-                          child: CircularProgressIndicator(
-                              color: MyColors().primaryColor),
-                        )
-                      : Expanded(
+                    SizedBox(height: 2.h),
+                    // Expanded(
+                    //     child: ListView.builder(
+                    //         itemCount: 0,
+                    //         //s.length,
+                    //         padding: EdgeInsets.symmetric(
+                    //             horizontal: 3.w, vertical: 0.h),
+                    //         physics: AlwaysScrollableScrollPhysics(
+                    //             parent: const ClampingScrollPhysics()),
+                    //         shrinkWrap: true,
+                    //         itemBuilder: (_, i) => CustomerTile(
+                    //               position: (i + 1) >= 1 && (i + 1) <= 3
+                    //                   ? (i + 1)
+                    //                   : null,
+                    //             ))),
+                    val.loading
+                        ? Center(child: CircularProgressIndicator(color: MyColors().primaryColor))
+                        : Expanded(
                           child: SingleChildScrollView(
                             physics: const AlwaysScrollableScrollPhysics(),
-                            child: (val.customersList.isEmpty)
-                                ? Column(
-                                    children: [
-                                      SizedBox(height: 20.h),
-                                      Center(
-                                        child: CustomEmptyData(
-                                          title: 'No Customers Found',
-                                          hasLoader: false,
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                : ListView(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 3.w, vertical: 0.h),
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    children: [
-                                      for (int i = 0;
-                                          i < val.customersList.length;
-                                          i++)
-                                        CustomerTile(
-                                          model: val.customersList[i],
-                                          position: (i + 1) >= 1 && (i + 1) <= 3
-                                              ? (i + 1)
-                                              : null,
-                                        )
-                                    ],
-                                  ),
+                            child:
+                                (val.customersList.isEmpty)
+                                    ? Column(
+                                      children: [
+                                        SizedBox(height: 20.h),
+                                        Center(child: CustomEmptyData(title: 'No Customers Found', hasLoader: false)),
+                                      ],
+                                    )
+                                    : ListView(
+                                      padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.h),
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      children: [
+                                        for (int i = 0; i < val.customersList.length; i++)
+                                          CustomerTile(
+                                            model: val.customersList[i],
+                                            position: (i + 1) >= 1 && (i + 1) <= 3 ? (i + 1) : null,
+                                          ),
+                                      ],
+                                    ),
                           ),
-                        )
-                ],
-              ),
-            );
-          }),
+                        ),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -181,23 +163,24 @@ class _CustomersState extends State<Customers> {
 
   rejectDialog({required Function onTap}) {
     return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: AlertDialog(
-              backgroundColor: Colors.transparent,
-              contentPadding: const EdgeInsets.all(0),
-              insetPadding: EdgeInsets.symmetric(horizontal: 4.w),
-              content: RejectDialog(
-                onYes: (v) {
-                  onTap();
-                },
-              ),
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: AlertDialog(
+            backgroundColor: Colors.transparent,
+            contentPadding: const EdgeInsets.all(0),
+            insetPadding: EdgeInsets.symmetric(horizontal: 4.w),
+            content: RejectDialog(
+              onYes: (v) {
+                onTap();
+              },
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -210,8 +193,10 @@ class CustomerTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        AppNavigation.navigateTo(AppRouteName.CustomerProfile,
-            arguments: ProfileScreenArguments(isMe: false, user: model));
+        AppNavigation.navigateTo(
+          AppRouteName.CustomerProfile,
+          arguments: ProfileScreenArguments(isMe: false, user: model),
+        );
       },
       child: Stack(
         children: [
@@ -244,44 +229,41 @@ class CustomerTile extends StatelessWidget {
                 //   ),
                 // ),
                 CustomImage(
-                    height: 40,
-                    width: 40,
-                    border: true,
-                    shape: BoxShape.circle,
-                    fit: BoxFit.cover,
-                    borderRadius: BorderRadius.circular(10),
-                    url: model?.profileImage ?? ""),
-                SizedBox(
-                  width: 2.w,
+                  height: 40,
+                  width: 40,
+                  border: true,
+                  shape: BoxShape.circle,
+                  fit: BoxFit.cover,
+                  borderRadius: BorderRadius.circular(10),
+                  url: model?.profileImage ?? "",
                 ),
+                SizedBox(width: 2.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                          width: 80.w,
-                          child: MyText(
-                              title:
-                                  "${model?.name ?? ""} ${model?.lastName ?? ""}",
-                              fontWeight: FontWeight.w600,
-                              size: 14,
-                              toverflow: TextOverflow.ellipsis)),
-                      SizedBox(
-                        height: .15.h,
+                        width: 80.w,
+                        child: MyText(
+                          title: "${model?.name ?? ""} ${model?.lastName ?? ""}",
+                          fontWeight: FontWeight.w600,
+                          size: 14,
+                          toverflow: TextOverflow.ellipsis,
+                        ),
                       ),
+                      SizedBox(height: .15.h),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const MyText(
-                              title: 'Offers Redeemed:  ',
-                              fontWeight: FontWeight.w400,
-                              size: 10),
+                          const MyText(title: 'Offers Redeemed:  ', fontWeight: FontWeight.w400, size: 10),
                           Expanded(
-                              child: MyText(
-                                  title: model?.offerCount.toString() ?? "0",
-                                  clr: MyColors().primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                  size: 13))
+                            child: MyText(
+                              title: model?.offerCount.toString() ?? "0",
+                              clr: MyColors().primaryColor,
+                              fontWeight: FontWeight.bold,
+                              size: 13,
+                            ),
+                          ),
                         ],
                       ),
                       // Row(
@@ -318,9 +300,7 @@ class CustomerTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(
-                  width: 2.w,
-                ),
+                SizedBox(width: 2.w),
               ],
             ),
           ),
@@ -328,14 +308,15 @@ class CustomerTile extends StatelessWidget {
             Align(
               alignment: Alignment.topRight,
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 13, vertical: 11),
+                padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 11),
                 decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(10),
-                        bottomLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10)),
-                    color: MyColors().primaryColor),
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                  ),
+                  color: MyColors().primaryColor,
+                ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -352,7 +333,7 @@ class CustomerTile extends StatelessWidget {
                   ],
                 ),
               ),
-            )
+            ),
         ],
       ),
     );

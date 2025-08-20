@@ -4,14 +4,11 @@ import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Service/socket_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/utils.dart';
-import 'package:backyard/View/Business/create_offer.dart';
 import 'package:backyard/View/Business/customers.dart';
 import 'package:backyard/View/Common/Settings/settings.dart';
 import 'package:backyard/View/User/category.dart';
 import 'package:backyard/main.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:backyard/Controller/home_controller.dart';
@@ -27,6 +24,8 @@ import 'package:provider/provider.dart';
 import 'User/user_home.dart';
 
 class HomeView extends StatefulWidget {
+  const HomeView({super.key});
+
   @override
   State<HomeView> createState() => _HomeViewState();
 }
@@ -38,8 +37,7 @@ class _HomeViewState extends State<HomeView> {
   late final business =
       (navigatorKey.currentContext?.read<UserController>().isSwitch ?? false)
           ? false
-          : navigatorKey.currentContext?.read<UserController>().user?.role ==
-              Role.Business;
+          : navigatorKey.currentContext?.read<UserController>().user?.role == Role.Business;
 
   void setIndex(int val) {
     navigatorKey.currentContext?.read<HomeController>().setIndex(val);
@@ -52,10 +50,9 @@ class _HomeViewState extends State<HomeView> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       navigatorKey.currentContext?.read<HomeController>().setIndex(0);
       SocketService.instance?.socketEmitMethod(
-          eventName: "get_user",
-          eventParamaters: {
-            "id": context.read<UserController>().user?.id?.toString()
-          });
+        eventName: "get_user",
+        eventParamaters: {"id": context.read<UserController>().user?.id?.toString()},
+      );
     });
     // TODO: implement initState
     super.initState();
@@ -69,153 +66,136 @@ class _HomeViewState extends State<HomeView> {
         return onWillPop(context);
       },
       child: Consumer2<HomeController, UserController>(
-          builder: (context, val, val2, _) {
-        return Scaffold(
-          key: key,
-          backgroundColor: Colors.white,
-          resizeToAvoidBottomInset: false,
-          // extendBodyBehindAppBar: true,
-          drawer: CustomDrawer(),
-          // body: GetBuilder<HomeController>(
-          //     builder: (context) {
-          //       return business? (businessPages[h.currentval.currentIndex.value]):userPages[h.currentval.currentIndex.value];
-          //     }
-          // ),
-          // bottomNavigationBar: CustomBottomBar(),
+        builder: (context, val, val2, _) {
+          return Scaffold(
+            key: key,
+            backgroundColor: Colors.white,
+            resizeToAvoidBottomInset: false,
+            // extendBodyBehindAppBar: true,
+            drawer: CustomDrawer(),
 
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: (!business)
-              ? null
-              : GestureDetector(
-                  onTap: () {
-                    if (val2.user?.subId != null && val2.user?.subId != 4) {
-                      AppNavigation.navigateTo(AppRouteName.CREATE_OFFER_ROUTE);
-                    } else {
-                      // AppNavigation.navigateTo(
-                      //     AppRouteName.SUBSCRIPTION_SCREEN_ROUTE);
-                      AppNavigation.navigateTo(AppRouteName.CONTENT_SCREEN,
-                          arguments: ContentRoutingArgument(
+            // body: GetBuilder<HomeController>(
+            //     builder: (context) {
+            //       return business? (businessPages[h.currentval.currentIndex.value]):userPages[h.currentval.currentIndex.value];
+            //     }
+            // ),
+            // bottomNavigationBar: CustomBottomBar(),
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            floatingActionButton:
+                (!business)
+                    ? null
+                    : GestureDetector(
+                      onTap: () {
+                        if (val2.user?.subId != null && val2.user?.subId != 4) {
+                          AppNavigation.navigateTo(AppRouteName.CREATE_OFFER_ROUTE);
+                        } else {
+                          // AppNavigation.navigateTo(
+                          //     AppRouteName.SUBSCRIPTION_SCREEN_ROUTE);
+                          AppNavigation.navigateTo(
+                            AppRouteName.CONTENT_SCREEN,
+                            arguments: ContentRoutingArgument(
                               title: 'Subscriptions',
                               contentType: "Subscriptions",
-                              url: 'https://www.google.com/'));
-                      CustomToast().showToast(
-                          message: "You Need to Subscribe to Create an Offer.");
-                    }
-                  },
-                  child: Container(
-                    height: 50.h,
-                    width: 50.h,
-                    decoration: BoxDecoration(
-                        color: MyColors().whiteColor, shape: BoxShape.circle),
-                    child: Image.asset(ImagePath.add,
-                        fit: BoxFit.fitHeight, color: Color(activeColor)),
-                  ),
-                ),
-          bottomNavigationBar: Container(
-            height: 90,
-            width: 1.sw,
-            padding: EdgeInsets.symmetric(
-                horizontal: 19.sp, vertical: Utils.isTablet ? 5.5.sp : 15.sp),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: const [
-                  BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(0, -5),
-                      blurRadius: 10)
-                ]),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                for (int i = 0; i < userTabs.length; i++)
-                  Padding(
-                    padding: EdgeInsets.only(
-                        right: business
-                            ? ((i == ((businessTab.length / 2) - 1)) ? 10.w : 0)
-                            : 0,
-                        left: business
-                            ? ((i == (businessTab.length / 2)) ? 10.w : 0)
-                            : 0),
-                    child: GestureDetector(
-                      onTap: () => setIndex(i),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(
-                              business
-                                  ? (businessTab[i]["icon"] ?? "")
-                                  : (userTabs[i]["icon"] ?? ""),
-                              scale: 1,
-                              fit: BoxFit.fitHeight,
-                              color: Color(val.currentIndex == i
-                                  ? activeColor
-                                  : inActiveColor),
-                              height: Utils.isTablet ? 11.sp : 22.sp),
-                          const SizedBox(height: 6),
-                          Text(
-                            business
-                                ? (businessTab[i]["title"] ?? "")
-                                : (userTabs[i]["title"] ?? ""),
-                            style: TextStyle(
-                              color: Color(val.currentIndex == i
-                                  ? activeColor
-                                  : inActiveColor),
-                              fontWeight: val.currentIndex == i
-                                  ? FontWeight.w600
-                                  : FontWeight.w500,
-                              fontSize: val.currentIndex == i
-                                  ? (Utils.isTablet ? 8.sp : 14.sp)
-                                  : (Utils.isTablet ? 7.sp : 12.sp),
+                              url: 'https://www.google.com/',
                             ),
-                          )
-                        ],
+                          );
+                          CustomToast().showToast(message: "You Need to Subscribe to Create an Offer.");
+                        }
+                      },
+                      child: Container(
+                        height: 50.h,
+                        width: 50.h,
+                        decoration: BoxDecoration(color: MyColors().whiteColor, shape: BoxShape.circle),
+                        child: Image.asset(ImagePath.add, fit: BoxFit.fitHeight, color: Color(activeColor)),
                       ),
                     ),
-                  ),
-              ],
+            bottomNavigationBar: Container(
+              height: 90,
+              width: 1.sw,
+              padding: EdgeInsets.symmetric(horizontal: 19.sp, vertical: Utils.isTablet ? 5.5.sp : 15.sp),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: const [BoxShadow(color: Colors.black12, offset: Offset(0, -5), blurRadius: 10)],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (int i = 0; i < userTabs.length; i++)
+                    Padding(
+                      padding: EdgeInsets.only(
+                        right: business ? ((i == ((businessTab.length / 2) - 1)) ? 10.w : 0) : 0,
+                        left: business ? ((i == (businessTab.length / 2)) ? 10.w : 0) : 0,
+                      ),
+                      child: GestureDetector(
+                        onTap: () => setIndex(i),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(
+                              business ? (businessTab[i]["icon"] ?? "") : (userTabs[i]["icon"] ?? ""),
+                              scale: 1,
+                              fit: BoxFit.fitHeight,
+                              color: Color(val.currentIndex == i ? activeColor : inActiveColor),
+                              height: Utils.isTablet ? 11.sp : 22.sp,
+                            ),
+                            const SizedBox(height: 6),
+                            Text(
+                              business ? (businessTab[i]["title"] ?? "") : (userTabs[i]["title"] ?? ""),
+                              style: TextStyle(
+                                color: Color(val.currentIndex == i ? activeColor : inActiveColor),
+                                fontWeight: val.currentIndex == i ? FontWeight.w600 : FontWeight.w500,
+                                fontSize:
+                                    val.currentIndex == i
+                                        ? (Utils.isTablet ? 8.sp : 14.sp)
+                                        : (Utils.isTablet ? 7.sp : 12.sp),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
-          ),
-          body: (business)
-              ? businessPages[val.currentIndex]
-              : userPages[val.currentIndex],
+            body: (business) ? businessPages[val.currentIndex] : userPages[val.currentIndex],
 
-          // :
-          // PersistentTabView(
-          //     context,
-          //     controller: val.homeBottom,
-          //     screens: businessPages,
-          //     // (trainer? (trainerPages[h.currentval.currentIndex.value]):traineePages[h.currentval.currentIndex.value]),
-          //     items: businessTab,
-          //     confineToSafeArea: false,
-          //     navBarHeight: 65,
-          //     stateManagement: false,
-          //     backgroundColor:
-          //         Colors.white, // Customize the background color
-          //     handleAndroidBackButtonPress: true,
-          //     resizeToAvoidBottomInset: false,
-          //     decoration: NavBarDecoration(
-          //       borderRadius: BorderRadius.circular(0.0),
-          //       colorBehindNavBar: Colors.white,
-          //       boxShadow: [
-          //         BoxShadow(
-          //           color: Colors.black.withOpacity(0.2), // Shadow color
-          //           blurRadius: 10, // Spread of the shadow
-          //           spreadRadius: 5, // Size of the shadow
-          //           offset: const Offset(0, 4), // Position of the shadow
-          //         ),
-          //       ],
-          //     ),
-          //     bottomScreenMargin: 75,
-          //     padding: EdgeInsets.only(top: 0, bottom: 10),
-          //     // margin: const EdgeInsets.symmetric(vertical: 50), // Adjust the margin if needed
-          //     navBarStyle: NavBarStyle.style15, // Set the style to style15
-          //   ),
-          extendBody: false,
-        );
-      }),
+            // :
+            // PersistentTabView(
+            //     context,
+            //     controller: val.homeBottom,
+            //     screens: businessPages,
+            //     // (trainer? (trainerPages[h.currentval.currentIndex.value]):traineePages[h.currentval.currentIndex.value]),
+            //     items: businessTab,
+            //     confineToSafeArea: false,
+            //     navBarHeight: 65,
+            //     stateManagement: false,
+            //     backgroundColor:
+            //         Colors.white, // Customize the background color
+            //     handleAndroidBackButtonPress: true,
+            //     resizeToAvoidBottomInset: false,
+            //     decoration: NavBarDecoration(
+            //       borderRadius: BorderRadius.circular(0.0),
+            //       colorBehindNavBar: Colors.white,
+            //       boxShadow: [
+            //         BoxShadow(
+            //           color: Colors.black.withOpacity(0.2), // Shadow color
+            //           blurRadius: 10, // Spread of the shadow
+            //           spreadRadius: 5, // Size of the shadow
+            //           offset: const Offset(0, 4), // Position of the shadow
+            //         ),
+            //       ],
+            //     ),
+            //     bottomScreenMargin: 75,
+            //     padding: EdgeInsets.only(top: 0, bottom: 10),
+            //     // margin: const EdgeInsets.symmetric(vertical: 50), // Adjust the margin if needed
+            //     navBarStyle: NavBarStyle.style15, // Set the style to style15
+            //   ),
+            extendBody: false,
+          );
+        },
+      ),
     );
   }
 
@@ -231,10 +211,7 @@ class _HomeViewState extends State<HomeView> {
     const Customers(),
     // CreateOffer(),
     const Settings(),
-    UserProfile(
-      isUser: true,
-      isMe: true,
-    )
+    UserProfile(isUser: true, isMe: true),
   ];
 
   // List<PersistentBottomNavBarItem> userTab = <PersistentBottomNavBarItem>[

@@ -41,12 +41,7 @@ class MyTextField extends StatefulWidget {
   final bool? fullBorder;
   final bool? validate;
   bool showLabel = false;
-  final bool? readOnly,
-      cardFormat,
-      cardExpiration,
-      contact,
-      onlyNumber,
-      numberWithDecimal;
+  final bool? readOnly, cardFormat, cardExpiration, contact, onlyNumber, numberWithDecimal;
   final int? maxLength, minLines, maxLines;
   final bool? filed;
   final bool? enable;
@@ -59,60 +54,61 @@ class MyTextField extends StatefulWidget {
   final TextAlign? textAlign;
   static const Color _textFieldThemeColor = Color(0xff707070);
 
-  MyTextField(
-      {super.key,
-      this.onChanged,
-      this.inputAction,
-      this.elevation,
-      this.maxLength,
-      this.textAlign,
-      this.suffixIconConstraints,
-      this.horizontalPadding,
-      this.width,
-      this.validate,
-      this.showLabel = false,
-      this.inputFormate,
-      this.onlyNumber,
-      this.cardExpiration,
-      this.fontSize,
-      this.prefixText,
-      this.height,
-      this.contact,
-      this.numberWithDecimal,
-      this.fullBorder,
-      this.borderColor = Colors.white,
-      this.inputDecoration,
-      this.cardFormat,
-      this.multiIcon,
-      this.title,
-      this.onTap,
-      this.controller,
-      this.verticalPadding,
-      this.borderRadius = 10,
-      this.validation,
-      this.onFieldSubmit,
-      this.hintText,
-      this.onTapSuffixIcon,
-      this.suffixIconData,
-      this.prefixIconData,
-      this.prefixIconSize,
-      this.onTapPrefixIcon,
-      this.focusNode,
-      this.backgroundColor,
-      this.hintTextColor = const Color(0xff374856),
-      this.cursorColor = _textFieldThemeColor,
-      this.textColor = Colors.black,
-      this.prefixIconColor,
-      this.sufixIconColor = _textFieldThemeColor,
-      this.prefixWidget,
-      this.inputType = TextInputType.text,
-      this.obscureText = false,
-      this.suffixIcons,
-      this.readOnly,
-      this.filed,
-      this.minLines,
-      this.maxLines,
-      this.enable});
+  MyTextField({
+    super.key,
+    this.onChanged,
+    this.inputAction,
+    this.elevation,
+    this.maxLength,
+    this.textAlign,
+    this.suffixIconConstraints,
+    this.horizontalPadding,
+    this.width,
+    this.validate,
+    this.showLabel = false,
+    this.inputFormate,
+    this.onlyNumber,
+    this.cardExpiration,
+    this.fontSize,
+    this.prefixText,
+    this.height,
+    this.contact,
+    this.numberWithDecimal,
+    this.fullBorder,
+    this.borderColor = Colors.white,
+    this.inputDecoration,
+    this.cardFormat,
+    this.multiIcon,
+    this.title,
+    this.onTap,
+    this.controller,
+    this.verticalPadding,
+    this.borderRadius = 10,
+    this.validation,
+    this.onFieldSubmit,
+    this.hintText,
+    this.onTapSuffixIcon,
+    this.suffixIconData,
+    this.prefixIconData,
+    this.prefixIconSize,
+    this.onTapPrefixIcon,
+    this.focusNode,
+    this.backgroundColor,
+    this.hintTextColor = const Color(0xff374856),
+    this.cursorColor = _textFieldThemeColor,
+    this.textColor = Colors.black,
+    this.prefixIconColor,
+    this.sufixIconColor = _textFieldThemeColor,
+    this.prefixWidget,
+    this.inputType = TextInputType.text,
+    this.obscureText = false,
+    this.suffixIcons,
+    this.readOnly,
+    this.filed,
+    this.minLines,
+    this.maxLines,
+    this.enable,
+  });
 
   @override
   _TextFieldState createState() => _TextFieldState();
@@ -121,32 +117,28 @@ class MyTextField extends StatefulWidget {
 class _TextFieldState extends State<MyTextField> {
   MyColors colors = MyColors();
   Responsive responsive = Responsive();
-  static MaskTextInputFormatter MASK_TEXT_FORMATTER_PHONE_NO =
-      MaskTextInputFormatter(
-          mask: '(###) ###-####',
-          filter: {"#": RegExp(r'[0-9]')},
-          type: MaskAutoCompletionType.lazy);
+  static MaskTextInputFormatter MASK_TEXT_FORMATTER_PHONE_NO = MaskTextInputFormatter(
+    mask: '(###) ###-####',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy,
+  );
   @override
   Widget build(BuildContext context) {
-    TextStyle textStyle = GoogleFonts.roboto(
-      fontSize: 14,
-      color: Theme.of(context).indicatorColor.withOpacity(0.8),
-    );
+    TextStyle textStyle = GoogleFonts.roboto(fontSize: 14, color: Theme.of(context).indicatorColor.withOpacity(0.8));
     responsive.setContext(context);
     return Container(
       // height: widget.height??7.h,
       width: widget.width,
       decoration: BoxDecoration(
-
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: colors.primaryColor.withOpacity(0.7),
-          //     spreadRadius: 5,
-          //     blurRadius: 7,
-          //     offset: Offset(0, 3), // changes position of shadow
-          //   ),
-          // ],
-          ), //alignment: Alignment.center,
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: colors.primaryColor.withOpacity(0.7),
+        //     spreadRadius: 5,
+        //     blurRadius: 7,
+        //     offset: Offset(0, 3), // changes position of shadow
+        //   ),
+        // ],
+      ), //alignment: Alignment.center,
       child: TextFormField(
         onTap: () {
           if (widget.onTap != null) {
@@ -174,15 +166,13 @@ class _TextFieldState extends State<MyTextField> {
         // inputFormatters:widget.inputFormate!=null?[widget.inputFormate!]:null ,
         inputFormatters: [
           if (widget.contact == true) MASK_TEXT_FORMATTER_PHONE_NO,
-          if (widget.cardFormat == true || widget.cardExpiration == true)
-            FilteringTextInputFormatter.digitsOnly,
+          if (widget.cardFormat == true || widget.cardExpiration == true) FilteringTextInputFormatter.digitsOnly,
           if (widget.cardFormat == true) CardNumberFormatter(),
           if (widget.cardExpiration == true) CardExpirationFormatter(),
           if (widget.onlyNumber == true) FilteringTextInputFormatter.digitsOnly,
-          if (widget.numberWithDecimal == true)
-            FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+          if (widget.numberWithDecimal == true) FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
           LengthLimitingTextInputFormatter(widget.maxLength),
-          if (widget.inputFormate != null) (widget.inputFormate!)
+          if (widget.inputFormate != null) (widget.inputFormate!),
         ],
         autofocus: false,
         // autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -192,13 +182,12 @@ class _TextFieldState extends State<MyTextField> {
           fontSize: widget.fontSize ?? (Utils.isTablet ? 6.sp : 11.sp),
         ),
         onFieldSubmitted: widget.onFieldSubmit,
-        decoration: widget.inputDecoration ??
+        decoration:
+            widget.inputDecoration ??
             InputDecoration(
               // counter:  (widget.counter==true)?const SizedBox():null,
               hoverColor: Colors.white,
-              labelText: widget.showLabel == true
-                  ? '   ${widget.title ?? widget.hintText}   '
-                  : null,
+              labelText: widget.showLabel == true ? '   ${widget.title ?? widget.hintText}   ' : null,
               labelStyle: textStyle.copyWith(color: widget.hintTextColor),
               hintText: widget.hintText,
               fillColor: widget.backgroundColor ?? MyColors().secondaryColor,
@@ -209,9 +198,10 @@ class _TextFieldState extends State<MyTextField> {
               //   fontSize: widget.fontSize??null
               // ),
               hintStyle: GoogleFonts.roboto(
-                  color: widget.hintTextColor ?? Colors.grey,
-                  fontSize: Utils.isTablet ? 6.sp : 11.sp,
-                  fontStyle: FontStyle.italic),
+                color: widget.hintTextColor ?? Colors.grey,
+                fontSize: Utils.isTablet ? 6.sp : 11.sp,
+                fontStyle: FontStyle.italic,
+              ),
 
               // errorStyle: textStyle.copyWith(
               //     fontWeight: FontWeight.w300,
@@ -243,114 +233,99 @@ class _TextFieldState extends State<MyTextField> {
               //           widget.onTapSuffixIcon!();
               //         },
               //         child: widget.suffixIconData),
-              prefixIcon: widget.prefixWidget ??
+              prefixIcon:
+                  widget.prefixWidget ??
                   (widget.prefixIconData == null
                       ? null
                       : GestureDetector(
-                          onTap: () {
-                            widget.onTapPrefixIcon!();
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(
-                                right: widget.horizontalPadding ?? 0),
-                            padding: EdgeInsets.symmetric(
-                                vertical: responsive.setHeight(0.3),
-                                horizontal: responsive.setWidth(5)),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: widget.filed == true
-                                    ? colors.prefixContainerColor
-                                    : Colors.transparent),
-                            child: Icon(
-                              widget.prefixIconData,
-                              color: widget.prefixIconColor ??
-                                  const Color(0xffFF6D09),
-                              size: widget.prefixIconSize != null
-                                  ? responsive.setWidth(widget.prefixIconSize)
-                                  : null,
-                            ),
+                        onTap: () {
+                          widget.onTapPrefixIcon!();
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(right: widget.horizontalPadding ?? 0),
+                          padding: EdgeInsets.symmetric(
+                            vertical: responsive.setHeight(0.3),
+                            horizontal: responsive.setWidth(5),
                           ),
-                        )),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: widget.filed == true ? colors.prefixContainerColor : Colors.transparent,
+                          ),
+                          child: Icon(
+                            widget.prefixIconData,
+                            color: widget.prefixIconColor ?? const Color(0xffFF6D09),
+                            size: widget.prefixIconSize != null ? responsive.setWidth(widget.prefixIconSize) : null,
+                          ),
+                        ),
+                      )),
               focusedBorder:
                   (widget.fullBorder == true || widget.fullBorder == null)
                       ? OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.circular(widget.borderRadius ?? 25),
-                          borderSide: BorderSide(
-                              color: widget.borderColor != null
-                                  ? widget.borderColor!
-                                  : MyColors().prefixContainerColor,
-                              width: 1),
-                        )
-                      : UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: widget.borderColor != null
-                                  ? widget.borderColor!
-                                  : widget.textColor!,
-                              width: 1),
+                        borderRadius: BorderRadius.circular(widget.borderRadius ?? 25),
+                        borderSide: BorderSide(
+                          color: widget.borderColor != null ? widget.borderColor! : MyColors().prefixContainerColor,
+                          width: 1,
                         ),
+                      )
+                      : UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: widget.borderColor != null ? widget.borderColor! : widget.textColor!,
+                          width: 1,
+                        ),
+                      ),
               // suffix: widget.suffixIcons,
               suffixIconConstraints: widget.suffixIconConstraints,
               enabledBorder:
                   (widget.fullBorder == true || widget.fullBorder == null)
                       ? OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.circular(widget.borderRadius ?? 25),
-                          borderSide: BorderSide(
-                              color: widget.borderColor != null
-                                  ? widget.borderColor!
-                                  : MyColors().prefixContainerColor,
-                              width: 1),
-                        )
-                      : UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: widget.borderColor != null
-                                  ? widget.borderColor!
-                                  : MyColors().hintColor,
-                              width: 1.5),
+                        borderRadius: BorderRadius.circular(widget.borderRadius ?? 25),
+                        borderSide: BorderSide(
+                          color: widget.borderColor != null ? widget.borderColor! : MyColors().prefixContainerColor,
+                          width: 1,
                         ),
+                      )
+                      : UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: widget.borderColor != null ? widget.borderColor! : MyColors().hintColor,
+                          width: 1.5,
+                        ),
+                      ),
               disabledBorder:
                   (widget.fullBorder == true || widget.fullBorder == null)
                       ? OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.circular(widget.borderRadius ?? 25),
-                          borderSide: BorderSide(
-                              color: widget.borderColor != null
-                                  ? widget.borderColor!
-                                  : MyColors().hintColor,
-                              width: 1),
-                        )
-                      : UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: widget.borderColor != null
-                                  ? widget.borderColor!
-                                  : MyColors().hintColor,
-                              width: 1),
+                        borderRadius: BorderRadius.circular(widget.borderRadius ?? 25),
+                        borderSide: BorderSide(
+                          color: widget.borderColor != null ? widget.borderColor! : MyColors().hintColor,
+                          width: 1,
                         ),
-              border: (widget.fullBorder == true || widget.fullBorder == null)
-                  ? OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(widget.borderRadius ?? 25),
-                      borderSide: BorderSide(
-                          color: widget.borderColor != null
-                              ? widget.borderColor!
-                              : MyColors().hintColor,
-                          width: 1),
-                    )
-                  : UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          color: widget.borderColor != null
-                              ? widget.borderColor!
-                              : MyColors().hintColor,
-                          width: 1),
-                    ),
+                      )
+                      : UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: widget.borderColor != null ? widget.borderColor! : MyColors().hintColor,
+                          width: 1,
+                        ),
+                      ),
+              border:
+                  (widget.fullBorder == true || widget.fullBorder == null)
+                      ? OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(widget.borderRadius ?? 25),
+                        borderSide: BorderSide(
+                          color: widget.borderColor != null ? widget.borderColor! : MyColors().hintColor,
+                          width: 1,
+                        ),
+                      )
+                      : UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: widget.borderColor != null ? widget.borderColor! : MyColors().hintColor,
+                          width: 1,
+                        ),
+                      ),
               errorMaxLines: 3,
               errorBorder: OutlineInputBorder(
-                  borderRadius:
-                      BorderRadius.circular(widget.borderRadius ?? 25),
-                  borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.error, width: 1),
-                  gapPadding: 30),
+                borderRadius: BorderRadius.circular(widget.borderRadius ?? 25),
+                borderSide: BorderSide(color: Theme.of(context).colorScheme.error, width: 1),
+                gapPadding: 30,
+              ),
             ),
       ),
     );
@@ -359,10 +334,7 @@ class _TextFieldState extends State<MyTextField> {
 
 class CardNumberFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue previousValue,
-    TextEditingValue nextValue,
-  ) {
+  TextEditingValue formatEditUpdate(TextEditingValue previousValue, TextEditingValue nextValue) {
     var inputText = nextValue.text;
 
     if (nextValue.selection.baseOffset == 0) {
@@ -379,19 +351,13 @@ class CardNumberFormatter extends TextInputFormatter {
     }
 
     var string = bufferString.toString();
-    return nextValue.copyWith(
-      text: string,
-      selection: TextSelection.collapsed(
-        offset: string.length,
-      ),
-    );
+    return nextValue.copyWith(text: string, selection: TextSelection.collapsed(offset: string.length));
   }
 }
 
 class CardExpirationFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     final newValueString = newValue.text;
     String valueToReturn = '';
 
@@ -399,17 +365,13 @@ class CardExpirationFormatter extends TextInputFormatter {
       if (newValueString[i] != '/') valueToReturn += newValueString[i];
       var nonZeroIndex = i + 1;
       final contains = valueToReturn.contains(RegExp(r'\/'));
-      if (nonZeroIndex % 2 == 0 &&
-          nonZeroIndex != newValueString.length &&
-          !(contains)) {
+      if (nonZeroIndex % 2 == 0 && nonZeroIndex != newValueString.length && !(contains)) {
         valueToReturn += '/';
       }
     }
     return newValue.copyWith(
       text: valueToReturn,
-      selection: TextSelection.fromPosition(
-        TextPosition(offset: valueToReturn.length),
-      ),
+      selection: TextSelection.fromPosition(TextPosition(offset: valueToReturn.length)),
     );
   }
 }

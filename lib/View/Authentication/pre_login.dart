@@ -37,45 +37,35 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
     if (internet) {
       try {
         final credential = await SignInWithApple.getAppleIDCredential(
-          scopes: [
-            AppleIDAuthorizationScopes.email,
-            AppleIDAuthorizationScopes.fullName
-          ],
+          scopes: [AppleIDAuthorizationScopes.email, AppleIDAuthorizationScopes.fullName],
         );
 
-        if (credential != null) {
-          String name =
-              "${(credential.givenName ?? "")} ${(credential.familyName ?? '')}";
-          String email = credential.email ?? '';
+        String name = "${(credential.givenName ?? "")} ${(credential.familyName ?? '')}";
+        String email = credential.email ?? '';
 
-          if (name.trim().isEmpty) {
-            Map<String, dynamic> decodedToken =
-                JwtDecoder.decode(credential.identityToken ?? "");
-            String temp = decodedToken["email"] ?? "";
-            name = temp.isNotEmpty ? temp.split("@").first : temp;
-          }
-
-          if (await AuthAPIS.socialLogin(
-              socialType: 'apple',
-              email: email,
-              socialToken: credential.userIdentifier ?? "",
-              name: name)) {
-            AppNavigation.navigatorPop();
-            CustomToast().showToast(message: "logged in succesfully");
-            AppNavigation.navigateToRemovingAll(AppRouteName.HOME_SCREEN_ROUTE);
-          } else {
-            //await auth.signOut();
-            AppNavigation.navigatorPop();
-            if (userController.user?.isProfileCompleted == 0) {
-              AppNavigation.navigateTo(
-                  AppRouteName.COMPLETE_PROFILE_SCREEN_ROUTE);
-            }
-          }
-        } else {
-          AppNavigation.navigatorPop();
-          CustomToast().showToast(message: 'Apple sign-in error');
+        if (name.trim().isEmpty) {
+          Map<String, dynamic> decodedToken = JwtDecoder.decode(credential.identityToken ?? "");
+          String temp = decodedToken["email"] ?? "";
+          name = temp.isNotEmpty ? temp.split("@").first : temp;
         }
-      } catch (error) {
+
+        if (await AuthAPIS.socialLogin(
+          socialType: 'apple',
+          email: email,
+          socialToken: credential.userIdentifier ?? "",
+          name: name,
+        )) {
+          AppNavigation.navigatorPop();
+          CustomToast().showToast(message: "logged in succesfully");
+          AppNavigation.navigateToRemovingAll(AppRouteName.HOME_SCREEN_ROUTE);
+        } else {
+          //await auth.signOut();
+          AppNavigation.navigatorPop();
+          if (userController.user?.isProfileCompleted == 0) {
+            AppNavigation.navigateTo(AppRouteName.COMPLETE_PROFILE_SCREEN_ROUTE);
+          }
+        }
+            } catch (error) {
         AppNavigation.navigatorPop();
         CustomToast().showToast(message: 'Apple sign-in error: $error');
       }
@@ -90,30 +80,25 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
     final bool internet = await AppNetwork.checkInternet();
     if (internet) {
       FirebaseAuth auth = FirebaseAuth.instance;
-      GoogleSignIn googleSignIn = GoogleSignIn(
-        scopes: ['email', 'profile'],
-      );
+      GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
       try {
-        GoogleSignIn _googleSignIn = GoogleSignIn(
-          scopes: ['email'],
-        );
+        GoogleSignIn googleSignIn0 = GoogleSignIn(scopes: ['email']);
 
-        GoogleSignInAccount? _googleSignInAccount =
-            await _googleSignIn.signIn();
+        GoogleSignInAccount? googleSignInAccount = await googleSignIn0.signIn();
 
-        if (_googleSignInAccount != null) {
+        if (googleSignInAccount != null) {
           await googleSignIn.signOut();
           if (await AuthAPIS.socialLogin(
-              socialType: 'google',
-              socialToken: _googleSignInAccount.id ?? "",
-              name: _googleSignInAccount.displayName ?? "")) {
+            socialType: 'google',
+            socialToken: googleSignInAccount.id ?? "",
+            name: googleSignInAccount.displayName ?? "",
+          )) {
             AppNavigation.navigatorPop();
             CustomToast().showToast(message: "logged in succesfully");
             AppNavigation.navigateToRemovingAll(AppRouteName.HOME_SCREEN_ROUTE);
           } else {
             if (userController.user?.isProfileCompleted == 0) {
-              AppNavigation.navigateTo(
-                  AppRouteName.COMPLETE_PROFILE_SCREEN_ROUTE);
+              AppNavigation.navigateTo(AppRouteName.COMPLETE_PROFILE_SCREEN_ROUTE);
             }
           }
         } else {
@@ -140,78 +125,58 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // Align(alignment: Alignment.centerLeft, child: CustomBackButton(color: MyColors().whiteColor,)),
-              SizedBox(
-                height: 3.h,
-              ),
-              AppLogo(
-                onTap: () {},
-              ),
-              SizedBox(
-                height: 4.h,
-              ),
-              MyText(
-                title: 'Login',
-                size: 20,
-                fontWeight: FontWeight.w600,
-              ),
-              SizedBox(
-                height: 4.h,
-              ),
+              SizedBox(height: 3.h),
+              AppLogo(onTap: () {}),
+              SizedBox(height: 4.h),
+              MyText(title: 'Login', size: 20, fontWeight: FontWeight.w600),
+              SizedBox(height: 4.h),
               MyButton(
-                  prefixIconPath: ImagePath.email,
-                  showPrefix: true,
-                  prefixIconSize: 2,
-                  title: 'Sign in with Email',
-                  onTap: () {
-                    AppNavigation.navigateTo(
-                      AppRouteName.LOGIN_SCREEN_ROUTE,
-                    );
-                  }),
-              SizedBox(
-                height: 2.h,
+                prefixIconPath: ImagePath.email,
+                showPrefix: true,
+                prefixIconSize: 2,
+                title: 'Sign in with Email',
+                onTap: () {
+                  AppNavigation.navigateTo(AppRouteName.LOGIN_SCREEN_ROUTE);
+                },
               ),
+              SizedBox(height: 2.h),
               MyButton(
-                  title: 'Sign in with Phone Number',
-                  prefixIconPath: ImagePath.phone,
-                  showPrefix: true,
-                  prefixIconSize: 2,
-                  bgColor: MyColors().greenColor,
-                  gradient: false,
-                  onTap: () {
-                    AppNavigation.navigateTo(
-                      AppRouteName.PHONE_LOGIN_SCREEN_ROUTE,
-                    );
-                  }),
-              SizedBox(
-                height: 2.h,
+                title: 'Sign in with Phone Number',
+                prefixIconPath: ImagePath.phone,
+                showPrefix: true,
+                prefixIconSize: 2,
+                bgColor: MyColors().greenColor,
+                gradient: false,
+                onTap: () {
+                  AppNavigation.navigateTo(AppRouteName.PHONE_LOGIN_SCREEN_ROUTE);
+                },
               ),
+              SizedBox(height: 2.h),
               MyButton(
-                  title: 'Sign in with Google',
-                  bgColor: MyColors().gPayColor,
-                  prefixIconPath: ImagePath.google,
-                  prefixIconSize: 2,
-                  showPrefix: true,
-                  gradient: false,
-                  onTap: googleFunction),
+                title: 'Sign in with Google',
+                bgColor: MyColors().gPayColor,
+                prefixIconPath: ImagePath.google,
+                prefixIconSize: 2,
+                showPrefix: true,
+                gradient: false,
+                onTap: googleFunction,
+              ),
               if (Platform.isIOS) ...[
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 MyButton(
-                    title: 'Sign in with Apple',
-                    textColor: MyColors().black,
-                    bgColor: MyColors().whiteColor,
-                    prefixIconPath: ImagePath.apple,
-                    showPrefix: true,
-                    gradient: false,
-                    prefixIconSize: 2,
-                    onTap: appleFunction),
+                  title: 'Sign in with Apple',
+                  textColor: MyColors().black,
+                  bgColor: MyColors().whiteColor,
+                  prefixIconPath: ImagePath.apple,
+                  showPrefix: true,
+                  gradient: false,
+                  prefixIconSize: 2,
+                  onTap: appleFunction,
+                ),
               ],
               const Spacer(),
               const CustomTermsCondition(),
-              SizedBox(
-                height: 4.h,
-              ),
+              SizedBox(height: 4.h),
             ],
           ),
         ),

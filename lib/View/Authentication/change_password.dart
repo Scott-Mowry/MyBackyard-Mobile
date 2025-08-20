@@ -59,33 +59,17 @@ class _ChangePasswordState extends State<ChangePassword> {
         topPadding: 6.h,
         child: Column(
           children: [
-            CustomAppBar(
-              screenTitle: '',
-              leading: CustomBackButton(),
-              bottom: 6.h,
-            ),
-            AppLogo(
-              onTap: () {},
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
+            CustomAppBar(screenTitle: '', leading: CustomBackButton(), bottom: 6.h),
+            AppLogo(onTap: () {}),
+            SizedBox(height: 2.h),
             Expanded(
               child: SingleChildScrollView(
                 physics: const ClampingScrollPhysics(),
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: 2.h,
-                    ),
-                    const MyText(
-                      title: 'Change Password',
-                      size: 20,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    SizedBox(
-                      height: 2.h,
-                    ),
+                    SizedBox(height: 2.h),
+                    const MyText(title: 'Change Password', size: 20, fontWeight: FontWeight.w600),
+                    SizedBox(height: 2.h),
                     Form(
                       key: _form,
                       child: Column(
@@ -95,10 +79,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             controller: password,
                             maxLength: 35,
                             inputType: TextInputType.emailAddress,
-                            prefixWidget: Icon(
-                              Icons.lock,
-                              color: MyColors().primaryColor,
-                            ),
+                            prefixWidget: Icon(Icons.lock, color: MyColors().primaryColor),
                             obscureText: show,
                             suffixIcons: GestureDetector(
                               onTap: hideShow,
@@ -116,17 +97,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                             controller: confPassword,
                             maxLength: 35,
                             inputType: TextInputType.emailAddress,
-                            prefixWidget: Icon(
-                              Icons.lock,
-                              color: MyColors().primaryColor,
-                            ),
+                            prefixWidget: Icon(Icons.lock, color: MyColors().primaryColor),
                             obscureText: show2,
                             suffixIcons: GestureDetector(
                               onTap: hideShow2,
                               child: Image.asset(
-                                show2
-                                    ? ImagePath.showPass2
-                                    : ImagePath.showPass,
+                                show2 ? ImagePath.showPass2 : ImagePath.showPass,
                                 scale: 3,
                                 color: MyColors().primaryColor,
                               ),
@@ -146,14 +122,13 @@ class _ChangePasswordState extends State<ChangePassword> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 2.h,
-                    ),
+                    SizedBox(height: 2.h),
                     MyButton(
-                        title: 'Change',
-                        onTap: () {
-                          onSubmit();
-                        }),
+                      title: 'Change',
+                      onTap: () {
+                        onSubmit();
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -169,15 +144,13 @@ class _ChangePasswordState extends State<ChangePassword> {
       FocusManager.instance.primaryFocus?.unfocus();
       AppNetwork.loadingProgressIndicator();
       final user = context.read<UserController>().user;
-      final val = await AuthAPIS.changePassword(
-          id: user?.id ?? 0, password: password.text);
+      final val = await AuthAPIS.changePassword(id: user?.id ?? 0, password: password.text);
       AppNavigation.navigatorPop();
       if (val) {
         if (widget.fromSettings ?? false) {
           AppNavigation.navigatorPop();
         } else {
-          Navigator.popUntil(
-              navigatorKey.currentContext!, (route) => route.isFirst);
+          Navigator.popUntil(navigatorKey.currentContext!, (route) => route.isFirst);
         }
       }
     }

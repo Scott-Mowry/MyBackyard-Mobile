@@ -3,22 +3,21 @@ import 'package:flutter/material.dart';
 
 class AppNavigation {
   AppNavigation._();
-  static void navigateToRemovingAll(String routeName,
-      {Object? arguments}) async {
-    Navigator.pushNamedAndRemoveUntil(navigatorKey.currentContext!, routeName,
-        (Route<dynamic> route) => false,
-        arguments: arguments);
+  static void navigateToRemovingAll(String routeName, {Object? arguments}) async {
+    Navigator.pushNamedAndRemoveUntil(
+      navigatorKey.currentContext!,
+      routeName,
+      (Route<dynamic> route) => false,
+      arguments: arguments,
+    );
   }
 
   static void navigateTo(String routeName, {Object? arguments}) async {
-    Navigator.pushNamed(navigatorKey.currentContext!, routeName,
-        arguments: arguments);
+    Navigator.pushNamed(navigatorKey.currentContext!, routeName, arguments: arguments);
   }
 
-  static void navigateReplacementNamed(String routeName,
-      {Object? arguments}) async {
-    Navigator.pushReplacementNamed(navigatorKey.currentContext!, routeName,
-        arguments: arguments);
+  static void navigateReplacementNamed(String routeName, {Object? arguments}) async {
+    Navigator.pushReplacementNamed(navigatorKey.currentContext!, routeName, arguments: arguments);
   }
 
   static void navigatorPop() {

@@ -12,20 +12,20 @@ class CustomSwitch extends StatefulWidget {
   Color? inActiveColor;
   double? height, width;
   final Function(bool) onChange, onChange2;
-  CustomSwitch(
-      {Key? key,
-      this.switchName,
-      this.switchValue,
-      this.toggleValue1,
-      this.inActiveColor,
-      this.height,
-      this.width,
-      this.toggleValue2,
-      this.toggleWidth,
-      this.toggleColor,
-      required this.onChange,
-      required this.onChange2})
-      : super(key: key);
+  CustomSwitch({
+    super.key,
+    this.switchName,
+    this.switchValue,
+    this.toggleValue1,
+    this.inActiveColor,
+    this.height,
+    this.width,
+    this.toggleValue2,
+    this.toggleWidth,
+    this.toggleColor,
+    required this.onChange,
+    required this.onChange2,
+  });
 
   @override
   State<CustomSwitch> createState() => _CustomSwitchState();
@@ -39,8 +39,7 @@ class _CustomSwitchState extends State<CustomSwitch> {
     responsive.setContext(context);
     return FlutterSwitch(
       width: responsive.setWidth(widget.width ?? (Utils.isTablet ? 7 : 12)),
-      height:
-          responsive.setHeight(widget.height ?? (Utils.isTablet ? 2.7 : 3.2)),
+      height: responsive.setHeight(widget.height ?? (Utils.isTablet ? 2.7 : 3.2)),
       valueFontSize: 10,
       toggleSize: responsive.setTextScale(20),
       value: widget.switchValue ?? false,

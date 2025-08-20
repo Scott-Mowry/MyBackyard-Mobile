@@ -8,7 +8,7 @@ import 'package:backyard/Utils/my_colors.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfileCompleteDialog extends StatefulWidget {
-  ProfileCompleteDialog({required this.onYes});
+  ProfileCompleteDialog({super.key, required this.onYes});
   Function onYes;
 
   @override
@@ -19,10 +19,7 @@ class _ProfileCompleteDialogState extends State<ProfileCompleteDialog> {
   @override
   Widget build(BuildContext c) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-      ),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
       // height: responsive.setHeight(75),
       width: 100.w,
       child: SingleChildScrollView(
@@ -31,34 +28,22 @@ class _ProfileCompleteDialogState extends State<ProfileCompleteDialog> {
           children: [
             Container(
               decoration: BoxDecoration(
-                  color: MyColors().primaryColor,
-                  borderRadius:
-                      const BorderRadius.vertical(top: Radius.circular(20))),
+                color: MyColors().primaryColor,
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+              ),
               padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.w),
               margin: EdgeInsets.symmetric(vertical: 1.w, horizontal: 1.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Image.asset(
-                    ImagePath.close,
-                    scale: 2,
-                    color: Colors.transparent,
-                  ),
-                  MyText(
-                    title: 'Successfully',
-                    clr: MyColors().whiteColor,
-                    fontWeight: FontWeight.w600,
-                    size: 18,
-                  ),
+                  Image.asset(ImagePath.close, scale: 2, color: Colors.transparent),
+                  MyText(title: 'Successfully', clr: MyColors().whiteColor, fontWeight: FontWeight.w600, size: 18),
                   GestureDetector(
                     onTap: () {
                       AppNavigation.navigatorPop();
                       widget.onYes(c);
                     },
-                    child: Image.asset(
-                      ImagePath.close,
-                      scale: 2,
-                    ),
+                    child: Image.asset(ImagePath.close, scale: 2),
                   ),
                 ],
               ),
@@ -70,34 +55,20 @@ class _ProfileCompleteDialogState extends State<ProfileCompleteDialog> {
                 children: [
                   // SizedBox(height: 2.h,),
                   // Center(child: CircleAvatar(radius: 45, backgroundColor: MyColors().purpleColor,child:Image.asset(ImagePath.delete,scale: 3,color: MyColors().whiteColor,),)),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  Image.asset(
-                    ImagePath.like,
-                    scale: 2,
-                  ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  MyText(
-                    title: 'Your profile has been successfully created.',
-                    size: 14,
-                    center: true,
-                  ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
+                  SizedBox(height: 2.h),
+                  Image.asset(ImagePath.like, scale: 2),
+                  SizedBox(height: 2.h),
+                  MyText(title: 'Your profile has been successfully created.', size: 14, center: true),
+                  SizedBox(height: 2.h),
                   MyButton(
-                      onTap: () {
-                        AppNavigation.navigatorPop();
-                        log('Yaha arha h 3');
-                        widget.onYes(c);
-                      },
-                      title: "Continue"),
-                  SizedBox(
-                    height: 2.h,
+                    onTap: () {
+                      AppNavigation.navigatorPop();
+                      log('Yaha arha h 3');
+                      widget.onYes(c);
+                    },
+                    title: "Continue",
                   ),
+                  SizedBox(height: 2.h),
                 ],
               ),
             ),

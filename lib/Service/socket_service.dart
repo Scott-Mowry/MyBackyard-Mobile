@@ -14,9 +14,7 @@ class SocketService {
   static SocketService? _instance;
 
   static SocketService? get instance {
-    if (_instance == null) {
-      _instance = SocketService._();
-    }
+    _instance ??= SocketService._();
     return _instance;
   }
 
@@ -45,28 +43,23 @@ class SocketService {
 
     _socket?.on("error", (data) {
       log('Error $data');
-      SocketNavigationClass.instance
-          ?.socketErrorMethod(errorResponseData: data);
+      SocketNavigationClass.instance?.socketErrorMethod(errorResponseData: data);
     });
   }
 
-  void socketEmitMethod(
-      {required String eventName, required dynamic eventParamaters}) {
+  void socketEmitMethod({required String eventName, required dynamic eventParamaters}) {
     _socket?.emit(eventName, eventParamaters);
   }
 
   void socketResponseMethod() {
-    _socket?.on(
-        "response",
-        (data) => SocketNavigationClass.instance
-            ?.socketResponseMethod(responseData: data));
+    _socket?.on("response", (data) => SocketNavigationClass.instance?.socketResponseMethod(responseData: data));
   }
 
   void userResponse() {
     socket?.on(
-        "response_${navigatorKey.currentContext?.read<UserController>().user?.id?.toString()}",
-        (data) => SocketNavigationClass.instance
-            ?.socketUserResponseMethod(responseData: data));
+      "response_${navigatorKey.currentContext?.read<UserController>().user?.id?.toString()}",
+      (data) => SocketNavigationClass.instance?.socketUserResponseMethod(responseData: data),
+    );
   }
 
   void dispose() {

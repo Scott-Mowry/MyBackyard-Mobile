@@ -56,7 +56,6 @@
 // }
 
 import 'package:backyard/Component/app_regular_expressions.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 extension AppValidator on String {
@@ -104,7 +103,7 @@ extension AppValidator on String {
     }
   }
 
-//---------------- OTP Validator ---------------
+  //---------------- OTP Validator ---------------
   get validateOtp {
     if ((this ?? "").length < 6) {
       return "Password must be of 6 characters";
@@ -115,8 +114,7 @@ extension AppValidator on String {
 
 class CreditCardNumberFormater extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     if (newValue.selection.baseOffset == 0) {
       return newValue;
     }
@@ -134,10 +132,9 @@ class CreditCardNumberFormater extends TextInputFormatter {
     }
 
     return TextEditingValue(
-        text: buffer.toString(), // final generated credit card number
-        selection: TextSelection.collapsed(
-            offset: buffer.toString().length) // keep the cursor at end
-        );
+      text: buffer.toString(), // final generated credit card number
+      selection: TextSelection.collapsed(offset: buffer.toString().length), // keep the cursor at end
+    );
   }
 }
 

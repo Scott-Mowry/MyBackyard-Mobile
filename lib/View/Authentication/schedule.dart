@@ -1,9 +1,6 @@
-import 'dart:convert';
-import 'dart:developer';
 import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Component/custom_textfield.dart';
-import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Component/validations.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Model/day_schedule.dart';
@@ -14,7 +11,6 @@ import 'package:backyard/Service/auth_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/my_colors.dart';
-import 'package:backyard/Utils/utils.dart';
 import 'package:backyard/View/Authentication/edit_schedule_time.dart';
 import 'package:backyard/main.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +20,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class Schedule extends StatefulWidget {
-  Schedule({this.edit = false, this.args});
+  Schedule({super.key, this.edit = false, this.args});
   bool edit = false;
   Map<String, dynamic>? args;
   @override
@@ -63,33 +59,37 @@ class _ScheduleState extends State<Schedule> {
     if (widget.edit) {
       if ((userController?.user?.days ?? []).isNotEmpty) {
         for (BussinessScheduling temp in userController?.user?.days ?? []) {
-          daySchedules.add(DaySchedule(
-            day: daysOfWeek.values.byName(temp.day ?? ""),
-            active: !(temp.startTime == null && temp.endTime == null),
-            startTime: timeFormat(temp.startTime),
-            endTime: timeFormat(temp.endTime),
-          ));
+          daySchedules.add(
+            DaySchedule(
+              day: daysOfWeek.values.byName(temp.day ?? ""),
+              active: !(temp.startTime == null && temp.endTime == null),
+              startTime: timeFormat(temp.startTime),
+              endTime: timeFormat(temp.endTime),
+            ),
+          );
         }
       } else {
         for (daysOfWeek val in daysOfWeek.values) {
-          daySchedules.add(DaySchedule(
+          daySchedules.add(
+            DaySchedule(
               day: val,
               startTime: null,
               endTime: null,
-              active: val == daysOfWeek.saturday || val == daysOfWeek.sunday
-                  ? false
-                  : true));
+              active: val == daysOfWeek.saturday || val == daysOfWeek.sunday ? false : true,
+            ),
+          );
         }
       }
     } else {
       for (daysOfWeek val in daysOfWeek.values) {
-        daySchedules.add(DaySchedule(
+        daySchedules.add(
+          DaySchedule(
             day: val,
             startTime: null,
             endTime: null,
-            active: val == daysOfWeek.saturday || val == daysOfWeek.sunday
-                ? false
-                : true));
+            active: val == daysOfWeek.saturday || val == daysOfWeek.sunday ? false : true,
+          ),
+        );
       }
     }
     // TODO: implement initState
@@ -99,43 +99,44 @@ class _ScheduleState extends State<Schedule> {
   @override
   Widget build(BuildContext context) {
     return BaseView(
-        screenTitle: widget.edit ? 'Edit Opening Hours' : 'Opening Hours',
-        bgImage: '',
-        showAppBar: true,
-        showBackButton: true,
-        trailingAppBar: IconButton(
-          icon: Icon(Icons.select_all_outlined,
-              size: 24.sp, color: MyColors().black),
-          onPressed: () async {
-            await Navigator.pushNamed(
-                    context, AppRouteName.TIME_SCHEDULING_EDIT_SCREEN_ROUTE,
-                    arguments: TimeSchedulingEditArgument(multiSelect: true))
-                .then((value) {
-              if (value != null) {
-                final list = value as List<DaySchedule>?;
-                for (int j = 0; j < (list?.length ?? 0); j++) {
-                  final temp = list?[j];
-                  if (temp != null) {
-                    int? index;
-                    for (int i = 0; i < daySchedules.length; i++) {
-                      if (daySchedules[i].day == temp.day) {
-                        index = i;
-                      }
-                    }
-                    if (index != null) {
-                      daySchedules[index] = temp;
+      screenTitle: widget.edit ? 'Edit Opening Hours' : 'Opening Hours',
+      bgImage: '',
+      showAppBar: true,
+      showBackButton: true,
+      trailingAppBar: IconButton(
+        icon: Icon(Icons.select_all_outlined, size: 24.sp, color: MyColors().black),
+        onPressed: () async {
+          await Navigator.pushNamed(
+            context,
+            AppRouteName.TIME_SCHEDULING_EDIT_SCREEN_ROUTE,
+            arguments: TimeSchedulingEditArgument(multiSelect: true),
+          ).then((value) {
+            if (value != null) {
+              final list = value as List<DaySchedule>?;
+              for (int j = 0; j < (list?.length ?? 0); j++) {
+                final temp = list?[j];
+                if (temp != null) {
+                  int? index;
+                  for (int i = 0; i < daySchedules.length; i++) {
+                    if (daySchedules[i].day == temp.day) {
+                      index = i;
                     }
                   }
+                  if (index != null) {
+                    daySchedules[index] = temp;
+                  }
                 }
-                setState(() {});
               }
-            });
-          },
-        ),
-        child: CustomPadding(
-          horizontalPadding: 4.w,
-          topPadding: 0,
-          child: Consumer<UserController>(builder: (context, val, _) {
+              setState(() {});
+            }
+          });
+        },
+      ),
+      child: CustomPadding(
+        horizontalPadding: 4.w,
+        topPadding: 0,
+        child: Consumer<UserController>(
+          builder: (context, val, _) {
             return Form(
               key: _form,
               child: Column(
@@ -201,31 +202,30 @@ class _ScheduleState extends State<Schedule> {
                   //   ),
                   // ),
                   for (DaySchedule val in daySchedules)
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 2.h),
-                      child: timeField(val),
-                    ),
+                    Padding(padding: EdgeInsets.only(bottom: 2.h), child: timeField(val)),
                   Spacer(),
                   MyButton(
-                      title: widget.edit ? 'Update' : 'Next',
-                      onTap: () {
-                        onSubmit(context);
-                      }),
-                  SizedBox(
-                    height: 3.h,
+                    title: widget.edit ? 'Update' : 'Next',
+                    onTap: () {
+                      onSubmit(context);
+                    },
                   ),
+                  SizedBox(height: 3.h),
                 ],
               ),
             );
-          }),
-        ));
+          },
+        ),
+      ),
+    );
   }
 
   Future<void> onTapField(DaySchedule val) async {
     await Navigator.pushNamed(
-            context, AppRouteName.TIME_SCHEDULING_EDIT_SCREEN_ROUTE,
-            arguments: TimeSchedulingEditArgument(val: val))
-        .then((value) {
+      context,
+      AppRouteName.TIME_SCHEDULING_EDIT_SCREEN_ROUTE,
+      arguments: TimeSchedulingEditArgument(val: val),
+    ).then((value) {
       final temp = value as DaySchedule?;
       if (temp != null) {
         int? index;
@@ -249,10 +249,12 @@ class _ScheduleState extends State<Schedule> {
       hintText: "None",
       readOnly: true,
       prefixWidget: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-          child: Text(val.day.name.titleCase(),
-              style: const TextStyle(
-                  fontSize: 16, fontWeight: FontWeight.w600, height: 1))),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        child: Text(
+          val.day.name.titleCase(),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, height: 1),
+        ),
+      ),
       textAlign: TextAlign.end,
       suffixIconConstraints: BoxConstraints(minWidth: 8.w),
       borderRadius: 10,
@@ -263,8 +265,7 @@ class _ScheduleState extends State<Schedule> {
   String getValues(DaySchedule val) {
     String value = "";
     if (val.endTime != null && val.startTime != null) {
-      value =
-          "${val.startTime?.format(context)} - ${val.endTime?.format(context)}";
+      value = "${val.startTime?.format(context)} - ${val.endTime?.format(context)}";
     } else {
       if (val.active == false) {
         value = "Closed";
@@ -277,16 +278,17 @@ class _ScheduleState extends State<Schedule> {
     FocusManager.instance.primaryFocus?.unfocus();
     if ((_form.currentState?.validate() ?? false)) {
       List<BussinessScheduling> temp = [];
-      final temp2 = daySchedules
-          .where(
-              (element) => element.startTime != null && element.endTime != null)
-          .toList();
-      temp = temp2
-          .map((e) => BussinessScheduling(
-              day: e.day.name,
-              startTime: e.startTime?.format(context),
-              endTime: e.endTime?.format(context)))
-          .toList();
+      final temp2 = daySchedules.where((element) => element.startTime != null && element.endTime != null).toList();
+      temp =
+          temp2
+              .map(
+                (e) => BussinessScheduling(
+                  day: e.day.name,
+                  startTime: e.startTime?.format(context),
+                  endTime: e.endTime?.format(context),
+                ),
+              )
+              .toList();
       if (widget.edit) {
         AppNetwork.loadingProgressIndicator();
         final value = await AuthAPIS.completeProfile(days: temp);
@@ -295,7 +297,8 @@ class _ScheduleState extends State<Schedule> {
           AppNavigation.navigatorPop();
         }
       } else {
-        User? user = userController?.user
+        User? user =
+            userController?.user
               ?..name = widget.args?["name"]
               ..description = widget.args?["description"]
               ..isPushNotify = widget.args?["isPushNotify"]
@@ -306,8 +309,8 @@ class _ScheduleState extends State<Schedule> {
               ..email = widget.args?["email"]
               ..days = temp
               ..profileImage = widget.args?["image"]
-            // ..zipCode = widget.args?["zipCode"]
-            ;
+        // ..zipCode = widget.args?["zipCode"]
+        ;
 
         userController?.setUser(user!);
         AppNavigation.navigateTo(AppRouteName.CATEGORY_SCREEN_ROUTE);
@@ -323,12 +326,8 @@ class _ScheduleState extends State<Schedule> {
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
-        decoration: BoxDecoration(
-            color: MyColors().lightGrey2,
-            borderRadius: BorderRadius.circular(25)),
-        child: MyText(
-          title: t,
-        ),
+        decoration: BoxDecoration(color: MyColors().lightGrey2, borderRadius: BorderRadius.circular(25)),
+        child: MyText(title: t),
       ),
     );
   }

@@ -56,17 +56,13 @@ class HomeController extends ChangeNotifier {
   }
 
   void searchOffer(String val) {
-    searchOffers = _offers
-        ?.where((element) =>
-            ((element.title ?? "").toLowerCase()).contains(val.toLowerCase()))
-        .toList();
+    searchOffers =
+        _offers?.where((element) => ((element.title ?? "").toLowerCase()).contains(val.toLowerCase())).toList();
     notifyListeners();
   }
 
   void addOffers(Offer val) {
-    val.category = _categories
-        ?.where((element) => element.id == val.categoryId)
-        .firstOrNull;
+    val.category = _categories?.where((element) => element.id == val.categoryId).firstOrNull;
     _offers?.add(val);
     notifyListeners();
   }
@@ -75,9 +71,7 @@ class HomeController extends ChangeNotifier {
     final ind = _offers?.indexWhere((element) => element.id == val.id);
     if (ind != -1) {
       _offers![ind ?? 0] = val;
-      _offers![ind ?? 0].category = _categories
-          ?.where((element) => element.id == val.categoryId)
-          .firstOrNull;
+      _offers![ind ?? 0].category = _categories?.where((element) => element.id == val.categoryId).firstOrNull;
     }
     notifyListeners();
   }
@@ -143,12 +137,9 @@ class HomeController extends ChangeNotifier {
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-        targetWidth: width);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
     ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-        .buffer
-        .asUint8List();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
   }
 
   /// Chats end

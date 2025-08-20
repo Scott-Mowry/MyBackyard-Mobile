@@ -7,18 +7,20 @@ class CustomShimmer extends StatelessWidget {
   final bool? shimmerHighlightColorEnable;
   final Widget child;
 
-  CustomShimmer(
-      {this.shimmerBaseColor,
-        this.shimmerHighlightColor,
-        this.shimmerHighlightColorEnable,
-        required this.child});
+  const CustomShimmer({super.key, 
+    this.shimmerBaseColor,
+    this.shimmerHighlightColor,
+    this.shimmerHighlightColorEnable,
+    required this.child,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-        highlightColor: shimmerHighlightColor ?? MyColors().shimmerColor,
-        baseColor: shimmerBaseColor ?? MyColors().shimmerBaseColor,
-        enabled: shimmerHighlightColorEnable ?? true,
-        child: child);
+      highlightColor: shimmerHighlightColor ?? MyColors().shimmerColor,
+      baseColor: shimmerBaseColor ?? MyColors().shimmerBaseColor,
+      enabled: shimmerHighlightColorEnable ?? true,
+      child: child,
+    );
   }
 }

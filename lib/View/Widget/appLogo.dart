@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
 import 'package:backyard/Utils/image_path.dart';
 
 class AppLogo extends StatefulWidget {
-  AppLogo({Key? key, this.onTap, this.scale}) : super(key: key);
+  AppLogo({super.key, this.onTap, this.scale});
   Function? onTap;
   double? scale;
 
@@ -21,10 +20,7 @@ class _AppLogoState extends State<AppLogo> {
             widget.onTap?.call();
           }
         },
-        child: Image.asset(
-          ImagePath.appLogo,
-          scale: widget.scale ?? 2.5,
-        ),
+        child: Image.asset(ImagePath.appLogo, scale: widget.scale ?? 2.5),
       ),
     );
   }

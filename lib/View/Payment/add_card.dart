@@ -23,7 +23,7 @@ import '../../Utils/my_colors.dart';
 import 'package:http/http.dart' as http;
 
 class AddCard extends StatefulWidget {
-  AddCard({this.test});
+  AddCard({super.key, this.test});
 
   Map<String, dynamic>? test;
 
@@ -43,140 +43,113 @@ class _AddCardState extends State<AddCard> {
   @override
   Widget build(BuildContext context) {
     return BaseView(
-        screenTitle: (widget.test != null) ? "Payment" : 'Add Card',
-        showAppBar: true,
-        bgImage: '',
-        showBackButton: true,
-        resizeBottomInset: false,
-        child: CustomPadding(
-          horizontalPadding: 3.w,
-          topPadding: 0,
-          child: InkWell(
-            // splashColor: Colors.transparent,
-            // highlightColor: Colors.transparent,
-            focusColor: Colors.white,
-            onTap: () {
-              FocusManager.instance.primaryFocus?.unfocus();
-            },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 2.h,
-                ),
-                customTitle(
-                  title: 'Card Holder',
-                ),
-                SizedBox(
-                  height: 1.h,
-                ),
-                MyTextField(
-                  hintText: 'Card Holder',
-                  controller: name,
-                  maxLength: 32,
-                  showLabel: false,
-                  backgroundColor: MyColors().container,
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                customTitle(
-                  title: 'Card Number',
-                ),
-                SizedBox(
-                  height: 1.h,
-                ),
-                MyTextField(
-                  hintText: 'Card Number',
-                  cardFormat: true,
-                  inputType: TextInputType.number,
-                  controller: cardNumber,
-                  maxLength: 19,
-                  showLabel: false,
-                  backgroundColor: MyColors().container,
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Row(
-                  children: [
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          customTitle(
-                            title: 'Expiry',
-                          ),
-                          SizedBox(
-                            height: 1.h,
-                          ),
-                          MyTextField(
-                            hintText: 'MM/YY',
-                            cardExpiration: true,
-                            maxLength: 5,
-                            inputType: TextInputType.number,
-                            controller: expiry,
-                            showLabel: false,
-                            backgroundColor: MyColors().container,
+      screenTitle: (widget.test != null) ? "Payment" : 'Add Card',
+      showAppBar: true,
+      bgImage: '',
+      showBackButton: true,
+      resizeBottomInset: false,
+      child: CustomPadding(
+        horizontalPadding: 3.w,
+        topPadding: 0,
+        child: InkWell(
+          // splashColor: Colors.transparent,
+          // highlightColor: Colors.transparent,
+          focusColor: Colors.white,
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 2.h),
+              customTitle(title: 'Card Holder'),
+              SizedBox(height: 1.h),
+              MyTextField(
+                hintText: 'Card Holder',
+                controller: name,
+                maxLength: 32,
+                showLabel: false,
+                backgroundColor: MyColors().container,
+              ),
+              SizedBox(height: 2.h),
+              customTitle(title: 'Card Number'),
+              SizedBox(height: 1.h),
+              MyTextField(
+                hintText: 'Card Number',
+                cardFormat: true,
+                inputType: TextInputType.number,
+                controller: cardNumber,
+                maxLength: 19,
+                showLabel: false,
+                backgroundColor: MyColors().container,
+              ),
+              SizedBox(height: 2.h),
+              Row(
+                children: [
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        customTitle(title: 'Expiry'),
+                        SizedBox(height: 1.h),
+                        MyTextField(
+                          hintText: 'MM/YY',
+                          cardExpiration: true,
+                          maxLength: 5,
+                          inputType: TextInputType.number,
+                          controller: expiry,
+                          showLabel: false,
+                          backgroundColor: MyColors().container,
 
-                            // readOnly: true,
-                            // onTap: (){
-                            //   monthPick(context);
-                            // },
-                          ),
-                        ],
-                      ),
+                          // readOnly: true,
+                          // onTap: (){
+                          //   monthPick(context);
+                          // },
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      width: 3.w,
+                  ),
+                  SizedBox(width: 3.w),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        customTitle(title: 'CVC'),
+                        SizedBox(height: 1.h),
+                        MyTextField(
+                          showLabel: false,
+                          hintText: 'CVC',
+                          inputType: TextInputType.number,
+                          maxLength: 4,
+                          controller: cvc,
+                          cardFormat: true,
+                          backgroundColor: MyColors().container,
+                        ),
+                      ],
                     ),
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          customTitle(
-                            title: 'CVC',
-                          ),
-                          SizedBox(
-                            height: 1.h,
-                          ),
-                          MyTextField(
-                            showLabel: false,
-                            hintText: 'CVC',
-                            inputType: TextInputType.number,
-                            maxLength: 4,
-                            controller: cvc,
-                            cardFormat: true,
-                            backgroundColor: MyColors().container,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Spacer(),
-                MyButton(
-                    onTap: () {
-                      onSubmit();
-                    },
-                    title: "Add Now"),
-                SizedBox(
-                  height: 2.h,
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 2.h),
+              Spacer(),
+              MyButton(
+                onTap: () {
+                  onSubmit();
+                },
+                title: "Add Now",
+              ),
+              SizedBox(height: 2.h),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   addCardValidation() async {
     FocusManager.instance.primaryFocus?.unfocus();
     if (name.text.isEmpty) {
-      CustomToast()
-          .showToast(message: "Card holder name field can't be empty.");
+      CustomToast().showToast(message: "Card holder name field can't be empty.");
     } else if (cardNumber.text.isEmpty) {
       CustomToast().showToast(message: "Card Number field can't be empty.");
     } else if (cardNumber.text.length < 19) {
@@ -216,9 +189,11 @@ class _AddCardState extends State<AddCard> {
         );
         AppNavigation.navigatorPop();
         if (result) {
-          completeDialog(onTap: () {
-            AppNavigation.navigateToRemovingAll(AppRouteName.HOME_SCREEN_ROUTE);
-          });
+          completeDialog(
+            onTap: () {
+              AppNavigation.navigateToRemovingAll(AppRouteName.HOME_SCREEN_ROUTE);
+            },
+          );
         }
       }
     }
@@ -230,20 +205,16 @@ class _AddCardState extends State<AddCard> {
       if (await AppNetwork.checkInternet()) {
         var headers = {
           'Content-Type': 'application/json',
-          'Authorization':
-              'Basic ${base64.encode(utf8.encode('nzpL73LfqcrxyeVhMageUNcL97L1YeVw:1234'))}'
+          'Authorization': 'Basic ${base64.encode(utf8.encode('nzpL73LfqcrxyeVhMageUNcL97L1YeVw:1234'))}',
         };
-        var request = http.Request(
-            'POST',
-            Uri.parse(
-                'https://api.sandbox.epsgsecure.app/api/v2/transactions/charge'));
+        var request = http.Request('POST', Uri.parse('https://api.sandbox.epsgsecure.app/api/v2/transactions/charge'));
         request.body = json.encode({
           "name": name.text,
           "amount": price,
           "card": cardNumber.text.replaceAll(" ", ""),
           "expiry_month": int.parse(expiry.text.split('/')[0]),
           "expiry_year": 2000 + int.parse(expiry.text.split('/')[1]),
-          "cvv2": cvc.text
+          "cvv2": cvc.text,
         });
         request.headers.addAll(headers);
 
@@ -268,29 +239,30 @@ class _AddCardState extends State<AddCard> {
 
   completeDialog({required Function onTap}) {
     return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return WillPopScope(
-            onWillPop: () async {
-              return false;
-            },
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: AlertDialog(
-                backgroundColor: Colors.transparent,
-                contentPadding: const EdgeInsets.all(0),
-                insetPadding: EdgeInsets.symmetric(horizontal: 4.w),
-                content: ProfileCompleteDialog(
-                  onYes: (v) {
-                    log('Yaha arha h 2');
-                    onTap();
-                  },
-                ),
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return WillPopScope(
+          onWillPop: () async {
+            return false;
+          },
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: AlertDialog(
+              backgroundColor: Colors.transparent,
+              contentPadding: const EdgeInsets.all(0),
+              insetPadding: EdgeInsets.symmetric(horizontal: 4.w),
+              content: ProfileCompleteDialog(
+                onYes: (v) {
+                  log('Yaha arha h 2');
+                  onTap();
+                },
               ),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
   onSubmit() {
@@ -318,9 +290,6 @@ class _AddCardState extends State<AddCard> {
   }
 
   customTitle({required String title}) {
-    return Padding(
-      padding: EdgeInsets.only(left: 3.w),
-      child: MyText(title: title),
-    );
+    return Padding(padding: EdgeInsets.only(left: 3.w), child: MyText(title: title));
   }
 }

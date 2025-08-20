@@ -1,5 +1,4 @@
 import 'package:backyard/Service/navigation_service.dart';
-import 'package:backyard/Utils/app_strings.dart';
 import 'package:backyard/Utils/image_path.dart';
 import 'package:flutter/material.dart';
 import 'package:backyard/Component/custom_text.dart';
@@ -15,11 +14,7 @@ class BaseView extends StatelessWidget {
   final Widget? trailingAppBar;
   Function? onTapTrailing, onTapSubtitle;
   bool? extendBodyBehindAppBar;
-  Color? backgroundColor,
-      screenTitleColor,
-      statusBarColor,
-      appbarColor,
-      backColor;
+  Color? backgroundColor, screenTitleColor, statusBarColor, appbarColor, backColor;
   final bool? bottomSafeArea,
       topSafeArea,
       showBackButton,
@@ -70,67 +65,59 @@ class BaseView extends StatelessWidget {
       //   width: 400,
       //   color: Colors.red,
       // ):null,
-      appBar: showAppBar == true
-          ? AppBar(
-              backgroundColor: backgroundColor ?? Colors.transparent,
-              leading: showBackButton == false
-                  ? Padding(
-                      padding: EdgeInsets.only(
-                          top: .8.h, bottom: .8.h, left: 3.w, right: 0.h),
-                      child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6),
+      appBar:
+          showAppBar == true
+              ? AppBar(
+                backgroundColor: backgroundColor ?? Colors.transparent,
+                leading:
+                    showBackButton == false
+                        ? Padding(
+                          padding: EdgeInsets.only(top: .8.h, bottom: .8.h, left: 3.w, right: 0.h),
+                          child: Container(
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(6)),
+                            child: leadingAppBar,
                           ),
-                          child: leadingAppBar),
-                    )
-                  // Padding(padding: EdgeInsets.only(top: .6.h, bottom: .6.h,left: 2.w,right: 0.h), child: Container(decoration: BoxDecoration( borderRadius: BorderRadius.circular(6),), child: leadingAppBar),)
-                  // Padding(padding: EdgeInsets.only(top: 7, bottom: 7,left: 10,right: 0), child: Container(decoration: BoxDecoration( borderRadius: BorderRadius.circular(6),), child: leadingAppBar),)
-                  : InkWell(
-                      onTap: () {
-                        FocusManager.instance.primaryFocus?.unfocus();
-                        onTapBackButton == null
-                            ? AppNavigation.navigatorPop()
-                            : onTapBackButton!();
-                      },
-                      splashFactory: NoSplash.splashFactory,
-                      hoverColor: Colors.transparent,
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: .6.h, horizontal: 1.h),
-                        child: Image.asset(ImagePath.back,
-                            scale: 2, color: backColor),
-                      ),
-                    ),
-              centerTitle: true,
-              title: MyText(
+                        )
+                        // Padding(padding: EdgeInsets.only(top: .6.h, bottom: .6.h,left: 2.w,right: 0.h), child: Container(decoration: BoxDecoration( borderRadius: BorderRadius.circular(6),), child: leadingAppBar),)
+                        // Padding(padding: EdgeInsets.only(top: 7, bottom: 7,left: 10,right: 0), child: Container(decoration: BoxDecoration( borderRadius: BorderRadius.circular(6),), child: leadingAppBar),)
+                        : InkWell(
+                          onTap: () {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            onTapBackButton == null ? AppNavigation.navigatorPop() : onTapBackButton!();
+                          },
+                          splashFactory: NoSplash.splashFactory,
+                          hoverColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: .6.h, horizontal: 1.h),
+                            child: Image.asset(ImagePath.back, scale: 2, color: backColor),
+                          ),
+                        ),
+                centerTitle: true,
+                title: MyText(
                   title: screenTitle ?? '',
                   center: true,
                   line: 2,
                   size: 18,
                   toverflow: TextOverflow.ellipsis,
                   fontWeight: FontWeight.w600,
-                  clr: screenTitleColor ?? MyColors().black),
-              elevation: 0,
-              actions: <Widget>[trailingAppBar ?? Container()],
-            )
-          : null,
+                  clr: screenTitleColor ?? MyColors().black,
+                ),
+                elevation: 0,
+                actions: <Widget>[trailingAppBar ?? Container()],
+              )
+              : null,
       extendBodyBehindAppBar: extendBodyBehindAppBar ?? true,
       body: Container(
-          width: 100.w,
-          height: 100.h,
-          decoration: BoxDecoration(
-              image: bgImage == ''
-                  ? null
-                  : DecorationImage(
-                      image: AssetImage(bgImage), fit: BoxFit.cover)),
-          child: SafeArea(
-              top: topSafeArea ?? true,
-              bottom: bottomSafeArea ?? true,
-              child: child!)),
-      floatingActionButton:
-          Padding(padding: EdgeInsets.only(bottom: 2.h), child: floating),
+        width: 100.w,
+        height: 100.h,
+        decoration: BoxDecoration(
+          image: bgImage == '' ? null : DecorationImage(image: AssetImage(bgImage), fit: BoxFit.cover),
+        ),
+        child: SafeArea(top: topSafeArea ?? true, bottom: bottomSafeArea ?? true, child: child!),
+      ),
+      floatingActionButton: Padding(padding: EdgeInsets.only(bottom: 2.h), child: floating),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }

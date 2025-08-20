@@ -21,17 +21,17 @@ class BusAPIS {
     try {
       final controller = navigatorKey.currentContext?.read<UserController>();
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.GET.name,
-          "${API.GET_BUSES_ENDPOINT}?lat=${lat ?? 0.0}&long=${long ?? 0.0}&radius=${(controller?.mile ?? 0)}",
-          header: true);
+        requestTypes.GET.name,
+        "${API.GET_BUSES_ENDPOINT}?lat=${lat ?? 0.0}&long=${long ?? 0.0}&radius=${(controller?.mile ?? 0)}",
+        header: true,
+      );
       if (res != null) {
         final model = responseModelFromJson(res.body);
 
         if (model.status == 1) {
           controller?.clearMarkers();
           List<User> users = [];
-          users = List<User>.from(
-              (model.data?["businesses"] ?? {}).map((x) => User.setUser(x)));
+          users = List<User>.from((model.data?["businesses"] ?? {}).map((x) => User.setUser(x)));
           controller?.setBusList(users);
           for (var user in users) {
             controller?.addMarker(user);
@@ -54,8 +54,12 @@ class BusAPIS {
       Map<String, String> parameters = {};
       parameters.addAll({"offer_id": offerId ?? ""});
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.POST.name, API.AVAIL_OFFER_ENDPOINT,
-          header: true, parameters: parameters, attachments: attachments);
+        requestTypes.POST.name,
+        API.AVAIL_OFFER_ENDPOINT,
+        header: true,
+        parameters: parameters,
+        attachments: attachments,
+      );
 
       if (res != null) {
         final model = responseModelFromJson(res.body);
@@ -72,19 +76,17 @@ class BusAPIS {
     return false;
   }
 
-  static Future<bool> submiteReview(
-      {String? busId, String? rate, String? feedback}) async {
+  static Future<bool> submiteReview({String? busId, String? rate, String? feedback}) async {
     try {
       final controller = navigatorKey.currentContext?.read<UserController>();
       Map<String, String> parameters = {};
-      parameters.addAll({
-        'bus_id': busId ?? "",
-        'rate': rate ?? "",
-        'feedback': feedback ?? ""
-      });
+      parameters.addAll({'bus_id': busId ?? "", 'rate': rate ?? "", 'feedback': feedback ?? ""});
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.POST.name, API.POST_REVIEW_ENDPOINT,
-          header: true, parameters: parameters);
+        requestTypes.POST.name,
+        API.POST_REVIEW_ENDPOINT,
+        header: true,
+        parameters: parameters,
+      );
       if (res != null) {
         final model = responseModelFromJson(res.body);
         if (model.status == 1) {
@@ -107,8 +109,12 @@ class BusAPIS {
       Map<String, String> parameters = {};
       parameters.addAll({"offer_id": offerId ?? "", "user_id": userId ?? ""});
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.POST.name, API.CLAIM_OFFER_ENDPOINT,
-          header: true, parameters: parameters, attachments: attachments);
+        requestTypes.POST.name,
+        API.CLAIM_OFFER_ENDPOINT,
+        header: true,
+        parameters: parameters,
+        attachments: attachments,
+      );
 
       if (res != null) {
         final model = responseModelFromJson(res.body);
@@ -144,13 +150,16 @@ class BusAPIS {
         'discount_price': discountPrice ?? "",
         'reward_points': rewardPoints ?? "",
         'short_detail': shortDetail ?? "",
-        'desc': desc ?? ""
+        'desc': desc ?? "",
       };
-      attachments
-          .add(await http.MultipartFile.fromPath('image', image?.path ?? ""));
+      attachments.add(await http.MultipartFile.fromPath('image', image?.path ?? ""));
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.POST.name, API.ADD_OFFETS_ENDPOINT,
-          header: true, parameters: parameters, attachments: attachments);
+        requestTypes.POST.name,
+        API.ADD_OFFETS_ENDPOINT,
+        header: true,
+        parameters: parameters,
+        attachments: attachments,
+      );
 
       if (res != null) {
         final model = responseModelFromJson(res.body);
@@ -207,13 +216,16 @@ class BusAPIS {
         parameters.addAll({'desc': desc});
       }
       if ((image?.path ?? "").isNotEmpty) {
-        attachments
-            .add(await http.MultipartFile.fromPath('image', image?.path ?? ""));
+        attachments.add(await http.MultipartFile.fromPath('image', image?.path ?? ""));
       }
 
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.POST.name, API.EDIT_OFFETS_ENDPOINT,
-          header: true, parameters: parameters, attachments: attachments);
+        requestTypes.POST.name,
+        API.EDIT_OFFETS_ENDPOINT,
+        header: true,
+        parameters: parameters,
+        attachments: attachments,
+      );
 
       if (res != null) {
         final model = responseModelFromJson(res.body);
@@ -240,8 +252,12 @@ class BusAPIS {
       parameters.addAll({"offer_id": offerId ?? ""});
 
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.POST.name, API.DELETE_OFFETS_ENDPOINT,
-          header: true, parameters: parameters, attachments: attachments);
+        requestTypes.POST.name,
+        API.DELETE_OFFETS_ENDPOINT,
+        header: true,
+        parameters: parameters,
+        attachments: attachments,
+      );
 
       if (res != null) {
         final model = responseModelFromJson(res.body);
@@ -264,14 +280,15 @@ class BusAPIS {
       final controller = navigatorKey.currentContext?.read<HomeController>();
       controller?.setOffers([]);
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.GET.name, "${API.GET_OFFERS_ENDPOINT}?bus_id=$busId",
-          header: true);
+        requestTypes.GET.name,
+        "${API.GET_OFFERS_ENDPOINT}?bus_id=$busId",
+        header: true,
+      );
       if (res != null) {
         final model = responseModelFromJson(res.body);
 
         if (model.status == 1) {
-          controller?.setOffers(List<Offer>.from(
-              (model.data?["offers"] ?? {}).map((x) => Offer.fromJson(x))));
+          controller?.setOffers(List<Offer>.from((model.data?["offers"] ?? {}).map((x) => Offer.fromJson(x))));
         } else {
           CustomToast().showToast(message: model.message ?? "");
         }
@@ -286,15 +303,15 @@ class BusAPIS {
       final controller = navigatorKey.currentContext?.read<HomeController>();
       controller?.setOffers([]);
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.GET.name,
-          "${API.GET_OFFERS_ENDPOINT}?type=trending&category_id=$categoryId",
-          header: true);
+        requestTypes.GET.name,
+        "${API.GET_OFFERS_ENDPOINT}?type=trending&category_id=$categoryId",
+        header: true,
+      );
       if (res != null) {
         final model = responseModelFromJson(res.body);
 
         if (model.status == 1) {
-          controller?.setOffers(List<Offer>.from(
-              (model.data?["offers"] ?? {}).map((x) => Offer.fromJson(x))));
+          controller?.setOffers(List<Offer>.from((model.data?["offers"] ?? {}).map((x) => Offer.fromJson(x))));
         } else {
           CustomToast().showToast(message: model.message ?? "");
         }
@@ -312,15 +329,12 @@ class BusAPIS {
       if (isSwitch ?? false) {
         endpoint += "?switch=User";
       }
-      http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.GET.name, endpoint,
-          header: true);
+      http.Response? res = await AppNetwork.networkRequest(requestTypes.GET.name, endpoint, header: true);
       if (res != null) {
         final model = responseModelFromJson(res.body);
 
         if (model.status == 1) {
-          controller?.setOffers(List<Offer>.from(
-              (model.data?["offers"] ?? {}).map((x) => Offer.fromJson(x))));
+          controller?.setOffers(List<Offer>.from((model.data?["offers"] ?? {}).map((x) => Offer.fromJson(x))));
         } else {
           CustomToast().showToast(message: model.message ?? "");
         }
@@ -335,14 +349,15 @@ class BusAPIS {
       final controller = navigatorKey.currentContext?.read<HomeController>();
       controller?.setOffers([]);
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.GET.name, "${API.GET_OFFERS_ENDPOINT}?type=fav",
-          header: true);
+        requestTypes.GET.name,
+        "${API.GET_OFFERS_ENDPOINT}?type=fav",
+        header: true,
+      );
       if (res != null) {
         final model = responseModelFromJson(res.body);
 
         if (model.status == 1) {
-          controller?.setOffers(List<Offer>.from(
-              (model.data?["offers"] ?? {}).map((x) => Offer.fromJson(x))));
+          controller?.setOffers(List<Offer>.from((model.data?["offers"] ?? {}).map((x) => Offer.fromJson(x))));
         } else {
           CustomToast().showToast(message: model.message ?? "");
         }
@@ -357,14 +372,14 @@ class BusAPIS {
       final controller = navigatorKey.currentContext?.read<HomeController>();
       controller?.setCustomerOffers([]);
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.GET.name,
-          "${API.GET_OFFERS_ENDPOINT}?switch_user_id=$userId",
-          header: true);
+        requestTypes.GET.name,
+        "${API.GET_OFFERS_ENDPOINT}?switch_user_id=$userId",
+        header: true,
+      );
       if (res != null) {
         final model = responseModelFromJson(res.body);
         if (model.status == 1) {
-          controller?.setCustomerOffers(List<Offer>.from(
-              (model.data?["offers"] ?? {}).map((x) => Offer.fromJson(x))));
+          controller?.setCustomerOffers(List<Offer>.from((model.data?["offers"] ?? {}).map((x) => Offer.fromJson(x))));
         } else {
           CustomToast().showToast(message: model.message ?? "");
         }
@@ -379,14 +394,15 @@ class BusAPIS {
       final controller = navigatorKey.currentContext?.read<HomeController>();
       controller?.setCustomersList([]);
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.GET.name, API.GET_CUSTOMERS_ENDPOINT,
-          header: true);
+        requestTypes.GET.name,
+        API.GET_CUSTOMERS_ENDPOINT,
+        header: true,
+      );
       if (res != null) {
         final model = responseModelFromJson(res.body);
 
         if (model.status == 1) {
-          controller?.setCustomersList(
-              List<User>.from((model.data ?? {}).map((x) => User.setUser(x))));
+          controller?.setCustomersList(List<User>.from((model.data ?? {}).map((x) => User.setUser(x))));
         } else {
           CustomToast().showToast(message: model.message ?? "");
         }
@@ -401,21 +417,16 @@ class BusAPIS {
       final controller = navigatorKey.currentContext?.read<UserController>();
       controller?.setReviews([]);
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.GET.name, "${API.GET_REVIEWS_ENDPOINT}?bus_id=$busId",
-          header: true);
+        requestTypes.GET.name,
+        "${API.GET_REVIEWS_ENDPOINT}?bus_id=$busId",
+        header: true,
+      );
       if (res != null) {
         final model = responseModelFromJson(res.body);
 
         if (model.status == 1) {
-          controller?.setRating(
-              double.parse(model.data?["ratings"]?.toString() ?? "0"));
-          controller?.setReviews(
-            List<Review>.from(
-              (model.data?["reviews"] ?? {}).map(
-                (x) => Review.fromJson(x),
-              ),
-            ),
-          );
+          controller?.setRating(double.parse(model.data?["ratings"]?.toString() ?? "0"));
+          controller?.setReviews(List<Review>.from((model.data?["reviews"] ?? {}).map((x) => Review.fromJson(x))));
         } else {
           CustomToast().showToast(message: model.message ?? "");
         }

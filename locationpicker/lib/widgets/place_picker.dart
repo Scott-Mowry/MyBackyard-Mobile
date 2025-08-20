@@ -30,11 +30,8 @@ class PlacePicker extends StatefulWidget {
   LocalizationItem? localizationItem;
   LatLng defaultLocation = LatLng(10.5381264, 73.8827201);
 
-  PlacePicker(this.apiKey,
-      {this.displayLocation, this.localizationItem, LatLng? defaultLocation}) {
-    if (this.localizationItem == null) {
-      this.localizationItem = new LocalizationItem();
-    }
+  PlacePicker(this.apiKey, {Key? key, this.displayLocation, this.localizationItem, LatLng? defaultLocation}) : super(key: key) {
+    localizationItem ??= LocalizationItem();
     if (defaultLocation != null) {
       this.defaultLocation = defaultLocation;
     }
@@ -51,7 +48,7 @@ class PlacePickerState extends State<PlacePicker> {
   bool _loadMap = false;
 
   /// Indicator for the selected location
-  final Set<Marker> markers = Set();
+  final Set<Marker> markers = {};
 
   /// Result returned after user completes selection
   LocationResult? locationResult;
@@ -74,13 +71,13 @@ class PlacePickerState extends State<PlacePicker> {
   // PlacePickerState();
 
   void onMapCreated(GoogleMapController controller) {
-    this.mapController.complete(controller);
+    mapController.complete(controller);
     moveToCurrentUserLocation();
   }
 
   @override
   void setState(fn) {
-    if (this.mounted) {
+    if (mounted) {
       super.setState(fn);
     }
   }
@@ -90,15 +87,10 @@ class PlacePickerState extends State<PlacePicker> {
     super.initState();
     if (widget.displayLocation == null) {
       _getCurrentLocation().then((value) {
-        if (value != null) {
-          setState(() {
-            _currentLocation = value;
-          });
-        } else {
-          //Navigator.of(context).pop(null);
-          print("getting current location null");
-        }
         setState(() {
+          _currentLocation = value;
+        });
+              setState(() {
           _loadMap = true;
         });
       }).catchError((e) {
@@ -125,7 +117,7 @@ class PlacePickerState extends State<PlacePicker> {
 
   @override
   void dispose() {
-    this.overlayEntry?.remove();
+    overlayEntry?.remove();
     super.dispose();
   }
 
@@ -133,13 +125,8 @@ class PlacePickerState extends State<PlacePicker> {
   Widget build(BuildContext context) {
     var googleMaps = GoogleMap(
       initialCameraPosition: CameraPosition(
-        target: widget.displayLocation ??
-            _currentLocation ??
-            widget.defaultLocation,
-        zoom: _currentLocation == null &&
-            widget.displayLocation == null
-            ? 5
-            : 15,
+        target: widget.displayLocation ?? _currentLocation ?? widget.defaultLocation,
+        zoom: _currentLocation == null && widget.displayLocation == null ? 5 : 15,
       ),
       minMaxZoomPreference: MinMaxZoomPreference(0, 16),
       myLocationButtonEnabled: true,
@@ -158,19 +145,19 @@ class PlacePickerState extends State<PlacePicker> {
           locationResult = null;
           _delayedPop();
           return Future.value(false);
-        }  else  {
+        } else {
           return Future.value(true);
         }
       },
       child: Scaffold(
         appBar: AppBar(
-          key: this.appBarKey,
+          key: appBarKey,
           title: SearchInput(searchPlace),
           centerTitle: true,
           automaticallyImplyLeading: false,
           backgroundColor: const Color(0xffF3F1F2),
         ),
-        backgroundColor:const Color(0xffF3F1F2),
+        backgroundColor: const Color(0xffF3F1F2),
         body: Column(
           children: <Widget>[
             Expanded(
@@ -180,7 +167,7 @@ class PlacePickerState extends State<PlacePicker> {
                     )
                   : googleMaps,
             ),
-            if (!this.hasSearchTerm)
+            if (!hasSearchTerm)
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,14 +176,13 @@ class PlacePickerState extends State<PlacePicker> {
                       if (Platform.isAndroid) {
                         _delayedPop();
                       } else {
-                        Navigator.of(context).pop(this.locationResult);
+                        Navigator.of(context).pop(locationResult);
                       }
                     }, widget.localizationItem!.tapToSelectLocation),
                     Divider(height: 8),
                     Padding(
-                      child: Text(widget.localizationItem!.nearBy,
-                          style: TextStyle(fontSize: 16)),
                       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                      child: Text(widget.localizationItem!.nearBy, style: TextStyle(fontSize: 16)),
                     ),
                     Expanded(
                       child: ListView(
@@ -220,9 +206,9 @@ class PlacePickerState extends State<PlacePicker> {
 
   /// Hides the autocomplete overlay
   void clearOverlay() {
-    if (this.overlayEntry != null) {
-      this.overlayEntry?.remove();
-      this.overlayEntry = null;
+    if (overlayEntry != null) {
+      overlayEntry?.remove();
+      overlayEntry = null;
     }
   }
 
@@ -233,33 +219,28 @@ class PlacePickerState extends State<PlacePicker> {
   void searchPlace(String place) {
     // on keyboard dismissal, the search was being triggered again
     // this is to cap that.
-    if (place == this.previousSearchTerm) {
+    if (place == previousSearchTerm) {
       return;
     }
 
     previousSearchTerm = place;
 
-    if (context == null) {
-      return;
-    }
-
     clearOverlay();
 
     setState(() {
-      hasSearchTerm = place.length > 0;
+      hasSearchTerm = place.isNotEmpty;
     });
 
-    if (place.length < 1) {
+    if (place.isEmpty) {
       return;
     }
 
     final RenderBox? renderBox = context.findRenderObject() as RenderBox?;
     final size = renderBox?.size;
 
-    final RenderBox? appBarBox =
-        this.appBarKey.currentContext?.findRenderObject() as RenderBox?;
+    final RenderBox? appBarBox = appBarKey.currentContext?.findRenderObject() as RenderBox?;
 
-    this.overlayEntry = OverlayEntry(
+    overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
         top: appBarBox?.size.height,
         width: size?.width,
@@ -271,14 +252,9 @@ class PlacePickerState extends State<PlacePicker> {
             padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
             child: Row(
               children: <Widget>[
-                SizedBox(
-                    height: 24,
-                    width: 24,
-                    child: CircularProgressIndicator(strokeWidth: 3)),
+                SizedBox(height: 24, width: 24, child: CircularProgressIndicator(strokeWidth: 3)),
                 SizedBox(width: 24),
-                Expanded(
-                    child: Text(widget.localizationItem!.findingPlace,
-                        style: TextStyle(fontSize: 16)))
+                Expanded(child: Text(widget.localizationItem!.findingPlace, style: TextStyle(fontSize: 16)))
               ],
             ),
           ),
@@ -286,7 +262,7 @@ class PlacePickerState extends State<PlacePicker> {
       ),
     );
 
-    Overlay.of(context)?.insert(this.overlayEntry!);
+    Overlay.of(context).insert(overlayEntry!);
 
     autoCompleteSearch(place);
   }
@@ -296,15 +272,13 @@ class PlacePickerState extends State<PlacePicker> {
     try {
       place = place.replaceAll(" ", "+");
 
-      var endpoint =
-          "https://maps.googleapis.com/maps/api/place/autocomplete/json?"
+      var endpoint = "https://maps.googleapis.com/maps/api/place/autocomplete/json?"
           "key=${widget.apiKey}&"
           "language=${widget.localizationItem!.languageCode}&"
-          "input={$place}&sessiontoken=${this.sessionToken}";
+          "input={$place}&sessiontoken=$sessionToken";
 
-      if (this.locationResult != null) {
-        endpoint += "&location=${this.locationResult!.latLng?.latitude}," +
-            "${this.locationResult!.latLng?.longitude}";
+      if (locationResult != null) {
+        endpoint += "&location=${locationResult!.latLng?.latitude}," "${locationResult!.latLng?.longitude}";
       }
 
       final response = await http.get(Uri.parse(endpoint));
@@ -358,10 +332,7 @@ class PlacePickerState extends State<PlacePicker> {
     clearOverlay();
 
     try {
-      final url = Uri.parse(
-          "https://maps.googleapis.com/maps/api/place/details/json?key=${widget.apiKey}&" +
-              "language=${widget.localizationItem!.languageCode}&" +
-              "placeid=$placeId");
+      final url = Uri.parse("https://maps.googleapis.com/maps/api/place/details/json?key=${widget.apiKey}&" "language=${widget.localizationItem!.languageCode}&" "placeid=$placeId");
 
       final response = await http.get(url);
 
@@ -389,22 +360,22 @@ class PlacePickerState extends State<PlacePicker> {
     final RenderBox? renderBox = context.findRenderObject() as RenderBox?;
     Size? size = renderBox?.size;
 
-    final RenderBox? appBarBox =
-        this.appBarKey.currentContext?.findRenderObject() as RenderBox?;
+    final RenderBox? appBarBox = appBarKey.currentContext?.findRenderObject() as RenderBox?;
 
     clearOverlay();
 
-    this.overlayEntry = OverlayEntry(
+    overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
         width: size?.width,
         top: appBarBox?.size.height,
-        child: Material(elevation: 1,color:const Color(0xffF3F1F2), child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: suggestions)),
+        child: Material(
+            elevation: 1,
+            color: const Color(0xffF3F1F2),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: suggestions)),
       ),
     );
 
-    Overlay.of(context)?.insert(this.overlayEntry!);
+    Overlay.of(context).insert(overlayEntry!);
   }
 
   /// Utility function to get clean readable name of a location. First checks
@@ -413,19 +384,18 @@ class PlacePickerState extends State<PlacePicker> {
   /// result, instead of road name). If no name is found from the nearby list,
   /// then the road name returned is used instead.
   String getLocationName() {
-    if (this.locationResult == null) {
+    if (locationResult == null) {
       return widget.localizationItem!.unnamedLocation;
     }
 
-    for (NearbyPlace np in this.nearbyPlaces) {
-      if (np.latLng == this.locationResult?.latLng &&
-          np.name != this.locationResult?.locality) {
-        this.locationResult?.name = np.name;
-        return "${np.name}, ${this.locationResult?.locality}";
+    for (NearbyPlace np in nearbyPlaces) {
+      if (np.latLng == locationResult?.latLng && np.name != locationResult?.locality) {
+        locationResult?.name = np.name;
+        return "${np.name}, ${locationResult?.locality}";
       }
     }
 
-    return "${this.locationResult?.name}, ${this.locationResult?.locality}";
+    return "${locationResult?.name}, ${locationResult?.locality}";
   }
 
   /// Moves the marker to the indicated lat,lng
@@ -433,16 +403,14 @@ class PlacePickerState extends State<PlacePicker> {
     // markers.clear();
     setState(() {
       markers.clear();
-      markers.add(
-          Marker(markerId: MarkerId("selected-location"), position: latLng));
+      markers.add(Marker(markerId: MarkerId("selected-location"), position: latLng));
     });
   }
 
   /// Fetches and updates the nearby places to the provided lat,lng
   void getNearbyPlaces(LatLng latLng) async {
     try {
-      final url = Uri.parse(
-          "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
+      final url = Uri.parse("https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
           "key=${widget.apiKey}&location=${latLng.latitude},${latLng.longitude}"
           "&radius=150&language=${widget.localizationItem!.languageCode}");
 
@@ -458,22 +426,21 @@ class PlacePickerState extends State<PlacePicker> {
         throw Error();
       }
 
-      this.nearbyPlaces.clear();
+      nearbyPlaces.clear();
 
       for (Map<String, dynamic> item in responseJson['results']) {
         final nearbyPlace = NearbyPlace()
           ..name = item['name']
           ..icon = item['icon']
-          ..latLng = LatLng(item['geometry']['location']['lat'],
-              item['geometry']['location']['lng']);
+          ..latLng = LatLng(item['geometry']['location']['lat'], item['geometry']['location']['lng']);
 
-        this.nearbyPlaces.add(nearbyPlace);
+        nearbyPlaces.add(nearbyPlace);
       }
 
       // to update the nearby places
       setState(() {
         // this is to require the result to show
-        this.hasSearchTerm = false;
+        hasSearchTerm = false;
       });
     } catch (e) {
       //
@@ -521,9 +488,6 @@ class PlacePickerState extends State<PlacePicker> {
             var tmp = result['address_components'][i];
             var types = tmp["types"] as List<dynamic>;
             var shortName = tmp['short_name'];
-            if (types == null) {
-              continue;
-            }
             if (i == 0) {
               // [street_number]
               name = shortName;
@@ -557,7 +521,7 @@ class PlacePickerState extends State<PlacePicker> {
         }
         locality = locality ?? administrativeAreaLevel1;
         city = locality;
-        this.locationResult = LocationResult()
+        locationResult = LocationResult()
           ..name = name
           ..locality = locality
           ..latLng = latLng
@@ -565,17 +529,13 @@ class PlacePickerState extends State<PlacePicker> {
           ..placeId = result['place_id']
           ..postalCode = postalCode
           ..country = AddressComponent(name: country, shortName: country)
-          ..administrativeAreaLevel1 = AddressComponent(
-              name: administrativeAreaLevel1,
-              shortName: administrativeAreaLevel1)
-          ..administrativeAreaLevel2 = AddressComponent(
-              name: administrativeAreaLevel2,
-              shortName: administrativeAreaLevel2)
+          ..administrativeAreaLevel1 =
+              AddressComponent(name: administrativeAreaLevel1, shortName: administrativeAreaLevel1)
+          ..administrativeAreaLevel2 =
+              AddressComponent(name: administrativeAreaLevel2, shortName: administrativeAreaLevel2)
           ..city = AddressComponent(name: city, shortName: city)
-          ..subLocalityLevel1 = AddressComponent(
-              name: subLocalityLevel1, shortName: subLocalityLevel1)
-          ..subLocalityLevel2 = AddressComponent(
-              name: subLocalityLevel2, shortName: subLocalityLevel2);
+          ..subLocalityLevel1 = AddressComponent(name: subLocalityLevel1, shortName: subLocalityLevel1)
+          ..subLocalityLevel2 = AddressComponent(name: subLocalityLevel2, shortName: subLocalityLevel2);
       });
     } catch (e) {
       print(e);
@@ -585,10 +545,9 @@ class PlacePickerState extends State<PlacePicker> {
   /// Moves the camera to the provided location and updates other UI features to
   /// match the location.
   void moveToLocation(LatLng latLng) {
-    this.mapController.future.then((controller) {
+    mapController.future.then((controller) {
       controller.animateCamera(
-        CameraUpdate.newCameraPosition(
-            CameraPosition(target: latLng, zoom: 15.0)),
+        CameraUpdate.newCameraPosition(CameraPosition(target: latLng, zoom: 15.0)),
       );
     });
 
@@ -642,17 +601,15 @@ class PlacePickerState extends State<PlacePicker> {
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
       //return widget.defaultLocation;
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+      return Future.error('Location permissions are permanently denied, we cannot request permissions.');
     }
     try {
-      final locationData =
-          await Geolocator.getCurrentPosition(timeLimit: Duration(seconds: 30));
+      final locationData = await Geolocator.getCurrentPosition(timeLimit: Duration(seconds: 30));
       LatLng target = LatLng(locationData.latitude, locationData.longitude);
       //moveToLocation(target);
       print('target:$target');
       return target;
-    } on TimeoutException catch (e) {
+    } on TimeoutException {
       final locationData = await Geolocator.getLastKnownPosition();
       if (locationData != null) {
         return LatLng(locationData.latitude, locationData.longitude);
@@ -669,8 +626,7 @@ class PlacePickerState extends State<PlacePicker> {
           builder: (BuildContext ctx) {
             return CupertinoAlertDialog(
               title: Text("Location is disabled"),
-              content: Text(
-                  "To use location, go to your Settings App > Privacy > Location Services."),
+              content: Text("To use location, go to your Settings App > Privacy > Location Services."),
               actions: [
                 CupertinoDialogAction(
                   child: Text("Cancel"),
@@ -693,8 +649,7 @@ class PlacePickerState extends State<PlacePicker> {
           builder: (BuildContext ctx) {
             return AlertDialog(
               title: Text("Location is disabled"),
-              content: Text(
-                  "The app needs to access your location. Please enable location service."),
+              content: Text("The app needs to access your location. Please enable location service."),
               actions: [
                 TextButton(
                   child: Text("Cancel"),
@@ -738,7 +693,7 @@ class PlacePickerState extends State<PlacePicker> {
     await Future.delayed(const Duration(milliseconds: 500));
     Navigator.of(context)
       ..pop()
-      ..pop(this.locationResult);
+      ..pop(locationResult);
     return Future.value(false);
   }
 }

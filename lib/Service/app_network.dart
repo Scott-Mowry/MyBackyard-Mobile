@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:backyard/Component/custom_toast.dart';
@@ -27,15 +26,19 @@ class AppNetwork {
     return internet;
   }
 
-  static FutureOr<Response?> networkRequest(String type, String path,
-      {Map<String, String>? parameters,
-      List<MultipartFile>? attachments,
-      bool header = false}) async {
+  static FutureOr<Response?> networkRequest(
+    String type,
+    String path, {
+    Map<String, String>? parameters,
+    List<MultipartFile>? attachments,
+    bool header = false,
+  }) async {
     try {
       if (await checkInternet()) {
-        dynamic request = type == requestTypes.POST.name
-            ? MultipartRequest(type, Uri.parse('${API.url}$path'))
-            : Request(type, Uri.parse('${API.url}$path'));
+        dynamic request =
+            type == requestTypes.POST.name
+                ? MultipartRequest(type, Uri.parse('${API.url}$path'))
+                : Request(type, Uri.parse('${API.url}$path'));
         request.headers.addAll({'Content-Type': 'application/json'});
         if (parameters != null) {
           // if ((type == requestTypes.POST.name ||
@@ -53,9 +56,8 @@ class AppNetwork {
         }
         if (header) {
           request.headers.addAll({
-            'Authorization':
-                'Bearer ${navigatorKey.currentContext?.read<UserController>().user?.token ?? ""}',
-            'Accept': 'application/json'
+            'Authorization': 'Bearer ${navigatorKey.currentContext?.read<UserController>().user?.token ?? ""}',
+            'Accept': 'application/json',
           });
           log('HEADER: ${request.headers.toString()}');
         }
@@ -63,11 +65,13 @@ class AppNetwork {
         if (parameters != null) {
           log('PARAMETERS: $parameters');
         }
-        StreamedResponse response =
-            await request.send().timeout(API.timeout, onTimeout: () {
-          CustomToast().showToast(message: "Network Error");
-          throw TimeoutException;
-        });
+        StreamedResponse response = await request.send().timeout(
+          API.timeout,
+          onTimeout: () {
+            CustomToast().showToast(message: "Network Error");
+            throw TimeoutException;
+          },
+        );
         log("STATUS CODE: ${response.statusCode}");
         if (response.statusCode == 401) {
           if (header) {
@@ -90,11 +94,8 @@ class AppNetwork {
   static on401Error() {
     Timer(const Duration(seconds: 1), () {
       navigatorKey.currentContext?.read<UserController>().clear();
-      Navigator.of(navigatorKey.currentContext!)
-          .popUntil((route) => route.isFirst);
-      Navigator.of(navigatorKey.currentContext!).pushReplacementNamed(
-          AppRouteName.SPLASH_SCREEN_ROUTE
-          );
+      Navigator.of(navigatorKey.currentContext!).popUntil((route) => route.isFirst);
+      Navigator.of(navigatorKey.currentContext!).pushReplacementNamed(AppRouteName.SPLASH_SCREEN_ROUTE);
     });
   }
 

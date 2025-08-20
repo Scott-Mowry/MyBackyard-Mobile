@@ -32,7 +32,7 @@ import '../../Component/custom_text.dart';
 import '../../Utils/image_path.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -73,12 +73,8 @@ class _LoginScreenState extends State<LoginScreen> {
               // leading: CustomBackButton(),
               bottom: 6.h,
             ),
-            AppLogo(
-              onTap: () {},
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
+            AppLogo(onTap: () {}),
+            SizedBox(height: 2.h),
             Expanded(
               child: SingleChildScrollView(
                 physics: const ClampingScrollPhysics(),
@@ -86,219 +82,177 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: Utils.isTablet ? 60.w : null,
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: 2.h,
-                      ),
+                      SizedBox(height: 2.h),
                       const MyText(
                         title: 'Login / Register', //'Login With Email',
                         size: 20,
                         fontWeight: FontWeight.w600,
                       ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
+                      SizedBox(height: 2.h),
                       if (savedUser != null) ...[
                         SizedBox(height: 2.h),
                         GestureDetector(
                           onLongPress: () {
                             showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return BackdropFilter(
-                                      filter: ImageFilter.blur(
-                                          sigmaX: 10, sigmaY: 10),
-                                      child: AlertDialog(
-                                        backgroundColor: Colors.transparent,
-                                        contentPadding: const EdgeInsets.all(0),
-                                        insetPadding: EdgeInsets.symmetric(
-                                            horizontal: 4.w),
-                                        content: Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                          ),
-                                          // height: responsive.setHeight(75),
-                                          width: 100.w,
-                                          child: SingleChildScrollView(
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Container(
-                                                  decoration: BoxDecoration(
-                                                      color: MyColors()
-                                                          .primaryColor,
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                              .vertical(
-                                                              top: Radius
-                                                                  .circular(
-                                                                      20))),
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 2.h,
-                                                      horizontal: 3.w),
-                                                  margin: EdgeInsets.symmetric(
-                                                      vertical: 1.w,
-                                                      horizontal: 1.w),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Image.asset(
-                                                        ImagePath.close,
-                                                        scale: 2,
-                                                        color:
-                                                            Colors.transparent,
-                                                      ),
-                                                      MyText(
-                                                        title:
-                                                            'Remove Saved User',
-                                                        clr: MyColors()
-                                                            .whiteColor,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        size: 18,
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          AppNavigation
-                                                              .navigatorPop();
-                                                        },
-                                                        child: Image.asset(
-                                                          ImagePath.close,
-                                                          scale: 2,
-                                                        ),
-                                                      ),
-                                                    ],
+                              context: context,
+                              builder: (context) {
+                                return BackdropFilter(
+                                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                                  child: AlertDialog(
+                                    backgroundColor: Colors.transparent,
+                                    contentPadding: const EdgeInsets.all(0),
+                                    insetPadding: EdgeInsets.symmetric(horizontal: 4.w),
+                                    content: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      // height: responsive.setHeight(75),
+                                      width: 100.w,
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: MyColors().primaryColor,
+                                                borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                                              ),
+                                              padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.w),
+                                              margin: EdgeInsets.symmetric(vertical: 1.w, horizontal: 1.w),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Image.asset(ImagePath.close, scale: 2, color: Colors.transparent),
+                                                  MyText(
+                                                    title: 'Remove Saved User',
+                                                    clr: MyColors().whiteColor,
+                                                    fontWeight: FontWeight.w600,
+                                                    size: 18,
                                                   ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 4.w),
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      SizedBox(
-                                                        height: 2.h,
-                                                      ),
-                                                      const MyText(
-                                                        title:
-                                                            'Do you want to remove saved user?',
-                                                        size: 14,
-                                                        center: true,
-                                                      ),
-                                                      SizedBox(
-                                                        height: 4.h,
-                                                      ),
-                                                      MyButton(
-                                                          onTap: () {
-                                                            AppNavigation
-                                                                .navigatorPop();
-                                                            SharedPreference()
-                                                                .clear();
-                                                            savedUser = null;
-                                                            setState(() {});
-                                                          },
-                                                          title: "Yes"),
-                                                      SizedBox(height: 1.5.h),
-                                                      MyButton(
-                                                          onTap: () {
-                                                            AppNavigation
-                                                                .navigatorPop();
-                                                          },
-                                                          title: "No"),
-                                                      SizedBox(
-                                                        height: 2.h,
-                                                      ),
-                                                    ],
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      AppNavigation.navigatorPop();
+                                                    },
+                                                    child: Image.asset(ImagePath.close, scale: 2),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(horizontal: 4.w),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  SizedBox(height: 2.h),
+                                                  const MyText(
+                                                    title: 'Do you want to remove saved user?',
+                                                    size: 14,
+                                                    center: true,
+                                                  ),
+                                                  SizedBox(height: 4.h),
+                                                  MyButton(
+                                                    onTap: () {
+                                                      AppNavigation.navigatorPop();
+                                                      SharedPreference().clear();
+                                                      savedUser = null;
+                                                      setState(() {});
+                                                    },
+                                                    title: "Yes",
+                                                  ),
+                                                  SizedBox(height: 1.5.h),
+                                                  MyButton(
+                                                    onTap: () {
+                                                      AppNavigation.navigatorPop();
+                                                    },
+                                                    title: "No",
+                                                  ),
+                                                  SizedBox(height: 2.h),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ));
-                                });
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
                           },
                           onTap: () async {
                             AppNetwork.loadingProgressIndicator();
-                            final val = await AuthAPIS.signInWithId(
-                                id: savedUser?.id?.toString() ?? "");
+                            final val = await AuthAPIS.signInWithId(id: savedUser?.id?.toString() ?? "");
                             AppNavigation.navigatorPop();
                             if (val) {
-                              AppNavigation.navigateTo(
-                                  AppRouteName.HOME_SCREEN_ROUTE);
+                              AppNavigation.navigateTo(AppRouteName.HOME_SCREEN_ROUTE);
                             }
                           },
                           child: Container(
-                              padding: const EdgeInsets.all(15),
-                              width: 85.w,
-                              height: 10.h,
-                              decoration: BoxDecoration(
-                                  color: MyColors().secondaryColor,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Row(
-                                children: [
-                                  CustomImage(
-                                      shape: BoxShape.circle,
-                                      height: 50,
-                                      width: 50,
-                                      url: savedUser?.profileImage ?? ""),
-                                  SizedBox(width: 1.w),
-                                  Padding(
-                                    padding: const EdgeInsets.all(5),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        MyText(
-                                          title:
-                                              "${savedUser?.name ?? ""} ${savedUser?.lastName ?? ""}",
-                                          size: 14,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        MyText(
-                                          title: savedUser?.role?.name ?? "",
-                                          size: 14,
-                                        ),
-                                      ],
-                                    ),
+                            padding: const EdgeInsets.all(15),
+                            width: 85.w,
+                            height: 10.h,
+                            decoration: BoxDecoration(
+                              color: MyColors().secondaryColor,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              children: [
+                                CustomImage(
+                                  shape: BoxShape.circle,
+                                  height: 50,
+                                  width: 50,
+                                  url: savedUser?.profileImage ?? "",
+                                ),
+                                SizedBox(width: 1.w),
+                                Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      MyText(
+                                        title: "${savedUser?.name ?? ""} ${savedUser?.lastName ?? ""}",
+                                        size: 14,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      MyText(title: savedUser?.role?.name ?? "", size: 14),
+                                    ],
                                   ),
-                                  const Spacer(),
-                                  const Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: Colors.black,
-                                  )
-                                ],
-                              )),
+                                ),
+                                const Spacer(),
+                                const Icon(Icons.arrow_forward_ios, color: Colors.black),
+                              ],
+                            ),
+                          ),
                         ),
                         SizedBox(height: 2.h),
-                        Text('OR',
-                            style: GoogleFonts.roboto(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                              decorationThickness: 2,
-                              color: MyColors().black,
-                            )),
+                        Text(
+                          'OR',
+                          style: GoogleFonts.roboto(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                            decorationThickness: 2,
+                            color: MyColors().black,
+                          ),
+                        ),
                         SizedBox(height: 1.h),
                         GestureDetector(
                           onTap: () {
                             savedUser = null;
                             setState(() {});
                           },
-                          child: Text('Other Account',
-                              style: GoogleFonts.roboto(
-                                decoration: TextDecoration.underline,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 17,
-                                decorationThickness: 2,
-                                color: MyColors().black,
-                              )),
-                        )
+                          child: Text(
+                            'Other Account',
+                            style: GoogleFonts.roboto(
+                              decoration: TextDecoration.underline,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 17,
+                              decorationThickness: 2,
+                              color: MyColors().black,
+                            ),
+                          ),
+                        ),
                       ] else ...[
                         Form(
                           key: _form,
@@ -309,11 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 controller: email,
                                 maxLength: 35,
                                 inputType: TextInputType.emailAddress,
-                                prefixWidget: Image.asset(
-                                  ImagePath.email,
-                                  scale: 2,
-                                  color: MyColors().primaryColor,
-                                ),
+                                prefixWidget: Image.asset(ImagePath.email, scale: 2, color: MyColors().primaryColor),
                                 validation: (p0) => p0?.validateEmail,
                               ),
                               SizedBox(height: 2.h),
@@ -322,17 +272,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 controller: password,
                                 maxLength: 35,
                                 inputType: TextInputType.emailAddress,
-                                prefixWidget: Icon(
-                                  Icons.lock,
-                                  color: MyColors().primaryColor,
-                                ),
+                                prefixWidget: Icon(Icons.lock, color: MyColors().primaryColor),
                                 obscureText: show,
                                 suffixIcons: GestureDetector(
                                   onTap: hideShow,
                                   child: Image.asset(
-                                    show
-                                        ? ImagePath.showPass2
-                                        : ImagePath.showPass,
+                                    show ? ImagePath.showPass2 : ImagePath.showPass,
                                     scale: 3,
                                     color: MyColors().primaryColor,
                                   ),
@@ -348,36 +293,35 @@ class _LoginScreenState extends State<LoginScreen> {
                             const Spacer(),
                             GestureDetector(
                               onTap: () {
-                                AppNavigation.navigateTo(
-                                    AppRouteName.FORGET_PASSWORD_ROUTE);
+                                AppNavigation.navigateTo(AppRouteName.FORGET_PASSWORD_ROUTE);
                               },
-                              child: Text('Forgot Password?',
-                                  style: GoogleFonts.roboto(
-                                    decoration: TextDecoration.underline,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16,
-                                    decorationThickness: 2,
-                                    color: MyColors().black,
-                                  )),
+                              child: Text(
+                                'Forgot Password?',
+                                style: GoogleFonts.roboto(
+                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                  decorationThickness: 2,
+                                  color: MyColors().black,
+                                ),
+                              ),
                             ),
                           ],
                         ),
                         SizedBox(height: 2.h),
                         MyButton(
-                            title: 'Continue',
-                            onTap: () {
-                              onSubmit();
-                            })
+                          title: 'Continue',
+                          onTap: () {
+                            onSubmit();
+                          },
+                        ),
                       ],
                     ],
                   ),
                 ),
               ),
             ),
-            if (MediaQuery.of(context).viewInsets.bottom == 0) ...[
-              const CustomTermsCondition(),
-              SizedBox(height: 4.h),
-            ],
+            if (MediaQuery.of(context).viewInsets.bottom == 0) ...[const CustomTermsCondition(), SizedBox(height: 4.h)],
           ],
         ),
       ),
@@ -388,24 +332,21 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_form.currentState?.validate() ?? false) {
       FocusManager.instance.primaryFocus?.unfocus();
       AppNetwork.loadingProgressIndicator();
-      final val =
-          await AuthAPIS.signIn(email: email.text, password: password.text);
+      final val = await AuthAPIS.signIn(email: email.text, password: password.text);
       AppNavigation.navigatorPop();
       if (val) {
-        final userController =
-            navigatorKey.currentContext?.read<UserController>();
+        final userController = navigatorKey.currentContext?.read<UserController>();
         if (userController?.user?.isVerified == 0) {
           CustomToast().showToast(
-              message:
-                  "OTP Verification code has been sent to your email address",
-              toastLength: Toast.LENGTH_LONG,
-              timeInSecForIosWeb: 5);
+            message: "OTP Verification code has been sent to your email address",
+            toastLength: Toast.LENGTH_LONG,
+            timeInSecForIosWeb: 5,
+          );
           AppNavigation.navigateTo(AppRouteName.ENTER_OTP_SCREEN_ROUTE);
         } else {
           if (userController?.user?.isProfileCompleted == 0) {
             GeneralAPIS.getPlaces();
-            AppNavigation.navigateTo(
-                AppRouteName.COMPLETE_PROFILE_SCREEN_ROUTE);
+            AppNavigation.navigateTo(AppRouteName.COMPLETE_PROFILE_SCREEN_ROUTE);
           } else {
             AppNavigation.navigateToRemovingAll(AppRouteName.HOME_SCREEN_ROUTE);
           }

@@ -14,14 +14,9 @@ class CustomTermsCondition extends StatelessWidget {
   Widget build(BuildContext context) {
     return RichText(
       textAlign: TextAlign.center,
-      textScaleFactor: 1.03,
       text: TextSpan(
         text: "By sign-in, you agree to our ",
-        style: GoogleFonts.roboto(
-          fontWeight: FontWeight.w400,
-          fontSize: 13,
-          color: MyColors().black,
-        ),
+        style: GoogleFonts.roboto(fontWeight: FontWeight.w400, fontSize: 13, color: MyColors().black),
         children: [
           TextSpan(
             text: '\nTerms & Conditions',
@@ -32,14 +27,18 @@ class CustomTermsCondition extends StatelessWidget {
               decorationThickness: 2,
               color: MyColors().black,
             ),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () async {
-                AppNavigation.navigateTo(AppRouteName.CONTENT_SCREEN,
-                    arguments: ContentRoutingArgument(
+            recognizer:
+                TapGestureRecognizer()
+                  ..onTap = () async {
+                    AppNavigation.navigateTo(
+                      AppRouteName.CONTENT_SCREEN,
+                      arguments: ContentRoutingArgument(
                         title: 'Terms & Conditions',
                         url: 'https://www.google.com/',
-                        contentType: AppStrings.TERMS_AND_CONDITION_TYPE));
-              },
+                        contentType: AppStrings.TERMS_AND_CONDITION_TYPE,
+                      ),
+                    );
+                  },
           ),
           TextSpan(
             text: ' & ',
@@ -60,21 +59,25 @@ class CustomTermsCondition extends StatelessWidget {
               decorationThickness: 2,
               color: MyColors().black,
             ),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () async {
-                AppNavigation.navigateTo(AppRouteName.CONTENT_SCREEN,
-                    arguments: ContentRoutingArgument(
+            recognizer:
+                TapGestureRecognizer()
+                  ..onTap = () async {
+                    AppNavigation.navigateTo(
+                      AppRouteName.CONTENT_SCREEN,
+                      arguments: ContentRoutingArgument(
                         title: 'Privacy Policy',
                         url: 'https://www.google.com/',
-                        contentType: AppStrings.PRIVACY_POLICY_TYPE));
+                        contentType: AppStrings.PRIVACY_POLICY_TYPE,
+                      ),
+                    );
 
-                // AppNavigation.navigateTo( AppRouteName.CONTENT_SCREEN, arguments: ContentRoutingArgument(
-                //     title: AppStrings.PRIVACY_POLICY,
-                //     contentType: AppStrings.PRIVACY_POLICY_TYPE));
-              },
+                    // AppNavigation.navigateTo( AppRouteName.CONTENT_SCREEN, arguments: ContentRoutingArgument(
+                    //     title: AppStrings.PRIVACY_POLICY,
+                    //     contentType: AppStrings.PRIVACY_POLICY_TYPE));
+                  },
           ),
         ],
-      ),
+      ), textScaler: TextScaler.linear(1.03),
     );
   }
 }

@@ -10,10 +10,7 @@ class BottomSheetIndicator extends StatelessWidget {
       child: Container(
         height: 7,
         width: 60,
-        decoration: BoxDecoration(
-          color: MyColors().black,
-          borderRadius: BorderRadius.circular(200),
-        ),
+        decoration: BoxDecoration(color: MyColors().black, borderRadius: BorderRadius.circular(200)),
       ),
     );
   }

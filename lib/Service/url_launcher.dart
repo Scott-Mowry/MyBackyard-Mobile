@@ -12,7 +12,7 @@ class ContentScreen extends StatefulWidget {
   String? title, contentType;
   Function(bool)? isMerchantSetupDone;
 
-  ContentScreen({this.title, this.contentType, this.isMerchantSetupDone});
+  ContentScreen({super.key, this.title, this.contentType, this.isMerchantSetupDone});
 
   @override
   State<ContentScreen> createState() => _ContentScreenState();
@@ -71,12 +71,7 @@ class _ContentScreenState extends State<ContentScreen> {
                 javascriptMode: JavascriptMode.unrestricted,
               ),
             ),
-          Visibility(
-            visible: _isLoading,
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ),
-          )
+          Visibility(visible: _isLoading, child: const Center(child: CircularProgressIndicator())),
         ],
       ),
     );
@@ -110,42 +105,40 @@ class _ContentScreenState extends State<ContentScreen> {
     return widget.contentType == AppStrings.CREATE_MERCHANT
         ? null
         : AppBar(
-            backgroundColor: MyColors().black,
-            leading: InkWell(
-              onTap: () {
-                FocusManager.instance.primaryFocus?.unfocus();
-                AppNavigation.navigatorPop();
-              },
-              splashFactory: NoSplash.splashFactory,
-              hoverColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: .6.h, horizontal: 1.h),
-                child: CircleAvatar(
-                  backgroundColor: Colors.black,
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                    size: 18.sp,
-                  ),
-                ),
+          backgroundColor: MyColors().black,
+          leading: InkWell(
+            onTap: () {
+              FocusManager.instance.primaryFocus?.unfocus();
+              AppNavigation.navigatorPop();
+            },
+            splashFactory: NoSplash.splashFactory,
+            hoverColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: .6.h, horizontal: 1.h),
+              child: CircleAvatar(
+                backgroundColor: Colors.black,
+                child: Icon(Icons.arrow_back, color: Colors.white, size: 18.sp),
               ),
             ),
-            centerTitle: true,
-            title: MyText(
-                title: widget.contentType == AppStrings.TERMS_AND_CONDITION_TYPE
+          ),
+          centerTitle: true,
+          title: MyText(
+            title:
+                widget.contentType == AppStrings.TERMS_AND_CONDITION_TYPE
                     ? 'Terms & Conditions'
                     : widget.contentType == AppStrings.PRIVACY_POLICY_TYPE
-                        ? 'Privacy Policy'
-                        : widget.title ?? '',
-                center: true,
-                line: 2,
-                size: 18,
-                toverflow: TextOverflow.ellipsis,
-                fontWeight: FontWeight.w700,
-                clr: MyColors().whiteColor),
-            elevation: 0,
-          );
+                    ? 'Privacy Policy'
+                    : widget.title ?? '',
+            center: true,
+            line: 2,
+            size: 18,
+            toverflow: TextOverflow.ellipsis,
+            fontWeight: FontWeight.w700,
+            clr: MyColors().whiteColor,
+          ),
+          elevation: 0,
+        );
   }
 }

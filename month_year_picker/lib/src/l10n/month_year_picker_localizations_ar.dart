@@ -2,7 +2,7 @@ import 'month_year_picker_localizations.dart';
 
 /// The translations for Arabic (`ar`).
 class MonthYearPickerLocalizationsAr extends MonthYearPickerLocalizations {
-  MonthYearPickerLocalizationsAr([String locale = 'ar']) : super(locale);
+  MonthYearPickerLocalizationsAr([super.locale = 'ar']);
 
   @override
   String get helpText => 'اختيار الشهر/السنة';

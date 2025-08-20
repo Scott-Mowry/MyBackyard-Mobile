@@ -5,7 +5,7 @@ class NearbyPlaceItem extends StatelessWidget {
   final NearbyPlace nearbyPlace;
   final VoidCallback onTap;
 
-  NearbyPlaceItem(this.nearbyPlace, this.onTap);
+  const NearbyPlaceItem(this.nearbyPlace, this.onTap, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

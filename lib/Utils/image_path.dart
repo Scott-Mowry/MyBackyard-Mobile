@@ -118,10 +118,8 @@ class ImagePath {
   static const String random6 = "${randomImagePath}random6.png";
   static const String random7 = "${randomImagePath}random7.png";
 
-  static const String bakeryCoffeeShop =
-      "${randomImagePath}bakery_coffee_shop.png";
-  static const String entertainRecreation =
-      "${randomImagePath}entertain_recreation.png";
+  static const String bakeryCoffeeShop = "${randomImagePath}bakery_coffee_shop.png";
+  static const String entertainRecreation = "${randomImagePath}entertain_recreation.png";
   static const String everythingPets = "${randomImagePath}everything_pets.png";
   static const String familyFun = "${randomImagePath}family_fun.png";
   static const String flowerServices = "${randomImagePath}flower_services.png";
@@ -130,10 +128,8 @@ class ImagePath {
   static const String healthBeauty = "${randomImagePath}health_beauty.png";
   static const String homeServices = "${randomImagePath}home_services.png";
   static const String liquorStores = "${randomImagePath}liquor_stores.png";
-  static const String medicalServices =
-      "${randomImagePath}medical_services.png";
-  static const String poolLawnServices =
-      "${randomImagePath}pool_lawn_services.png";
+  static const String medicalServices = "${randomImagePath}medical_services.png";
+  static const String poolLawnServices = "${randomImagePath}pool_lawn_services.png";
   static const String retailBoutique = "${randomImagePath}retail_boutique.png";
   static const String sportsFitness = "${randomImagePath}sports_fitness.png";
 

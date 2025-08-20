@@ -2,7 +2,7 @@ import 'month_year_picker_localizations.dart';
 
 /// The translations for Malay (`ms`).
 class MonthYearPickerLocalizationsMs extends MonthYearPickerLocalizations {
-  MonthYearPickerLocalizationsMs([String locale = 'ms']) : super(locale);
+  MonthYearPickerLocalizationsMs([super.locale = 'ms']);
 
   @override
   String get helpText => 'PILIH BULAN/TAHUN';

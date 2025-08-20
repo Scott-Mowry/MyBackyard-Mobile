@@ -12,8 +12,8 @@ class MonthPicker extends StatefulWidget {
     required this.onMonthSelected,
     required this.onPageChanged,
     this.selectableMonthYearPredicate,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   // ---------------------------------- FIELDS ---------------------------------
   final DateTime firstDate;
@@ -135,8 +135,8 @@ class YearPicker extends StatefulWidget {
     required this.onYearSelected,
     required this.onPageChanged,
     this.selectableMonthYearPredicate,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   // ---------------------------------- FIELDS ---------------------------------
   final DateTime firstDate;
@@ -162,15 +162,13 @@ class YearPickerState extends State<YearPicker> {
 
   bool get canGoUp => _currentPage < (_pageCount - 1);
 
-  int get _pageCount =>
-      ((widget.lastDate.year - widget.firstDate.year + 1) / 12).ceil();
+  int get _pageCount => ((widget.lastDate.year - widget.firstDate.year + 1) / 12).ceil();
 
   // --------------------------------- METHODS ---------------------------------
   @override
   void initState() {
     super.initState();
-    _currentPage =
-        ((widget.initialDate.year - widget.firstDate.year) / 12).floor();
+    _currentPage = ((widget.initialDate.year - widget.firstDate.year) / 12).floor();
     _pageController = PageController(initialPage: _currentPage);
   }
 
@@ -248,8 +246,7 @@ class _MonthButton extends StatelessWidget {
     required this.selectedDate,
     required this.onMonthSelected,
     this.selectableMonthYearPredicate,
-    Key? key,
-  }) : super(key: key);
+  });
 
   // ---------------------------------- FIELDS ---------------------------------
   final int page;
@@ -267,12 +264,10 @@ class _MonthButton extends StatelessWidget {
     final date = DateTime(year, index + 1);
     final locale = Localizations.localeOf(context).toString();
 
-    final isEnabled =
-        selectableMonthYearPredicate == null
-            ? firstDate.compareTo(date) <= 0 && lastDate.compareTo(date) >= 0
-            : selectableMonthYearPredicate!(date);
-    final isSelected =
-        date.month == selectedDate.month && date.year == selectedDate.year;
+    final isEnabled = selectableMonthYearPredicate == null
+        ? firstDate.compareTo(date) <= 0 && lastDate.compareTo(date) >= 0
+        : selectableMonthYearPredicate!(date);
+    final isSelected = date.month == selectedDate.month && date.year == selectedDate.year;
 
     final now = DateTime.now();
     final isThisMonth = date.month == now.month && date.year == now.year;
@@ -297,8 +292,7 @@ class _YearButton extends StatelessWidget {
     required this.selectedDate,
     required this.onYearSelected,
     this.selectableMonthYearPredicate,
-    Key? key,
-  }) : super(key: key);
+  });
 
   // ---------------------------------- FIELDS ---------------------------------
   final int page;
@@ -316,10 +310,9 @@ class _YearButton extends StatelessWidget {
     final date = DateTime(year);
     final locale = Localizations.localeOf(context).toString();
 
-    final isEnabled =
-        selectableMonthYearPredicate == null
-            ? year >= firstDate.year && year <= lastDate.year
-            : selectableMonthYearPredicate!(date);
+    final isEnabled = selectableMonthYearPredicate == null
+        ? year >= firstDate.year && year <= lastDate.year
+        : selectableMonthYearPredicate!(date);
     final isSelected = year == selectedDate.year;
 
     final now = DateTime.now();
@@ -343,8 +336,7 @@ class _Button extends StatelessWidget {
     required this.isHighlighted,
     required this.isSelected,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+  });
 
   // ---------------------------------- FIELDS ---------------------------------
   final String label;
@@ -357,12 +349,10 @@ class _Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final buttonBackground =
-        isSelected ? Color(0xff540163) : null; // colorScheme.secondary : null;
-    final buttonText =
-        isSelected
-            ? colorScheme.onSecondary
-            : isHighlighted
+    final buttonBackground = isSelected ? Color(0xff540163) : null; // colorScheme.secondary : null;
+    final buttonText = isSelected
+        ? colorScheme.onSecondary
+        : isHighlighted
             ? Color(0xff540163) //colorScheme.secondary
             : colorScheme.onSurface;
 

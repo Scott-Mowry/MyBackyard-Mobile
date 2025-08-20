@@ -5,9 +5,7 @@ import 'package:provider/single_child_widget.dart';
 
 class StateManagement {
   static List<SingleChildWidget> providersList = [
-    ChangeNotifierProvider(
-        create: (context) => UserController(context: context)),
-    ChangeNotifierProvider(
-        create: (context) => HomeController(context: context)),
+    ChangeNotifierProvider(create: (context) => UserController(context: context)),
+    ChangeNotifierProvider(create: (context) => HomeController(context: context)),
   ];
 }

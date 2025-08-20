@@ -38,8 +38,7 @@ class AppRouteName {
   static const String PAYMENT_HISTORY_ROUTE = "/payment-history";
   static const String CANCEL_SESSIONS_ROUTE = "/cancel-sessions";
   static const String FAQ_SCREEN_ROUTE = "/faq-screen";
-  static const TIME_SCHEDULING_EDIT_SCREEN_ROUTE =
-      "/timeSchedulingEditScreenRoute";
+  static const TIME_SCHEDULING_EDIT_SCREEN_ROUTE = "/timeSchedulingEditScreenRoute";
 
   static const String SETTINGS_ROUTE = "/settings";
   static const String ADD_CARD_ROUTE = "/add-card";

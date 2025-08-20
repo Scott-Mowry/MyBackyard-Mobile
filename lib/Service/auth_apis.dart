@@ -17,29 +17,27 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AuthAPIS {
-  static Future<bool> signIn(
-      {required String email, required String password}) async {
+  static Future<bool> signIn({required String email, required String password}) async {
     try {
       // final devicetoken = await FirebaseMessaging.instance.getToken();
       // final type =
       //     navigatorKey.currentContext?.read<UserController>().user?.role;
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.POST.name, API.SIGN_IN_ENDPOINT,
-          parameters: {
-            'email': email,
-            'password': password,
-            // "role": type?.name ?? "",
-            "devicetoken": "fjhgjhgjh", //devicetoken ?? "",
-            "devicetype": Platform.isAndroid ? "android" : "ios",
-          });
+        requestTypes.POST.name,
+        API.SIGN_IN_ENDPOINT,
+        parameters: {
+          'email': email,
+          'password': password,
+          // "role": type?.name ?? "",
+          "devicetoken": "fjhgjhgjh", //devicetoken ?? "",
+          "devicetype": Platform.isAndroid ? "android" : "ios",
+        },
+      );
       if (res != null) {
         final model = responseModelFromJson(res.body);
         if (model.status == 1) {
-          navigatorKey.currentContext
-              ?.read<UserController>()
-              .setUser(User.setUser2(model.data?["user"]));
-          if (model.data?["user"]["is_profile_completed"] == 1 &&
-              model.data?["user"]["is_verified"] == 1) {
+          navigatorKey.currentContext?.read<UserController>().setUser(User.setUser2(model.data?["user"]));
+          if (model.data?["user"]["is_profile_completed"] == 1 && model.data?["user"]["is_verified"] == 1) {
             SharedPreference localDatabase = SharedPreference();
             await localDatabase.sharedPreference;
             localDatabase.clear();
@@ -67,11 +65,8 @@ class AuthAPIS {
       if (res != null) {
         final model = responseModelFromJson(res.body);
         if (model.status == 1) {
-          navigatorKey.currentContext
-              ?.read<UserController>()
-              .setUser(User.setUser2(model.data?["user"]));
-          if (model.data?["user"]["is_profile_completed"] == 1 &&
-              model.data?["user"]["is_verified"] == 1) {
+          navigatorKey.currentContext?.read<UserController>().setUser(User.setUser2(model.data?["user"]));
+          if (model.data?["user"]["is_profile_completed"] == 1 && model.data?["user"]["is_verified"] == 1) {
             SharedPreference localDatabase = SharedPreference();
             await localDatabase.sharedPreference;
             localDatabase.clear();
@@ -93,14 +88,14 @@ class AuthAPIS {
   static Future<bool> forgotPassword({required String email}) async {
     try {
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.POST.name, API.FORGOT_PASSWORD_ENDPOINT,
-          parameters: {'email': email});
+        requestTypes.POST.name,
+        API.FORGOT_PASSWORD_ENDPOINT,
+        parameters: {'email': email},
+      );
       if (res != null) {
         final model = responseModelFromJson(res.body);
         if (model.status == 1) {
-          navigatorKey.currentContext
-              ?.read<UserController>()
-              .setUser(User.setUser(model.data?["user"]));
+          navigatorKey.currentContext?.read<UserController>().setUser(User.setUser(model.data?["user"]));
           return true;
         } else {
           CustomToast().showToast(message: model.message ?? "");
@@ -114,18 +109,17 @@ class AuthAPIS {
     }
   }
 
-  static Future<bool> changePassword(
-      {required int id, required String password}) async {
+  static Future<bool> changePassword({required int id, required String password}) async {
     try {
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.POST.name, API.CHANGE_PASSWORD_ENDPOINT,
-          parameters: {'id': id.toString(), 'password': password});
+        requestTypes.POST.name,
+        API.CHANGE_PASSWORD_ENDPOINT,
+        parameters: {'id': id.toString(), 'password': password},
+      );
       if (res != null) {
         final model = responseModelFromJson(res.body);
         if (model.status == 1) {
-          navigatorKey.currentContext
-              ?.read<UserController>()
-              .setUser(User.setUser(model.data?["user"]));
+          navigatorKey.currentContext?.read<UserController>().setUser(User.setUser(model.data?["user"]));
           return true;
         } else {
           CustomToast().showToast(message: model.message ?? "");
@@ -139,24 +133,23 @@ class AuthAPIS {
     }
   }
 
-  static Future<bool> verifyAccount(
-      {required String otpCode, required int id}) async {
+  static Future<bool> verifyAccount({required String otpCode, required int id}) async {
     try {
       // final devicetoken = await FirebaseMessaging.instance.getToken();
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.POST.name, API.VERIFY_ACCOUNT_ENDPOINT,
-          parameters: {
-            "otp": otpCode,
-            "user_id": id.toString(),
-            "devicetoken": "fjhgjhgjh", //devicetoken ?? "",
-            "devicetype": Platform.isAndroid ? "android" : "ios",
-          });
+        requestTypes.POST.name,
+        API.VERIFY_ACCOUNT_ENDPOINT,
+        parameters: {
+          "otp": otpCode,
+          "user_id": id.toString(),
+          "devicetoken": "fjhgjhgjh", //devicetoken ?? "",
+          "devicetype": Platform.isAndroid ? "android" : "ios",
+        },
+      );
       if (res != null) {
         final model = responseModelFromJson(res.body);
         if (model.status == 1) {
-          navigatorKey.currentContext
-              ?.read<UserController>()
-              .setUser(User.setUser2(model.data?["user"]));
+          navigatorKey.currentContext?.read<UserController>().setUser(User.setUser2(model.data?["user"]));
           if (model.data?["user"]["is_profile_completed"] == 1) {
             SharedPreference localDatabase = SharedPreference();
             await localDatabase.sharedPreference;
@@ -176,22 +169,23 @@ class AuthAPIS {
     }
   }
 
-  static Future<bool> completeProfile(
-      {String? firstName,
-      String? isPushNotify,
-      String? lastName,
-      String? zipCode,
-      String? address,
-      String? email,
-      String? phone,
-      String? description,
-      String? subId,
-      double? lat,
-      double? long,
-      String? role,
-      int? categoryId,
-      List<BussinessScheduling>? days,
-      File? image}) async {
+  static Future<bool> completeProfile({
+    String? firstName,
+    String? isPushNotify,
+    String? lastName,
+    String? zipCode,
+    String? address,
+    String? email,
+    String? phone,
+    String? description,
+    String? subId,
+    double? lat,
+    double? long,
+    String? role,
+    int? categoryId,
+    List<BussinessScheduling>? days,
+    File? image,
+  }) async {
     try {
       Map<String, String> parameters = {};
       List<http.MultipartFile> attachments = [];
@@ -219,7 +213,7 @@ class AuthAPIS {
               'days[$i][start_time]':
                   '${formatter.format(_get24hour(days[i].startTime ?? "").hour)}:${formatter.format(_get24hour(days[i].startTime ?? "").minute)}',
               'days[$i][end_time]':
-                  '${formatter.format(_get24hour(days[i].endTime ?? "").hour)}:${formatter.format(_get24hour(days[i].endTime ?? "").minute)}'
+                  '${formatter.format(_get24hour(days[i].endTime ?? "").hour)}:${formatter.format(_get24hour(days[i].endTime ?? "").minute)}',
             });
           }
         }
@@ -243,36 +237,35 @@ class AuthAPIS {
         parameters.addAll({'description': description});
       }
       if (lat != null) {
-        parameters.addAll({
-          'latitude': lat.toString(),
-        });
+        parameters.addAll({'latitude': lat.toString()});
       }
       if (long != null) {
-        parameters.addAll({
-          'longitude': long.toString(),
-        });
+        parameters.addAll({'longitude': long.toString()});
       }
       if (image != null) {
-        attachments.add(
-            await http.MultipartFile.fromPath('profile_image', image.path));
+        attachments.add(await http.MultipartFile.fromPath('profile_image', image.path));
       }
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.POST.name, API.COMPLETE_PROFILE_ENDPOINT,
-          parameters: parameters, attachments: attachments, header: true);
+        requestTypes.POST.name,
+        API.COMPLETE_PROFILE_ENDPOINT,
+        parameters: parameters,
+        attachments: attachments,
+        header: true,
+      );
       if (res != null) {
         final model = responseModelFromJson(res.body);
         CustomToast().showToast(message: model.message ?? "");
         if (model.status == 1) {
-          navigatorKey.currentContext
-              ?.read<UserController>()
-              .setUser(User.setUser(model.data?["user"]), isNotToken: true);
+          navigatorKey.currentContext?.read<UserController>().setUser(
+            User.setUser(model.data?["user"]),
+            isNotToken: true,
+          );
           SharedPreference localDatabase = SharedPreference();
           await localDatabase.sharedPreference;
           localDatabase.clear();
           localDatabase.setUser(
             user: model.data?["user"],
-            token:
-                navigatorKey.currentContext?.read<UserController>().user?.token,
+            token: navigatorKey.currentContext?.read<UserController>().user?.token,
           );
           return true;
         } else {
@@ -307,8 +300,10 @@ class AuthAPIS {
   static Future<bool> resendCode({String? id}) async {
     try {
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.POST.name, API.RESEND_OTP_ENDPOINT,
-          parameters: {"user_id": id ?? ""});
+        requestTypes.POST.name,
+        API.RESEND_OTP_ENDPOINT,
+        parameters: {"user_id": id ?? ""},
+      );
       if (res != null) {
         final model = responseModelFromJson(res.body);
         if (model.status == 1) {
@@ -328,9 +323,7 @@ class AuthAPIS {
   static Future<void> signOut() async {
     try {
       AppNetwork.loadingProgressIndicator();
-      http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.POST.name, API.SIGN_OUT_ENDPOINT,
-          header: true);
+      http.Response? res = await AppNetwork.networkRequest(requestTypes.POST.name, API.SIGN_OUT_ENDPOINT, header: true);
       AppNavigation.navigatorPop();
       if (res != null) {
         final model = responseModelFromJson(res.body);
@@ -347,12 +340,13 @@ class AuthAPIS {
     }
   }
 
-  static Future<bool> socialLogin(
-      {String? socialToken,
-      String? socialType,
-      String? name,
-      String? email,
-      String? phone}) async {
+  static Future<bool> socialLogin({
+    String? socialToken,
+    String? socialType,
+    String? name,
+    String? email,
+    String? phone,
+  }) async {
     try {
       // final devicetoken = await FirebaseMessaging.instance.getToken();
       String? firstName;
@@ -365,32 +359,28 @@ class AuthAPIS {
         lastName = (name ?? "");
       }
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.POST.name, API.SOCIAL_LOGIN_ENDPOINT,
-          parameters: {
-            "first_name": firstName,
-            "last_name": lastName,
-            "social_token": socialToken ?? "",
-            "social_type": socialType ?? "",
-            "device_type": Platform.isAndroid ? "android" : "ios",
-            "device_token": "fjhgjhgjh", //devicetoken ?? "",
-            "role": navigatorKey.currentContext
-                    ?.read<UserController>()
-                    .user
-                    ?.role
-                    ?.name ??
-                "",
-            'phone': phone ?? ""
-          });
+        requestTypes.POST.name,
+        API.SOCIAL_LOGIN_ENDPOINT,
+        parameters: {
+          "first_name": firstName,
+          "last_name": lastName,
+          "social_token": socialToken ?? "",
+          "social_type": socialType ?? "",
+          "device_type": Platform.isAndroid ? "android" : "ios",
+          "device_token": "fjhgjhgjh", //devicetoken ?? "",
+          "role": navigatorKey.currentContext?.read<UserController>().user?.role?.name ?? "",
+          'phone': phone ?? "",
+        },
+      );
       if (res != null) {
         final model = responseModelFromJson(res.body);
         CustomToast().showToast(message: model.message ?? "");
         if (model.status == 1) {
           navigatorKey.currentContext?.read<UserController>().setUser(
-              User.setUser2(model.data?["user"],
-                  token: model.data?["bearer_token"]));
+            User.setUser2(model.data?["user"], token: model.data?["bearer_token"]),
+          );
           if (socialType == "phone") {
-            final user =
-                navigatorKey.currentContext?.read<UserController>().user;
+            final user = navigatorKey.currentContext?.read<UserController>().user;
             user?.phone = phone;
             navigatorKey.currentContext?.read<UserController>().setUser(user!);
           }
@@ -420,8 +410,10 @@ class AuthAPIS {
     try {
       AppNetwork.loadingProgressIndicator();
       http.Response? res = await AppNetwork.networkRequest(
-          requestTypes.POST.name, API.DELETE_ACCOUNT_ENDPOINT,
-          header: true);
+        requestTypes.POST.name,
+        API.DELETE_ACCOUNT_ENDPOINT,
+        header: true,
+      );
       AppNavigation.navigatorPop();
       if (res != null) {
         final model = responseModelFromJson(res.body);

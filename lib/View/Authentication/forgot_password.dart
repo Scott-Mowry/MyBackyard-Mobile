@@ -44,27 +44,16 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         topPadding: 6.h,
         child: Column(
           children: [
-            CustomAppBar(
-              screenTitle: '',
-              leading: CustomBackButton(),
-              bottom: 6.h,
-            ),
-            AppLogo(
-              onTap: () {},
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
+            CustomAppBar(screenTitle: '', leading: CustomBackButton(), bottom: 6.h),
+            AppLogo(onTap: () {}),
+            SizedBox(height: 2.h),
             Expanded(
               child: SingleChildScrollView(
                 physics: const ClampingScrollPhysics(),
                 child: Column(
                   children: [
                     SizedBox(height: 2.h),
-                    const MyText(
-                        title: 'Forgot Password',
-                        size: 20,
-                        fontWeight: FontWeight.w600),
+                    const MyText(title: 'Forgot Password', size: 20, fontWeight: FontWeight.w600),
                     SizedBox(height: 2.h),
                     Form(
                       key: _form,
@@ -73,28 +62,22 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         controller: email,
                         maxLength: 35,
                         inputType: TextInputType.emailAddress,
-                        prefixWidget: Image.asset(
-                          ImagePath.email,
-                          scale: 2,
-                          color: MyColors().primaryColor,
-                        ),
+                        prefixWidget: Image.asset(ImagePath.email, scale: 2, color: MyColors().primaryColor),
                         validation: (p0) => p0?.validateEmail,
                       ),
                     ),
                     SizedBox(height: 2.h),
                     MyButton(
-                        title: 'Continue',
-                        onTap: () {
-                          onSubmit();
-                        }),
+                      title: 'Continue',
+                      onTap: () {
+                        onSubmit();
+                      },
+                    ),
                   ],
                 ),
               ),
             ),
-            if (MediaQuery.of(context).viewInsets.bottom == 0) ...[
-              const CustomTermsCondition(),
-              SizedBox(height: 4.h),
-            ],
+            if (MediaQuery.of(context).viewInsets.bottom == 0) ...[const CustomTermsCondition(), SizedBox(height: 4.h)],
           ],
         ),
       ),
@@ -109,12 +92,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       AppNavigation.navigatorPop();
       if (val) {
         CustomToast().showToast(
-            message:
-                "OTP code for Forgot Password has been sent to your email address",
-            toastLength: Toast.LENGTH_LONG,
-            timeInSecForIosWeb: 5);
-        AppNavigation.navigateTo(AppRouteName.ENTER_OTP_SCREEN_ROUTE,
-            arguments: EnterOTPArguements(fromForgot: true));
+          message: "OTP code for Forgot Password has been sent to your email address",
+          toastLength: Toast.LENGTH_LONG,
+          timeInSecForIosWeb: 5,
+        );
+        AppNavigation.navigateTo(AppRouteName.ENTER_OTP_SCREEN_ROUTE, arguments: EnterOTPArguements(fromForgot: true));
       }
     }
   }
