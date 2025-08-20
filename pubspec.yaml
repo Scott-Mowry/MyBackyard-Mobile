@@ -1,0 +1,223 @@
+# Uncomment the following lines if you want to use the pubspec.yaml format for IOS
+# FLUTTER VERSION (3.16.0) 3.2.0
+# name: backyard
+# description: "A new Flutter project."
+# publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+# version: 1.0.0+30 #Android Version
+
+# environment:
+#   sdk: ">=3.2.0 <4.0.0"
+
+# dependencies:
+#   flutter:
+#     sdk: flutter
+
+#   # The following adds the Cupertino Icons font to your application.
+#   # Use with the CupertinoIcons class for iOS style icons.
+#   cupertino_icons: ^1.0.2
+#   device_info_plus:
+#   provider:
+#   dio:
+#   in_app_purchase:
+#   google_fonts: ^5.1.0
+#   latlong2:
+#   shared_preferences: ^2.2.0
+#   flutter_screenutil:
+#   image_cropper:
+#   image_picker:
+#   mask_text_input_formatter: ^2.5.0
+#   intl: ^0.18.1
+#   file_picker: ^5.3.3
+#   sizer: ^2.0.15
+#   pin_code_fields: ^8.0.1
+#   flutter_easyloading: ^3.0.5
+#   cached_network_image:
+#   dotted_line: ^3.2.2
+#   google_sign_in: ^6.1.6
+#   maps_launcher: ^2.2.1
+#   sign_in_with_apple: ^5.0.0
+#   readmore: ^2.2.0
+#   jwt_decoder:
+#   flutter_rating_bar: ^4.0.1
+#   firebase_core: ^2.15.1
+#   extended_image: ^8.1.0
+#   flutter_staggered_grid_view: ^0.7.0
+#   webview_flutter: ^3.0.4
+#   photo_view: ^0.14.0
+#   table_calendar: ^3.0.9
+#   circular_countdown_timer: ^0.2.3
+#   # video_thumbnail: ^0.5.3
+#   carousel_slider: ^4.2.1
+#   flutter_switch: ^0.3.2
+#   flutter_slidable: ^3.0.0
+#   google_maps_flutter: ^2.5.0
+#   # fijkplayer: ^0.11.0
+#   dropdown_button2: ^2.3.9
+#   timeline_list: ^0.0.6
+#   timelines: ^0.1.0
+#   timeline_tile: ^2.0.0
+#   share_plus: ^7.1.0
+#   shimmer: ^3.0.0
+#   permission_handler: 10.2.0
+#   focus_detector: 2.0.1
+#   flutter_local_notifications: ^9.1.1
+#   firebase_messaging: ^14.7.1
+#   firebase_auth: ^4.12.0
+#   #  flutter_stripe: ^9.5.0+1
+#   jiffy: ^6.2.1
+#   socket_io_client: ^2.0.3+1
+#   flutter_datetime_picker_plus:
+#   floating: 2.0.1
+#   # video_player: 2.2.3
+#   url_launcher: ^6.3.0
+#   #  firebase_dynamic_links: ^5.4.4
+#   #  flutter_google_places_hoc081098: ^2.0.0-beta.0
+#   #  animated_horizontal_calendar: ^0.0.3
+#   month_year_picker:
+#     # path: month_year_picker
+#   intl_phone_field:
+#     # path: intl_phone_field
+#   place_picker:
+#     path: locationpicker
+#   # flutter_stripe: ^9.6.0
+#   fluttertoast:
+#   geolocator: ^10.1.0
+#   geocoding: ^3.0.0
+#   qr_code_scanner: ^1.0.1
+#   qr_flutter:
+#   encrypt:
+#   crypto:
+#   pdf:
+#   printing:
+#   persistent_bottom_nav_bar:
+#     path: bottombar
+#   dotted_border: ^2.1.0
+
+# dependency_overrides:
+#   # stripe_android: "9.5.0+1"
+
+# dev_dependencies:
+#   flutter_test:
+#     sdk: flutter
+
+#   flutter_lints: ^2.0.0
+
+# flutter:
+#   uses-material-design: true
+
+#   assets:
+#     - assets/images/
+#     - assets/icons/
+#     - assets/random/
+#--------------------------------------------------------------------------------
+# Uncomment the following lines if you want to use the pubspec.yaml format for IOS
+# FLUTTER VERSION (3.29.3) 3.7.2
+name: backyard
+description: "A new Flutter project."
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+version: 2.0.0+1 #IOS Version
+
+environment:
+  sdk: ">=3.7.2 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  device_info_plus:
+  provider:
+  dio:
+  in_app_purchase:
+  google_fonts: ^6.2.1
+  latlong2:
+  shared_preferences: ^2.2.0
+  flutter_screenutil:
+  image_cropper:
+  image_picker:
+  mask_text_input_formatter: ^2.5.0
+  intl: ^0.19.0
+  file_picker: ^10.1.9
+  sizer: ^3.0.5
+  pin_code_fields: ^8.0.1
+  flutter_easyloading: ^3.0.5
+  cached_network_image:
+  dotted_line: ^3.2.2
+  google_sign_in: ^6.1.6
+  maps_launcher: ^3.0.0+1
+  sign_in_with_apple: ^7.0.1
+  readmore: ^3.0.0
+  jwt_decoder:
+  flutter_rating_bar: ^4.0.1
+  firebase_core: ^3.13.1
+  extended_image: ^10.0.1
+  flutter_staggered_grid_view: ^0.7.0
+  webview_flutter: ^3.0.4
+  photo_view: ^0.15.0
+  table_calendar: ^3.0.9
+  circular_countdown_timer: ^0.2.3
+  # video_thumbnail: ^0.5.3
+  carousel_slider: ^5.0.0
+  flutter_switch: ^0.3.2
+  flutter_slidable: ^4.0.0
+  google_maps_flutter: ^2.5.0
+  # fijkplayer: ^0.11.0
+  dropdown_button2: ^2.3.9
+  timeline_list: ^0.1.1
+  timelines: ^0.1.0
+  timeline_tile: ^2.0.0
+  share_plus: ^11.0.0
+  shimmer: ^3.0.0
+  permission_handler: ^12.0.0+1
+  focus_detector: 2.0.1
+  flutter_local_notifications: ^19.2.1
+  firebase_messaging: ^15.2.6
+  firebase_auth: ^5.5.4
+  #  flutter_stripe: ^9.5.0+1
+  jiffy: ^6.2.1
+  socket_io_client: ^3.1.2
+  flutter_datetime_picker_plus:
+  floating: ^6.0.0
+  # video_player: ^2.10.0
+  # url_launcher: ^6.3.1
+  #  firebase_dynamic_links: ^5.4.4
+  #  flutter_google_places_hoc081098: ^2.0.0-beta.0
+  #  animated_horizontal_calendar: ^0.0.3
+  month_year_picker:
+    # path: month_year_picker
+  intl_phone_field:
+    # path: intl_phone_field
+  place_picker:
+    path: locationpicker
+  # flutter_stripe: ^9.6.0
+  fluttertoast:
+  geolocator: ^10.1.0
+  geocoding: ^4.0.0
+  qr_code_scanner: ^1.0.1
+  qr_flutter:
+  encrypt:
+  crypto:
+  pdf:
+  printing:
+  persistent_bottom_nav_bar:
+    path: bottombar
+  dotted_border: ^3.0.1
+
+dependency_overrides:
+  # stripe_android: "9.5.0+1"
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/random/

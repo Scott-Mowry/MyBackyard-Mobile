@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "936593739098",
+    "project_id": "my-backyard-944b1",
+    "storage_bucket": "my-backyard-944b1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:936593739098:android:578f0e9495a49e0f8b3763",
+        "android_client_info": {
+          "package_name": "com.app.mybackyardusa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "936593739098-uqcac3eihrtqqm1va1q7bta7omqvk5fg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.mybackyardusa",
+            "certificate_hash": "7e9819cc880e64cddcb1180d9f523154ae6e0642"
+          }
+        },
+        {
+          "client_id": "936593739098-p8qnogmj7ksf5df5e8dl027nannali07.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsNAvPrqt-GfyahVnYBJfuWOc7shJKHxA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "936593739098-p8qnogmj7ksf5df5e8dl027nannali07.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "936593739098-mefs8s2o13908fftp6jfknsg1hhgtl0f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.celect.mybackyardapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
