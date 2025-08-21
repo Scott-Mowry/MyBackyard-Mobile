@@ -10,7 +10,7 @@ class FAQs {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> json = <String, dynamic>{};
+    final json = <String, dynamic>{};
     json['question'] = question;
     json['answer'] = answer;
     return json;

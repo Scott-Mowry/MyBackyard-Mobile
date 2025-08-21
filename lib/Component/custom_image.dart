@@ -3,8 +3,8 @@ import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/loader.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/Utils/photo_view.dart';
-import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomImage extends StatelessWidget {
@@ -34,7 +34,7 @@ class CustomImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return url == null
         ? assetImage()
-        : url == ""
+        : url == ''
         ? assetImage()
         : photoView == true
         ? GestureDetector(
@@ -48,7 +48,7 @@ class CustomImage extends StatelessWidget {
         : networkImage();
   }
 
-  assetImage() {
+  ClipRRect assetImage() {
     return ClipRRect(
       borderRadius: //BorderRadius.circular(200),
           BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
@@ -62,11 +62,11 @@ class CustomImage extends StatelessWidget {
     );
   }
 
-  errorImage() {
+  Image errorImage() {
     return Image.asset(ImagePath.error, scale: 3);
   }
 
-  networkImage() {
+  ExtendedImage networkImage() {
     return ExtendedImage.network(
       API.public_url + url!,
       width: width ?? 30.w,

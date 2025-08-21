@@ -1,6 +1,9 @@
 import 'package:backyard/Component/Appbar/appbar_components.dart';
 import 'package:backyard/Component/custom_background_image.dart';
+import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_padding.dart';
+import 'package:backyard/Component/custom_terms_condition.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Component/custom_text_form_field.dart';
 import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Component/validations.dart';
@@ -8,17 +11,13 @@ import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/auth_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
+import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/Authentication/enter_otp.dart';
 import 'package:backyard/View/Widget/appLogo.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../Component/custom_buttom.dart';
-import '../../Component/custom_terms_condition.dart';
-import '../../Component/custom_text.dart';
-import '../../Utils/image_path.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -85,7 +84,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     );
   }
 
-  onSubmit() async {
+  Future<void> onSubmit() async {
     if (_form.currentState?.validate() ?? false) {
       FocusManager.instance.primaryFocus?.unfocus();
       AppNetwork.loadingProgressIndicator();
@@ -93,7 +92,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       AppNavigation.navigatorPop();
       if (val) {
         CustomToast().showToast(
-          message: "OTP code for Forgot Password has been sent to your email address",
+          message: 'OTP code for Forgot Password has been sent to your email address',
           toastLength: Toast.LENGTH_LONG,
           timeInSecForIosWeb: 5,
         );

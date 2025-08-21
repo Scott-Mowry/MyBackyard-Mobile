@@ -1,4 +1,3 @@
-
 import 'package:backyard/Component/Appbar/appbar_components.dart';
 import 'package:backyard/Component/custom_image.dart';
 import 'package:backyard/Component/custom_refresh.dart';
@@ -6,16 +5,16 @@ import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Controller/home_controller.dart';
 import 'package:backyard/Model/menu_model.dart';
 import 'package:backyard/Service/general_apis.dart';
+import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
+import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/Utils/utils.dart';
 import 'package:backyard/View/User/search_result.dart';
-import 'package:flutter/material.dart';
 import 'package:backyard/View/base_view.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../Utils/image_path.dart';
 import 'package:sizer/sizer.dart';
-import '../../Service/navigation_service.dart';
 
 class Category extends StatefulWidget {
   const Category({super.key});
@@ -74,7 +73,7 @@ class _CategoryState extends State<Category> {
         bottomSafeArea: false,
         resizeBottomInset: false,
         child: CustomRefresh(
-          onRefresh: () => getCategories(),
+          onRefresh: getCategories,
           child: Consumer<HomeController>(
             builder: (context, val, _) {
               return Column(
@@ -86,7 +85,7 @@ class _CategoryState extends State<Category> {
                       borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.2), // Shadow color
+                          color: Colors.black.withValues(alpha: 0.2), // Shadow color
                           blurRadius: 10, // Spread of the shadow
                           spreadRadius: 5, // Size of the shadow
                           offset: const Offset(0, 4), // Position of the shadow
@@ -135,7 +134,7 @@ class _CategoryState extends State<Category> {
                         itemCount: val.categories?.length,
                         shrinkWrap: true,
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        itemBuilder: (BuildContext ctx, index) {
+                        itemBuilder: (ctx, index) {
                           return Stack(
                             children: [
                               CustomImage(
@@ -158,7 +157,7 @@ class _CategoryState extends State<Category> {
                                     borderRadius: BorderRadius.circular(10),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Color(0xFF183400).withOpacity(.8),
+                                        color: Color(0xFF183400).withValues(alpha: .8),
                                         spreadRadius: 0,
                                         blurRadius: 0,
                                         offset: Offset(0, 0), // changes position of shadow
@@ -167,7 +166,7 @@ class _CategoryState extends State<Category> {
                                   ),
                                   child: Center(
                                     child: MyText(
-                                      title: val.categories?[index].categoryName ?? "",
+                                      title: val.categories?[index].categoryName ?? '',
                                       clr: Colors.white,
                                       fontWeight: FontWeight.w600,
                                       size: Utils.isTablet ? 22 : 16,
@@ -222,7 +221,7 @@ class _CategoryState extends State<Category> {
                   //                   borderRadius: BorderRadius.circular(10),
                   //                   boxShadow: [
                   //                     BoxShadow(
-                  //                       color: Color(0xFF183400).withOpacity(.8),
+                  //                       color: Color(0xFF183400).withValues(alpha: .8),
                   //                       spreadRadius: 0,
                   //                       blurRadius: 0,
                   //                       offset: Offset(

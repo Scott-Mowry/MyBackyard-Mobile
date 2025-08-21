@@ -132,6 +132,5 @@ void showPlacePicker() async {
                         )));
 
     // Handle the result in your way
-    print(result);
 }
 ```

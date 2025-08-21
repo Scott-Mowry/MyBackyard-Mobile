@@ -9,9 +9,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:place_picker/entities/entities.dart';
 import 'package:place_picker/entities/localization_item.dart';
+import 'package:place_picker/uuid.dart';
 import 'package:place_picker/widgets/widgets.dart';
-
-import '../uuid.dart';
 
 /// Place picker widget made with map widget from
 /// [google_maps_flutter](https://github.com/flutter/plugins/tree/master/packages/google_maps_flutter)
@@ -30,7 +29,7 @@ class PlacePicker extends StatefulWidget {
   final LocalizationItem? localizationItem;
   final LatLng defaultLocation;
 
-  PlacePicker(this.apiKey, {Key? key, this.displayLocation, this.localizationItem, LatLng? defaultLocation}) 
+  PlacePicker(this.apiKey, {Key? key, this.displayLocation, this.localizationItem, LatLng? defaultLocation})
       : defaultLocation = defaultLocation ?? const LatLng(10.5381264, 73.8827201),
         super(key: key);
 
@@ -87,7 +86,7 @@ class PlacePickerState extends State<PlacePicker> {
         setState(() {
           _currentLocation = value;
         });
-              setState(() {
+        setState(() {
           _loadMap = true;
         });
       }).catchError((e) {
@@ -98,14 +97,13 @@ class PlacePickerState extends State<PlacePicker> {
             _loadMap = true;
           });
         }
-        print(e);
         //Navigator.of(context).pop(null);
       });
     } else {
       setState(() {
         markers.add(Marker(
           position: widget.displayLocation!,
-          markerId: MarkerId("selected-location"),
+          markerId: MarkerId('selected-location'),
         ));
         _loadMap = true;
       });
@@ -120,7 +118,7 @@ class PlacePickerState extends State<PlacePicker> {
 
   @override
   Widget build(BuildContext context) {
-    var googleMaps = GoogleMap(
+    final googleMaps = GoogleMap(
       initialCameraPosition: CameraPosition(
         target: widget.displayLocation ?? _currentLocation ?? widget.defaultLocation,
         zoom: _currentLocation == null && widget.displayLocation == null ? 5 : 15,
@@ -175,11 +173,11 @@ class PlacePickerState extends State<PlacePicker> {
                       } else {
                         Navigator.of(context).pop(locationResult);
                       }
-                    }, widget.localizationItem!.tapToSelectLocation),
+                    }, widget.localizationItem?.tapToSelectLocation ?? ''),
                     Divider(height: 8),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                      child: Text(widget.localizationItem!.nearBy, style: TextStyle(fontSize: 16)),
+                      child: Text(widget.localizationItem?.nearBy ?? '', style: TextStyle(fontSize: 16)),
                     ),
                     Expanded(
                       child: ListView(
@@ -232,10 +230,10 @@ class PlacePickerState extends State<PlacePicker> {
       return;
     }
 
-    final RenderBox? renderBox = context.findRenderObject() as RenderBox?;
+    final renderBox = context.findRenderObject() as RenderBox?;
     final size = renderBox?.size;
 
-    final RenderBox? appBarBox = appBarKey.currentContext?.findRenderObject() as RenderBox?;
+    final appBarBox = appBarKey.currentContext?.findRenderObject() as RenderBox?;
 
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
@@ -265,17 +263,17 @@ class PlacePickerState extends State<PlacePicker> {
   }
 
   /// Fetches the place autocomplete list with the query [place].
-  void autoCompleteSearch(String place) async {
+  Future<void> autoCompleteSearch(String place) async {
     try {
-      place = place.replaceAll(" ", "+");
+      place = place.replaceAll(' ', '+');
 
-      var endpoint = "https://maps.googleapis.com/maps/api/place/autocomplete/json?"
-          "key=${widget.apiKey}&"
-          "language=${widget.localizationItem!.languageCode}&"
-          "input={$place}&sessiontoken=$sessionToken";
+      var endpoint = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?'
+          'key=${widget.apiKey}&'
+          'language=${widget.localizationItem!.languageCode}&'
+          'input={$place}&sessiontoken=$sessionToken';
 
       if (locationResult != null) {
-        endpoint += "&location=${locationResult!.latLng?.latitude}," "${locationResult!.latLng?.longitude}";
+        endpoint += '&location=${locationResult!.latLng?.latitude},' '${locationResult!.latLng?.longitude}';
       }
 
       final response = await http.get(Uri.parse(endpoint));
@@ -290,12 +288,12 @@ class PlacePickerState extends State<PlacePicker> {
         throw Error();
       }
 
-      List<dynamic> predictions = responseJson['predictions'];
+      final List<dynamic> predictions = responseJson['predictions'];
 
-      List<RichSuggestion> suggestions = [];
+      final suggestions = <RichSuggestion>[];
 
       if (predictions.isEmpty) {
-        AutoCompleteItem aci = AutoCompleteItem();
+        final aci = AutoCompleteItem();
         aci.text = widget.localizationItem!.noResultsFound;
         aci.offset = 0;
         aci.length = 0;
@@ -317,19 +315,19 @@ class PlacePickerState extends State<PlacePicker> {
       }
 
       displayAutoCompleteSuggestions(suggestions);
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   /// To navigate to the selected place from the autocomplete list to the map,
   /// the lat,lng is required. This method fetches the lat,lng of the place and
   /// proceeds to moving the map to that location.
-  void decodeAndSelectPlace(String placeId) async {
+  Future<void> decodeAndSelectPlace(String placeId) async {
     clearOverlay();
 
     try {
-      final url = Uri.parse("https://maps.googleapis.com/maps/api/place/details/json?key=${widget.apiKey}&" "language=${widget.localizationItem!.languageCode}&" "placeid=$placeId");
+      final url = Uri.parse('https://maps.googleapis.com/maps/api/place/details/json?key=${widget.apiKey}&'
+          'language=${widget.localizationItem!.languageCode}&'
+          'placeid=$placeId');
 
       final response = await http.get(url);
 
@@ -347,17 +345,15 @@ class PlacePickerState extends State<PlacePicker> {
       if (mapController.isCompleted) {
         moveToLocation(LatLng(location['lat'], location['lng']));
       }
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   /// Display autocomplete suggestions with the overlay.
   void displayAutoCompleteSuggestions(List<RichSuggestion> suggestions) {
-    final RenderBox? renderBox = context.findRenderObject() as RenderBox?;
-    Size? size = renderBox?.size;
+    final renderBox = context.findRenderObject() as RenderBox?;
+    final size = renderBox?.size;
 
-    final RenderBox? appBarBox = appBarKey.currentContext?.findRenderObject() as RenderBox?;
+    final appBarBox = appBarKey.currentContext?.findRenderObject() as RenderBox?;
 
     clearOverlay();
 
@@ -381,18 +377,17 @@ class PlacePickerState extends State<PlacePicker> {
   /// result, instead of road name). If no name is found from the nearby list,
   /// then the road name returned is used instead.
   String getLocationName() {
-    if (locationResult == null) {
-      return widget.localizationItem!.unnamedLocation;
-    }
+    final localizationItem = widget.localizationItem;
+    if (locationResult == null && localizationItem != null) return localizationItem.unnamedLocation;
 
-    for (NearbyPlace np in nearbyPlaces) {
+    for (var np in nearbyPlaces) {
       if (np.latLng == locationResult?.latLng && np.name != locationResult?.locality) {
         locationResult?.name = np.name;
-        return "${np.name}, ${locationResult?.locality}";
+        return '${np.name}, ${locationResult?.locality}';
       }
     }
 
-    return "${locationResult?.name}, ${locationResult?.locality}";
+    return '${locationResult?.name}, ${locationResult?.locality}';
   }
 
   /// Moves the marker to the indicated lat,lng
@@ -400,16 +395,16 @@ class PlacePickerState extends State<PlacePicker> {
     // markers.clear();
     setState(() {
       markers.clear();
-      markers.add(Marker(markerId: MarkerId("selected-location"), position: latLng));
+      markers.add(Marker(markerId: MarkerId('selected-location'), position: latLng));
     });
   }
 
   /// Fetches and updates the nearby places to the provided lat,lng
-  void getNearbyPlaces(LatLng latLng) async {
+  Future<void> getNearbyPlaces(LatLng latLng) async {
     try {
-      final url = Uri.parse("https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
-          "key=${widget.apiKey}&location=${latLng.latitude},${latLng.longitude}"
-          "&radius=150&language=${widget.localizationItem!.languageCode}");
+      final url = Uri.parse('https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
+          'key=${widget.apiKey}&location=${latLng.latitude},${latLng.longitude}'
+          '&radius=150&language=${widget.localizationItem!.languageCode}');
 
       final response = await http.get(url);
 
@@ -446,12 +441,12 @@ class PlacePickerState extends State<PlacePicker> {
 
   /// This method gets the human readable name of the location. Mostly appears
   /// to be the road name and the locality.
-  void reverseGeocodeLatLng(LatLng latLng) async {
+  Future<void> reverseGeocodeLatLng(LatLng latLng) async {
     try {
-      final url = Uri.parse("https://maps.googleapis.com/maps/api/geocode/json?"
-          "latlng=${latLng.latitude},${latLng.longitude}&"
-          "language=${widget.localizationItem!.languageCode}&"
-          "key=${widget.apiKey}");
+      final url = Uri.parse('https://maps.googleapis.com/maps/api/geocode/json?'
+          'latlng=${latLng.latitude},${latLng.longitude}&'
+          'language=${widget.localizationItem!.languageCode}&'
+          'key=${widget.apiKey}');
 
       final response = await http.get(url);
 
@@ -468,7 +463,7 @@ class PlacePickerState extends State<PlacePicker> {
       final result = responseJson['results'][0];
 
       setState(() {
-        String name = "";
+        var name = '';
         String? locality,
             postalCode,
             country,
@@ -477,14 +472,14 @@ class PlacePickerState extends State<PlacePicker> {
             city,
             subLocalityLevel1,
             subLocalityLevel2;
-        bool isOnStreet = false;
+        var isOnStreet = false;
         if (result['address_components'] is List<dynamic> &&
             result['address_components'].length != null &&
             result['address_components'].length > 0) {
           for (var i = 0; i < result['address_components'].length; i++) {
-            var tmp = result['address_components'][i];
-            var types = tmp["types"] as List<dynamic>;
-            var shortName = tmp['short_name'];
+            final tmp = result['address_components'][i];
+            final types = tmp['types'] as List<dynamic>;
+            final shortName = tmp['short_name'];
             if (i == 0) {
               // [street_number]
               name = shortName;
@@ -495,20 +490,20 @@ class PlacePickerState extends State<PlacePicker> {
               // [route]
             } else if (i == 1 && isOnStreet) {
               if (types.contains('route')) {
-                name += ", $shortName";
+                name += ', $shortName';
               }
             } else {
-              if (types.contains("sublocality_level_1")) {
+              if (types.contains('sublocality_level_1')) {
                 subLocalityLevel1 = shortName;
-              } else if (types.contains("sublocality_level_2")) {
+              } else if (types.contains('sublocality_level_2')) {
                 subLocalityLevel2 = shortName;
-              } else if (types.contains("locality")) {
+              } else if (types.contains('locality')) {
                 locality = shortName;
-              } else if (types.contains("administrative_area_level_2")) {
+              } else if (types.contains('administrative_area_level_2')) {
                 administrativeAreaLevel2 = shortName;
-              } else if (types.contains("administrative_area_level_1")) {
+              } else if (types.contains('administrative_area_level_1')) {
                 administrativeAreaLevel1 = shortName;
-              } else if (types.contains("country")) {
+              } else if (types.contains('country')) {
                 country = shortName;
               } else if (types.contains('postal_code')) {
                 postalCode = shortName;
@@ -534,9 +529,7 @@ class PlacePickerState extends State<PlacePicker> {
           ..subLocalityLevel1 = AddressComponent(name: subLocalityLevel1, shortName: subLocalityLevel1)
           ..subLocalityLevel2 = AddressComponent(name: subLocalityLevel2, shortName: subLocalityLevel2);
       });
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   /// Moves the camera to the provided location and updates other UI features to
@@ -555,7 +548,7 @@ class PlacePickerState extends State<PlacePicker> {
     getNearbyPlaces(latLng);
   }
 
-  void moveToCurrentUserLocation() async {
+  Future<void> moveToCurrentUserLocation() async {
     if (widget.displayLocation != null) {
       moveToLocation(widget.displayLocation!);
       return;
@@ -576,7 +569,7 @@ class PlacePickerState extends State<PlacePicker> {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
-      bool? isOk = await _showLocationDisabledAlertDialog(context);
+      final bool? isOk = await _showLocationDisabledAlertDialog(context);
       if (isOk ?? false) {
         return Future.error(LocationServiceDisabledException());
       } else {
@@ -602,9 +595,8 @@ class PlacePickerState extends State<PlacePicker> {
     }
     try {
       final locationData = await Geolocator.getCurrentPosition(timeLimit: Duration(seconds: 30));
-      LatLng target = LatLng(locationData.latitude, locationData.longitude);
+      final target = LatLng(locationData.latitude, locationData.longitude);
       //moveToLocation(target);
-      print('target:$target');
       return target;
     } on TimeoutException {
       final locationData = await Geolocator.getLastKnownPosition();
@@ -620,19 +612,19 @@ class PlacePickerState extends State<PlacePicker> {
     if (Platform.isIOS) {
       return showCupertinoDialog(
           context: context,
-          builder: (BuildContext ctx) {
+          builder: (ctx) {
             return CupertinoAlertDialog(
-              title: Text("Location is disabled"),
-              content: Text("To use location, go to your Settings App > Privacy > Location Services."),
+              title: Text('Location is disabled'),
+              content: Text('To use location, go to your Settings App > Privacy > Location Services.'),
               actions: [
                 CupertinoDialogAction(
-                  child: Text("Cancel"),
+                  child: Text('Cancel'),
                   onPressed: () {
                     Navigator.of(context).pop(false);
                   },
                 ),
                 CupertinoDialogAction(
-                  child: Text("Ok"),
+                  child: Text('Ok'),
                   onPressed: () {
                     Navigator.of(context).pop(true);
                   },
@@ -643,19 +635,19 @@ class PlacePickerState extends State<PlacePicker> {
     } else {
       return showDialog(
           context: context,
-          builder: (BuildContext ctx) {
+          builder: (ctx) {
             return AlertDialog(
-              title: Text("Location is disabled"),
-              content: Text("The app needs to access your location. Please enable location service."),
+              title: Text('Location is disabled'),
+              content: Text('The app needs to access your location. Please enable location service.'),
               actions: [
                 TextButton(
-                  child: Text("Cancel"),
+                  child: Text('Cancel'),
                   onPressed: () async {
                     Navigator.of(context).pop(false);
                   },
                 ),
                 TextButton(
-                  child: Text("OK"),
+                  child: Text('OK'),
                   onPressed: () async {
                     await Geolocator.openLocationSettings();
                     Navigator.of(context).pop(true);

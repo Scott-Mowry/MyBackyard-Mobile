@@ -1,13 +1,14 @@
+import 'dart:ui' as ui;
+
+import 'package:backyard/Model/card_model.dart';
 import 'package:backyard/Model/category_model.dart';
 import 'package:backyard/Model/offer_model.dart';
 import 'package:backyard/Model/places_model.dart';
 import 'package:backyard/Model/user_model.dart';
 import 'package:flutter/material.dart';
-import 'package:backyard/Model/card_model.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
-import 'package:flutter/services.dart';
-import 'dart:ui' as ui;
 
 class HomeController extends ChangeNotifier {
   HomeController({required this.context});
@@ -57,7 +58,7 @@ class HomeController extends ChangeNotifier {
 
   void searchOffer(String val) {
     searchOffers =
-        _offers?.where((element) => ((element.title ?? "").toLowerCase()).contains(val.toLowerCase())).toList();
+        _offers?.where((element) => ((element.title ?? '').toLowerCase()).contains(val.toLowerCase())).toList();
     notifyListeners();
   }
 
@@ -128,7 +129,7 @@ class HomeController extends ChangeNotifier {
     notifyListeners();
   }
 
-  jumpTo({required int i}) {
+  void jumpTo({required int i}) {
     currentIndex = i;
     homeBottom.jumpToTab(i);
 
@@ -136,9 +137,9 @@ class HomeController extends ChangeNotifier {
   }
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
-    ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
-    ui.FrameInfo fi = await codec.getNextFrame();
+    final data = await rootBundle.load(path);
+    final codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    final fi = await codec.getNextFrame();
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
   }
 

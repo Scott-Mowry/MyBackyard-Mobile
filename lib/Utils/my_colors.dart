@@ -125,7 +125,7 @@ class MyColors {
   Color greyColor3 = const Color(0xffABABAB);
   Color lightGrey = const Color(0xffF5F5F5);
   Color shimmerColor = Colors.grey;
-  Color shimmerBaseColor = Colors.grey.withOpacity(0.8);
+  Color shimmerBaseColor = Colors.grey.withValues(alpha: 0.8);
   Color hintColor = const Color(0xff8E9192);
   Color greyColor = const Color(0xff6A6A6A);
   Color darkGreyColor = const Color(0xff373737);

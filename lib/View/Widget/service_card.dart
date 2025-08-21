@@ -1,10 +1,9 @@
 import 'package:backyard/Component/custom_checkbox.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Utils/image_path.dart';
+import 'package:backyard/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../Component/custom_text.dart';
-import '../../Utils/my_colors.dart';
 
 class ServiceCard extends StatelessWidget {
   final Function onTap;
@@ -37,7 +36,7 @@ class ServiceCard extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               itemCount: 3,
               shrinkWrap: true,
-              itemBuilder: (buildContext, int i) {
+              itemBuilder: (buildContext, i) {
                 return Padding(
                   padding: EdgeInsets.only(bottom: 2.h),
                   //+EdgeInsets.only(left: selectedIndex.value==0?1.w:0, right:selectedIndex.value==buttons!.length?1.w:0 ),
@@ -63,7 +62,6 @@ class ServiceCard extends StatelessWidget {
                               defaultVal: select,
                               onChange: (newValue) {
                                 select = newValue;
-                                print(newValue);
                                 onTap();
                                 //
                                 // s(() {});

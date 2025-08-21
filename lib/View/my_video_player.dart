@@ -67,7 +67,7 @@
 //                          //  gradient: LinearGradient(
 //                          //    colors: [
 //                          //      //Colors.transparent,
-//                          //       MyColors().purpleColor.withOpacity(.8),
+//                          //       MyColors().purpleColor.withValues(alpha: .8),
 //                          //      Colors.transparent,
 //                          //      // Colors.transparent,
 //                          //      // MyColors().purpleColor,
@@ -120,7 +120,7 @@
 //               //           // gradient: LinearGradient(
 //               //           //   colors: [
 //               //           //     Colors.transparent,
-//               //           //     // MyColors().purpleColor.withOpacity(.8),
+//               //           //     // MyColors().purpleColor.withValues(alpha: .8),
 //               //           //     Colors.transparent,
 //               //           //     // Colors.transparent,
 //               //           //     // MyColors().purpleColor,
@@ -233,7 +233,7 @@
 //               //     decoration: BoxDecoration(
 //               //       gradient: LinearGradient(
 //               //         colors: [
-//               //           MyColors().purpleColor.withOpacity(.8),
+//               //           MyColors().purpleColor.withValues(alpha: .8),
 //               //           Colors.transparent,
 //               //           // Colors.transparent,
 //               //           // MyColors().purpleColor,
@@ -300,7 +300,7 @@
 //               //         //     decoration: BoxDecoration(
 //               //         //       gradient: LinearGradient(
 //               //         //         colors: [
-//               //         //           MyColors().purpleColor.withOpacity(.8),
+//               //         //           MyColors().purpleColor.withValues(alpha: .8),
 //               //         //           Colors.transparent,
 //               //         //           // Colors.transparent,
 //               //         //           // MyColors().purpleColor,
@@ -513,8 +513,6 @@
 //   onComment(context){
 //     var h = HomeController.i;
 //     h.roomID=h.liveStreaming.value.roomId;
-//     print('h.roomID');
-//     print(h.roomID);
 //
 //     h.commentStreamingSocket(context, comment: message.text);
 //     message.text='';

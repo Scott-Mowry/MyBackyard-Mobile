@@ -1,5 +1,5 @@
+import 'package:backyard/Component/custom_text.dart';
 import 'package:flutter/material.dart';
-import '../../../Component/custom_text.dart';
 import 'package:sizer/sizer.dart';
 
 class TitleDescription extends StatelessWidget {
@@ -14,11 +14,11 @@ class TitleDescription extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Expanded(flex: 2, child: MyText(title: title ?? "", fontWeight: FontWeight.w600, size: 16)),
+          Expanded(flex: 2, child: MyText(title: title ?? '', fontWeight: FontWeight.w600, size: 16)),
           SizedBox(width: 2.w),
           Expanded(
             flex: 3,
-            child: Align(alignment: Alignment.centerRight, child: MyText(title: description ?? "", size: 14)),
+            child: Align(alignment: Alignment.centerRight, child: MyText(title: description ?? '', size: 14)),
           ),
         ],
       ),

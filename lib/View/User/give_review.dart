@@ -1,5 +1,6 @@
 import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_padding.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Component/custom_text_form_field.dart';
 import 'package:backyard/Component/validations.dart';
 import 'package:backyard/Service/app_network.dart';
@@ -11,8 +12,6 @@ import 'package:backyard/View/base_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../Component/custom_text.dart';
 
 class GiveReviewArguments {
   GiveReviewArguments({this.busId});
@@ -61,7 +60,7 @@ class _GiveReviewState extends State<GiveReview> {
               ratingWidget: RatingWidget(
                 full: Image.asset(ImagePath.star, scale: 1),
                 half: Image.asset(ImagePath.starHalf, scale: 2),
-                empty: Image.asset(ImagePath.star, scale: 1, color: MyColors().grey.withOpacity(.1)),
+                empty: Image.asset(ImagePath.star, scale: 1, color: MyColors().grey.withValues(alpha: .1)),
               ),
               itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
               onRatingUpdate: (rating) {
@@ -88,7 +87,7 @@ class _GiveReviewState extends State<GiveReview> {
                 textColor: MyColors().black,
                 borderRadius: 10,
                 maxLength: 275,
-                validation: (p0) => p0?.validateEmpty("Review Message"),
+                validation: (p0) => p0?.validateEmpty('Review Message'),
               ),
             ),
             const Spacer(),

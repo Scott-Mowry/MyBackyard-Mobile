@@ -1,10 +1,11 @@
 import 'dart:developer';
+
 import 'package:backyard/Controller/user_controller.dart';
+import 'package:backyard/Service/api.dart';
+import 'package:backyard/Service/socket_navigation_class.dart';
 import 'package:backyard/main.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
-import 'api.dart';
-import 'socket_navigation_class.dart';
 
 class SocketService {
   static Socket? _socket;
@@ -29,19 +30,19 @@ class SocketService {
 
   void connectSocket() {
     _socket?.connect();
-    _socket?.on("connect", (data) {
+    _socket?.on('connect', (data) {
       log('Connected socket ');
     });
 
-    _socket?.on("disconnect", (data) {
+    _socket?.on('disconnect', (data) {
       log('Disconnected $data');
     });
 
-    _socket?.on("connect_error", (data) {
+    _socket?.on('connect_error', (data) {
       log('Connect Error $data');
     });
 
-    _socket?.on("error", (data) {
+    _socket?.on('error', (data) {
       log('Error $data');
       SocketNavigationClass.instance?.socketErrorMethod(errorResponseData: data);
     });
@@ -52,12 +53,12 @@ class SocketService {
   }
 
   void socketResponseMethod() {
-    _socket?.on("response", (data) => SocketNavigationClass.instance?.socketResponseMethod(responseData: data));
+    _socket?.on('response', (data) => SocketNavigationClass.instance?.socketResponseMethod(responseData: data));
   }
 
   void userResponse() {
     socket?.on(
-      "response_${navigatorKey.currentContext?.read<UserController>().user?.id?.toString()}",
+      'response_${navigatorKey.currentContext?.read<UserController>().user?.id?.toString()}',
       (data) => SocketNavigationClass.instance?.socketUserResponseMethod(responseData: data),
     );
   }

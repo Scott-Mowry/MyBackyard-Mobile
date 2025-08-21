@@ -54,7 +54,7 @@ class ProductsModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> json = <String, dynamic>{};
+    final json = <String, dynamic>{};
     json['_id'] = id;
     json['title'] = title;
     json['price'] = price;
@@ -84,7 +84,7 @@ class Category {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> json = <String, dynamic>{};
+    final json = <String, dynamic>{};
     json['_id'] = id;
     json['name'] = categoryName;
     return json;

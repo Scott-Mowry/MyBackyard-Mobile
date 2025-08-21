@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ThemeButtons extends StatelessWidget {
   final String text;
-  final Function onChange;
+  final VoidCallback? onPressed;
   final Color? color;
   final Color? textColor;
   final Color? borderColor;
@@ -13,7 +13,7 @@ class ThemeButtons extends StatelessWidget {
   const ThemeButtons({
     super.key,
     required this.text,
-    required this.onChange,
+    required this.onPressed,
     this.color,
     this.textColor,
     this.borderColor,
@@ -28,7 +28,7 @@ class ThemeButtons extends StatelessWidget {
       height: 50,
       // width: MediaQuery.sizeOf(context).width,
       child: ElevatedButton(
-        onPressed: () => onChange(),
+        onPressed: onPressed,
         style: ButtonStyle(
           minimumSize: WidgetStateProperty.all<Size>(const Size(150, 20)),
           elevation: WidgetStateProperty.all(elevation ?? 3),

@@ -2,18 +2,19 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
-import 'package:backyard/Service/app_network.dart';
-import 'package:backyard/Service/bus_apis.dart';
-import 'package:backyard/View/Widget/Dialog/offer_availed.dart';
-import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+
 import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_padding.dart';
+import 'package:backyard/Service/app_network.dart';
+import 'package:backyard/Service/bus_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:backyard/View/Widget/Dialog/offer_availed.dart';
 import 'package:backyard/View/base_view.dart';
+import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sizer/sizer.dart';
 
 class ScanQR extends StatefulWidget {
@@ -30,7 +31,7 @@ class _ScanQRState extends State<ScanQR> {
   bool scan = true;
   bool pause = false;
 
-  Map<String, dynamic> get data => json.decode(result?.code ?? "") as Map<String, dynamic>;
+  Map<String, dynamic> get data => json.decode(result?.code ?? '') as Map<String, dynamic>;
   // decryption(result?.code ?? "")
 
   // String decryption(String val) {
@@ -103,17 +104,17 @@ class _ScanQRState extends State<ScanQR> {
                 child: MyButton(
                   bgColor: Colors.transparent,
                   title: 'Redeem Offer',
-                  textColor: pause ? MyColors().whiteColor : MyColors().whiteColor.withOpacity(.5),
-                  borderColor: pause ? MyColors().whiteColor : MyColors().whiteColor.withOpacity(.5),
+                  textColor: pause ? MyColors().whiteColor : MyColors().whiteColor.withValues(alpha: .5),
+                  borderColor: pause ? MyColors().whiteColor : MyColors().whiteColor.withValues(alpha: .5),
                   onTap:
                       pause
                           ? () async {
                             AppNetwork.loadingProgressIndicator();
-                            final val = await BusAPIS.claimOffer(offerId: data["offer"], userId: data["user_id"]);
+                            final val = await BusAPIS.claimOffer(offerId: data['offer'], userId: data['user_id']);
                             AppNavigation.navigatorPop();
                             if (val) {
                               scannedDialog(
-                                title: data["title"],
+                                title: data['title'],
                                 onTap: () async {
                                   AppNavigation.navigatorPop();
                                   await controller?.resumeCamera();
@@ -137,7 +138,6 @@ class _ScanQRState extends State<ScanQR> {
     controller.scannedDataStream.listen((scanData) async {
       if (scanData.code != null) {
         setState(() => result = scanData);
-        print("DATA: ${data["title"]},${data["offer"]},${data["user_id"]}");
         await controller.pauseCamera().then((value) => setState(() => pause = true));
       }
     });
@@ -156,11 +156,11 @@ class _ScanQRState extends State<ScanQR> {
     super.dispose();
   }
 
-  scannedDialog({required Function onTap, String? title}) {
+  Future scannedDialog({required Function onTap, String? title}) {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (context) {
         return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: AlertDialog(

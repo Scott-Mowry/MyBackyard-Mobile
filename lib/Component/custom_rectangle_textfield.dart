@@ -1,10 +1,10 @@
+import 'package:backyard/Component/custom_text.dart';
+import 'package:backyard/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:backyard/Utils/my_colors.dart';
-import 'package:sizer/sizer.dart';
-import 'package:backyard/Component/custom_text.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:sizer/sizer.dart';
 
 class CustomRectangulatTextFormField extends StatelessWidget {
   final String? iconPath;
@@ -61,19 +61,18 @@ class CustomRectangulatTextFormField extends StatelessWidget {
   });
   static MaskTextInputFormatter MASK_TEXT_FORMATTER_PHONE_NO = MaskTextInputFormatter(
     mask: '(###) ###-####',
-    filter: {"#": RegExp(r'[0-9]')},
+    filter: {'#': RegExp(r'[0-9]')},
     type: MaskAutoCompletionType.lazy,
   );
   @override
   Widget build(BuildContext context) {
-    TextStyle textStyle = GoogleFonts.roboto(fontSize: 14, color: Theme.of(context).indicatorColor.withOpacity(0.8));
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Container(
         height: 7.8.h,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: bgColor ?? MyColors().purpleColor.withOpacity(0.4),
+          color: bgColor ?? MyColors().purpleColor.withValues(alpha: 0.4),
           border: Border.all(color: Colors.white),
           borderRadius: BorderRadius.circular(10),
         ),
@@ -112,7 +111,7 @@ class CustomRectangulatTextFormField extends StatelessWidget {
                     TextFormField(
                       readOnly: readOnly ?? false,
                       obscureText: obscureText!,
-                      obscuringCharacter: "*",
+                      obscuringCharacter: '*',
                       focusNode: focusNode,
                       onTap: () {
                         if (onTap != null) {

@@ -5,9 +5,11 @@ import 'dart:ui' as ui;
 
 import 'package:backyard/Arguments/content_argument.dart';
 import 'package:backyard/Arguments/screen_arguments.dart';
+import 'package:backyard/Component/custom_bottomsheet_indicator.dart';
 import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_image.dart';
 import 'package:backyard/Component/custom_padding.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Model/offer_model.dart';
@@ -16,6 +18,7 @@ import 'package:backyard/Service/bus_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/app_size.dart';
+import 'package:backyard/Utils/enum.dart';
 import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/Utils/utils.dart';
@@ -32,18 +35,16 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../Component/custom_bottomsheet_indicator.dart';
-import '../../Component/custom_text.dart';
-import '../../Utils/enum.dart';
-
 class DiscountOffersArguments {
   const DiscountOffersArguments({this.model, this.fromSaved});
+
   final Offer? model;
   final bool? fromSaved;
 }
 
 class DiscountOffers extends StatefulWidget {
   const DiscountOffers({super.key, this.model, this.fromSaved});
+
   final Offer? model;
   final bool? fromSaved;
 
@@ -62,7 +63,7 @@ class _DiscountOffersState extends State<DiscountOffers> {
   // encryption(
   //     "{'offer': ${widget.model?.id?.toString()},'user_id': ${user?.id?.toString()}},")
   json.encode({
-    'title': widget.model?.title ?? "",
+    'title': widget.model?.title ?? '',
     'offer': (widget.fromSaved ?? false) ? widget.model?.offerId?.toString() : widget.model?.id?.toString(),
     'user_id': user?.id?.toString(),
   });
@@ -124,7 +125,7 @@ class _DiscountOffersState extends State<DiscountOffers> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           gradient: LinearGradient(
-                            colors: [MyColors().primaryColor.withOpacity(0), MyColors().primaryColor],
+                            colors: [MyColors().primaryColor.withValues(alpha: 0), MyColors().primaryColor],
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                           ),
@@ -187,13 +188,13 @@ class _DiscountOffersState extends State<DiscountOffers> {
               SizedBox(height: 2.h),
               Row(
                 children: [
-                  Expanded(child: MyText(title: widget.model?.title ?? "", fontWeight: FontWeight.w600, size: 16)),
+                  Expanded(child: MyText(title: widget.model?.title ?? '', fontWeight: FontWeight.w600, size: 16)),
                   Container(
                     constraints: BoxConstraints(maxWidth: 53.w),
                     decoration: BoxDecoration(color: MyColors().primaryColor, borderRadius: BorderRadius.circular(30)),
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     child: MyText(
-                      title: widget.model?.category?.categoryName ?? "",
+                      title: widget.model?.category?.categoryName ?? '',
                       clr: MyColors().whiteColor,
                       size: Utils.isTablet ? 6.sp : 10.sp,
                     ),
@@ -209,7 +210,7 @@ class _DiscountOffersState extends State<DiscountOffers> {
                   SizedBox(
                     width: 85.w,
                     child: Text(
-                      widget.model?.address ?? "",
+                      widget.model?.address ?? '',
                       maxLines: 2,
                       overflow: TextOverflow.visible,
                       style: GoogleFonts.poppins(
@@ -224,7 +225,7 @@ class _DiscountOffersState extends State<DiscountOffers> {
               SizedBox(height: 2.h),
               textDetail(
                 title: 'Offers Details:',
-                description: widget.model?.description ?? "",
+                description: widget.model?.description ?? '',
                 // 'Classic checkerboard slip ons with office white under tone and reinforced waffle cup soles is a tone and reinforced waffle cup soles.CIassic ka checkerboard slip ons with office white hnan dunder tone and reinforced.'
               ),
               // textDetail(
@@ -274,11 +275,11 @@ class _DiscountOffersState extends State<DiscountOffers> {
                               AppRouteName.CONTENT_SCREEN,
                               arguments: ContentRoutingArgument(
                                 title: 'Subscriptions',
-                                contentType: "Subscriptions",
+                                contentType: 'Subscriptions',
                                 url: 'https://www.google.com/',
                               ),
                             );
-                            CustomToast().showToast(message: "You Need to Subscribe to Avail an Offer.");
+                            CustomToast().showToast(message: 'You Need to Subscribe to Avail an Offer.');
                           }
                           // if (business) {
                           //   AppNavigation.navigateTo(AppRouteName.SCAN_QR_ROUTE,
@@ -300,13 +301,16 @@ class _DiscountOffersState extends State<DiscountOffers> {
                       title: 'Share with Friends',
                       onTap: () {
                         if (context.read<UserController>().user?.subId != null) {
-                          Share.share(
-                            "Share App with Friends,\n\n Link:${Platform.isAndroid ? "https://play.google.com/store/apps/details?id=com.app.mybackyardusa1" : "https://apps.apple.com/us/app/mb-my-backyard/id6736581907"}",
-                            subject: 'Share with Friends',
+                          SharePlus.instance.share(
+                            ShareParams(
+                              text:
+                                  "Share App with Friends,\n\n Link:${Platform.isAndroid ? "https://play.google.com/store/apps/details?id=com.app.mybackyardusa1" : "https://apps.apple.com/us/app/mb-my-backyard/id6736581907"}",
+                              subject: 'Share with Friends',
+                            ),
                           );
                         } else {
                           AppNavigation.navigateTo(AppRouteName.SUBSCRIPTION_SCREEN_ROUTE);
-                          CustomToast().showToast(message: "You Need to Subscribe to Share an Offer.");
+                          CustomToast().showToast(message: 'You Need to Subscribe to Share an Offer.');
                         }
                       },
                     ),
@@ -320,7 +324,7 @@ class _DiscountOffersState extends State<DiscountOffers> {
     );
   }
 
-  textDetail({required String title, required String description}) {
+  Column textDetail({required String title, required String description}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -340,9 +344,9 @@ class _DiscountOffersState extends State<DiscountOffers> {
       isScrollControlled: true,
       context: context,
       // backgroundColor: MyColors().whiteColor,
-      builder: (BuildContext bc) {
+      builder: (bc) {
         return StatefulBuilder(
-          builder: (BuildContext context, StateSetter s /*You can rename this!*/) {
+          builder: (context, s /*You can rename this!*/) {
             return Container(
               padding: EdgeInsets.all(4.w),
               decoration: BoxDecoration(
@@ -359,7 +363,7 @@ class _DiscountOffersState extends State<DiscountOffers> {
                       AppNavigation.navigatorPop();
                       AppNavigation.navigateTo(
                         AppRouteName.CREATE_OFFER_ROUTE,
-                        arguments: ScreenArguments(fromEdit: true, args: {"offer": widget.model}),
+                        arguments: ScreenArguments(fromEdit: true, args: {'offer': widget.model}),
                       );
                     },
                     child: Row(
@@ -395,11 +399,11 @@ class _DiscountOffersState extends State<DiscountOffers> {
     );
   }
 
-  deleteDialog(context, Offer? model) {
+  Future deleteDialog(context, Offer? model) {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (context) {
         return BackdropFilter(
           filter: ui.ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: AlertDialog(
@@ -414,7 +418,7 @@ class _DiscountOffersState extends State<DiscountOffers> {
               b2: 'No',
               onYes: (v) async {
                 AppNetwork.loadingProgressIndicator();
-                final val = await BusAPIS.deleteOffer(offerId: widget.model?.id?.toString() ?? "");
+                final val = await BusAPIS.deleteOffer(offerId: widget.model?.id?.toString() ?? '');
                 AppNavigation.navigatorPop();
                 if (val) {
                   AppNavigation.navigatorPop();
@@ -428,11 +432,11 @@ class _DiscountOffersState extends State<DiscountOffers> {
     );
   }
 
-  downloadDialog(context, String data) {
+  Future downloadDialog(context, String data) {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (context) {
         return BackdropFilter(
           filter: ui.ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: AlertDialog(
@@ -466,11 +470,11 @@ class _DiscountOffersState extends State<DiscountOffers> {
     );
   }
 
-  downloadDialog2(context, String data) {
+  Future downloadDialog2(context, String data) {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (context) {
         return BackdropFilter(
           filter: ui.ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: AlertDialog(
@@ -509,8 +513,8 @@ Future<void> generatePdfWithQrCode(String data) async {
   final pdf = pw.Document();
 
   // Define the QR code data and size
-  final String qrData = data;
-  const double qrSize = 250.0;
+  final qrData = data;
+  const qrSize = 250.0;
 
   final image = await QrPainter(
     data: qrData,
@@ -519,13 +523,13 @@ Future<void> generatePdfWithQrCode(String data) async {
     // embeddedImage: Image.asset(ImagePath.appLogo),
     embeddedImageStyle: QrEmbeddedImageStyle(size: Size(PdfPageFormat.a4.width, PdfPageFormat.a4.height)),
   ).toImage(PdfPageFormat.a4.width);
-  final ByteData qrImageData = await CodePainter(qrImage: image).toImageData(PdfPageFormat.a4.width) ?? ByteData(0);
+  final qrImageData = await CodePainter(qrImage: image).toImageData(PdfPageFormat.a4.width) ?? ByteData(0);
 
   // Add a page to the PDF document
   pdf.addPage(
     pw.Page(
       pageFormat: PdfPageFormat.a4,
-      build: (pw.Context context) {
+      build: (context) {
         return pw.Padding(
           padding: const pw.EdgeInsets.all(25.00),
           child: pw.Column(
@@ -538,13 +542,13 @@ Future<void> generatePdfWithQrCode(String data) async {
               ),
               pw.SizedBox(height: PdfPageFormat.a4.height * .08),
               pw.Text(
-                "Scan the above QR-Code from My Backyard, to claim the Offer, Steps are given below:",
+                'Scan the above QR-Code from My Backyard, to claim the Offer, Steps are given below:',
                 textAlign: pw.TextAlign.center,
                 style: const pw.TextStyle(fontSize: 20),
               ),
               pw.SizedBox(height: PdfPageFormat.a4.height * .05),
               pw.Text(
-                "1. Get to the Business Branch.\n2. Get your QR-Code Scanned by the business.\n3. Done.",
+                '1. Get to the Business Branch.\n2. Get your QR-Code Scanned by the business.\n3. Done.',
                 textAlign: pw.TextAlign.start,
                 style: const pw.TextStyle(fontSize: 18),
               ),
@@ -556,7 +560,7 @@ Future<void> generatePdfWithQrCode(String data) async {
   );
 
   // Save the PDF to file or print it
-  await Printing.layoutPdf(onLayout: (PdfPageFormat format) async => pdf.save());
+  await Printing.layoutPdf(onLayout: (format) async => pdf.save());
 }
 
 class CodePainter extends CustomPainter {
@@ -566,13 +570,14 @@ class CodePainter extends CustomPainter {
           ..color = Colors.white
           ..style = ui.PaintingStyle.fill;
   }
+
   final double margin;
   final ui.Image qrImage;
   late Paint _paint;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Rect rect = Rect.fromPoints(Offset.zero, Offset(size.width, size.height));
+    final rect = Rect.fromPoints(Offset.zero, Offset(size.width, size.height));
     canvas
       ..drawRect(rect, _paint)
       ..drawImage(qrImage, Offset(margin, margin), Paint());
@@ -582,8 +587,8 @@ class CodePainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 
   ui.Picture toPicture(double size) {
-    final ui.PictureRecorder recorder = ui.PictureRecorder();
-    final Canvas canvas = Canvas(recorder);
+    final recorder = ui.PictureRecorder();
+    final canvas = Canvas(recorder);
     paint(canvas, Size(size, size));
     return recorder.endRecording();
   }
@@ -593,7 +598,7 @@ class CodePainter extends CustomPainter {
   }
 
   Future<ByteData?> toImageData(double originalSize, {ui.ImageByteFormat format = ui.ImageByteFormat.png}) async {
-    final ui.Image image = await toImage(originalSize + margin * 2, format: format);
+    final image = await toImage(originalSize + margin * 2, format: format);
     return image.toByteData(format: format);
   }
 }

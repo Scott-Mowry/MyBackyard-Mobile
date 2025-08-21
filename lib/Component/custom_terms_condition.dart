@@ -1,11 +1,11 @@
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:backyard/Arguments/content_argument.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/app_strings.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomTermsCondition extends StatelessWidget {
   const CustomTermsCondition({super.key});
@@ -15,7 +15,7 @@ class CustomTermsCondition extends StatelessWidget {
     return RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-        text: "By sign-in, you agree to our ",
+        text: 'By sign-in, you agree to our ',
         style: GoogleFonts.roboto(fontWeight: FontWeight.w400, fontSize: 13, color: MyColors().black),
         children: [
           TextSpan(
@@ -30,7 +30,7 @@ class CustomTermsCondition extends StatelessWidget {
             recognizer:
                 TapGestureRecognizer()
                   ..onTap = () async {
-                    AppNavigation.navigateTo(
+                    return AppNavigation.navigateTo(
                       AppRouteName.CONTENT_SCREEN,
                       arguments: ContentRoutingArgument(
                         title: 'Terms & Conditions',
@@ -77,7 +77,8 @@ class CustomTermsCondition extends StatelessWidget {
                   },
           ),
         ],
-      ), textScaler: TextScaler.linear(1.03),
+      ),
+      textScaler: TextScaler.linear(1.03),
     );
   }
 }

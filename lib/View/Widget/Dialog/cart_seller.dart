@@ -38,9 +38,7 @@ class _CartSellerState extends State<CartSeller> {
                   const Icon(Icons.close_outlined, color: Colors.transparent),
                   MyText(title: 'Remove your previous items?', clr: MyColors().whiteColor, fontWeight: FontWeight.w600),
                   GestureDetector(
-                    onTap: () {
-                      AppNavigation.navigatorPop();
-                    },
+                    onTap: AppNavigation.navigatorPop,
                     child: const Icon(Icons.close_outlined, color: Colors.white),
                   ),
                 ],
@@ -71,7 +69,7 @@ class _CartSellerState extends State<CartSeller> {
                           onTap: () {
                             AppNavigation.navigatorPop();
                           },
-                          title: "Close",
+                          title: 'Close',
                           bgColor: MyColors().purpleColor,
                         ),
                       ),
@@ -82,7 +80,7 @@ class _CartSellerState extends State<CartSeller> {
                             AppNavigation.navigatorPop();
                             widget.onYes();
                           },
-                          title: "Remove items",
+                          title: 'Remove items',
                         ),
                       ),
                     ],

@@ -1,5 +1,7 @@
 import 'dart:ui';
+
 import 'package:backyard/Component/Appbar/appbar_components.dart';
+import 'package:backyard/Component/custom_empty_data.dart';
 import 'package:backyard/Component/custom_padding.dart';
 import 'package:backyard/Component/custom_refresh.dart';
 import 'package:backyard/Controller/home_controller.dart';
@@ -10,10 +12,9 @@ import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/User/offers.dart';
 import 'package:backyard/View/Widget/Dialog/reject_dialog.dart';
 import 'package:backyard/View/Widget/search_tile.dart';
-import 'package:flutter/material.dart';
 import 'package:backyard/View/base_view.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../Component/custom_empty_data.dart';
 import 'package:sizer/sizer.dart';
 
 class BusinessHome extends StatefulWidget {
@@ -26,7 +27,7 @@ class BusinessHome extends StatefulWidget {
 class _BusinessHomeState extends State<BusinessHome> {
   TextEditingController s = TextEditingController();
   late final homeController = context.read<HomeController>();
-  String search = "";
+  String search = '';
 
   @override
   void initState() {
@@ -59,7 +60,7 @@ class _BusinessHomeState extends State<BusinessHome> {
         bottomSafeArea: false,
         topSafeArea: false,
         child: CustomRefresh(
-          onRefresh: () => getOffers(),
+          onRefresh: getOffers,
           child: Consumer2<UserController, HomeController>(
             builder: (context, val, val2, _) {
               return CustomPadding(
@@ -74,7 +75,7 @@ class _BusinessHomeState extends State<BusinessHome> {
                         borderRadius: const BorderRadius.vertical(bottom: Radius.circular(15)),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.2), // Shadow color
+                            color: Colors.black.withValues(alpha: 0.2), // Shadow color
                             blurRadius: 10, // Spread of the shadow
                             spreadRadius: 5, // Size of the shadow
                             offset: const Offset(0, 4), // Position of the shadow
@@ -86,7 +87,7 @@ class _BusinessHomeState extends State<BusinessHome> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           CustomAppBar(
-                            screenTitle: "Home",
+                            screenTitle: 'Home',
                             leading: MenuIcon(),
                             trailing: NotificationIcon(),
                             bottom: 2.h,
@@ -161,11 +162,11 @@ class _BusinessHomeState extends State<BusinessHome> {
     );
   }
 
-  rejectDialog({required Function onTap}) {
+  Future rejectDialog({required Function onTap}) {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (context) {
         return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: AlertDialog(

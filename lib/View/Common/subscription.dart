@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:backyard/Arguments/content_argument.dart';
 import 'package:backyard/Component/custom_buttom.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Model/menu_model.dart';
@@ -24,8 +25,6 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../Component/custom_text.dart';
-
 class SubscriptionScreen extends StatefulWidget {
   final bool fromCompleteProfile;
 
@@ -38,36 +37,35 @@ class SubscriptionScreen extends StatefulWidget {
 class _SubscriptionScreenState extends State<SubscriptionScreen> {
   late final user = context.read<UserController>().user;
   StreamSubscription<List<PurchaseDetails>>? purchaseStream;
-  final CarouselController _controller = CarouselController();
   int index = 0;
-  String subscribed = "";
+  String subscribed = '';
   final pageController = PageController();
 
   String getId(int id) {
     switch (id) {
       case 1:
-        return "user_sub";
+        return 'user_sub';
       case 2:
-        return "bus_sub_monthly";
+        return 'bus_sub_monthly';
       case 3:
-        return "bus_sub_annually";
+        return 'bus_sub_annually';
       case 4:
-        return "bus_basic";
+        return 'bus_basic';
 
       default:
-        return "";
+        return '';
     }
   }
 
   int? getId2(String id) {
     switch (id) {
-      case "user_sub":
+      case 'user_sub':
         return 1;
-      case "bus_sub_monthly":
+      case 'bus_sub_monthly':
         return 2;
-      case "bus_sub_annually":
+      case 'bus_sub_annually':
         return 3;
-      case "bus_basic":
+      case 'bus_basic':
         return 4;
 
       default:
@@ -151,69 +149,69 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
 
   String getPrice(String e, String price) {
     switch (e) {
-      case "user_sub":
+      case 'user_sub':
         return '$price Annually';
-      case "bus_sub_monthly":
+      case 'bus_sub_monthly':
         return '$price Monthy';
-      case "bus_sub_annually":
+      case 'bus_sub_annually':
         return '$price Annually';
-      case "bus_basic":
+      case 'bus_basic':
         return '$price Monthly';
       default:
-        return "";
+        return '';
     }
   }
 
   String getDuration(String e) {
     switch (e) {
-      case "user_sub":
+      case 'user_sub':
         return ' /year';
-      case "bus_sub_monthly":
+      case 'bus_sub_monthly':
         return ' /month';
-      case "bus_sub_annually":
+      case 'bus_sub_annually':
         return ' /year';
-      case "bus_basic":
+      case 'bus_basic':
         return ' /month';
       default:
-        return "";
+        return '';
     }
   }
 
   List<String> getPoints(String e) {
     switch (e) {
-      case "user_sub":
+      case 'user_sub':
         return [
-          "Enjoy exclusive offers through My Backyard and the family owned businesses in your area. #Shoplocal",
-          "Unlock hidden gems in your community with 16 different categories.",
-          "The User Package is good for 12 months and yearly auto renews thereafter.",
+          'Enjoy exclusive offers through My Backyard and the family owned businesses in your area. #Shoplocal',
+          'Unlock hidden gems in your community with 16 different categories.',
+          'The User Package is good for 12 months and yearly auto renews thereafter.',
         ];
 
-      case "bus_sub_monthly":
+      case 'bus_sub_monthly':
         return [
-          "Business Subscribers can enjoy access of the following:",
-          "As a local family owned business, reach tens of thousands of households while promoting your product and/or service for better brand awareness and attracting new customers.",
-          "Promote exclusive offers to the My Backyard users at any time of a day, week or month, unlimited.",
-          "This is a month to month subscription which auto renews every month thereafter the initial month.",
-          "Comes with a user/consumer subscription.",
-          "Ideal for the company looking to gain new customers through the exclusive creation of offers.",
+          'Business Subscribers can enjoy access of the following:',
+          'As a local family owned business, reach tens of thousands of households while promoting your product and/or service for better brand awareness and attracting new customers.',
+          'Promote exclusive offers to the My Backyard users at any time of a day, week or month, unlimited.',
+          'This is a month to month subscription which auto renews every month thereafter the initial month.',
+          'Comes with a user/consumer subscription.',
+          'Ideal for the company looking to gain new customers through the exclusive creation of offers.',
         ];
-      case "bus_sub_annually":
+      case 'bus_sub_annually':
         return [
-          "The Annual Subscription for business is ideal for companies in the community that are service providers such as but not limited to: Reality, Family Owned Physicians, Dental Practices, Insurance Companies and more.",
+          'The Annual Subscription for business is ideal for companies in the community that are service providers such as but not limited to: Reality, Family Owned Physicians, Dental Practices, Insurance Companies and more.',
           "Stay ahead of the curve with the annual subscription and it's updates as needed.",
-          "The Annual Subscription for businesses will auto renew after the 12th month."
-              "Get featured on My Backyard Website",
-          "access to the My Backyard preferred vendors.",
-          "Comes with a user/consumer subscription."
-              "Ideal for the company that has or will have multiple locations and or looking for further reach.",
-          "Photo of your Business featured in app.",
+          'The Annual Subscription for businesses will auto renew after the 12th month.'
+              'Get featured on My Backyard Website',
+          'access to the My Backyard preferred vendors.',
+          'Comes with a user/consumer subscription.'
+              'Ideal for the company that has or will have multiple locations and or looking for further reach.',
+          'Photo of your Business featured in app.',
         ];
-      case "bus_basic":
+      case 'bus_basic':
         return [
-          "Business Subscribers can enjoy access of the following:",
-          "As a local family owned business, reach tens of thousands of households on the map in consumer.",
-          "This is a month to month subscription which auto renews every month thereafter the initial month.",
-          "Ideal for the company that simply wants your business to be seen.",
+          'Business Subscribers can enjoy access of the following:',
+          'As a local family owned business, reach tens of thousands of households on the map in consumer.',
+          'This is a month to month subscription which auto renews every month thereafter the initial month.',
+          'Ideal for the company that simply wants your business to be seen.',
         ];
       default:
         return [];
@@ -327,9 +325,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                       ),
                                                     ),
                                                     IconButton(
-                                                      onPressed: () {
-                                                        AppNavigation.navigatorPop();
-                                                      },
+                                                      onPressed: AppNavigation.navigatorPop,
                                                       padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 40),
                                                       icon: const Icon(Icons.close, size: 30, color: Colors.white),
                                                     ),
@@ -352,7 +348,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                             border: Border.all(color: Colors.white),
                                             boxShadow: [
                                               BoxShadow(
-                                                color: Colors.black.withOpacity(0.1), // Shadow color
+                                                color: Colors.black.withValues(alpha: 0.1), // Shadow color
                                                 blurRadius: 10, // Spread of the shadow
                                                 spreadRadius: 5, // Size of the shadow
                                                 offset: const Offset(0, 4), // Position of the shadow
@@ -373,14 +369,14 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                   ),
                                                   MyText(
                                                     title: getDuration(value.productDetails[i].id),
-                                                    clr: MyColors().whiteColor.withOpacity(.5),
+                                                    clr: MyColors().whiteColor.withValues(alpha: .5),
                                                     fontWeight: FontWeight.w600,
                                                     size: 14,
                                                   ),
                                                 ],
                                               ),
                                               MyText(
-                                                title: value.productDetails[i].title.split("(").firstOrNull ?? "",
+                                                title: value.productDetails[i].title.split('(').firstOrNull ?? '',
                                                 clr: MyColors().whiteColor,
                                                 align: TextAlign.center,
                                                 fontStyle: FontStyle.italic,
@@ -395,7 +391,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                           margin: EdgeInsets.all(10),
                                           child: Icon(
                                             Icons.arrow_forward_rounded,
-                                            color: MyColors().whiteColor.withOpacity(.5),
+                                            color: MyColors().whiteColor.withValues(alpha: .5),
                                           ),
                                         ),
                                       ],
@@ -454,7 +450,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             ),
           ),
           if (widget.fromCompleteProfile && (user?.role == Role.User))
-            GestureDetector(onTap: () {}, child: const Text("Skip")),
+            GestureDetector(onTap: () {}, child: const Text('Skip')),
           // Consumer<UserController>(builder: (context, val, _) {
           //   return Row(
           //     mainAxisSize: MainAxisSize.min,
@@ -563,7 +559,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
         border: Border.all(color: Colors.white),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2), // Shadow color
+            color: Colors.black.withValues(alpha: 0.2), // Shadow color
             blurRadius: 10, // Spread of the shadow
             spreadRadius: 5, // Size of the shadow
             offset: const Offset(0, 4), // Position of the shadow
@@ -592,14 +588,14 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                     MyText(title: m.price, clr: MyColors().whiteColor, fontWeight: FontWeight.w600, size: 30),
                     MyText(
                       title: getDuration(m.id),
-                      clr: MyColors().whiteColor.withOpacity(.5),
+                      clr: MyColors().whiteColor.withValues(alpha: .5),
                       fontWeight: FontWeight.w600,
                       size: 18,
                     ),
                   ],
                 ),
                 MyText(
-                  title: m.title.split("(").firstOrNull ?? "",
+                  title: m.title.split('(').firstOrNull ?? '',
                   clr: MyColors().whiteColor,
                   fontWeight: FontWeight.w500,
                   size: 16,
@@ -610,7 +606,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                 //     padding: EdgeInsets.symmetric(horizontal: 8.w),
                 //     child: MyText(
                 //       title: m.description, //getPrice(m.id, m.price),
-                //       clr: MyColors().whiteColor.withOpacity(.5),
+                //       clr: MyColors().whiteColor.withValues(alpha: .5),
                 //       align: TextAlign.center,
                 //       fontStyle: FontStyle.italic,
                 //       fontWeight: FontWeight.w600,
@@ -626,7 +622,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(height: 2.h),
-                MyText(title: "Description:", clr: MyColors().black, fontWeight: FontWeight.w600, size: 15),
+                MyText(title: 'Description:', clr: MyColors().black, fontWeight: FontWeight.w600, size: 15),
                 MyText(
                   title: m.description, //getPrice(m.id, m.price),
                   clr: MyColors().black,
@@ -686,7 +682,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                   }
                 } else {
                   if (subscribed == m.id) {
-                    CustomToast().showToast(message: "Already Subscribed");
+                    CustomToast().showToast(message: 'Already Subscribed');
                   }
                 }
 
@@ -698,9 +694,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                       ? Colors.black
                       : (subscribed == m.id)
                       ? Colors.black
-                      : Colors.black.withOpacity(.5),
+                      : Colors.black.withValues(alpha: .5),
               loading: value?.purchaseLoading,
-              title: (subscribed == m.id) ? "Subscribed" : "Subscribe",
+              title: (subscribed == m.id) ? 'Subscribed' : 'Subscribe',
               // width: 80.w,
             ),
           ),
@@ -714,11 +710,11 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     );
   }
 
-  completeDialog({required Function onTap}) {
+  Future completeDialog({required Function onTap}) {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (context) {
         return WillPopScope(
           onWillPop: () async {
             return false;
@@ -745,18 +741,18 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       navigatorKey.currentContext?.read<UserController>().user?.role == Role.User
           ? [
             MenuModel(
-              name: "All Access User", //'Standard Package',
+              name: 'All Access User', //'Standard Package',
               subTitle: '\$ 1.99/ Annually',
               price: 1.99,
               points: [
-                "Subscribers save money enjoying a whole year, making it a more economical for long-term users.",
-                "Subscribers may benefit from additional perks such as:\n• Discounts on future subscriptions.\n• Access to special events and promotions.\n• Fostering a sense of community and appreciation.",
+                'Subscribers save money enjoying a whole year, making it a more economical for long-term users.',
+                'Subscribers may benefit from additional perks such as:\n• Discounts on future subscriptions.\n• Access to special events and promotions.\n• Fostering a sense of community and appreciation.',
               ],
             ),
           ]
           : [
             MenuModel(
-              name: "Business Access", //'Standard Package',
+              name: 'Business Access', //'Standard Package',
               subTitle: '\$ 99.99/ Monthy',
               price: 99.99,
               points: [
@@ -765,13 +761,13 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               ],
             ),
             MenuModel(
-              name: "Special Offer", //'Premium Package',
+              name: 'Special Offer', //'Premium Package',
               subTitle: '\$ 999.99/ Annually',
               price: 999.99,
               points: [
-                "Annual business subscribers receive 20% off versus month to month business users.",
-                "Also exclusive access to the following:\n• New features.\n• Updates.\n• Improvements throughout the year.",
-                "Ensuring they always have the latest tools and enhancements at their fingertips.",
+                'Annual business subscribers receive 20% off versus month to month business users.',
+                'Also exclusive access to the following:\n• New features.\n• Updates.\n• Improvements throughout the year.',
+                'Ensuring they always have the latest tools and enhancements at their fingertips.',
               ],
             ),
           ];

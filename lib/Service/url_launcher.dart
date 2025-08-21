@@ -2,13 +2,12 @@ import 'dart:io';
 
 import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Service/general_apis.dart';
+import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_strings.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
-import 'navigation_service.dart';
 
 class ContentScreen extends StatefulWidget {
   final String? title, contentType;
@@ -23,7 +22,7 @@ class ContentScreen extends StatefulWidget {
 class _ContentScreenState extends State<ContentScreen> {
   bool _isLoading = true;
   double? _opacity = 0;
-  String url = "";
+  String url = '';
 
   @override
   void initState() {
@@ -33,13 +32,13 @@ class _ContentScreenState extends State<ContentScreen> {
     ///ye uncomment karna beta ma
     // getData(context);
     if (Platform.isAndroid) WebView.platform = AndroidWebView();
-    if (widget.contentType == "Subscriptions") {
-      url = "https://mybackyardusa.com/#pricing";
+    if (widget.contentType == 'Subscriptions') {
+      url = 'https://mybackyardusa.com/#pricing';
       _opacity = 1.0;
       _isLoading = false;
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      if (widget.contentType != "Subscriptions") {
+      if (widget.contentType != 'Subscriptions') {
         await getData();
       }
     });
@@ -58,8 +57,8 @@ class _ContentScreenState extends State<ContentScreen> {
               child: WebView(
                 initialUrl: url,
                 //AppStrings.WEB_VIEW_URL,
-                onPageStarted: (String? url) {},
-                onPageFinished: (String? url) {
+                onPageStarted: (url) {},
+                onPageFinished: (url) {
                   setState(() {
                     _opacity = 1.0;
                     _isLoading = false;
@@ -95,7 +94,7 @@ class _ContentScreenState extends State<ContentScreen> {
   // }
 
   Future<void> getData() async {
-    url = await GeneralAPIS.getContent(widget.contentType ?? "") ?? "";
+    url = await GeneralAPIS.getContent(widget.contentType ?? '') ?? '';
 
     setState(() {
       _opacity = 1.0;
@@ -103,7 +102,7 @@ class _ContentScreenState extends State<ContentScreen> {
     });
   }
 
-  customAppBar() {
+  AppBar? customAppBar() {
     return widget.contentType == AppStrings.CREATE_MERCHANT
         ? null
         : AppBar(

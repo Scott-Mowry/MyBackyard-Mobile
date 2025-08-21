@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_image.dart';
+import 'package:backyard/Component/custom_padding.dart';
 import 'package:backyard/Component/custom_refresh.dart';
 import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Component/custom_toast.dart';
@@ -16,9 +17,8 @@ import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/enum.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/Widget/Dialog/profile_complete_dialog.dart';
-import 'package:flutter/material.dart';
-import 'package:backyard/Component/custom_padding.dart';
 import 'package:backyard/View/base_view.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -88,7 +88,7 @@ class _CategoryState extends State<Category> {
                           itemCount: val.categories?.length,
                           shrinkWrap: true,
                           padding: const EdgeInsets.symmetric(horizontal: 16),
-                          itemBuilder: (BuildContext ctx, index) {
+                          itemBuilder: (ctx, index) {
                             return Stack(
                               children: [
                                 CustomImage(
@@ -114,7 +114,7 @@ class _CategoryState extends State<Category> {
                                       borderRadius: BorderRadius.circular(10),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Color(0xFF183400).withOpacity(.8),
+                                          color: Color(0xFF183400).withValues(alpha: .8),
                                           spreadRadius: 0,
                                           blurRadius: 0,
                                           offset: Offset(0, 0), // changes position of shadow
@@ -138,7 +138,7 @@ class _CategoryState extends State<Category> {
                                           ),
                                         ),
                                         MyText(
-                                          title: val.categories?[index].categoryName ?? "",
+                                          title: val.categories?[index].categoryName ?? '',
                                           clr: Colors.white,
                                           fontWeight: FontWeight.w600,
                                           size: 16,
@@ -181,7 +181,7 @@ class _CategoryState extends State<Category> {
     );
   }
 
-  onSubmit(HomeController val) async {
+  Future<void> onSubmit(HomeController val) async {
     if (
     // i == 999
     selected.isEmpty) {
@@ -204,7 +204,7 @@ class _CategoryState extends State<Category> {
         role: Role.Business.name,
         phone: user?.phone,
         days: user?.days,
-        image: File(user?.profileImage ?? ""),
+        image: File(user?.profileImage ?? ''),
       );
       AppNavigation.navigatorPop();
       if (result) {
@@ -220,11 +220,11 @@ class _CategoryState extends State<Category> {
     }
   }
 
-  completeDialog({required Function onTap}) {
+  Future completeDialog({required Function onTap}) {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (context) {
         return WillPopScope(
           onWillPop: () async {
             return false;

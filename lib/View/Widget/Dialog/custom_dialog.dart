@@ -1,9 +1,9 @@
-import 'package:backyard/Utils/image_path.dart';
-import 'package:flutter/material.dart';
 import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Service/navigation_service.dart';
+import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomDialog extends StatelessWidget {
@@ -50,9 +50,7 @@ class CustomDialog extends StatelessWidget {
                     size: 18,
                   ),
                   GestureDetector(
-                    onTap: () {
-                      AppNavigation.navigatorPop();
-                    },
+                    onTap: AppNavigation.navigatorPop,
                     child: Image.asset(ImagePath.close, scale: 2),
                   ),
                 ],
@@ -77,7 +75,7 @@ class CustomDialog extends StatelessWidget {
                         AppNavigation.navigatorPop();
                         onYes(c);
                       },
-                      title: b1 ?? "Continue",
+                      title: b1 ?? 'Continue',
                     ),
                   SizedBox(height: 2.h),
                   if (button2 != null)
@@ -86,7 +84,7 @@ class CustomDialog extends StatelessWidget {
                         AppNavigation.navigatorPop();
                         button2!(c);
                       },
-                      title: b2 ?? "Continue",
+                      title: b2 ?? 'Continue',
                     ),
                   SizedBox(height: 2.h),
                 ],

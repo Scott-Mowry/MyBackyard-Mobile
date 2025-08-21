@@ -8,16 +8,15 @@ import 'package:backyard/Service/api.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Utils/enum.dart';
 import 'package:backyard/main.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class GeneralAPIS {
   static Future<String?> getContent(String type) async {
     try {
-      http.Response? res = await AppNetwork.networkRequest(
+      final res = await AppNetwork.networkRequest(
         requestTypes.POST.name,
         API.CONTENT_ENDPOINT,
-        parameters: {"type": type},
+        parameters: {'type': type},
       );
       if (res != null) {
         final model = responseModelFromJson(res.body);
@@ -26,7 +25,7 @@ class GeneralAPIS {
         }
       }
     } catch (e) {
-      log("CONTENT ENDPOINT: ${e.toString()}");
+      log('CONTENT ENDPOINT: ${e.toString()}');
     }
     return null;
   }
@@ -34,7 +33,7 @@ class GeneralAPIS {
   static Future<void> getCategories() async {
     try {
       final controller = navigatorKey.currentContext?.read<HomeController>();
-      http.Response? res = await AppNetwork.networkRequest(requestTypes.GET.name, API.CATEGORIES_ENDPOINT);
+      final res = await AppNetwork.networkRequest(requestTypes.GET.name, API.CATEGORIES_ENDPOINT);
       if (res != null) {
         final model = responseModelFromJson(res.body);
         // CustomToast().showToast(message: model.message ?? "");
@@ -43,14 +42,14 @@ class GeneralAPIS {
         }
       }
     } catch (e) {
-      log("CATEGORY ENDPOINT: ${e.toString()}");
+      log('CATEGORY ENDPOINT: ${e.toString()}');
     }
   }
 
   static Future<void> getPlaces() async {
     try {
       final controller = navigatorKey.currentContext?.read<HomeController>();
-      http.Response? res = await AppNetwork.networkRequest(requestTypes.GET.name, API.PLACES_ENDPOINT);
+      final res = await AppNetwork.networkRequest(requestTypes.GET.name, API.PLACES_ENDPOINT);
       if (res != null) {
         final model = responseModelFromJson(res.body);
         // CustomToast().showToast(message: model.message ?? "");
@@ -59,7 +58,7 @@ class GeneralAPIS {
         }
       }
     } catch (e) {
-      log("PLACES ENDPOINT: ${e.toString()}");
+      log('PLACES ENDPOINT: ${e.toString()}');
     }
   }
 }

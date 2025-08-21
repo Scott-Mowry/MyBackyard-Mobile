@@ -66,9 +66,9 @@ class _MyTextState extends State<MyText> {
             widget.fontWeight ??
             (widget.weight == null
                 ? FontWeight.normal
-                : widget.weight == "Bold"
+                : widget.weight == 'Bold'
                 ? FontWeight.bold
-                : widget.weight == "Semi Bold"
+                : widget.weight == 'Semi Bold'
                 ? FontWeight.w600
                 : FontWeight.w500),
       ),

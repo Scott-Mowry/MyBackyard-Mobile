@@ -1,27 +1,27 @@
 import 'dart:ui';
 
+import 'package:backyard/Arguments/content_argument.dart';
 import 'package:backyard/Component/Appbar/appbar_components.dart';
 import 'package:backyard/Component/custom_padding.dart';
-import 'package:backyard/Model/menu_model.dart';
-import 'package:backyard/Service/app_network.dart';
-import 'package:backyard/Service/auth_apis.dart';
-import 'package:backyard/View/Authentication/change_password.dart';
-import 'package:backyard/main.dart';
 import 'package:backyard/Component/custom_switch.dart';
 import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Controller/user_controller.dart';
+import 'package:backyard/Model/menu_model.dart';
+import 'package:backyard/Service/app_network.dart';
+import 'package:backyard/Service/auth_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
-import 'package:flutter/material.dart';
+import 'package:backyard/Utils/app_strings.dart';
+import 'package:backyard/Utils/enum.dart';
+import 'package:backyard/Utils/my_colors.dart';
+import 'package:backyard/Utils/utils.dart';
+import 'package:backyard/View/Authentication/change_password.dart';
 import 'package:backyard/View/Widget/Dialog/delete_account.dart';
+import 'package:backyard/View/base_view.dart';
+import 'package:backyard/main.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../../Utils/my_colors.dart';
 import 'package:sizer/sizer.dart';
-import '../../../Arguments/content_argument.dart';
-import '../../../Utils/app_strings.dart';
-import '../../../Utils/enum.dart';
-import '../../../Utils/utils.dart';
-import '../../base_view.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -54,7 +54,7 @@ class _SettingsState extends State<Settings> {
         child: Column(
           children: [
             CustomAppBar(
-              screenTitle: "Settings",
+              screenTitle: 'Settings',
               leading: getBusinesses ? MenuIcon() : BackButton(),
               trailing: getBusinesses ? NotificationIcon() : null,
               bottom: 2.h,
@@ -70,7 +70,7 @@ class _SettingsState extends State<Settings> {
                           borderRadius: BorderRadius.circular(100),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(.2),
+                              color: Colors.grey.withValues(alpha: .2),
                               blurRadius: 10.0,
                               offset: const Offset(0, 5),
                               spreadRadius: 2.0, //extend the shadow
@@ -81,11 +81,11 @@ class _SettingsState extends State<Settings> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            MyText(title: "Switch User", fontWeight: FontWeight.w500, size: Utils.isTablet ? 18 : 15),
+                            MyText(title: 'Switch User', fontWeight: FontWeight.w500, size: Utils.isTablet ? 18 : 15),
                             CustomSwitch(
                               switchValue: val.isSwitch,
                               toggleColor: MyColors().primaryColor,
-                              inActiveColor: MyColors().greyColor3.withOpacity(.2),
+                              inActiveColor: MyColors().greyColor3.withValues(alpha: .2),
                               onChange: (v) {},
                               onChange2: (v) {
                                 val.setSwitch(v);
@@ -114,7 +114,7 @@ class _SettingsState extends State<Settings> {
 
   late bool business = context.read<UserController>().user?.role == Role.Business;
 
-  getData() {
+  void getData() {
     if (context.read<UserController>().user?.isPushNotify == 1) {
       val = true;
     }
@@ -205,7 +205,7 @@ class _SettingsState extends State<Settings> {
           AppRouteName.CONTENT_SCREEN,
           arguments: ContentRoutingArgument(
             title: 'Subscriptions',
-            contentType: "Subscriptions",
+            contentType: 'Subscriptions',
             url: 'https://www.google.com/',
           ),
         );
@@ -309,7 +309,7 @@ class _SettingsState extends State<Settings> {
           AppRouteName.CONTENT_SCREEN,
           arguments: ContentRoutingArgument(
             title: 'Subscriptions',
-            contentType: "Subscriptions",
+            contentType: 'Subscriptions',
             url: 'https://www.google.com/',
           ),
         );
@@ -317,7 +317,7 @@ class _SettingsState extends State<Settings> {
       },
     ),
   ];
-  showBarberList({required List<MenuModel> l}) {
+  ListView showBarberList({required List<MenuModel> l}) {
     return ListView.builder(
       physics: BouncingScrollPhysics(),
       shrinkWrap: true,
@@ -336,7 +336,7 @@ class _SettingsState extends State<Settings> {
               borderRadius: BorderRadius.circular(100),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(.2),
+                  color: Colors.grey.withValues(alpha: .2),
                   blurRadius: 10.0,
                   offset: const Offset(0, 5),
                   spreadRadius: 2.0, //extend the shadow
@@ -373,7 +373,7 @@ class _SettingsState extends State<Settings> {
                   CustomSwitch(
                     switchValue: val,
                     toggleColor: MyColors().primaryColor,
-                    inActiveColor: MyColors().greyColor3.withOpacity(.2),
+                    inActiveColor: MyColors().greyColor3.withValues(alpha: .2),
                     onChange: (v) {},
                     onChange2: (v) async {
                       val = !val;

@@ -10,5 +10,5 @@ class ResponseModel {
   ResponseModel({required this.status, required this.message, required this.data});
 
   factory ResponseModel.fromJson(Map<String, dynamic> json) =>
-      ResponseModel(status: json["status"], message: json["message"], data: json["data"]);
+      ResponseModel(status: json['status'], message: json['message'], data: json['data']);
 }

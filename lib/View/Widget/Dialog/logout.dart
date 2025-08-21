@@ -1,10 +1,10 @@
-import 'package:backyard/Service/app_network.dart';
-import 'package:backyard/Service/auth_apis.dart';
-import 'package:flutter/material.dart';
 import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_text.dart';
+import 'package:backyard/Service/app_network.dart';
+import 'package:backyard/Service/auth_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class LogoutAlert extends StatefulWidget {
@@ -38,9 +38,7 @@ class _LogoutAlertState extends State<LogoutAlert> {
                   const Icon(Icons.close_outlined, color: Colors.transparent),
                   MyText(title: 'Logout', clr: MyColors().whiteColor, fontWeight: FontWeight.w600),
                   GestureDetector(
-                    onTap: () {
-                      AppNavigation.navigatorPop();
-                    },
+                    onTap: AppNavigation.navigatorPop,
                     child: const Icon(Icons.close_outlined, color: Colors.white),
                   ),
                 ],
@@ -68,7 +66,7 @@ class _LogoutAlertState extends State<LogoutAlert> {
                       AppNetwork.loadingProgressIndicator();
                       await AuthAPIS.signOut();
                     },
-                    title: "Logout",
+                    title: 'Logout',
                   ),
                   // SizedBox(height: 1.h,),
                   // GestureDetector(

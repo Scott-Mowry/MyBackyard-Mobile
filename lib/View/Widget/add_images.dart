@@ -1,12 +1,12 @@
 import 'dart:io';
-import 'package:backyard/Service/api.dart';
-import 'package:flutter/material.dart';
-import 'package:backyard/Component/custom_text.dart';
-import 'package:backyard/Utils/my_colors.dart';
-import 'package:sizer/sizer.dart';
 
-import '../../Model/file_network.dart';
-import '../../Utils/image_path.dart';
+import 'package:backyard/Component/custom_text.dart';
+import 'package:backyard/Model/file_network.dart';
+import 'package:backyard/Service/api.dart';
+import 'package:backyard/Utils/image_path.dart';
+import 'package:backyard/Utils/my_colors.dart';
+import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class AddImages extends StatelessWidget {
   final List<FileNetwork> imagePath;

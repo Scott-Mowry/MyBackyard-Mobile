@@ -38,11 +38,11 @@ class UserController extends ChangeNotifier {
             lat = event.latitude;
             lng = event.longitude;
           }
-          List<Placemark> placemarks = await placemarkFromCoordinates(event.latitude, event.longitude);
+          final placemarks = await placemarkFromCoordinates(event.latitude, event.longitude);
           if (user?.role == Role.User) {
-            _user?.address = placemarks[0].locality ?? "";
+            _user?.address = placemarks[0].locality ?? '';
           } else {
-            address = placemarks[0].locality ?? "";
+            address = placemarks[0].locality ?? '';
           }
           if (mapController != null) {
             await BusAPIS.getBuses(event.latitude, event.longitude);
@@ -54,12 +54,12 @@ class UserController extends ChangeNotifier {
             circles.clear();
             circles.add(
               Circle(
-                circleId: const CircleId("myLocation"),
+                circleId: const CircleId('myLocation'),
                 radius: mile * 1609.344,
                 strokeWidth: 1,
                 zIndex: 0,
                 center: LatLng(event.latitude, event.longitude),
-                fillColor: MyColors().primaryColor.withOpacity(.15),
+                fillColor: MyColors().primaryColor.withValues(alpha: .15),
                 strokeColor: MyColors().primaryColor,
               ),
             );
@@ -92,24 +92,24 @@ class UserController extends ChangeNotifier {
   List<User> busList = [];
   double lat = 0;
   double lng = 0;
-  String address = "";
+  String address = '';
   int mile =
       50 //25
       ;
 
   void setMile(int val) {
     mile = val;
-    final temp = circles.where((element) => element.circleId == const CircleId("myLocation")).firstOrNull;
+    final temp = circles.where((element) => element.circleId == const CircleId('myLocation')).firstOrNull;
     if (temp != null) {
       circles.clear();
       circles.add(
         Circle(
-          circleId: const CircleId("myLocation"),
+          circleId: const CircleId('myLocation'),
           radius: mile * 1609.344,
           strokeWidth: 1,
           zIndex: 0,
           center: temp.center,
-          fillColor: MyColors().primaryColor.withOpacity(.15),
+          fillColor: MyColors().primaryColor.withValues(alpha: .15),
           strokeColor: MyColors().primaryColor,
         ),
       );
@@ -153,7 +153,6 @@ class UserController extends ChangeNotifier {
   }
 
   void setProductDetails(List<in_app.ProductDetails> val) {
-    print("Subscriptions Fetched");
     productDetails = val;
     productDetails.sort((a, b) => a.price.length.compareTo(b.price.length));
     notifyListeners();
@@ -181,8 +180,8 @@ class UserController extends ChangeNotifier {
   }
 
   Future<void> addMarker(User user) async {
-    MarkerId markerId = MarkerId(user.id?.toString() ?? "");
-    Marker marker = Marker(
+    final markerId = MarkerId(user.id?.toString() ?? '');
+    final marker = Marker(
       // onTap: () => AppNavigation.navigateTo(AppRouteName.USER_PROFILE_ROUTE,
       //     arguments: ProfileScreenArguments(
       //         isBusinessProfile: true, isMe: false, isUser: false, user: user)),
@@ -190,7 +189,7 @@ class UserController extends ChangeNotifier {
       infoWindow: InfoWindow(
         title: user.name,
         snippet:
-            (user.subId != 4) ? user.description : "${user.description}\n\nPhone Number:${user.phone}\n${user.address}",
+            (user.subId != 4) ? user.description : '${user.description}\n\nPhone Number:${user.phone}\n${user.address}',
         anchor: const Offset(0, 1),
         onTap:
             () =>
@@ -207,7 +206,7 @@ class UserController extends ChangeNotifier {
                     : {},
       ),
       icon: await Utils.createBitmapDescriptorWithText(
-        (user.name ?? "").toUpperCase().characters.firstOrNull ?? "",
+        (user.name ?? '').toUpperCase().characters.firstOrNull ?? '',
         smaller: user.subId == 4,
       ),
       // Utils.getNetworkImageMarker2(
@@ -266,7 +265,7 @@ class UserController extends ChangeNotifier {
   }
 
   Future<void> clear() async {
-    SharedPreference ld = SharedPreference();
+    final ld = SharedPreference();
     await ld.sharedPreference;
     final val = ld.getUser();
     ld.clear();

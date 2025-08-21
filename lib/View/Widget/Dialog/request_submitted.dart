@@ -1,10 +1,10 @@
 
+import 'package:backyard/Component/custom_buttom.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import '../../../../../Component/custom_buttom.dart';
-import '../../../../../Component/custom_text.dart';
 
 class RequestSubmitted extends StatelessWidget {
   const RequestSubmitted({super.key});
@@ -35,7 +35,7 @@ class RequestSubmitted extends StatelessWidget {
                     AppNavigation.navigatorPop();
                     AppNavigation.navigatorPop();
                   },
-                  title: "Go to Home",
+                  title: 'Go to Home',
                 ),
                 SizedBox(height: 3.5.h),
               ],

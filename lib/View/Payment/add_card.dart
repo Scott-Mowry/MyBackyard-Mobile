@@ -5,6 +5,7 @@ import 'dart:ui';
 
 import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_padding.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Component/custom_text_form_field.dart';
 import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Controller/user_controller.dart';
@@ -12,6 +13,7 @@ import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/auth_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
+import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/Widget/Dialog/profile_complete_dialog.dart';
 import 'package:backyard/View/base_view.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +21,6 @@ import 'package:http/http.dart' as http;
 import 'package:month_year_picker/month_year_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../../Component/custom_text.dart';
-import '../../Utils/my_colors.dart';
 
 class AddCard extends StatefulWidget {
   final Map<String, dynamic>? test;
@@ -44,7 +43,7 @@ class _AddCardState extends State<AddCard> {
   @override
   Widget build(BuildContext context) {
     return BaseView(
-      screenTitle: (widget.test != null) ? "Payment" : 'Add Card',
+      screenTitle: (widget.test != null) ? 'Payment' : 'Add Card',
       showAppBar: true,
       bgImage: '',
       showBackButton: true,
@@ -137,7 +136,7 @@ class _AddCardState extends State<AddCard> {
                 onTap: () {
                   onSubmit();
                 },
-                title: "Add Now",
+                title: 'Add Now',
               ),
               SizedBox(height: 2.h),
             ],
@@ -147,28 +146,28 @@ class _AddCardState extends State<AddCard> {
     );
   }
 
-  addCardValidation() async {
+  Future<void> addCardValidation() async {
     FocusManager.instance.primaryFocus?.unfocus();
     if (name.text.isEmpty) {
       CustomToast().showToast(message: "Card holder name field can't be empty.");
     } else if (cardNumber.text.isEmpty) {
       CustomToast().showToast(message: "Card Number field can't be empty.");
     } else if (cardNumber.text.length < 19) {
-      CustomToast().showToast(message: "Please enter valid card number.");
+      CustomToast().showToast(message: 'Please enter valid card number.');
     } else if (expiry.text.isEmpty) {
       CustomToast().showToast(message: "Expiry field can't be empty.");
     } else if (expiry.text.length < 5) {
-      CustomToast().showToast(message: "Please enter valid MM/YY.");
+      CustomToast().showToast(message: 'Please enter valid MM/YY.');
     } else if (int.tryParse(expiry.text.split('/')[0])! > 12) {
-      CustomToast().showToast(message: "Please enter valid month.");
+      CustomToast().showToast(message: 'Please enter valid month.');
     } else if (int.tryParse(expiry.text.split('/')[1])! < 24) {
-      CustomToast().showToast(message: "Please enter valid year.");
+      CustomToast().showToast(message: 'Please enter valid year.');
     } else if (expiry.text.isEmpty) {
       CustomToast().showToast(message: "Expiry field can't be empty.");
     } else if (cvc.text.isEmpty) {
       CustomToast().showToast(message: "CVV field can't be empty.");
     } else if (cvc.text.length < 3) {
-      CustomToast().showToast(message: "Please enter valid CVV.");
+      CustomToast().showToast(message: 'Please enter valid CVV.');
     } else {
       AppNetwork.loadingProgressIndicator();
       final val = await cardAPI();
@@ -186,7 +185,7 @@ class _AddCardState extends State<AddCard> {
           email: user?.email,
           phone: user?.phone,
           days: user?.days,
-          image: File(user?.profileImage ?? ""),
+          image: File(user?.profileImage ?? ''),
         );
         AppNavigation.navigatorPop();
         if (result) {
@@ -202,35 +201,35 @@ class _AddCardState extends State<AddCard> {
 
   Future<bool> cardAPI() async {
     try {
-      final price = widget.test?["price"] as double;
+      final price = widget.test?['price'] as double;
       if (await AppNetwork.checkInternet()) {
-        var headers = {
+        final headers = {
           'Content-Type': 'application/json',
           'Authorization': 'Basic ${base64.encode(utf8.encode('nzpL73LfqcrxyeVhMageUNcL97L1YeVw:1234'))}',
         };
-        var request = http.Request('POST', Uri.parse('https://api.sandbox.epsgsecure.app/api/v2/transactions/charge'));
+        final request = http.Request('POST', Uri.parse('https://api.sandbox.epsgsecure.app/api/v2/transactions/charge'));
         request.body = json.encode({
-          "name": name.text,
-          "amount": price,
-          "card": cardNumber.text.replaceAll(" ", ""),
-          "expiry_month": int.parse(expiry.text.split('/')[0]),
-          "expiry_year": 2000 + int.parse(expiry.text.split('/')[1]),
-          "cvv2": cvc.text,
+          'name': name.text,
+          'amount': price,
+          'card': cardNumber.text.replaceAll(' ', ''),
+          'expiry_month': int.parse(expiry.text.split('/')[0]),
+          'expiry_year': 2000 + int.parse(expiry.text.split('/')[1]),
+          'cvv2': cvc.text,
         });
         request.headers.addAll(headers);
 
-        http.StreamedResponse response = await request.send();
+        final response = await request.send();
         final res = await http.Response.fromStream(response);
         final model = json.decode(res.body);
         if (response.statusCode == 200) {
-          if (model["status_code"] == "A") {
+          if (model['status_code'] == 'A') {
             return true;
           }
         } else {
-          CustomToast().showToast(message: model["error_message"].toString());
+          CustomToast().showToast(message: model['error_message'].toString());
         }
       } else {
-        CustomToast().showToast(message: "No Internet Connection");
+        CustomToast().showToast(message: 'No Internet Connection');
       }
     } catch (e) {
       CustomToast().showToast(message: e.toString());
@@ -238,11 +237,11 @@ class _AddCardState extends State<AddCard> {
     return false;
   }
 
-  completeDialog({required Function onTap}) {
+  Future completeDialog({required Function onTap}) {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (context) {
         return WillPopScope(
           onWillPop: () async {
             return false;
@@ -266,7 +265,7 @@ class _AddCardState extends State<AddCard> {
     );
   }
 
-  onSubmit() {
+  void onSubmit() {
     addCardValidation();
     // HomeController.i.name=name.text;
     // HomeController.i.cardNumber=cardNumber.text;
@@ -276,21 +275,20 @@ class _AddCardState extends State<AddCard> {
     // HomeController.i.addCardValidation(context);
   }
 
-  monthPick(context) async {
+  Future<void> monthPick(context) async {
     final selected = await showMonthYearPicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(3000),
     );
-    print(selected);
 
     if (selected != null) {
       // monthController.text=Utils.getFormattedMonthYear(date:selected.toString());//.replaceFirst("T", " ").replaceFirst("Z", ""),);
     }
   }
 
-  customTitle({required String title}) {
+  Padding customTitle({required String title}) {
     return Padding(padding: EdgeInsets.only(left: 3.w), child: MyText(title: title));
   }
 }

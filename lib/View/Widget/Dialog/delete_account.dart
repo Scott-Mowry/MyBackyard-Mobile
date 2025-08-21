@@ -1,13 +1,12 @@
+import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_radio_tile.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Component/custom_text_form_field.dart';
 import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../../../../Component/custom_buttom.dart';
-import '../../../../../Component/custom_text.dart';
 
 class DeleteDialog extends StatefulWidget {
   final String title, subTitle;
@@ -48,9 +47,7 @@ class _DeleteDialogState extends State<DeleteDialog> {
                   const Icon(Icons.close_outlined, color: Colors.transparent),
                   MyText(title: 'Delete Account', clr: MyColors().whiteColor, fontWeight: FontWeight.w600),
                   GestureDetector(
-                    onTap: () {
-                      AppNavigation.navigatorPop();
-                    },
+                    onTap: AppNavigation.navigatorPop,
                     child: const Icon(Icons.close_outlined, color: Colors.white),
                   ),
                 ],
@@ -110,7 +107,7 @@ class _DeleteDialogState extends State<DeleteDialog> {
                       borderRadius: 10,
                       maxLength: 275,
                       borderColor: MyColors().secondaryColor,
-                      backgroundColor: MyColors().secondaryColor.withOpacity(.4),
+                      backgroundColor: MyColors().secondaryColor.withValues(alpha: .4),
                       hintTextColor: MyColors().grey,
                       textColor: MyColors().black,
                     ),
@@ -128,13 +125,11 @@ class _DeleteDialogState extends State<DeleteDialog> {
                         widget.onYes();
                       }
                     },
-                    title: "Delete Now",
+                    title: 'Delete Now',
                   ),
                   SizedBox(height: 1.h),
                   GestureDetector(
-                    onTap: () {
-                      AppNavigation.navigatorPop();
-                    },
+                    onTap: AppNavigation.navigatorPop,
                     child: MyText(
                       title: 'Not Now!',
                       size: 17,

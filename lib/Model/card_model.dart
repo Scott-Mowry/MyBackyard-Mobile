@@ -76,7 +76,7 @@ class CardModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> json = <String, dynamic>{};
+    final json = <String, dynamic>{};
     json['id'] = id;
     json['object'] = object;
     json['address_city'] = addressCity;

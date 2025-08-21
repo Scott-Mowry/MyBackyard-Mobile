@@ -2,8 +2,8 @@
 import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/main.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:flutter/foundation.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
 
 class AppInAppPurchase {
@@ -17,7 +17,7 @@ class AppInAppPurchase {
 
   // Connect to the store
   Future<void> initialize() async {
-    final bool available = await _inAppPurchase.isAvailable();
+    final available = await _inAppPurchase.isAvailable();
     if (!available) {
       // Handle store not available scenario
       debugPrint('The store is not available');
@@ -30,7 +30,7 @@ class AppInAppPurchase {
   Future<void> fetchSubscriptions(List<String> ids) async {
     navigatorKey.currentContext?.read<UserController>().setLoading(true);
     navigatorKey.currentContext?.read<UserController>().setProductDetails([]);
-    final ProductDetailsResponse response = await _inAppPurchase.queryProductDetails(ids.toSet());
+    final response = await _inAppPurchase.queryProductDetails(ids.toSet());
     navigatorKey.currentContext?.read<UserController>().setLoading(false);
     if (response.error != null) {
       // Handle errors here
@@ -40,11 +40,11 @@ class AppInAppPurchase {
     }
 
     if (response.productDetails.isEmpty) {
-      CustomToast().showToast(message: "No products found.");
+      CustomToast().showToast(message: 'No products found.');
     } else {
-      List<ProductDetails> temp = response.productDetails;
+      final temp = response.productDetails;
       // Now you can safely access product details
-      for (ProductDetails product in response.productDetails) {
+      for (var product in response.productDetails) {
         if (product.id.isEmpty) {
           temp.remove(product);
         }
@@ -58,9 +58,9 @@ class AppInAppPurchase {
 
   // Buy a subscription
   Future<void> buySubscription(ProductDetails productDetails) async {
-    final PurchaseParam purchaseParam = PurchaseParam(
+    final purchaseParam = PurchaseParam(
       productDetails: productDetails,
-      applicationUserName: navigatorKey.currentContext?.read<UserController>().user?.id?.toString() ?? "",
+      applicationUserName: navigatorKey.currentContext?.read<UserController>().user?.id?.toString() ?? '',
     );
     _inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
     final list = await purchaseStream.last;
@@ -74,11 +74,11 @@ class AppInAppPurchase {
   // Check if a subscription is active
   Future<bool> isSubscriptionActive(String productId) async {
     // Listen to the purchase stream to get the latest purchase details
-    final List<PurchaseDetails> purchaseDetailsList = await purchaseStream.first.timeout(
+    final purchaseDetailsList = await purchaseStream.first.timeout(
       const Duration(milliseconds: 500),
     ); // Get the first update (latest status)
 
-    for (PurchaseDetails purchaseDetails in purchaseDetailsList) {
+    for (var purchaseDetails in purchaseDetailsList) {
       if (purchaseDetails.productID == productId && purchaseDetails.status == PurchaseStatus.purchased) {
         // Subscription for this product is active
         return true;
@@ -96,9 +96,7 @@ class AppInAppPurchase {
   }
 
   void listenToPurchaseUpdates() {
-    purchaseStream.listen((purchaseDetailsList) {
-      handlePurchaseUpdates(purchaseDetailsList);
-    });
+    purchaseStream.listen(handlePurchaseUpdates);
   }
 
   Future<void> restorePurchase() async {
@@ -107,7 +105,7 @@ class AppInAppPurchase {
 
   // Handle purchase updates
   void handlePurchaseUpdates(List<PurchaseDetails> purchaseDetailsList) {
-    for (PurchaseDetails purchaseDetails in purchaseDetailsList) {
+    for (var purchaseDetails in purchaseDetailsList) {
       if (purchaseDetails.status == PurchaseStatus.purchased || purchaseDetails.status == PurchaseStatus.canceled) {
         completePurchase(purchaseDetails);
         // TODO: Unlock features or content here

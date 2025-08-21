@@ -29,7 +29,7 @@ class CustomBottomBar extends StatelessWidget {
             color: MyColors().whiteColor,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.2), // Shadow color
+                color: Colors.black.withValues(alpha: 0.2), // Shadow color
                 blurRadius: 10, // Spread of the shadow
                 spreadRadius: 5, // Size of the shadow
                 offset: const Offset(0, 4), // Position of the shadow
@@ -63,7 +63,7 @@ class CustomBottomBar extends StatelessWidget {
     );
   }
 
-  item({required MenuModel i, required int index}) {
+  Builder item({required MenuModel i, required int index}) {
     return Builder(
       builder: (context) {
         return Consumer<HomeController>(

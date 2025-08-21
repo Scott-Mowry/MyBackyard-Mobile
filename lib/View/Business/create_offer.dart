@@ -13,10 +13,13 @@ import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Component/validations.dart';
 import 'package:backyard/Controller/home_controller.dart';
 import 'package:backyard/Model/category_model.dart';
+import 'package:backyard/Model/category_product_model.dart';
 import 'package:backyard/Model/offer_model.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/bus_apis.dart';
 import 'package:backyard/Service/general_apis.dart';
+import 'package:backyard/Service/navigation_service.dart';
+import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/Widget/Dialog/custom_dialog.dart';
 import 'package:backyard/View/Widget/upload_media.dart';
@@ -26,10 +29,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../../Utils/image_path.dart';
-import '../../Model/category_product_model.dart';
-import '../../Service/navigation_service.dart';
 
 class CreateOffer extends StatefulWidget {
   final bool edit;
@@ -42,7 +41,7 @@ class CreateOffer extends StatefulWidget {
 }
 
 class _CreateOfferState extends State<CreateOffer> {
-  File permit = File("");
+  File permit = File('');
   final form = GlobalKey<FormState>();
   bool error = false;
   final titleController = TextEditingController();
@@ -70,11 +69,11 @@ class _CreateOfferState extends State<CreateOffer> {
     });
     if (widget.edit) {
       titleController.text = widget.model?.title ?? '';
-      discountController.text = widget.model?.discountPrice?.toString() ?? "";
-      rewardPointsController.text = widget.model?.rewardPoints?.toString() ?? "";
-      shortDetailController.text = widget.model?.shortDetail ?? "";
-      descriptionController.text = widget.model?.description ?? "";
-      actualPriceController.text = widget.model?.actualPrice?.toString() ?? "";
+      discountController.text = widget.model?.discountPrice?.toString() ?? '';
+      rewardPointsController.text = widget.model?.rewardPoints?.toString() ?? '';
+      shortDetailController.text = widget.model?.shortDetail ?? '';
+      descriptionController.text = widget.model?.description ?? '';
+      actualPriceController.text = widget.model?.actualPrice?.toString() ?? '';
     }
     // TODO: implement initState
     super.initState();
@@ -121,7 +120,7 @@ class _CreateOfferState extends State<CreateOffer> {
                     : Column(
                       children: [
                         CustomAppBar(
-                          screenTitle: widget.edit ? 'Edit Offer' : "Create Offer",
+                          screenTitle: widget.edit ? 'Edit Offer' : 'Create Offer',
                           // leading: widget.edit ? BackButton() : MenuIcon(),
                           leading: BackButton(),
                           trailing: widget.edit ? null : NotificationIcon(),
@@ -136,7 +135,7 @@ class _CreateOfferState extends State<CreateOffer> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  permit.path != ""
+                                  permit.path != ''
                                       ? GestureDetector(
                                         onTap: () {
                                           FocusManager.instance.primaryFocus?.unfocus();
@@ -175,7 +174,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                                   image: DecorationImage(
                                                     fit: BoxFit.cover,
                                                     image:
-                                                        (permit.path == ""
+                                                        (permit.path == ''
                                                                 ?
                                                                 // AuthController.i.user.value.permit!=''?
                                                                 // NetworkImage(APIEndpoints.baseImageURL+AuthController.i.user.value.permit) :
@@ -183,7 +182,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                                                 : FileImage(permit))
                                                             as ImageProvider,
                                                   ),
-                                                  //   color: MyColors().secondaryColor.withOpacity(.26),
+                                                  //   color: MyColors().secondaryColor.withValues(alpha: .26),
                                                   // border: Border.all(
                                                   //   color: MyColors().secondaryColor
                                                   // )
@@ -224,7 +223,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                       //                       ))
                                       //                   as ImageProvider,
                                       //         ),
-                                      //         //   color: MyColors().secondaryColor.withOpacity(.26),
+                                      //         //   color: MyColors().secondaryColor.withValues(alpha: .26),
                                       //         // border: Border.all(
                                       //         //   color: MyColors().secondaryColor
                                       //         // )
@@ -280,7 +279,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                       //               const AssetImage(ImagePath.noUserImage) :
                                       //               FileImage(permit.value)) as ImageProvider
                                       //           ),
-                                      //           //   color: MyColors().secondaryColor.withOpacity(.26),
+                                      //           //   color: MyColors().secondaryColor.withValues(alpha: .26),
                                       //           // border: Border.all(
                                       //           //   color: MyColors().secondaryColor
                                       //           // )
@@ -335,7 +334,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                     maxLength: 32,
                                     showLabel: false,
                                     backgroundColor: MyColors().container,
-                                    validation: (p0) => p0?.validateEmpty("Title"),
+                                    validation: (p0) => p0?.validateEmpty('Title'),
                                     // borderColor: MyColors().secondaryColor,
                                     // hintTextColor: MyColors().grey,
                                     // textColor: MyColors().black,
@@ -365,7 +364,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                     showLabel: false,
                                     numberWithDecimal: true,
                                     backgroundColor: MyColors().container,
-                                    validation: (p0) => p0?.validateEmpty("Actual Price"),
+                                    validation: (p0) => p0?.validateEmpty('Actual Price'),
                                     // borderColor: MyColors().secondaryColor,
                                     // hintTextColor: MyColors().grey,
                                     // textColor: MyColors().black,
@@ -381,7 +380,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                     showLabel: false,
                                     numberWithDecimal: true,
                                     backgroundColor: MyColors().container,
-                                    validation: (p0) => p0?.validateEmpty("Discount Price"),
+                                    validation: (p0) => p0?.validateEmpty('Discount Price'),
                                     // borderColor: MyColors().secondaryColor,
                                     // hintTextColor: MyColors().grey,
                                     // textColor: MyColors().black,
@@ -420,7 +419,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                     maxLines: 5,
                                     minLines: 5,
                                     controller: shortDetailController,
-                                    validation: (p0) => p0?.validateEmpty("Short Detail"),
+                                    validation: (p0) => p0?.validateEmpty('Short Detail'),
                                     borderRadius: 10,
                                     maxLength: 275,
                                     backgroundColor: MyColors().container,
@@ -435,7 +434,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                     maxLines: 5,
                                     minLines: 5,
                                     controller: descriptionController,
-                                    validation: (p0) => p0?.validateEmpty("Description"),
+                                    validation: (p0) => p0?.validateEmpty('Description'),
                                     borderRadius: 10,
                                     maxLength: 275,
                                     backgroundColor: MyColors().container,
@@ -455,10 +454,10 @@ class _CreateOfferState extends State<CreateOffer> {
                                           final val = await BusAPIS.editOffer(
                                             offerId: widget.model?.id?.toString(),
                                             title: titleController.text,
-                                            categoryId: selected?.id?.toString() ?? "",
+                                            categoryId: selected?.id?.toString() ?? '',
                                             actualPrice: actualPriceController.text,
                                             discountPrice: discountController.text,
-                                            rewardPoints: "2",
+                                            rewardPoints: '2',
                                             shortDetail: shortDetailController.text,
                                             desc: descriptionController.text,
                                             image: permit,
@@ -472,10 +471,10 @@ class _CreateOfferState extends State<CreateOffer> {
                                           AppNetwork.loadingProgressIndicator();
                                           final val = await BusAPIS.addOffer(
                                             title: titleController.text,
-                                            categoryId: selected?.id?.toString() ?? "",
+                                            categoryId: selected?.id?.toString() ?? '',
                                             actualPrice: actualPriceController.text,
                                             discountPrice: discountController.text,
-                                            rewardPoints: "2",
+                                            rewardPoints: '2',
                                             shortDetail: shortDetailController.text,
                                             desc: descriptionController.text,
                                             image: permit,
@@ -513,11 +512,11 @@ class _CreateOfferState extends State<CreateOffer> {
     );
   }
 
-  customTitle({required String title}) {
+  Padding customTitle({required String title}) {
     return Padding(padding: EdgeInsets.only(left: 3.w), child: MyText(title: title));
   }
 
-  uploadMedia() {
+  Container uploadMedia() {
     return Container(
       // height: 40.w,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
@@ -599,12 +598,12 @@ class _CreateOfferState extends State<CreateOffer> {
     );
   }
 
-  completeDialog() {
+  Future completeDialog() {
     navigatorKey.currentContext?.read<HomeController>().setIndex(0);
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (context) {
         return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: AlertDialog(
@@ -631,11 +630,11 @@ class _CreateOfferState extends State<CreateOffer> {
     );
   }
 
-  downloadDialog() {
+  Future downloadDialog() {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (context) {
         return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: AlertDialog(

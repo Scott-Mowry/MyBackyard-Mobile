@@ -16,7 +16,7 @@ class CustomTitleText extends StatelessWidget {
       child: MyText(
         title: "$title${colon == true ? ":" : ""}",
         clr: Theme.of(context).primaryColor,
-        weight: "Semi Bold",
+        weight: 'Semi Bold',
         size: size,
       ),
     );

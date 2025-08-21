@@ -1,6 +1,6 @@
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
-import 'custom_text.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomEmptyData extends StatelessWidget {
@@ -29,7 +29,7 @@ class CustomEmptyData extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: paddingVertical ?? 6.h),
             child: Column(
               children: [
-                MyText(title: title ?? "Not available", size: 14, clr: Colors.grey.withOpacity(.5)),
+                MyText(title: title ?? 'Not available', size: 14, clr: Colors.grey.withValues(alpha: .5)),
                 if (subTitle != null) ...[
                   GestureDetector(
                     onTap: () {
@@ -51,7 +51,7 @@ class CustomEmptyData extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   if (image != null) ...[Image.asset(image!, width: 6.w, color: imageColor), SizedBox(width: 3.w)],
-                  MyText(title: title ?? "Not available", size: 18),
+                  MyText(title: title ?? 'Not available', size: 18),
                 ],
               ),
             ),

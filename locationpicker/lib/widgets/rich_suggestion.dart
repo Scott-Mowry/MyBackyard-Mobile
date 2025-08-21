@@ -21,7 +21,7 @@ class RichSuggestion extends StatelessWidget {
   }
 
   List<TextSpan> getStyledTexts(BuildContext context) {
-    final List<TextSpan> result = [];
+    final result = <TextSpan>[];
     final style = TextStyle(color: Colors.grey, fontSize: 15);
 
     final startText = autoCompleteItem.text?.substring(0, autoCompleteItem.offset);

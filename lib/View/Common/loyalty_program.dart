@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:backyard/Component/custom_padding.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/base_view.dart';
-import '../../Component/custom_text.dart';
+import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class LoyaltyProgram extends StatelessWidget {
@@ -35,7 +35,7 @@ class LoyaltyProgram extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.2), // Shadow color
+                          color: Colors.black.withValues(alpha: 0.2), // Shadow color
                           blurRadius: 10, // Spread of the shadow
                           spreadRadius: 5, // Size of the shadow
                           offset: const Offset(0, 4), // Position of the shadow
@@ -90,7 +90,7 @@ class LoyaltyProgram extends StatelessWidget {
 
 class HistoryTile extends StatelessWidget {
   final bool availed;
-  
+
   const HistoryTile({super.key, this.availed = false});
   @override
   Widget build(BuildContext context) {
@@ -104,7 +104,7 @@ class HistoryTile extends StatelessWidget {
           color: MyColors().whiteColor,
           boxShadow: [
             BoxShadow(
-              color: MyColors().container.withOpacity(0.8), // Shadow color
+              color: MyColors().container.withValues(alpha: 0.8), // Shadow color
               blurRadius: 10, // Spread of the shadow
               spreadRadius: 5, // Size of the shadow
               offset: const Offset(0, 4), // Position of the shadow

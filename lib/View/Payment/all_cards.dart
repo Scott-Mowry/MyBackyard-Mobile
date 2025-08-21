@@ -4,6 +4,7 @@ import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_empty_data.dart';
 import 'package:backyard/Component/custom_padding.dart';
 import 'package:backyard/Component/custom_radio_tile.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Controller/home_controller.dart';
 import 'package:backyard/Model/card_model.dart';
@@ -11,15 +12,13 @@ import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:backyard/View/Payment/card_tile.dart';
 import 'package:backyard/View/Widget/Dialog/success_payment.dart';
 import 'package:backyard/View/base_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../../Component/custom_text.dart';
-import 'card_tile.dart';
 
 class PaymentMethod extends StatefulWidget {
   final bool fromSettings;
@@ -64,7 +63,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      // color: MyColors().secondaryColor.withOpacity(.3),
+                      // color: MyColors().secondaryColor.withValues(alpha: .3),
                       image: DecorationImage(image: AssetImage(ImagePath.dottedBorder), fit: BoxFit.fill),
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -97,8 +96,6 @@ class _PaymentMethodState extends State<PaymentMethod> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                print('delete wala');
-                                // print('dedd ${d.cards[index].id}');
                                 // d.deleteCard(context,index: index, id:d.cards[index].id,onSuccess: (){});
                               },
                               child: Container(
@@ -122,7 +119,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                           child: Container(
                             padding: EdgeInsets.all(3.w),
                             decoration: BoxDecoration(
-                              color: MyColors().secondaryColor.withOpacity(.3),
+                              color: MyColors().secondaryColor.withValues(alpha: .3),
                               borderRadius: BorderRadius.circular(30),
                               border: Border.all(color: MyColors().secondaryColor),
                             ),
@@ -236,7 +233,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 // width: 80.w,
                 padding: EdgeInsets.all(3.w),
                 decoration: BoxDecoration(
-                  color: MyColors().secondaryColor.withOpacity(.3),
+                  color: MyColors().secondaryColor.withValues(alpha: .3),
                   borderRadius: BorderRadius.circular(30),
                   border: Border.all(color: MyColors().secondaryColor),
                 ),
@@ -276,17 +273,17 @@ class _PaymentMethodState extends State<PaymentMethod> {
     );
   }
 
-  onSubmit(context) {
+  void onSubmit(context) {
     // HomeController.i.payForSession(context, onSuccess: () {
     //   successDialog();
     // });
   }
 
-  successDialog() {
+  Future successDialog() {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (context) {
         return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: AlertDialog(

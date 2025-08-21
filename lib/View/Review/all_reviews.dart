@@ -1,13 +1,13 @@
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:backyard/Component/custom_refresh.dart';
 import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Controller/home_controller.dart';
 import 'package:backyard/Utils/image_path.dart';
+import 'package:backyard/Utils/my_colors.dart';
+import 'package:backyard/View/base_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
-import '../../../../../Utils/my_colors.dart';
 import 'package:sizer/sizer.dart';
-import '../../Component/custom_refresh.dart';
-import '../base_view.dart';
 
 class AllReviews extends StatefulWidget {
   const AllReviews({super.key});

@@ -1,10 +1,9 @@
 import 'dart:ui';
-import 'package:backyard/Utils/utils.dart';
-import 'package:backyard/main.dart';
-import 'package:flutter/material.dart';
+
 import 'package:backyard/Arguments/content_argument.dart';
 import 'package:backyard/Component/custom_image.dart';
 import 'package:backyard/Component/custom_text.dart';
+import 'package:backyard/Controller/home_controller.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Model/menu_model.dart';
 import 'package:backyard/Service/navigation_service.dart';
@@ -13,11 +12,12 @@ import 'package:backyard/Utils/app_strings.dart';
 import 'package:backyard/Utils/enum.dart';
 import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:backyard/Utils/utils.dart';
 import 'package:backyard/View/Widget/Dialog/logout.dart';
+import 'package:backyard/main.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-
-import '../Controller/home_controller.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});
@@ -84,7 +84,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                           ),
                           SizedBox(height: 2.h),
                           MyText(
-                            title: val.user?.name ?? "",
+                            title: val.user?.name ?? '',
                             fontWeight: FontWeight.w500,
                             size: 18,
                             clr: MyColors().whiteColor,
@@ -97,7 +97,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             width: 16.h,
                             child: MyText(
                               toverflow: TextOverflow.ellipsis,
-                              title: val.user?.email ?? "",
+                              title: val.user?.email ?? '',
                               size: 15,
                               clr: MyColors().whiteColor,
                             ),
@@ -128,7 +128,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     showDialog(
                       context: context,
                       barrierDismissible: false,
-                      builder: (BuildContext context) {
+                      builder: (context) {
                         return BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                           child: AlertDialog(
@@ -146,7 +146,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       color: MyColors().whiteColor,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.2), // Shadow color
+                          color: Colors.black.withValues(alpha: 0.2), // Shadow color
                           blurRadius: 10, // Spread of the shadow
                           spreadRadius: 5, // Size of the shadow
                           offset: const Offset(0, 4), // Position of the shadow
@@ -176,9 +176,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           top: 5.h,
           right: Utils.isTablet ? 1.w : 4.w,
           child: InkWell(
-            onTap: () {
-              AppNavigation.navigatorPop();
-            },
+            onTap: AppNavigation.navigatorPop,
             child: Container(
               height: 10.h,
               width: 18.w,
@@ -191,7 +189,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     );
   }
 
-  showList({required List<MenuModel> l}) {
+  Expanded showList({required List<MenuModel> l}) {
     return Expanded(
       child: Padding(
         padding: EdgeInsets.only(left: 5.w, top: 0.h),
@@ -321,7 +319,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           arguments: ContentRoutingArgument(
             title: 'Privacy Policy',
             contentType: AppStrings.PRIVACY_POLICY_TYPE,
-            url: "",
+            url: '',
           ),
         );
       },
@@ -331,11 +329,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
     // }),
   ];
 
-  logoutAlert(context) {
+  Future logoutAlert(context) {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (context) {
         return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: AlertDialog(

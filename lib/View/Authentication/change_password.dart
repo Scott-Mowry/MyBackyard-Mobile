@@ -1,22 +1,21 @@
 import 'package:backyard/Component/Appbar/appbar_components.dart';
 import 'package:backyard/Component/custom_background_image.dart';
+import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_padding.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Component/custom_text_form_field.dart';
 import 'package:backyard/Component/validations.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/auth_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';
+import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/Widget/appLogo.dart';
 import 'package:backyard/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../Component/custom_buttom.dart';
-import '../../Component/custom_text.dart';
-import '../../Utils/image_path.dart';
 
 class ChangePasswordArguments {
   const ChangePasswordArguments({this.fromSettings});
@@ -54,7 +53,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   @override
   Widget build(BuildContext context) {
     return CustomBackgroundImage(
-      image: (widget.fromSettings ?? false) ? "" : null,
+      image: (widget.fromSettings ?? false) ? '' : null,
       color: (widget.fromSettings ?? false) ? MyColors().whiteColor : null,
       child: CustomPadding(
         topPadding: 6.h,
@@ -114,7 +113,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                   return "Confirm Password field can't be empty";
                                 }
                                 if (p0 != password.text) {
-                                  return "Confirm Password & Password must be same";
+                                  return 'Confirm Password & Password must be same';
                                 }
                               }
                               return null;
@@ -140,7 +139,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     );
   }
 
-  onSubmit() async {
+  Future<void> onSubmit() async {
     if (_form.currentState?.validate() ?? false) {
       FocusManager.instance.primaryFocus?.unfocus();
       AppNetwork.loadingProgressIndicator();

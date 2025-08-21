@@ -47,7 +47,7 @@ class _CustomSwitchState extends State<CustomSwitch> {
       borderRadius: 30.0,
       toggleColor: widget.toggleColor ?? MyColors().primaryColor2,
       padding: 3.0,
-      activeColor: widget.toggleColor ?? MyColors().greyColor.withOpacity(.2),
+      activeColor: widget.toggleColor ?? MyColors().greyColor.withValues(alpha: .2),
       inactiveColor: widget.inActiveColor ?? MyColors().whiteColor,
       showOnOff: true,
       onToggle: (val) {

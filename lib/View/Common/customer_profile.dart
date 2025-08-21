@@ -3,8 +3,10 @@ import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_empty_data.dart';
 import 'package:backyard/Component/custom_image.dart';
 import 'package:backyard/Component/custom_padding.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Controller/home_controller.dart';
 import 'package:backyard/Model/file_network.dart';
+import 'package:backyard/Model/user_model.dart';
 import 'package:backyard/Service/bus_apis.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/User/offers.dart';
@@ -13,9 +15,6 @@ import 'package:backyard/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../Component/custom_text.dart';
-import '../../Model/user_model.dart';
 
 /// TO BE DELETED
 /// Made separate profile for business as in ALfa there needs to be much handling
@@ -49,7 +48,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
     homeController?.setLoading(val);
   }
 
-  Future<void> getOffers() => BusAPIS.getCustomerOffers(widget.user?.id.toString() ?? "");
+  Future<void> getOffers() => BusAPIS.getCustomerOffers(widget.user?.id.toString() ?? '');
 
   List<String> items = ['Contact Details', 'Offers & Discounts'];
   String i = 'Contact Details';
@@ -58,7 +57,6 @@ class _CustomerProfileState extends State<CustomerProfile> {
 
   @override
   Widget build(BuildContext context) {
-    print(business);
     return WillPopScope(
       onWillPop: () async {
         return true;
@@ -71,7 +69,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
           child: Column(
             children: [
               CustomAppBar(
-                screenTitle: widget.user?.name ?? "",
+                screenTitle: widget.user?.name ?? '',
                 leading: BackButton(),
                 // trailing: business?null: Image.asset(ImagePath.favorite,scale: 2,color: MyColors().redColor,),
                 bottom: 2.h,
@@ -84,12 +82,12 @@ class _CustomerProfileState extends State<CustomerProfile> {
     );
   }
 
-  profileCard() {
+  Consumer<HomeController> profileCard() {
     return Consumer<HomeController>(
       builder: (context, val, _) {
         return Expanded(
           child: RefreshIndicator(
-            onRefresh: () => getOffers(),
+            onRefresh: getOffers,
             child: Column(
               children: [
                 Container(
@@ -124,7 +122,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
                 SizedBox(
                   width: 90.w,
                   child: MyText(
-                    title: widget.user?.email ?? "",
+                    title: widget.user?.email ?? '',
                     size: 16,
                     align: TextAlign.center,
                     toverflow: TextOverflow.ellipsis,
@@ -133,7 +131,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
                 SizedBox(height: 1.5.h),
                 const MyText(title: 'Availed Offers', size: 14, fontWeight: FontWeight.w600),
                 MyText(
-                  title: widget.user?.offerCount?.toString() ?? "0",
+                  title: widget.user?.offerCount?.toString() ?? '0',
                   size: 36,
                   clr: MyColors().primaryColor,
                   fontWeight: FontWeight.w600,
@@ -149,7 +147,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
                         children: [
                           if (val.customerOffers.isEmpty) ...[
                             SizedBox(height: 14.h),
-                            CustomEmptyData(title: "No Offer Found", hasLoader: true),
+                            CustomEmptyData(title: 'No Offer Found', hasLoader: true),
                           ] else ...[
                             ListView.builder(
                               itemCount: val.customerOffers.length,
@@ -199,7 +197,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
                 //       borderRadius: BorderRadius.circular(8),
                 //       boxShadow: [
                 //         BoxShadow(
-                //           color: Colors.black.withOpacity(0.2), // Shadow color
+                //           color: Colors.black.withValues(alpha: 0.2), // Shadow color
                 //           blurRadius: 10, // Spread of the shadow
                 //           spreadRadius: 2, // Size of the shadow
                 //           offset: const Offset(0, 4), // Position of the shadow
@@ -246,7 +244,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
     );
   }
 
-  userDetail({required String text, String title = ''}) {
+  Padding userDetail({required String text, String title = ''}) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 1.h),
       child: Row(
@@ -261,7 +259,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
     );
   }
 
-  sessionButton({required String title}) {
+  Expanded sessionButton({required String title}) {
     return Expanded(
       child: MyButton(
         title: title,

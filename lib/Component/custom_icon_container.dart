@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class IconContainer extends StatelessWidget {
   final Widget? child;
-  final Function onTap;
+  final GestureTapCallback? onTap;
   final String? image;
   final double? size, padding;
 
@@ -10,18 +10,6 @@ class IconContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        onTap();
-      },
-      child: Image.asset(image!, scale: 2),
-      // Container(
-      //   padding: EdgeInsets.all(padding??3.w),
-      //   decoration: BoxDecoration(
-      //     color: MyColors().blueColor,
-      //     borderRadius: BorderRadius.circular(5),
-      //   ), child: child??Image.asset(image!,width: size??5.w,height: size??5.w,),
-      // ),
-    );
+    return GestureDetector(onTap: onTap, child: Image.asset(image!, scale: 2));
   }
 }

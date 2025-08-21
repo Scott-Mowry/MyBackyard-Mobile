@@ -4,6 +4,7 @@ import 'package:backyard/Controller/state_management.dart';
 import 'package:backyard/Service/app_in_app_purchase.dart';
 import 'package:backyard/Service/firebase_options.dart';
 import 'package:backyard/Utils/app_router.dart';
+import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/Utils/utils.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-
-import 'Utils/my_colors.dart';
 
 BitmapDescriptor pin = BitmapDescriptor.defaultMarker;
 
@@ -42,7 +41,7 @@ void configLoading() {
     ..radius = 10.0
     ..maskColor =
         Colors
-            .transparent //.withOpacity(0.6)
+            .transparent //.withValues(alpha: 0.6)
     ..userInteractions = false
     ..dismissOnTap = false;
 }
@@ -83,7 +82,7 @@ class MyApp extends StatelessWidget {
           locale: const Locale('en', 'US'),
           builder: EasyLoading.init(),
           // home: HomePage(),
-          onGenerateRoute: AppRouter.onGenerateRoute,
+          onGenerateRoute: onGenerateRoute,
         );
       },
     );
@@ -95,7 +94,6 @@ final navigatorKey = GlobalKey<NavigatorState>();
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    return super.createHttpClient(context)..badCertificateCallback = (cert, host, port) => true;
   }
 }

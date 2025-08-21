@@ -5,9 +5,9 @@ class Responsive {
   double? blockSizeVertical;
   double? textRatio;
 
-  setContext(context) {
-    double width = MediaQuery.sizeOf(context).width;
-    double height = MediaQuery.sizeOf(context).height;
+  void setContext(context) {
+    final width = MediaQuery.sizeOf(context).width;
+    final height = MediaQuery.sizeOf(context).height;
     textRatio = MediaQuery.textScaleFactorOf(context);
     blockSizeHorizontal = width / 100; // 4
     blockSizeVertical = height / 100; // 6

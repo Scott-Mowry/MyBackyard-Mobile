@@ -1,9 +1,8 @@
+import 'package:backyard/Component/custom_text.dart';
+import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/Utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../Component/custom_text.dart';
-import '../Utils/my_colors.dart';
 
 class MyButton extends StatelessWidget {
   final double? height, width, fontSize, radius, horPadding;

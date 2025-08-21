@@ -4,43 +4,41 @@ import 'dart:ui';
 
 import 'package:backyard/Arguments/screen_arguments.dart';
 import 'package:backyard/Component/Appbar/appbar_components.dart';
+import 'package:backyard/Component/custom_background_image.dart';
 import 'package:backyard/Component/custom_buttom.dart';
+import 'package:backyard/Component/custom_padding.dart';
 import 'package:backyard/Component/custom_switch.dart';
+import 'package:backyard/Component/custom_text.dart';
+import 'package:backyard/Component/custom_text_form_field.dart';
 import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Component/validations.dart';
 import 'package:backyard/Controller/home_controller.dart';
 import 'package:backyard/Controller/user_controller.dart';
-import 'package:backyard/Model/places_model.dart';
 import 'package:backyard/Service/api.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/auth_apis.dart';
 import 'package:backyard/Service/general_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';
+import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/enum.dart';
+import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/Utils/utils.dart';
+import 'package:backyard/View/Widget/Dialog/profile_complete_dialog.dart';
 import 'package:backyard/View/Widget/upload_media.dart';
 import 'package:backyard/View/base_view.dart';
 import 'package:backyard/main.dart';
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/helpers.dart';
 import 'package:place_picker/place_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../Utils/image_path.dart';
-import '../../../Component/custom_text.dart';
-import '../../Component/custom_background_image.dart';
-import '../../Component/custom_padding.dart';
-import '../../Component/custom_text_form_field.dart';
-import '../../Utils/app_router_name.dart';
-import '../Widget/Dialog/profile_complete_dialog.dart';
-// import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
-
 class ProfileSetup extends StatefulWidget {
   const ProfileSetup({super.key, required this.editProfile});
+
   final bool editProfile;
+
   @override
   State<ProfileSetup> createState() => _ProfileSetupState();
 }
@@ -63,7 +61,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
   bool? geo = false;
   bool errorText = false;
   String country = 'US';
-  String dialCode = "1";
+  String dialCode = '1';
   double lat = 0, lng = 0;
   bool emailReadOnly = false, phoneReadOnly = false;
   String? merchantUrl;
@@ -72,29 +70,27 @@ class _ProfileSetupState extends State<ProfileSetup> {
   late final userController2 = context.watch<UserController>();
 
   /// #Timer
-  final Duration _duration = const Duration(seconds: 15);
-  final CountDownController _countDownController = CountDownController();
   bool isTimeComplete = false;
 
-  Map<Role, String> descriptions = {Role.User: "Consumer Interface", Role.Business: "Business + Consumer Interface"};
+  Map<Role, String> descriptions = {Role.User: 'Consumer Interface', Role.Business: 'Business + Consumer Interface'};
 
   @override
   void initState() {
-    firstName.text = userController.user?.name ?? "";
-    lastName.text = userController.user?.lastName ?? "";
-    emailC.text = userController.user?.email ?? "";
+    firstName.text = userController.user?.name ?? '';
+    lastName.text = userController.user?.lastName ?? '';
+    emailC.text = userController.user?.email ?? '';
 
     if (widget.editProfile) {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
         await GeneralAPIS.getPlaces();
       });
-      zipCode.text = userController.user?.zipCode ?? "";
-      phone.text = userController.user?.phone ?? "";
-      location.text = userController.user?.address ?? "";
+      zipCode.text = userController.user?.zipCode ?? '';
+      phone.text = userController.user?.phone ?? '';
+      location.text = userController.user?.address ?? '';
       lat = userController.user?.latitude ?? 0;
       lng = userController.user?.longitude ?? 0;
-      description.text = userController.user?.description ?? "";
-      imageProfile = userController.user?.profileImage ?? "";
+      description.text = userController.user?.description ?? '';
+      imageProfile = userController.user?.profileImage ?? '';
       title = 'Edit Profile';
       type = imageType.network;
     }
@@ -115,7 +111,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
     );
   }
 
-  body() {
+  Form body() {
     return Form(
       key: _form,
       child: Column(
@@ -146,7 +142,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                                 imageProfile = val;
                                 type = imageType.file;
                                 setState(() {
-                                  errorText = (imageProfile ?? "").isEmpty;
+                                  errorText = (imageProfile ?? '').isEmpty;
                                 });
                               }
                             },
@@ -161,7 +157,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                                 (type == imageType.network
                                         ? NetworkImage("${API.public_url}${imageProfile ?? ""}")
                                         : type == imageType.file
-                                        ? FileImage(File(imageProfile ?? ""))
+                                        ? FileImage(File(imageProfile ?? ''))
                                         : const AssetImage(ImagePath.noUserImage))
                                     as ImageProvider,
                             child: Align(
@@ -182,7 +178,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                                             imageProfile = val;
                                             type = imageType.file;
                                             setState(() {
-                                              errorText = (imageProfile ?? "").isEmpty;
+                                              errorText = (imageProfile ?? '').isEmpty;
                                             });
                                           }
                                         },
@@ -212,7 +208,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: MyText(
-                          title: "Role Selection:",
+                          title: 'Role Selection:',
                           center: true,
                           line: 2,
                           size: 18,
@@ -273,7 +269,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                                         ),
                                       ),
                                       Text(
-                                        descriptions[Role.values[i]] ?? "",
+                                        descriptions[Role.values[i]] ?? '',
                                         style: TextStyle(
                                           fontSize: Utils.isTablet ? 13 : 10,
                                           fontWeight: FontWeight.w300,
@@ -295,7 +291,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                       children: [
                         CustomTextFormField(
                           controller: firstName,
-                          hintText: business ? "Business Name" : 'First Name',
+                          hintText: business ? 'Business Name' : 'First Name',
                           maxLength: 30,
                           prefixWidget: Image.asset(
                             ImagePath.person,
@@ -303,7 +299,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                             color: widget.editProfile ? MyColors().primaryColor : MyColors().primaryColor,
                           ),
                           backgroundColor: !widget.editProfile ? null : MyColors().container,
-                          validation: (p0) => p0?.validateEmpty(business ? "Business Name" : 'First Name'),
+                          validation: (p0) => p0?.validateEmpty(business ? 'Business Name' : 'First Name'),
                         ),
                         SizedBox(height: 1.5.h),
                         if (!business) ...[
@@ -317,11 +313,11 @@ class _ProfileSetupState extends State<ProfileSetup> {
                               color: widget.editProfile ? MyColors().primaryColor : MyColors().primaryColor,
                             ),
                             backgroundColor: !widget.editProfile ? null : MyColors().container,
-                            validation: (p0) => p0?.validateEmpty("Last Name"),
+                            validation: (p0) => p0?.validateEmpty('Last Name'),
                           ),
                           SizedBox(height: 1.5.h),
                         ],
-                        if (userController.user?.socialType == null || userController.user?.socialType == "phone") ...[
+                        if (userController.user?.socialType == null || userController.user?.socialType == 'phone') ...[
                           CustomTextFormField(
                             hintText: 'Email Address',
                             controller: emailC,
@@ -330,7 +326,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                             readOnly:
                                 widget.editProfile
                                     ? (userController2.user?.emailVerifiedAt != null)
-                                    : (userController2.user?.email ?? "").isNotEmpty,
+                                    : (userController2.user?.email ?? '').isNotEmpty,
                             inputType: TextInputType.emailAddress,
                             prefixWidget: Image.asset(
                               ImagePath.email,
@@ -353,12 +349,6 @@ class _ProfileSetupState extends State<ProfileSetup> {
                             hintText: 'Phone Number',
                             inputType: TextInputType.phone,
                             contact: true,
-                            // readOnly:
-                            // widget.editProfile
-                            //     ? (userController2.user?.socialType == "phone")
-                            //     : (userController2.user?.phone ?? "")
-                            //         .isNotEmpty
-                            // ,
                             backgroundColor: !widget.editProfile ? null : MyColors().container,
                             validation: (value) {
                               final cleanedPhoneNumber = value.toString().replaceAll(
@@ -368,10 +358,10 @@ class _ProfileSetupState extends State<ProfileSetup> {
                               log(cleanedPhoneNumber);
 
                               if (!isNumeric(cleanedPhoneNumber)) {
-                                return "Phone number field can\"t be empty";
+                                return 'Phone number field can"t be empty';
                               }
                               if (cleanedPhoneNumber.length < 10) {
-                                return "Invalid Phone Number";
+                                return 'Invalid Phone Number';
                               }
 
                               return null;
@@ -393,7 +383,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 MyText(
-                                  title: "Geo Location",
+                                  title: 'Geo Location',
                                   fontWeight: FontWeight.w500,
                                   size: Utils.isTablet ? 18 : 15,
                                   clr: widget.editProfile ? Colors.black : Colors.white,
@@ -434,7 +424,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                             borderRadius: 10,
                             maxLength: 275,
                             backgroundColor: !widget.editProfile ? null : MyColors().container,
-                            validation: (p0) => p0?.validateEmpty("description"),
+                            validation: (p0) => p0?.validateEmpty('description'),
                           ),
                           SizedBox(height: 1.5.h),
                         ],
@@ -472,9 +462,8 @@ class _ProfileSetupState extends State<ProfileSetup> {
   }
 
   Future<void> getAddress(context) async {
-    LocationResult t = await Utils().showPlacePicker(context);
+    final t = await Utils().showPlacePicker(context);
     if (isLatLongInCities(t.latLng ?? const LatLng(0, 0))) {
-      print(t.formattedAddress.toString());
       lat = t.latLng?.latitude ?? 0;
       lng = t.latLng?.longitude ?? 0;
       location.text = t.formattedAddress ?? '';
@@ -483,9 +472,9 @@ class _ProfileSetupState extends State<ProfileSetup> {
     }
   }
 
-  onSubmit() async {
+  Future<void> onSubmit() async {
     FocusManager.instance.primaryFocus?.unfocus();
-    setState(() => errorText = (imageProfile ?? "").isEmpty);
+    setState(() => errorText = (imageProfile ?? '').isEmpty);
     if ((_form.currentState?.validate() ?? false) && !(errorText)) {
       if (widget.editProfile) {
         AppNetwork.loadingProgressIndicator();
@@ -494,9 +483,9 @@ class _ProfileSetupState extends State<ProfileSetup> {
           lastName: role == Role.Business ? lastName.text : null,
           categoryId: role == Role.Business ? userController.user?.categoryId : null,
           description: role == Role.Business ? description.text : null,
-          isPushNotify: "1",
+          isPushNotify: '1',
           email: emailC.text != userController.user?.email && emailC.text.isNotEmpty ? emailC.text : null,
-          phone: phone.text != (userController.user?.phone ?? "") ? phone.text : null,
+          phone: phone.text != (userController.user?.phone ?? '') ? phone.text : null,
           days: userController.user?.days,
           address: role == Role.Business ? location.text : null,
           lat: role == Role.Business ? lat : null,
@@ -506,7 +495,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
               imageProfile == null
                   ? null
                   : type == imageType.file
-                  ? File(imageProfile ?? "")
+                  ? File(imageProfile ?? '')
                   : null,
         );
         AppNavigation.navigatorPop();
@@ -517,50 +506,35 @@ class _ProfileSetupState extends State<ProfileSetup> {
           final value = await AuthAPIS.completeProfile(
             firstName: firstName.text,
             lastName: lastName.text,
-            isPushNotify: "1",
+            isPushNotify: '1',
             email: emailC.text != userController.user?.email && emailC.text.isNotEmpty ? emailC.text : null,
             role: Role.User.name,
             zipCode: zipCode.text,
             // phone: phone.text != (userController.user?.phone ?? "")
             //     ? phone.text
             //     : null,
-            image: imageProfile == null ? null : File(imageProfile ?? ""),
+            image: imageProfile == null ? null : File(imageProfile ?? ''),
           );
           AppNavigation.navigatorPop();
           if (value) {
-            completeDialog(
+            await completeDialog(
               onTap: () {
                 AppNavigation.navigateToRemovingAll(AppRouteName.HOME_SCREEN_ROUTE);
               },
             );
           }
-
-          // final controller =
-          //     navigatorKey.currentContext?.read<UserController>();
-          // User? user = controller?.user;
-          // user?.name = firstName.text;
-          // user?.isPushNotify = 1;
-          // user?.phone =
-          //     phone.text != userController.user?.phone ? phone.text : null;
-          // user?.email = emailC.text != userController.user?.email &&
-          //         emailC.text.isNotEmpty
-          //     ? emailC.text
-          //     : null;
-          // user?.profileImage = imageProfile.path;
-          // AppNavigation.navigateTo(AppRouteName.SUBSCRIPTION_SCREEN_ROUTE,
-          //     arguments: ScreenArguments(fromCompleteProfile: true));
         } else {
-          Map<String, dynamic> arguments = {
-            "name": firstName.text,
-            "description": description.text,
-            "isPushNotify": 1,
-            "address": location.text,
-            "lat": lat,
-            "lng": lng,
+          final arguments = <String, dynamic>{
+            'name': firstName.text,
+            'description': description.text,
+            'isPushNotify': 1,
+            'address': location.text,
+            'lat': lat,
+            'lng': lng,
             // "zipCode": zipCode.text,
-            "email": emailC.text,
-            "phone": phone.text,
-            "image": imageProfile ?? "",
+            'email': emailC.text,
+            'phone': phone.text,
+            'image': imageProfile ?? '',
           };
           AppNavigation.navigateTo(
             AppRouteName.SCHEDULE_SCREEN_ROUTE,
@@ -571,11 +545,11 @@ class _ProfileSetupState extends State<ProfileSetup> {
     }
   }
 
-  completeDialog({required Function onTap}) {
+  Future completeDialog({required Function onTap}) {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (context) {
         return WillPopScope(
           onWillPop: () async {
             return false;
@@ -650,11 +624,13 @@ bool isLatLongInCities(LatLng selectedLatLng) {
   //   ],
   //   "Hamburg": [const LatLng(42.770, -78.930), const LatLng(42.710, -78.820)],
   // };
+
   final controller = navigatorKey.currentContext!.read<HomeController>();
+
   // Check if the selectedLatLng is within any city's bounding box
-  for (PlacesModel bounds in (controller.places ?? [])) {
-    LatLng topLeft = LatLng(bounds.topLeftLatitude ?? 0, bounds.topLeftLongitude ?? 0);
-    LatLng bottomRight = LatLng(bounds.bottomRightLatitude ?? 0, bounds.bottomRightLongitude ?? 0);
+  for (var bounds in (controller.places ?? [])) {
+    final topLeft = LatLng(bounds.topLeftLatitude ?? 0, bounds.topLeftLongitude ?? 0);
+    final bottomRight = LatLng(bounds.bottomRightLatitude ?? 0, bounds.bottomRightLongitude ?? 0);
 
     if (selectedLatLng.latitude <= topLeft.latitude &&
         selectedLatLng.latitude >= bottomRight.latitude &&

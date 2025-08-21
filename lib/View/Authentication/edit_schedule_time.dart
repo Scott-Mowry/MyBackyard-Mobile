@@ -43,8 +43,8 @@ class _TimeSchedulingEditScreenState extends State<TimeSchedulingEditScreen> {
     setState(() {});
     if (!errorText) {
       if (widget.multiSelect ?? false) {
-        List<DaySchedule> templist = [];
-        for (daysOfWeek element in list) {
+        final templist = <DaySchedule>[];
+        for (var element in list) {
           templist.add(
             DaySchedule(
               day: element,
@@ -82,7 +82,7 @@ class _TimeSchedulingEditScreenState extends State<TimeSchedulingEditScreen> {
   @override
   Widget build(BuildContext context) {
     return BaseView(
-      screenTitle: "Time Scheduling",
+      screenTitle: 'Time Scheduling',
       bgImage: '',
       showAppBar: true,
       showBackButton: true,
@@ -136,14 +136,14 @@ class _TimeSchedulingEditScreenState extends State<TimeSchedulingEditScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text("Open Time", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+                    const Text('Open Time', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
                     const SizedBox(height: 15),
                     GestureDetector(
                       onTap: () async {
                         //   final val = await showTimePicker(
                         //       initialEntryMode: TimePickerEntryMode.dialOnly,
                         //       barrierColor:
-                        //           MyColors().primaryColor.withOpacity(.8),
+                        //           MyColors().primaryColor.withValues(alpha: .8),
                         //       context: context,
                         //       initialTime: TimeOfDay.now());
                         final val = await Utils().selectTime(context);
@@ -163,7 +163,7 @@ class _TimeSchedulingEditScreenState extends State<TimeSchedulingEditScreen> {
                         ),
                       ),
                     const SizedBox(height: 15),
-                    const Text("Close Time", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+                    const Text('Close Time', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
                     const SizedBox(height: 15),
                     GestureDetector(
                       onTap: () async {
@@ -186,11 +186,11 @@ class _TimeSchedulingEditScreenState extends State<TimeSchedulingEditScreen> {
                               endTime = val;
                               setState(() {});
                             } else {
-                              CustomToast().showToast(message: "End Time must be greater than Start Time");
+                              CustomToast().showToast(message: 'End Time must be greater than Start Time');
                             }
                           }
                         } else {
-                          CustomToast().showToast(message: "Select Start Time");
+                          CustomToast().showToast(message: 'Select Start Time');
                         }
                       },
                       child: timeField(endTime),
@@ -218,25 +218,25 @@ class _TimeSchedulingEditScreenState extends State<TimeSchedulingEditScreen> {
           readOnly: true,
           enable: false,
           controller: TextEditingController(text: timeFormatterHour(time)),
-          hintText: "Hrs",
+          hintText: 'Hrs',
           width: 100,
           borderRadius: 10,
         ),
-        Text(":", style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600)),
+        Text(':', style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600)),
         CustomTextFormField(
           controller: TextEditingController(text: timeFormatterMinute(time)),
           readOnly: true,
-          hintText: "Mins",
+          hintText: 'Mins',
           enable: false,
           width: 100,
           borderRadius: 10,
         ),
-        Text(":", style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600)),
+        Text(':', style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600)),
         CustomTextFormField(
           controller: TextEditingController(text: timeFormatterAM(time)),
           readOnly: true,
           enable: false,
-          hintText: "AM",
+          hintText: 'AM',
           width: 100,
           borderRadius: 10,
         ),
@@ -249,7 +249,7 @@ class _TimeSchedulingEditScreenState extends State<TimeSchedulingEditScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          widget.multiSelect ?? false ? "Multiple Select" : temp?.day.name.titleCase() ?? "",
+          widget.multiSelect ?? false ? 'Multiple Select' : temp?.day.name.titleCase() ?? '',
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
         ),
         FlutterSwitch(
@@ -272,13 +272,13 @@ class _TimeSchedulingEditScreenState extends State<TimeSchedulingEditScreen> {
   Column bottomBar() {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: [const SizedBox(height: 30), MyButton(onTap: nextFunction, title: "Save")],
+      children: [const SizedBox(height: 30), MyButton(onTap: nextFunction, title: 'Save')],
     );
   }
 
   String timeFormatterHour(TimeOfDay? time) {
     if (time != null) {
-      int val = time.hour;
+      var val = time.hour;
       if (val > 12) {
         val -= 12;
       }
@@ -287,7 +287,7 @@ class _TimeSchedulingEditScreenState extends State<TimeSchedulingEditScreen> {
       }
       return formatter.format(val);
     } else {
-      return "";
+      return '';
     }
   }
 
@@ -295,7 +295,7 @@ class _TimeSchedulingEditScreenState extends State<TimeSchedulingEditScreen> {
     if (time != null) {
       return formatter.format(time.minute);
     } else {
-      return "";
+      return '';
     }
   }
 
@@ -307,10 +307,10 @@ class _TimeSchedulingEditScreenState extends State<TimeSchedulingEditScreen> {
       // } else {
       //   return "AM";
       // }
-      String value = time.format(context) ?? "";
-      return value.split(":").last.split(" ").last;
+      final value = time.format(context);
+      return value.split(':').last.split(' ').last;
     } else {
-      return "";
+      return '';
     }
   }
 }

@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:backyard/Component/Appbar/appbar_components.dart';
+import 'package:backyard/Component/custom_bottomsheet_indicator.dart';
 import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_dropdown.dart';
 import 'package:backyard/Component/custom_radio_tile.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Component/custom_text_form_field.dart';
 import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Controller/home_controller.dart';
@@ -26,12 +28,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:place_picker/place_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../../Component/custom_bottomsheet_indicator.dart';
-import '../../../Component/custom_text.dart';
 
 class UserHome extends StatefulWidget {
   const UserHome({super.key});
@@ -84,12 +82,12 @@ class _UserHomeState extends State<UserHome> {
         //     zoom: 13.4746)));
         controller?.addCircles(
           Circle(
-            circleId: const CircleId("myLocation"),
+            circleId: const CircleId('myLocation'),
             radius: (controller.mile * 1609.344),
             strokeWidth: 1,
             zIndex: 0,
             center: LatLng(pos?.latitude ?? 0, pos?.longitude ?? 0),
-            fillColor: MyColors().primaryColor.withOpacity(.15),
+            fillColor: MyColors().primaryColor.withValues(alpha: .15),
             strokeColor: MyColors().primaryColor,
           ),
         );
@@ -100,18 +98,18 @@ class _UserHomeState extends State<UserHome> {
         //     zoom: 13.4746)));
         controller?.addCircles(
           Circle(
-            circleId: const CircleId("myLocation"),
+            circleId: const CircleId('myLocation'),
             radius: (controller.mile * 1609.344),
             strokeWidth: 1,
             zIndex: 0,
             center: LatLng(pos?.latitude ?? 0, pos?.longitude ?? 0),
-            fillColor: MyColors().primaryColor.withOpacity(.15),
+            fillColor: MyColors().primaryColor.withValues(alpha: .15),
             strokeColor: MyColors().primaryColor,
           ),
         );
       }
     } catch (e) {
-      log("GET BUSES FUNCTION ERROR: $e");
+      log('GET BUSES FUNCTION ERROR: $e');
     }
   }
 
@@ -151,10 +149,8 @@ class _UserHomeState extends State<UserHome> {
                 //       children: [
                 //         MyButton(
                 //           title: 'Enable Location',onTap: () async{
-                //           print('Ac');
                 //           setState(() {});
                 //           await Utils().requestLocation(openSettings: true);
-                //           print('update');
                 //           GlobalController.values.isLocationServiceEnabled();
                 //           HomeController.i.setLocation();
                 //           GlobalController.values.update();
@@ -178,7 +174,7 @@ class _UserHomeState extends State<UserHome> {
                           myLocationButtonEnabled: Utils.isTablet == false, //true
                           circles: val.circles,
                           myLocationEnabled: true,
-                          onMapCreated: (GoogleMapController controller) async {
+                          onMapCreated: (controller) async {
                             controller.setMapStyle(
                               '[{"elementType":"geometry","stylers":[{"color":"#f5f5f5"}]},{"elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"elementType":"labels.text.fill","stylers":[{"color":"#616161"}]},{"elementType":"labels.text.stroke","stylers":[{"color":"#f5f5f5"}]},{"featureType":"administrative.land_parcel","elementType":"labels.text.fill","stylers":[{"color":"#bdbdbd"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#eeeeee"}]},{"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#757575"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#e5e5e5"}]},{"featureType":"poi.park","elementType":"labels.text.fill","stylers":[{"color":"#9e9e9e"}]},{"featureType":"road","elementType":"geometry","stylers":[{"color":"#ffffff"}]},{"featureType":"road.arterial","elementType":"labels.text.fill","stylers":[{"color":"#757575"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#dadada"}]},{"featureType":"road.highway","elementType":"labels.text.fill","stylers":[{"color":"#616161"}]},{"featureType":"road.local","elementType":"labels.text.fill","stylers":[{"color":"#9e9e9e"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"color":"#e5e5e5"}]},{"featureType":"transit.station","elementType":"geometry","stylers":[{"color":"#eeeeee"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#c9c9c9"}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"color":"#9e9e9e"}]}]',
                             );
@@ -216,7 +212,6 @@ class _UserHomeState extends State<UserHome> {
                         //                                   0),
                         //                           zoom: 13.4746))))
                         //               .onError((error, stackTrace) =>
-                        //                   print(error)),
                         //       child: Container(
                         //         padding: const EdgeInsets.all(10),
                         //         decoration: BoxDecoration(
@@ -247,7 +242,7 @@ class _UserHomeState extends State<UserHome> {
                             ? null
                             : [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.2), // Shadow color
+                                color: Colors.black.withValues(alpha: 0.2), // Shadow color
                                 blurRadius: 10, // Spread of the shadow
                                 spreadRadius: 5, // Size of the shadow
                                 offset: const Offset(0, 4), // Position of the shadow
@@ -261,7 +256,7 @@ class _UserHomeState extends State<UserHome> {
                       Padding(
                         padding: EdgeInsets.only(bottom: 2.h),
                         child: CustomAppBar(
-                          screenTitle: "Home",
+                          screenTitle: 'Home',
                           leading:
                               Utils.isTablet
                                   ? Opacity(
@@ -341,11 +336,11 @@ class _UserHomeState extends State<UserHome> {
                                       value: val.mile.toDouble(),
                                       onChangeEnd:
                                           (v) => SocketService.instance?.socketEmitMethod(
-                                            eventName: "get_buses",
+                                            eventName: 'get_buses',
                                             eventParamaters: {
-                                              "lat": pos?.latitude,
-                                              "long": pos?.longitude,
-                                              "radius": val.mile,
+                                              'lat': pos?.latitude,
+                                              'long': pos?.longitude,
+                                              'radius': val.mile,
                                             },
                                           ),
                                       onChanged: (v) => val.setMile(v.toInt()),
@@ -435,7 +430,7 @@ class _UserHomeState extends State<UserHome> {
   //                       scale: 2, color: MyColors().secondaryColor),
   //                   controller: location,
   //                   hintText: 'Location',
-  //                   backgroundColor: MyColors().secondaryColor.withOpacity(.3),
+  //                   backgroundColor: MyColors().secondaryColor.withValues(alpha: .3),
   //                   borderColor: MyColors().secondaryColor,
   //                   hintTextColor: MyColors().grey,
   //                   textColor: MyColors().black,
@@ -459,7 +454,7 @@ class _UserHomeState extends State<UserHome> {
   //                         ),
   //                         hintText: 'Pick Date',
   //                         backgroundColor:
-  //                             MyColors().secondaryColor.withOpacity(.3),
+  //                             MyColors().secondaryColor.withValues(alpha: .3),
   //                         borderColor: MyColors().secondaryColor,
   //                         hintTextColor: MyColors().grey,
   //                         textColor: MyColors().black,
@@ -489,7 +484,7 @@ class _UserHomeState extends State<UserHome> {
   //                         textColor: MyColors().black,
   //                         hintText: 'Pick Time',
   //                         backgroundColor:
-  //                             MyColors().secondaryColor.withOpacity(.3),
+  //                             MyColors().secondaryColor.withValues(alpha: .3),
   //                         borderColor: MyColors().secondaryColor,
   //                         hintTextColor: MyColors().grey,
   //                         readOnly: true,
@@ -515,7 +510,7 @@ class _UserHomeState extends State<UserHome> {
   //                   ),
   //                   hintText: 'Duration (min)',
   //                   textColor: MyColors().black,
-  //                   backgroundColor: MyColors().secondaryColor.withOpacity(.3),
+  //                   backgroundColor: MyColors().secondaryColor.withValues(alpha: .3),
   //                   borderColor: MyColors().secondaryColor,
   //                   hintTextColor: MyColors().grey,
   //                   maxLength: 3,
@@ -549,9 +544,9 @@ class _UserHomeState extends State<UserHome> {
       isScrollControlled: true,
       context: context,
       // backgroundColor: MyColors().whiteColor,
-      builder: (BuildContext bc) {
+      builder: (bc) {
         return StatefulBuilder(
-          builder: (BuildContext context, StateSetter s /*You can rename this!*/) {
+          builder: (context, s /*You can rename this!*/) {
             return Consumer<HomeController>(
               builder: (context, val, _) {
                 return Container(
@@ -614,7 +609,7 @@ class _UserHomeState extends State<UserHome> {
                       //     : Container(
                       //         decoration: BoxDecoration(
                       //             color:
-                      //                 MyColors().secondaryColor.withOpacity(.3),
+                      //                 MyColors().secondaryColor.withValues(alpha: .3),
                       //             borderRadius: BorderRadius.circular(100),
                       //             border: Border.all(
                       //               color: MyColors().secondaryColor,
@@ -793,7 +788,7 @@ class _UserHomeState extends State<UserHome> {
   //       });
   // }
 
-  onSubmit(context) {
+  void onSubmit(context) {
     // var h = HomeController.i;
     // h.address = location.text;
     // h.date = date.text;
@@ -810,9 +805,9 @@ class _UserHomeState extends State<UserHome> {
     // if(p!=null){
     //   location.text = p.description??'';
     // }
-    LocationResult t = await Utils().showPlacePicker(context);
+    final t = await Utils().showPlacePicker(context);
     // Map<String,dynamic> temp=  await Utils.findStreetAreaMethod(context:context,prediction: t.formattedAddress.toString());
-    print(t.formattedAddress.toString());
+
     // HomeController.i.currentLocation =
     //     LatLng(t.latLng?.latitude ?? 0, t.latLng?.longitude ?? 0);
     // mapController?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
@@ -821,7 +816,7 @@ class _UserHomeState extends State<UserHome> {
     location.text = t.formattedAddress ?? '';
   }
 
-  filterSheet(List<CategoryModel> list) {
+  Column filterSheet(List<CategoryModel> list) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -926,7 +921,7 @@ class _UserHomeState extends State<UserHome> {
     );
   }
 
-  customTitle({required String title}) {
+  Padding customTitle({required String title}) {
     return Padding(padding: EdgeInsets.only(left: 0.w), child: MyText(title: title, fontWeight: FontWeight.w600));
   }
 }

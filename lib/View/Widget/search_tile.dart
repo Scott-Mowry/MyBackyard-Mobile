@@ -49,7 +49,7 @@ class _SearchTileState extends State<SearchTile> {
           Flexible(
             child: CustomTextFormField(
               enable: !widget.disabled,
-              hintText: "Search...",
+              hintText: 'Search...',
               controller: widget.search,
               onChanged: widget.onChange,
               showLabel: false,
@@ -83,6 +83,6 @@ class _SearchTileState extends State<SearchTile> {
     );
   }
 
-  onSubmit(context) {}
-  setFilter() {}
+  void onSubmit(context) {}
+  void setFilter() {}
 }

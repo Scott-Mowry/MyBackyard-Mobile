@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import '../../Component/custom_text.dart';
 
 class ViewAll extends StatelessWidget {
   final String? title;
@@ -17,7 +17,7 @@ class ViewAll extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(child: MyText(title: title ?? "", size: 20, clr: MyColors().whiteColor, fontWeight: FontWeight.w700)),
+        Expanded(child: MyText(title: title ?? '', size: 20, clr: MyColors().whiteColor, fontWeight: FontWeight.w700)),
         if (showTrailing) ...[
           SizedBox(width: 4.w),
           InkWell(
@@ -27,7 +27,7 @@ class ViewAll extends StatelessWidget {
             child:
                 trailing ??
                 MyText(
-                  title: "View All",
+                  title: 'View All',
                   size: 16,
                   under: true,
                   clr: MyColors().whiteColor,

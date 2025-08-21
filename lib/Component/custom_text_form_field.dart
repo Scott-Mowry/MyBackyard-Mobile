@@ -1,11 +1,10 @@
+import 'package:backyard/Utils/my_colors.dart';
+import 'package:backyard/Utils/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:sizer/sizer.dart';
-
-import '../Utils/my_colors.dart';
-import '../Utils/responsive.dart';
 
 const _textFieldThemeColor = Color(0xff707070);
 
@@ -115,13 +114,16 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   Responsive responsive = Responsive();
   static MaskTextInputFormatter phoneNumberMask = MaskTextInputFormatter(
     mask: '(###) ###-####',
-    filter: {"#": RegExp(r'[0-9]')},
+    filter: {'#': RegExp(r'[0-9]')},
     type: MaskAutoCompletionType.lazy,
   );
 
   @override
   Widget build(BuildContext context) {
-    TextStyle textStyle = GoogleFonts.roboto(fontSize: 14, color: Theme.of(context).indicatorColor.withOpacity(0.8));
+    final textStyle = GoogleFonts.roboto(
+      fontSize: 14,
+      color: Theme.of(context).indicatorColor.withValues(alpha: 0.8),
+    );
     responsive.setContext(context);
     return SizedBox(
       height: widget.height,
@@ -134,7 +136,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
         readOnly: widget.readOnly,
         obscureText: widget.obscureText,
-        obscuringCharacter: "*",
+        obscuringCharacter: '*',
         maxLength: widget.maxLength,
         onChanged: widget.onChanged,
         textInputAction: widget.inputAction,
@@ -176,7 +178,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                 left: 14,
                 right: widget.suffixIconData == null ? 14 : 0,
               ),
-              prefixText: widget.prefixText ?? "",
+              prefixText: widget.prefixText ?? '',
               suffixIcon: widget.suffixIcons,
               prefixIcon:
                   widget.prefixWidget ??
@@ -280,22 +282,22 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 class CardNumberFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(TextEditingValue previousValue, TextEditingValue nextValue) {
-    var inputText = nextValue.text;
+    final inputText = nextValue.text;
 
     if (nextValue.selection.baseOffset == 0) {
       return nextValue;
     }
 
-    var bufferString = StringBuffer();
-    for (int i = 0; i < inputText.length; i++) {
+    final bufferString = StringBuffer();
+    for (var i = 0; i < inputText.length; i++) {
       bufferString.write(inputText[i]);
-      var nonZeroIndexValue = i + 1;
+      final nonZeroIndexValue = i + 1;
       if (nonZeroIndexValue % 4 == 0 && nonZeroIndexValue != inputText.length) {
         bufferString.write(' ');
       }
     }
 
-    var string = bufferString.toString();
+    final string = bufferString.toString();
     return nextValue.copyWith(text: string, selection: TextSelection.collapsed(offset: string.length));
   }
 }
@@ -304,11 +306,11 @@ class CardExpirationFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     final newValueString = newValue.text;
-    String valueToReturn = '';
+    var valueToReturn = '';
 
-    for (int i = 0; i < newValueString.length; i++) {
+    for (var i = 0; i < newValueString.length; i++) {
       if (newValueString[i] != '/') valueToReturn += newValueString[i];
-      var nonZeroIndex = i + 1;
+      final nonZeroIndex = i + 1;
       final contains = valueToReturn.contains(RegExp(r'\/'));
       if (nonZeroIndex % 2 == 0 && nonZeroIndex != newValueString.length && !(contains)) {
         valueToReturn += '/';

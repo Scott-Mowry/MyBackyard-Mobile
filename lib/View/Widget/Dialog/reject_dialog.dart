@@ -1,14 +1,13 @@
+import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_radio_tile.dart';
+import 'package:backyard/Component/custom_text.dart';
+import 'package:backyard/Component/custom_text_form_field.dart';
+import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../../../../Component/custom_buttom.dart';
-import '../../../../../Component/custom_text.dart';
-import '../../../Component/custom_text_form_field.dart';
-import '../../../Component/custom_toast.dart';
 
 class RejectDialog extends StatefulWidget {
   final Function(String) onYes;
@@ -49,9 +48,7 @@ class _RejectDialogState extends State<RejectDialog> {
                   const Icon(Icons.close_outlined, color: Colors.transparent),
                   MyText(title: widget.title ?? 'Reject', clr: MyColors().whiteColor, fontWeight: FontWeight.w600),
                   GestureDetector(
-                    onTap: () {
-                      AppNavigation.navigatorPop();
-                    },
+                    onTap: AppNavigation.navigatorPop,
                     child: const Icon(Icons.close_outlined, color: Colors.white),
                   ),
                 ],
@@ -64,7 +61,7 @@ class _RejectDialogState extends State<RejectDialog> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: MyColors().secondaryColor.withOpacity(.3),
+                      color: MyColors().secondaryColor.withValues(alpha: .3),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     padding: EdgeInsets.all(3.w),
@@ -78,7 +75,7 @@ class _RejectDialogState extends State<RejectDialog> {
                               widget.description ??
                               'Reject the ride within a specific timeframe (05 minutes) without incurring additional fees.',
                           size: 12,
-                          clr: MyColors().greyColor.withOpacity(.6),
+                          clr: MyColors().greyColor.withValues(alpha: .6),
                         ),
                       ],
                     ),
@@ -125,7 +122,7 @@ class _RejectDialogState extends State<RejectDialog> {
                       controller: other,
                       borderRadius: 10,
                       maxLength: 275,
-                      backgroundColor: MyColors().secondaryColor.withOpacity(.3),
+                      backgroundColor: MyColors().secondaryColor.withValues(alpha: .3),
                       borderColor: MyColors().secondaryColor,
                       hintTextColor: MyColors().grey,
                       textColor: MyColors().black,
@@ -145,7 +142,7 @@ class _RejectDialogState extends State<RejectDialog> {
                         widget.onYes(reason.isNotEmpty ? reason : other.text);
                       }
                     },
-                    title: "Submit",
+                    title: 'Submit',
                   ),
                   SizedBox(height: 2.h),
                 ],
@@ -158,7 +155,7 @@ class _RejectDialogState extends State<RejectDialog> {
     );
   }
 
-  onWillPop(context) async {
+  Future<bool> onWillPop(context) async {
     AppNavigation.navigateTo(AppRouteName.HOME_SCREEN_ROUTE);
     return false;
   }

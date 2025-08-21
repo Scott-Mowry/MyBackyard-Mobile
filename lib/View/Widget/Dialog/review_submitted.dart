@@ -1,9 +1,9 @@
+import 'package:backyard/Component/custom_buttom.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import '../../../../../Component/custom_buttom.dart';
-import '../../../../../Component/custom_text.dart';
 
 class ReviewSubmitted extends StatelessWidget {
   const ReviewSubmitted({super.key});
@@ -37,7 +37,7 @@ class ReviewSubmitted extends StatelessWidget {
                     AppNavigation.navigatorPop();
                     // HomeController.i.jumpTo(i: 2);
                   },
-                  title: "Go to Home",
+                  title: 'Go to Home',
                 ),
                 SizedBox(height: 3.5.h),
               ],

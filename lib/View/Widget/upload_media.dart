@@ -50,7 +50,7 @@ class ImageGalleryClass {
                         SizedBox(width: 15.0),
                         Icon(Icons.camera_enhance, color: MyColors().primaryColor),
                         SizedBox(width: 15.0),
-                        Text("Camera", style: TextStyle(color: MyColors().primaryColor, fontSize: 18.0)),
+                        Text('Camera', style: TextStyle(color: MyColors().primaryColor, fontSize: 18.0)),
                       ],
                     ),
                   ),
@@ -77,7 +77,7 @@ class ImageGalleryClass {
                         SizedBox(width: 15.0),
                         Icon(Icons.image, color: MyColors().primaryColor),
                         SizedBox(width: 15.0),
-                        Text("Gallery", style: TextStyle(color: MyColors().primaryColor, fontSize: 18.0)),
+                        Text('Gallery', style: TextStyle(color: MyColors().primaryColor, fontSize: 18.0)),
                       ],
                     ),
                   ),
@@ -88,7 +88,6 @@ class ImageGalleryClass {
                   //getPdfFile
                   GestureDetector(
                     onTap: () {
-                      print("pdf");
                       getPdfFile(onMediaChanged: onMediaChanged, context: context);
                     },
                     child: Container(
@@ -99,7 +98,7 @@ class ImageGalleryClass {
                           SizedBox(width: 15.0),
                           Icon(Icons.file_copy_sharp, color: MyColors().primaryColor),
                           SizedBox(width: 15.0),
-                          Text("File", style: TextStyle(color: MyColors().primaryColor, fontSize: 18.0)),
+                          Text('File', style: TextStyle(color: MyColors().primaryColor, fontSize: 18.0)),
                         ],
                       ),
                     ),
@@ -114,19 +113,14 @@ class ImageGalleryClass {
     return null;
   }
 
-  void getPdfFile({required ValueChanged<String?> onMediaChanged, BuildContext? context}) async {
+  Future<void> getPdfFile({required ValueChanged<String?> onMediaChanged, BuildContext? context}) async {
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
+      final result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ["pdf", "doc"],
+        allowedExtensions: ['pdf', 'doc'],
       );
       if (result != null) {
-        PlatformFile file = result.files.first;
-        print(file.name);
-        print("Bytes ${file.bytes}");
-        print("Size ${file.size}");
-        print(file.extension);
-        print(file.path);
+        final file = result.files.first;
         onMediaChanged(file.path);
         //AppNavigation.navigatorPop();
       }
@@ -135,7 +129,7 @@ class ImageGalleryClass {
     }
   }
 
-  void getCameraImage({
+  Future<void> getCameraImage({
     required ValueChanged<String?> onMediaChanged,
     BuildContext? context,
     bool? fromCreateFeed = false,
@@ -161,7 +155,7 @@ class ImageGalleryClass {
     }
   }
 
-  void getGalleryImage({
+  Future<void> getGalleryImage({
     required ValueChanged<String?> onMediaChanged,
     BuildContext? context,
     bool? fromCreateFeed = false,
@@ -185,18 +179,16 @@ class ImageGalleryClass {
     }
   }
 
-  void getMultipleImages({required ValueChanged<List<String?>?> onMediaChanged, required BuildContext context}) async {
+  Future<void> getMultipleImages({required ValueChanged<List<String?>?> onMediaChanged, required BuildContext context}) async {
     try {
       // getFilePath =
-      List<XFile> multiImages = await picker.pickMultiImage(imageQuality: 80);
-      List<String> multiImagesPath = [];
-      //print("Multi Images:${multiImages.length}");
+      final multiImages = await picker.pickMultiImage(imageQuality: 80);
+      final multiImagesPath = <String>[];
       if (multiImages.isNotEmpty) {
-        for (int i = 0; i < multiImages.length; i++) {
+        for (var i = 0; i < multiImages.length; i++) {
           multiImagesPath.add(multiImages[i].path);
         }
       }
-      //print("Multi Images PAth:${multiImagesPath.length}");
       onMediaChanged(multiImagesPath);
       AppNavigation.navigatorPop();
     } on PlatformException {
@@ -205,7 +197,7 @@ class ImageGalleryClass {
     }
   }
 
-  void cropImage({
+  Future<void> cropImage({
     String? imageFilePath,
     BuildContext? context,
     required ValueChanged<String?> onMediaChanged,

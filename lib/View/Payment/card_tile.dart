@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:backyard/Component/custom_card.dart';
 import 'package:backyard/Component/custom_radio_tile.dart';
 import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Model/card_model.dart';
 import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:sizer/sizer.dart';
 
 class CardTile extends StatelessWidget {

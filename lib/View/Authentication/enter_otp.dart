@@ -4,12 +4,15 @@ import 'dart:developer';
 import 'package:backyard/Component/Appbar/appbar_components.dart';
 import 'package:backyard/Component/custom_background_image.dart';
 import 'package:backyard/Component/custom_padding.dart';
+import 'package:backyard/Component/custom_text.dart';
+import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/auth_apis.dart';
 import 'package:backyard/Service/general_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
+import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/Utils/utils.dart';
 import 'package:backyard/View/Widget/appLogo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,10 +24,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
-
-import '../../../Component/custom_text.dart';
-import '../../../Utils/my_colors.dart';
-import '../../Component/custom_toast.dart';
 // import 'package:timer_builder/timer_builder.dart';
 
 class EnterOTPArguements {
@@ -47,14 +46,13 @@ class EnterOTP extends StatefulWidget {
 }
 
 class _EnterOTPState extends State<EnterOTP> {
-  TextEditingController otp = TextEditingController(text: "");
+  TextEditingController otp = TextEditingController(text: '');
 
   /// #Timer
   Timer? timer;
   int resend = 0;
   String pinCode = '0';
   final form = GlobalKey<FormState>();
-  final FocusNode _otpFocusNode = FocusNode();
   late final userController = context.read<UserController>();
 
   Future<void> startTimer({bool val = true}) async {
@@ -65,14 +63,14 @@ class _EnterOTPState extends State<EnterOTP> {
       if (val) {
         if (widget.verification != null) {
           AppNetwork.loadingProgressIndicator();
-          await resendCode(phoneNumber: widget.phoneNumber ?? "");
+          await resendCode(phoneNumber: widget.phoneNumber ?? '');
           AppNavigation.navigatorPop();
         } else {
           AppNetwork.loadingProgressIndicator();
           final value = await AuthAPIS.resendCode(id: userController.user?.id.toString());
           AppNavigation.navigatorPop();
           if (value) {
-            CustomToast().showToast(message: "We have resend OTP verification code at your email address");
+            CustomToast().showToast(message: 'We have resend OTP verification code at your email address');
           }
         }
       }
@@ -86,7 +84,7 @@ class _EnterOTPState extends State<EnterOTP> {
         }
       });
     } else {
-      CustomToast().showToast(message: "Please wait...");
+      CustomToast().showToast(message: 'Please wait...');
     }
   }
 
@@ -128,7 +126,7 @@ class _EnterOTPState extends State<EnterOTP> {
                       20.verticalSpace,
                       label(
                         label:
-                            "We have sent you an email containing 6 digits verification code. Please enter the code to verify your identity.",
+                            'We have sent you an email containing 6 digits verification code. Please enter the code to verify your identity.',
                       ),
                       Utils.isTablet ? 30.verticalSpace : 10.verticalSpace,
                       Padding(
@@ -258,18 +256,18 @@ class _EnterOTPState extends State<EnterOTP> {
       AppNetwork.loadingProgressIndicator();
 
       FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: "+1$phoneNumber",
+        phoneNumber: '+1$phoneNumber',
         timeout: const Duration(seconds: 60),
-        verificationCompleted: (AuthCredential authCredential) async {},
-        verificationFailed: (FirebaseAuthException authException) {
+        verificationCompleted: (authCredential) async {},
+        verificationFailed: (authException) {
           AppNavigation.navigatorPop();
-          CustomToast().showToast(message: "Invalid Phone Number");
+          CustomToast().showToast(message: 'Invalid Phone Number');
         },
-        codeSent: (String verificationId, int? forceResendingToken) {
+        codeSent: (verificationId, forceResendingToken) {
           widget.verification = verificationId;
           AppNavigation.navigatorPop();
           CustomToast().showToast(
-            message: "We have resend OTP verification code at your phone number",
+            message: 'We have resend OTP verification code at your phone number',
             toastLength: Toast.LENGTH_LONG,
             timeInSecForIosWeb: 5,
           );
@@ -278,10 +276,10 @@ class _EnterOTPState extends State<EnterOTP> {
             arguments: EnterOTPArguements(phoneNumber: phoneNumber, verification: verificationId),
           );
         },
-        codeAutoRetrievalTimeout: (String verificationId) {},
+        codeAutoRetrievalTimeout: (verificationId) {},
       );
     } catch (error) {
-      log("error");
+      log('error');
       AppNavigation.navigatorPop();
       CustomToast().showToast(message: error.toString());
     }
@@ -295,7 +293,7 @@ class _EnterOTPState extends State<EnterOTP> {
   }) async {
     try {
       AppNetwork.loadingProgressIndicator();
-      AuthCredential credential = PhoneAuthProvider.credential(
+      final AuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId,
         smsCode: verificationCode,
       );
@@ -303,9 +301,9 @@ class _EnterOTPState extends State<EnterOTP> {
       if (user.user != null) {
         FirebaseAuth.instance.signOut();
         final value = await AuthAPIS.socialLogin(
-          phone: phoneNo ?? "",
+          phone: phoneNo ?? '',
           socialToken: user.user?.uid,
-          socialType: "phone",
+          socialType: 'phone',
         );
         AppNavigation.navigatorPop();
         if (value) {
@@ -349,7 +347,7 @@ class _EnterOTPState extends State<EnterOTP> {
     // }
   }
 
-  void navigation() async {
+  Future<void> navigation() async {
     if (widget.fromForgot ?? false) {
       AppNavigation.navigateReplacementNamed(AppRouteName.CHANGE_PASSWORD_ROUTE);
     } else {

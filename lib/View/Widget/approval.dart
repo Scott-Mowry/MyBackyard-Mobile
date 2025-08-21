@@ -1,11 +1,11 @@
 import 'package:backyard/Component/Appbar/appbar_components.dart';
 import 'package:backyard/Component/custom_background_image.dart';
+import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_padding.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
-import '../../../Component/custom_buttom.dart';
-import '../../../Component/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -63,13 +63,13 @@ class Approval extends StatelessWidget {
     );
   }
 
-  onSubmit(context) {
+  void onSubmit(context) {
     AppNavigation.navigatorPop();
     AppNavigation.navigatorPop();
     // AppNavigation.navigateToRemovingAll(context, AppRouteName.HOME_SCREEN_ROUTE,);
   }
 
-  onWillPop(context) async {
+  Future<bool> onWillPop(context) async {
     onSubmit(context);
     return false;
   }

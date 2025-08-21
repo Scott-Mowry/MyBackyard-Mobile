@@ -1,24 +1,24 @@
+import 'dart:io' show Platform;
+
+import 'package:backyard/Component/custom_background_image.dart';
+import 'package:backyard/Component/custom_buttom.dart';
+import 'package:backyard/Component/custom_padding.dart';
+import 'package:backyard/Component/custom_terms_condition.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/auth_apis.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:backyard/Component/custom_background_image.dart';
-import 'package:backyard/Component/custom_padding.dart';
-import 'package:backyard/Component/custom_terms_condition.dart';
-import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/Widget/appLogo.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import '../../Component/custom_buttom.dart';
-import 'dart:io' show Platform;
 import 'package:sizer/sizer.dart';
 
 class PreLoginScreen extends StatefulWidget {
@@ -31,32 +31,32 @@ class PreLoginScreen extends StatefulWidget {
 class _PreLoginScreenState extends State<PreLoginScreen> {
   late final userController = context.read<UserController>();
 
-  void appleFunction() async {
+  Future<void> appleFunction() async {
     AppNetwork.loadingProgressIndicator();
-    final bool internet = await AppNetwork.checkInternet();
+    final internet = await AppNetwork.checkInternet();
     if (internet) {
       try {
         final credential = await SignInWithApple.getAppleIDCredential(
           scopes: [AppleIDAuthorizationScopes.email, AppleIDAuthorizationScopes.fullName],
         );
 
-        String name = "${(credential.givenName ?? "")} ${(credential.familyName ?? '')}";
-        String email = credential.email ?? '';
+        var name = "${(credential.givenName ?? "")} ${(credential.familyName ?? '')}";
+        final email = credential.email ?? '';
 
         if (name.trim().isEmpty) {
-          Map<String, dynamic> decodedToken = JwtDecoder.decode(credential.identityToken ?? "");
-          String temp = decodedToken["email"] ?? "";
-          name = temp.isNotEmpty ? temp.split("@").first : temp;
+          final decodedToken = JwtDecoder.decode(credential.identityToken ?? '');
+          final String temp = decodedToken['email'] ?? '';
+          name = temp.isNotEmpty ? temp.split('@').first : temp;
         }
 
         if (await AuthAPIS.socialLogin(
           socialType: 'apple',
           email: email,
-          socialToken: credential.userIdentifier ?? "",
+          socialToken: credential.userIdentifier ?? '',
           name: name,
         )) {
           AppNavigation.navigatorPop();
-          CustomToast().showToast(message: "logged in succesfully");
+          CustomToast().showToast(message: 'logged in succesfully');
           AppNavigation.navigateToRemovingAll(AppRouteName.HOME_SCREEN_ROUTE);
         } else {
           //await auth.signOut();
@@ -65,36 +65,35 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
             AppNavigation.navigateTo(AppRouteName.COMPLETE_PROFILE_SCREEN_ROUTE);
           }
         }
-            } catch (error) {
+      } catch (error) {
         AppNavigation.navigatorPop();
         CustomToast().showToast(message: 'Apple sign-in error: $error');
       }
     } else {
       AppNavigation.navigatorPop();
-      CustomToast().showToast(message: "No Internet Connection");
+      CustomToast().showToast(message: 'No Internet Connection');
     }
   }
 
   Future<void> googleFunction() async {
     AppNetwork.loadingProgressIndicator();
-    final bool internet = await AppNetwork.checkInternet();
+    final internet = await AppNetwork.checkInternet();
     if (internet) {
-      FirebaseAuth auth = FirebaseAuth.instance;
-      GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
+      final googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
       try {
-        GoogleSignIn googleSignIn0 = GoogleSignIn(scopes: ['email']);
+        final googleSignIn0 = GoogleSignIn(scopes: ['email']);
 
-        GoogleSignInAccount? googleSignInAccount = await googleSignIn0.signIn();
+        final googleSignInAccount = await googleSignIn0.signIn();
 
         if (googleSignInAccount != null) {
           await googleSignIn.signOut();
           if (await AuthAPIS.socialLogin(
             socialType: 'google',
-            socialToken: googleSignInAccount.id ?? "",
-            name: googleSignInAccount.displayName ?? "",
+            socialToken: googleSignInAccount.id,
+            name: googleSignInAccount.displayName ?? '',
           )) {
             AppNavigation.navigatorPop();
-            CustomToast().showToast(message: "logged in succesfully");
+            CustomToast().showToast(message: 'logged in succesfully');
             AppNavigation.navigateToRemovingAll(AppRouteName.HOME_SCREEN_ROUTE);
           } else {
             if (userController.user?.isProfileCompleted == 0) {
@@ -111,7 +110,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
       }
     } else {
       AppNavigation.navigatorPop();
-      CustomToast().showToast(message: "No Internet Connection");
+      CustomToast().showToast(message: 'No Internet Connection');
     }
   }
 

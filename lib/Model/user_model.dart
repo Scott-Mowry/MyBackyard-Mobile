@@ -69,74 +69,74 @@ class User {
   });
 
   factory User.setUser(Map<String, dynamic> json) => User(
-    id: json["id"],
-    isForgot: json["is_forgot"],
-    isVerified: json["is_verified"],
-    role: getRole(json["role"]),
-    name: json["name"],
-    lastName: json["last_name"],
-    categoryId: json["category_id"] == null ? null : int.parse(json["category_id"].toString()),
-    description: json["description"],
-    profileImage: json["profile_image"],
-    zipCode: json["zip_code"],
-    address: json["address"],
+    id: json['id'],
+    isForgot: json['is_forgot'],
+    isVerified: json['is_verified'],
+    role: getRole(json['role']),
+    name: json['name'],
+    lastName: json['last_name'],
+    categoryId: json['category_id'] == null ? null : int.parse(json['category_id'].toString()),
+    description: json['description'],
+    profileImage: json['profile_image'],
+    zipCode: json['zip_code'],
+    address: json['address'],
     days:
-        json["days"] == null
+        json['days'] == null
             ? []
-            : sortingDays(List<BussinessScheduling>.from(json["days"].map((x) => BussinessScheduling.fromJson(x)))),
-    latitude: json["latitude"] == null ? null : double.parse(json["latitude"]?.toString() ?? "0.0"),
-    longitude: json["longitude"] == null ? null : double.parse(json["longitude"]?.toString() ?? "0.0"),
-    email: json["email"],
-    emailOtp: json["email_otp"],
-    emailVerifiedAt: json["email_verified_at"],
-    phone: json["phone"],
-    isProfileCompleted: json["is_profile_completed"],
-    isPushNotify: json["is_push_notify"],
-    deviceType: json["device_type"],
-    deviceToken: json["device_token"],
-    socialType: json["social_type"],
-    socialToken: json["social_token"],
-    isBlocked: json["is_blocked"],
-    status: json["status"],
-    subId: json["sub_id"] == null ? null : int.parse(json["sub_id"].toString()),
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-    offerCount: json["offer_count"] == null ? null : int.parse(json["offer_count"].toString()),
+            : sortingDays(List<BussinessScheduling>.from(json['days'].map((x) => BussinessScheduling.fromJson(x)))),
+    latitude: json['latitude'] == null ? null : double.parse(json['latitude']?.toString() ?? '0.0'),
+    longitude: json['longitude'] == null ? null : double.parse(json['longitude']?.toString() ?? '0.0'),
+    email: json['email'],
+    emailOtp: json['email_otp'],
+    emailVerifiedAt: json['email_verified_at'],
+    phone: json['phone'],
+    isProfileCompleted: json['is_profile_completed'],
+    isPushNotify: json['is_push_notify'],
+    deviceType: json['device_type'],
+    deviceToken: json['device_token'],
+    socialType: json['social_type'],
+    socialToken: json['social_token'],
+    isBlocked: json['is_blocked'],
+    status: json['status'],
+    subId: json['sub_id'] == null ? null : int.parse(json['sub_id'].toString()),
+    createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at']),
+    updatedAt: json['updated_at'] == null ? null : DateTime.parse(json['updated_at']),
+    offerCount: json['offer_count'] == null ? null : int.parse(json['offer_count'].toString()),
   );
 
   factory User.setUser2(Map<String, dynamic> json, {String? token}) => User(
-    id: json["id"],
-    isForgot: json["is_forgot"],
-    isVerified: json["is_verified"],
-    role: getRole(json["role"]),
-    token: token ?? json["bearer_token"],
-    name: json["name"],
-    lastName: json["last_name"],
-    description: json["description"],
+    id: json['id'],
+    isForgot: json['is_forgot'],
+    isVerified: json['is_verified'],
+    role: getRole(json['role']),
+    token: token ?? json['bearer_token'],
+    name: json['name'],
+    lastName: json['last_name'],
+    description: json['description'],
     days:
-        json["days"] == null
+        json['days'] == null
             ? []
-            : sortingDays(List<BussinessScheduling>.from(json["days"].map((x) => BussinessScheduling.fromJson(x)))),
-    profileImage: json["profile_image"],
-    zipCode: json["zip_code"],
-    address: json["address"],
-    latitude: json["latitude"] == null ? null : double.parse(json["latitude"]?.toString() ?? "0.0"),
-    longitude: json["longitude"] == null ? null : double.parse(json["longitude"]?.toString() ?? "0.0"),
-    email: json["email"],
-    emailOtp: json["email_otp"],
-    emailVerifiedAt: json["email_verified_at"],
-    phone: json["phone"],
-    isProfileCompleted: json["is_profile_completed"],
-    isPushNotify: json["is_push_notify"],
-    deviceType: json["device_type"],
-    deviceToken: json["device_token"],
-    socialType: json["social_type"],
-    socialToken: json["social_token"],
-    isBlocked: json["is_blocked"],
-    status: json["status"],
-    subId: json["sub_id"] == null ? null : int.parse(json["sub_id"].toString()),
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+            : sortingDays(List<BussinessScheduling>.from(json['days'].map((x) => BussinessScheduling.fromJson(x)))),
+    profileImage: json['profile_image'],
+    zipCode: json['zip_code'],
+    address: json['address'],
+    latitude: json['latitude'] == null ? null : double.parse(json['latitude']?.toString() ?? '0.0'),
+    longitude: json['longitude'] == null ? null : double.parse(json['longitude']?.toString() ?? '0.0'),
+    email: json['email'],
+    emailOtp: json['email_otp'],
+    emailVerifiedAt: json['email_verified_at'],
+    phone: json['phone'],
+    isProfileCompleted: json['is_profile_completed'],
+    isPushNotify: json['is_push_notify'],
+    deviceType: json['device_type'],
+    deviceToken: json['device_token'],
+    socialType: json['social_type'],
+    socialToken: json['social_token'],
+    isBlocked: json['is_blocked'],
+    status: json['status'],
+    subId: json['sub_id'] == null ? null : int.parse(json['sub_id'].toString()),
+    createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at']),
+    updatedAt: json['updated_at'] == null ? null : DateTime.parse(json['updated_at']),
   );
 
   static Role? getRole(String? role) {
@@ -154,19 +154,19 @@ class User {
 
     int daysSorting(String val) {
       switch (val) {
-        case "monday":
+        case 'monday':
           return 0;
-        case "tuesday":
+        case 'tuesday':
           return 1;
-        case "wednesday":
+        case 'wednesday':
           return 2;
-        case "thursday":
+        case 'thursday':
           return 3;
-        case "friday":
+        case 'friday':
           return 4;
-        case "saturday":
+        case 'saturday':
           return 5;
-        case "sunday":
+        case 'sunday':
           return 6;
         default:
           return -1;
@@ -182,11 +182,11 @@ class User {
         list.add(BussinessScheduling(day: day));
       }
     }
-    List<BussinessScheduling> retList = [];
+    final retList = <BussinessScheduling>[];
     retList.addAll(list);
 
     for (var element in list) {
-      retList[daysSorting(element.day ?? "")] = element;
+      retList[daysSorting(element.day ?? '')] = element;
     }
 
     return retList;
@@ -217,13 +217,13 @@ class BussinessScheduling {
   });
 
   factory BussinessScheduling.fromJson(Map<String, dynamic> json) => BussinessScheduling(
-    id: json["id"],
-    ownerId: json["owner_id"],
-    day: json["day"],
-    startTime: json["start_time"],
-    endTime: json["end_time"],
-    status: json["status"],
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    id: json['id'],
+    ownerId: json['owner_id'],
+    day: json['day'],
+    startTime: json['start_time'],
+    endTime: json['end_time'],
+    status: json['status'],
+    createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at']),
+    updatedAt: json['updated_at'] == null ? null : DateTime.parse(json['updated_at']),
   );
 }

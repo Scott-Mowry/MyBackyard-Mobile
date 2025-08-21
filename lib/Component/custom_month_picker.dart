@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomMonthPickerDialog extends StatefulWidget {
@@ -16,7 +16,7 @@ class CustomMonthPickerDialog extends StatefulWidget {
 }
 
 class _CustomAppExitDialogState extends State<CustomMonthPickerDialog> {
-  static const List MONTH_LIST = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  static const List MONTH_LIST = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -43,7 +43,7 @@ class _CustomAppExitDialogState extends State<CustomMonthPickerDialog> {
             itemCount: MONTH_LIST.length,
             shrinkWrap: true,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemBuilder: (BuildContext ctx, index) {
+            itemBuilder: (ctx, index) {
               return InkWell(
                 onTap: () {
                   widget.onChanged!(MONTH_LIST[index]);
@@ -56,7 +56,7 @@ class _CustomAppExitDialogState extends State<CustomMonthPickerDialog> {
                     color:
                         widget.selectedMonth == (index + 1)
                             ? MyColors().pinkColor
-                            : Colors.transparent, //MyColors().pinkColor.withOpacity(0.7),
+                            : Colors.transparent, //MyColors().pinkColor.withValues(alpha: 0.7),
                     borderRadius: BorderRadius.circular(widget.selectedMonth == (index + 1) ? 4 : 0),
                     border: widget.selectedMonth == (index + 1) ? Border.all(color: MyColors().pinkColor) : null,
                   ),

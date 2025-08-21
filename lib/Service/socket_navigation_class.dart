@@ -15,15 +15,15 @@ class SocketNavigationClass {
     return _instance;
   }
 
-  void socketUserResponseMethod({dynamic responseData}) async {
-    log("Socket User Response data:$responseData");
-    log("User Data:$responseData");
+  Future<void> socketUserResponseMethod({dynamic responseData}) async {
+    log('Socket User Response data:$responseData');
+    log('User Data:$responseData');
 
     if (responseData != null) {
       final responseDataJson = responseData as Map<String, dynamic>;
-      if (responseDataJson["object_type"] == "get_user") {
+      if (responseDataJson['object_type'] == 'get_user') {
         try {
-          navigatorKey.currentContext?.read<UserController>().setSubId(User.setUser(responseDataJson["data"][0]));
+          navigatorKey.currentContext?.read<UserController>().setSubId(User.setUser(responseDataJson['data'][0]));
         } catch (e) {
           log(e.toString());
         }
@@ -31,16 +31,16 @@ class SocketNavigationClass {
     }
   }
 
-  void socketResponseMethod({dynamic responseData}) async {
-    log("Socket Response data:$responseData");
-    log("Data:$responseData");
+  Future<void> socketResponseMethod({dynamic responseData}) async {
+    log('Socket Response data:$responseData');
+    log('Data:$responseData');
 
     if (responseData != null) {
       final responseDataJson = responseData as Map<String, dynamic>;
-      if (responseDataJson["object_type"] == "get_buses") {
+      if (responseDataJson['object_type'] == 'get_buses') {
         navigatorKey.currentContext?.read<UserController>().clearMarkers();
-        List<User> users = [];
-        users = List<User>.from((responseDataJson["data"] ?? {}).map((x) => User.setUser(x)));
+        var users = <User>[];
+        users = List<User>.from((responseDataJson['data'] ?? {}).map((x) => User.setUser(x)));
         navigatorKey.currentContext?.read<UserController>().setBusList(users);
         for (var user in users) {
           navigatorKey.currentContext?.read<UserController>().addMarker(user);
@@ -51,8 +51,8 @@ class SocketNavigationClass {
 
   void socketErrorMethod({dynamic errorResponseData}) {
     if (errorResponseData != null) {
-      log("Socket Error Response:");
-      log("errorResponseData");
+      log('Socket Error Response:');
+      log('errorResponseData');
       log(errorResponseData.toString());
     }
   }

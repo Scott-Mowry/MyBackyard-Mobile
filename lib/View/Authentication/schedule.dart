@@ -48,8 +48,8 @@ class _ScheduleState extends State<Schedule> {
 
   TimeOfDay? timeFormat(String? val) {
     if (val != null) {
-      int hour = int.parse(val.split(":")[0]);
-      int min = int.parse(val.split(":")[1]);
+      final hour = int.parse(val.split(':')[0]);
+      final min = int.parse(val.split(':')[1]);
       return TimeOfDay(hour: hour, minute: min);
     } else {
       return null;
@@ -60,10 +60,10 @@ class _ScheduleState extends State<Schedule> {
   void initState() {
     if (widget.edit) {
       if ((userController?.user?.days ?? []).isNotEmpty) {
-        for (BussinessScheduling temp in userController?.user?.days ?? []) {
+        for (var temp in userController?.user?.days ?? []) {
           daySchedules.add(
             DaySchedule(
-              day: daysOfWeek.values.byName(temp.day ?? ""),
+              day: daysOfWeek.values.byName(temp.day ?? ''),
               active: !(temp.startTime == null && temp.endTime == null),
               startTime: timeFormat(temp.startTime),
               endTime: timeFormat(temp.endTime),
@@ -71,7 +71,7 @@ class _ScheduleState extends State<Schedule> {
           );
         }
       } else {
-        for (daysOfWeek val in daysOfWeek.values) {
+        for (var val in daysOfWeek.values) {
           daySchedules.add(
             DaySchedule(
               day: val,
@@ -83,7 +83,7 @@ class _ScheduleState extends State<Schedule> {
         }
       }
     } else {
-      for (daysOfWeek val in daysOfWeek.values) {
+      for (var val in daysOfWeek.values) {
         daySchedules.add(
           DaySchedule(
             day: val,
@@ -115,11 +115,11 @@ class _ScheduleState extends State<Schedule> {
           ).then((value) {
             if (value != null) {
               final list = value as List<DaySchedule>?;
-              for (int j = 0; j < (list?.length ?? 0); j++) {
+              for (var j = 0; j < (list?.length ?? 0); j++) {
                 final temp = list?[j];
                 if (temp != null) {
                   int? index;
-                  for (int i = 0; i < daySchedules.length; i++) {
+                  for (var i = 0; i < daySchedules.length; i++) {
                     if (daySchedules[i].day == temp.day) {
                       index = i;
                     }
@@ -189,7 +189,6 @@ class _ScheduleState extends State<Schedule> {
                   //           defaultVal: hours[index].val!,
                   //           onChange: (newValue) {
                   //             hours[index].val = newValue;
-                  //             print(newValue);
                   //           },
                   //         ),
                   //         Padding(
@@ -231,7 +230,7 @@ class _ScheduleState extends State<Schedule> {
       final temp = value as DaySchedule?;
       if (temp != null) {
         int? index;
-        for (int i = 0; i < daySchedules.length; i++) {
+        for (var i = 0; i < daySchedules.length; i++) {
           if (daySchedules[i].day == temp.day) {
             index = i;
           }
@@ -248,7 +247,7 @@ class _ScheduleState extends State<Schedule> {
     return CustomTextFormField(
       controller: TextEditingController(text: getValues(val)),
       onTap: () => onTapField(val),
-      hintText: "None",
+      hintText: 'None',
       readOnly: true,
       prefixWidget: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -260,26 +259,26 @@ class _ScheduleState extends State<Schedule> {
       textAlign: TextAlign.end,
       suffixIconConstraints: BoxConstraints(minWidth: 8.w),
       borderRadius: 10,
-      validation: (p0) => p0?.validateEmpty("${val.day.name.titleCase()} time"),
+      validation: (p0) => p0?.validateEmpty('${val.day.name.titleCase()} time'),
     );
   }
 
   String getValues(DaySchedule val) {
-    String value = "";
+    var value = '';
     if (val.endTime != null && val.startTime != null) {
-      value = "${val.startTime?.format(context)} - ${val.endTime?.format(context)}";
+      value = '${val.startTime?.format(context)} - ${val.endTime?.format(context)}';
     } else {
       if (val.active == false) {
-        value = "Closed";
+        value = 'Closed';
       }
     }
     return value;
   }
 
-  onSubmit(context) async {
+  Future<void> onSubmit(context) async {
     FocusManager.instance.primaryFocus?.unfocus();
     if ((_form.currentState?.validate() ?? false)) {
-      List<BussinessScheduling> temp = [];
+      var temp = <BussinessScheduling>[];
       final temp2 = daySchedules.where((element) => element.startTime != null && element.endTime != null).toList();
       temp =
           temp2
@@ -299,18 +298,18 @@ class _ScheduleState extends State<Schedule> {
           AppNavigation.navigatorPop();
         }
       } else {
-        User? user =
+        final user =
             userController?.user
-              ?..name = widget.args?["name"]
-              ..description = widget.args?["description"]
-              ..isPushNotify = widget.args?["isPushNotify"]
-              ..address = widget.args?["address"]
-              ..latitude = widget.args?["lat"]
-              ..longitude = widget.args?["lng"]
-              ..phone = widget.args?["phone"]
-              ..email = widget.args?["email"]
+              ?..name = widget.args?['name']
+              ..description = widget.args?['description']
+              ..isPushNotify = widget.args?['isPushNotify']
+              ..address = widget.args?['address']
+              ..latitude = widget.args?['lat']
+              ..longitude = widget.args?['lng']
+              ..phone = widget.args?['phone']
+              ..email = widget.args?['email']
               ..days = temp
-              ..profileImage = widget.args?["image"]
+              ..profileImage = widget.args?['image']
         // ..zipCode = widget.args?["zipCode"]
         ;
 
@@ -320,7 +319,7 @@ class _ScheduleState extends State<Schedule> {
     }
   }
 
-  time({required String t, required Function onTap}) {
+  GestureDetector time({required String t, required Function onTap}) {
     return GestureDetector(
       onTap: () {
         onTap();

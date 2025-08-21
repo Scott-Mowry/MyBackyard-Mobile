@@ -2,12 +2,16 @@ import 'dart:developer';
 
 import 'package:backyard/Component/Appbar/appbar_components.dart';
 import 'package:backyard/Component/custom_background_image.dart';
+import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_padding.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Component/custom_text_form_field.dart';
 import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
+import 'package:backyard/Utils/image_path.dart';
+import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/Authentication/enter_otp.dart';
 import 'package:backyard/View/Widget/appLogo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,15 +20,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl_phone_field/helpers.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../Component/custom_buttom.dart';
-import '../../Component/custom_text.dart';
-import '../../Utils/image_path.dart';
-import '../../Utils/my_colors.dart';
-
 class PhoneLogin extends StatelessWidget {
   final TextEditingController phone = TextEditingController();
-  final String dialCode = "1";
-  final String countryCode = "US";
+  final String dialCode = '1';
+  final String countryCode = 'US';
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
   PhoneLogin({super.key});
@@ -58,7 +57,7 @@ class PhoneLogin extends StatelessWidget {
                           prefixWidget: Image.asset(ImagePath.phone, scale: 2, color: MyColors().primaryColor),
                           controller: phone,
                           hintText: 'Phone Number',
-                          prefixText: "+1",
+                          prefixText: '+1',
                           inputType: TextInputType.phone,
                           contact: true,
                           validation: (value) {
@@ -69,10 +68,10 @@ class PhoneLogin extends StatelessWidget {
                             log(cleanedPhoneNumber);
 
                             if (!isNumeric(cleanedPhoneNumber)) {
-                              return "Phone number field can\"t be empty";
+                              return 'Phone number field can"t be empty';
                             }
                             if (cleanedPhoneNumber.length < 10) {
-                              return "Invalid Phone Number";
+                              return 'Invalid Phone Number';
                             }
 
                             return null;
@@ -84,7 +83,7 @@ class PhoneLogin extends StatelessWidget {
                       // ),
                       SizedBox(height: 2.h),
                       MyButton(
-                        title: "Continue",
+                        title: 'Continue',
                         onTap: () {
                           onSubmit();
                         },
@@ -107,19 +106,18 @@ class PhoneLogin extends StatelessWidget {
   }) async {
     try {
       setProgressBar();
-      //  print("$countryCode$phoneNumber");
       FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: "+1$phoneNumber",
+        phoneNumber: '+1$phoneNumber',
         timeout: const Duration(seconds: 60),
-        verificationCompleted: (AuthCredential authCredential) async {},
-        verificationFailed: (FirebaseAuthException authException) {
+        verificationCompleted: (authCredential) async {},
+        verificationFailed: (authException) {
           cancelProgressBar();
-          CustomToast().showToast(message: "Invalid Phone Number");
+          CustomToast().showToast(message: 'Invalid Phone Number');
         },
-        codeSent: (String verificationId, int? forceResendingToken) {
+        codeSent: (verificationId, forceResendingToken) {
           cancelProgressBar();
           CustomToast().showToast(
-            message: "OTP Verification code has been sent to your phone number",
+            message: 'OTP Verification code has been sent to your phone number',
             toastLength: Toast.LENGTH_LONG,
             timeInSecForIosWeb: 5,
           );
@@ -128,26 +126,22 @@ class PhoneLogin extends StatelessWidget {
             arguments: EnterOTPArguements(phoneNumber: phoneNumber, verification: verificationId),
           );
         },
-        codeAutoRetrievalTimeout: (String verificationId) {},
+        codeAutoRetrievalTimeout: (verificationId) {},
       );
     } catch (error) {
-      log("error");
+      log('error');
       cancelProgressBar();
       CustomToast().showToast(message: error.toString());
     }
   }
 
-  onSubmit() async {
+  Future<void> onSubmit() async {
     FocusManager.instance.primaryFocus?.unfocus();
     if (_form.currentState?.validate() ?? false) {
       await signInWithPhone(
-        phoneNumber: phone.text.replaceAll(" ", ""),
-        setProgressBar: () {
-          AppNetwork.loadingProgressIndicator();
-        },
-        cancelProgressBar: () {
-          AppNavigation.navigatorPop();
-        },
+        phoneNumber: phone.text.replaceAll(' ', ''),
+        setProgressBar: AppNetwork.loadingProgressIndicator,
+        cancelProgressBar: AppNavigation.navigatorPop,
       );
     }
   }

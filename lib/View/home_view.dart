@@ -1,27 +1,27 @@
 import 'package:backyard/Arguments/content_argument.dart';
+import 'package:backyard/Component/custom_drawer.dart';
 import 'package:backyard/Component/custom_toast.dart';
+import 'package:backyard/Controller/home_controller.dart';
+import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Service/socket_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
-import 'package:backyard/Utils/utils.dart';
-import 'package:backyard/View/Business/customers.dart';
-import 'package:backyard/View/Common/Settings/settings.dart';
-import 'package:backyard/View/User/category.dart';
-import 'package:backyard/main.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:backyard/Controller/home_controller.dart';
 import 'package:backyard/Utils/enum.dart';
-import 'package:backyard/Component/custom_drawer.dart';
-import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:backyard/Utils/utils.dart';
 import 'package:backyard/View/Business/business_home.dart';
-import 'package:backyard/View/User/offers.dart';
+import 'package:backyard/View/Business/customers.dart';
+import 'package:backyard/View/Common/Settings/settings.dart';
 import 'package:backyard/View/Common/user_profile.dart';
+import 'package:backyard/View/User/category.dart';
+import 'package:backyard/View/User/offers.dart';
+import 'package:backyard/View/User/user_home.dart';
+import 'package:backyard/main.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'User/user_home.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -50,8 +50,8 @@ class _HomeViewState extends State<HomeView> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       navigatorKey.currentContext?.read<HomeController>().setIndex(0);
       SocketService.instance?.socketEmitMethod(
-        eventName: "get_user",
-        eventParamaters: {"id": context.read<UserController>().user?.id?.toString()},
+        eventName: 'get_user',
+        eventParamaters: {'id': context.read<UserController>().user?.id?.toString()},
       );
     });
     // TODO: implement initState
@@ -95,11 +95,11 @@ class _HomeViewState extends State<HomeView> {
                             AppRouteName.CONTENT_SCREEN,
                             arguments: ContentRoutingArgument(
                               title: 'Subscriptions',
-                              contentType: "Subscriptions",
+                              contentType: 'Subscriptions',
                               url: 'https://www.google.com/',
                             ),
                           );
-                          CustomToast().showToast(message: "You Need to Subscribe to Create an Offer.");
+                          CustomToast().showToast(message: 'You Need to Subscribe to Create an Offer.');
                         }
                       },
                       child: Container(
@@ -134,7 +134,7 @@ class _HomeViewState extends State<HomeView> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Image.asset(
-                              business ? (businessTab[i]["icon"] ?? "") : (userTabs[i]["icon"] ?? ""),
+                              business ? (businessTab[i]['icon'] ?? '') : (userTabs[i]['icon'] ?? ''),
                               scale: 1,
                               fit: BoxFit.fitHeight,
                               color: Color(val.currentIndex == i ? activeColor : inActiveColor),
@@ -142,7 +142,7 @@ class _HomeViewState extends State<HomeView> {
                             ),
                             const SizedBox(height: 6),
                             Text(
-                              business ? (businessTab[i]["title"] ?? "") : (userTabs[i]["title"] ?? ""),
+                              business ? (businessTab[i]['title'] ?? '') : (userTabs[i]['title'] ?? ''),
                               style: TextStyle(
                                 color: Color(val.currentIndex == i ? activeColor : inActiveColor),
                                 fontWeight: val.currentIndex == i ? FontWeight.w600 : FontWeight.w500,
@@ -180,7 +180,7 @@ class _HomeViewState extends State<HomeView> {
             //       colorBehindNavBar: Colors.white,
             //       boxShadow: [
             //         BoxShadow(
-            //           color: Colors.black.withOpacity(0.2), // Shadow color
+            //           color: Colors.black.withValues(alpha: 0.2), // Shadow color
             //           blurRadius: 10, // Spread of the shadow
             //           spreadRadius: 5, // Size of the shadow
             //           offset: const Offset(0, 4), // Position of the shadow
@@ -242,16 +242,16 @@ class _HomeViewState extends State<HomeView> {
   //       activeColorSecondary: MyColors().primaryColor),
   // ];
   List<Map<String, String>> userTabs = [
-    {"title": "Home", "icon": ImagePath.homeAltered},
-    {"title": "Offers", "icon": ImagePath.offerAltered},
-    {"title": "Saved", "icon": ImagePath.savedOffersIcon},
-    {"title": "Profile", "icon": ImagePath.profile},
+    {'title': 'Home', 'icon': ImagePath.homeAltered},
+    {'title': 'Offers', 'icon': ImagePath.offerAltered},
+    {'title': 'Saved', 'icon': ImagePath.savedOffersIcon},
+    {'title': 'Profile', 'icon': ImagePath.profile},
   ];
   List<Map<String, String>> businessTab = [
-    {"title": "Home", "icon": ImagePath.home5},
-    {"title": "Customers", "icon": ImagePath.customers2},
-    {"title": "Settings", "icon": ImagePath.setting2},
-    {"title": "Profile", "icon": ImagePath.profile},
+    {'title': 'Home', 'icon': ImagePath.home5},
+    {'title': 'Customers', 'icon': ImagePath.customers2},
+    {'title': 'Settings', 'icon': ImagePath.setting2},
+    {'title': 'Profile', 'icon': ImagePath.profile},
   ];
   // List<PersistentBottomNavBarItem> businessTab = <PersistentBottomNavBarItem>[
   //   PersistentBottomNavBarItem(
@@ -285,7 +285,7 @@ class _HomeViewState extends State<HomeView> {
   //       activeColorSecondary: MyColors().primaryColor),
   // ];
 
-  onWillPop(context) async {
+  Future<bool> onWillPop(context) async {
     SystemChannels.platform.invokeMethod('SystemNavigator.pop');
     return false;
   }

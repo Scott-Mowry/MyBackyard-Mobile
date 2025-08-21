@@ -1,13 +1,13 @@
 import 'dart:ui';
 
+import 'package:backyard/Component/custom_buttom.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/Widget/Dialog/request_submitted.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import '../../../../../Component/custom_buttom.dart';
-import '../../../../../Component/custom_text.dart';
 
 class RefundDialog extends StatelessWidget {
   const RefundDialog({super.key});
@@ -33,7 +33,7 @@ class RefundDialog extends StatelessWidget {
                   AppNavigation.navigatorPop();
                   requestSubmitted(context);
                 },
-                title: "Refund",
+                title: 'Refund',
                 bgColor: Colors.transparent,
                 textColor: MyColors().whiteColor,
                 gradient: false,
@@ -44,7 +44,7 @@ class RefundDialog extends StatelessWidget {
                   AppNavigation.navigatorPop();
                 },
                 gradient: false,
-                title: "Cancel",
+                title: 'Cancel',
               ),
               SizedBox(height: 3.5.h),
             ],
@@ -54,11 +54,11 @@ class RefundDialog extends StatelessWidget {
     );
   }
 
-  requestSubmitted(context) {
+  Future requestSubmitted(context) {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (context) {
         return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: AlertDialog(

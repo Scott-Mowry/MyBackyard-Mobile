@@ -1,14 +1,13 @@
-import 'package:backyard/Controller/user_controller.dart';
-import 'package:flutter/material.dart';
 import 'package:backyard/Component/custom_refresh.dart';
+import 'package:backyard/Component/custom_text.dart';
+import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Model/notification_model.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:backyard/Utils/utils.dart';
 import 'package:backyard/View/base_view.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../Component/custom_text.dart';
 import 'package:sizer/sizer.dart';
-
-import '../Utils/utils.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -121,7 +120,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             borderRadius: BorderRadius.all(Radius.circular(15)),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.1), // Shadow color
+                                color: Colors.black.withValues(alpha: 0.1), // Shadow color
                                 blurRadius: 10, // Spread of the shadow
                                 spreadRadius: 2, // Size of the shadow
                                 offset: const Offset(0, 4), // Position of the shadow
@@ -171,7 +170,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               //       borderRadius: BorderRadius.all(Radius.circular(15)),
               //       boxShadow: [
               //         BoxShadow(
-              //           color: Colors.black.withOpacity(0.1), // Shadow color
+              //           color: Colors.black.withValues(alpha: 0.1), // Shadow color
               //           blurRadius: 10, // Spread of the shadow
               //           spreadRadius: 2, // Size of the shadow
               //           offset: const Offset(0, 4), // Position of the shadow

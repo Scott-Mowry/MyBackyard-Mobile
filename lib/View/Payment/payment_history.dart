@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:backyard/Component/custom_padding.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Controller/home_controller.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/base_view.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../Component/custom_text.dart';
 import 'package:sizer/sizer.dart';
 
 class PaymentHistory extends StatefulWidget {
@@ -163,7 +163,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
   // userContainer({required User? u}){
   //   return Container(
   //     decoration: BoxDecoration(
-  //         color: MyColors().secondaryColor.withOpacity(.3),
+  //         color: MyColors().secondaryColor.withValues(alpha: .3),
   //         borderRadius: BorderRadius.circular(100),
   //         border: Border.all(color: MyColors().secondaryColor,)
   //     ),

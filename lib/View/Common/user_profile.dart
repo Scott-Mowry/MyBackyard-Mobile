@@ -4,14 +4,19 @@ import 'package:backyard/Component/custom_empty_data.dart';
 import 'package:backyard/Component/custom_image.dart';
 import 'package:backyard/Component/custom_padding.dart';
 import 'package:backyard/Component/custom_switch.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Component/validations.dart';
 import 'package:backyard/Controller/home_controller.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Model/file_network.dart';
+import 'package:backyard/Model/user_model.dart';
 import 'package:backyard/Service/bus_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';
+import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/enum.dart';
+import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:backyard/Utils/utils.dart';
 import 'package:backyard/View/User/give_review.dart';
 import 'package:backyard/View/User/offers.dart';
 import 'package:backyard/View/base_view.dart';
@@ -20,12 +25,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../../Utils/image_path.dart';
-import '../../Component/custom_text.dart';
-import '../../Model/user_model.dart';
-import '../../Utils/app_router_name.dart';
-import '../../Utils/utils.dart';
 
 class UserProfile extends StatefulWidget {
   final bool isMe;
@@ -67,7 +66,7 @@ class _UserProfileState extends State<UserProfile> {
         if (user != null) {
           if (widget.user?.id != null) {
             setLoading(true);
-            await BusAPIS.getReview(widget.user?.id?.toString() ?? "");
+            await BusAPIS.getReview(widget.user?.id?.toString() ?? '');
             setLoading(false);
           }
         }
@@ -79,10 +78,10 @@ class _UserProfileState extends State<UserProfile> {
           setLoading(true);
           widget.user?.id != null
               ? await Future.wait([
-                BusAPIS.getReview(widget.user?.id?.toString() ?? ""),
-                BusAPIS.getOfferById(widget.user?.id?.toString() ?? ""),
+                BusAPIS.getReview(widget.user?.id?.toString() ?? ''),
+                BusAPIS.getOfferById(widget.user?.id?.toString() ?? ''),
               ])
-              : await BusAPIS.getOfferById(widget.user?.id?.toString() ?? "");
+              : await BusAPIS.getOfferById(widget.user?.id?.toString() ?? '');
           setLoading(false);
         }
       });
@@ -116,7 +115,7 @@ class _UserProfileState extends State<UserProfile> {
                 ),
               ] else ...[
                 CustomAppBar(
-                  screenTitle: business ? 'Business Profile' : widget.user?.name ?? "Profile",
+                  screenTitle: business ? 'Business Profile' : widget.user?.name ?? 'Profile',
                   leading: BackButton(),
                   trailing: business ? Image.asset(ImagePath.favorite, scale: 2.5, color: MyColors().redColor) : null,
                   bottom: 2.h,
@@ -151,7 +150,7 @@ class _UserProfileState extends State<UserProfile> {
                                       children: [
                                         Expanded(
                                           child: MyText(
-                                            title: widget.isMe ? (val.user?.name ?? "") : (widget.user?.name ?? ""),
+                                            title: widget.isMe ? (val.user?.name ?? '') : (widget.user?.name ?? ''),
 
                                             //'Lorum Ipsum Cafe'
                                             fontWeight: FontWeight.w600,
@@ -163,7 +162,7 @@ class _UserProfileState extends State<UserProfile> {
                                     ),
                                     SizedBox(height: 1.h),
                                     MyText(
-                                      title: widget.isMe ? (val.user?.address ?? "") : widget.user?.address ?? "",
+                                      title: widget.isMe ? (val.user?.address ?? '') : widget.user?.address ?? '',
                                       // 'Peoples Plaza, New Road, Kathmandu - 600m'
                                       size: 12,
                                     ),
@@ -270,7 +269,7 @@ class _UserProfileState extends State<UserProfile> {
                                       // ),
                                       if ((val2.offers ?? []).isEmpty) ...[
                                         SizedBox(height: 14.h),
-                                        CustomEmptyData(title: "No Offer Found", hasLoader: true),
+                                        CustomEmptyData(title: 'No Offer Found', hasLoader: true),
                                       ] else
                                         ListView.builder(
                                           itemCount: val2.offers?.length,
@@ -300,7 +299,7 @@ class _UserProfileState extends State<UserProfile> {
                                       SizedBox(height: .5.h),
                                       MyText(
                                         title:
-                                            widget.isMe ? val.user?.description ?? "" : widget.user?.description ?? "",
+                                            widget.isMe ? val.user?.description ?? '' : widget.user?.description ?? '',
                                         // 'Classic checkerboard slip ons with office white under tone and reinforced waffle cup soles is a tone and reinforced waffle cup soles.CIassic ka checkerboard slip ons with office white hnan dunder tone and reinforced.'
                                       ),
                                       SizedBox(height: 2.h),
@@ -315,8 +314,8 @@ class _UserProfileState extends State<UserProfile> {
                                                 MyText(
                                                   title:
                                                       (widget.isMe)
-                                                          ? (val.user?.phone ?? "")
-                                                          : (widget.user?.phone ?? ""),
+                                                          ? (val.user?.phone ?? '')
+                                                          : (widget.user?.phone ?? ''),
                                                   // '+1 234 567 890'
                                                 ),
                                               ],
@@ -331,8 +330,8 @@ class _UserProfileState extends State<UserProfile> {
                                                 MyText(
                                                   title:
                                                       (widget.isMe)
-                                                          ? (val.user?.address ?? "")
-                                                          : (widget.user?.address ?? ""),
+                                                          ? (val.user?.address ?? '')
+                                                          : (widget.user?.address ?? ''),
                                                   //'abc School & college'
                                                 ),
                                               ],
@@ -365,8 +364,8 @@ class _UserProfileState extends State<UserProfile> {
                                               MyText(
                                                 title:
                                                     widget.isMe
-                                                        ? (val.user?.days?[i].day ?? "").titleCase()
-                                                        : (widget.user?.days?[i].day ?? "").titleCase(),
+                                                        ? (val.user?.days?[i].day ?? '').titleCase()
+                                                        : (widget.user?.days?[i].day ?? '').titleCase(),
                                                 fontWeight: FontWeight.w600,
                                                 clr: const Color(0xff717171),
                                               ),
@@ -436,7 +435,7 @@ class _UserProfileState extends State<UserProfile> {
                                                       shape: BoxShape.circle,
                                                       height: 62,
                                                       width: 62,
-                                                      url: val.reviews[i].user?.profileImage ?? "",
+                                                      url: val.reviews[i].user?.profileImage ?? '',
                                                     ),
                                                     SizedBox(width: 2.w),
                                                     Expanded(
@@ -446,7 +445,7 @@ class _UserProfileState extends State<UserProfile> {
                                                           Row(
                                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                             children: [
-                                                              MyText(title: val.reviews[i].user?.name ?? "", size: 14),
+                                                              MyText(title: val.reviews[i].user?.name ?? '', size: 14),
                                                               MyText(
                                                                 title: Utils.getDuration(val.reviews[i].createdAt),
                                                                 size: 14,
@@ -454,7 +453,7 @@ class _UserProfileState extends State<UserProfile> {
                                                             ],
                                                           ),
                                                           RatingBar(
-                                                            initialRating: double.parse(val.reviews[i].rate ?? ""),
+                                                            initialRating: double.parse(val.reviews[i].rate ?? ''),
                                                             // initialRating:d.endUser.value.avgRating,
                                                             direction: Axis.horizontal,
                                                             allowHalfRating: false,
@@ -473,7 +472,7 @@ class _UserProfileState extends State<UserProfile> {
                                                           ),
                                                           SizedBox(height: 1.h),
                                                           MyText(
-                                                            title: val.reviews[i].feedback ?? "",
+                                                            title: val.reviews[i].feedback ?? '',
                                                             // 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.',
                                                             size: 14,
                                                           ),
@@ -496,7 +495,7 @@ class _UserProfileState extends State<UserProfile> {
                                         //     itemBuilder: (_, index) =>OfferTile()
                                         // )
                                       ] else ...[
-                                        const Center(child: MyText(title: "No Reviews Found", size: 18)),
+                                        const Center(child: MyText(title: 'No Reviews Found', size: 18)),
                                         SizedBox(height: 34.h),
                                       ],
                                     if (widget.user?.id != val.user?.id && !widget.isMe) ...[
@@ -505,7 +504,7 @@ class _UserProfileState extends State<UserProfile> {
                                         onTap: () {
                                           AppNavigation.navigateTo(
                                             AppRouteName.GIVE_REVIEW_ROUTE,
-                                            arguments: GiveReviewArguments(busId: widget.user?.id?.toString() ?? ""),
+                                            arguments: GiveReviewArguments(busId: widget.user?.id?.toString() ?? ''),
                                           );
                                         },
                                       ),
@@ -526,7 +525,7 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 
-  profileCard() {
+  Consumer<UserController> profileCard() {
     return Consumer<UserController>(
       builder: (context, val, _) {
         return Expanded(
@@ -552,12 +551,12 @@ class _UserProfileState extends State<UserProfile> {
                   ),
                 ),
                 SizedBox(height: 2.h),
-                MyText(title: val.user?.name ?? "", fontWeight: FontWeight.w500, size: 18),
+                MyText(title: val.user?.name ?? '', fontWeight: FontWeight.w500, size: 18),
                 // SizedBox(
                 //   height: 1.h,
                 // ),
-                if (val.user?.socialType == null || val.user?.socialType == "phone") ...[
-                  MyText(title: val.user?.email ?? "", size: 16),
+                if (val.user?.socialType == null || val.user?.socialType == 'phone') ...[
+                  MyText(title: val.user?.email ?? '', size: 16),
                   // MyText(title: u.value.fullName,fontWeight: FontWeight.w600,size: 18,),
                   SizedBox(height: 3.5.h),
                 ],
@@ -575,7 +574,7 @@ class _UserProfileState extends State<UserProfile> {
                       borderRadius: BorderRadius.circular(8),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.2), // Shadow color
+                          color: Colors.black.withValues(alpha: 0.2), // Shadow color
                           blurRadius: 10, // Spread of the shadow
                           spreadRadius: 2, // Size of the shadow
                           offset: const Offset(0, 4), // Position of the shadow
@@ -590,7 +589,7 @@ class _UserProfileState extends State<UserProfile> {
                         // ],
                         // userDetail(
                         //     title: 'Phone Number', text: val.user?.phone ?? ""),
-                        userDetail(title: 'Email Address', text: val.user?.email ?? ""),
+                        userDetail(title: 'Email Address', text: val.user?.email ?? ''),
                         userDetail(
                           title: 'Geo Location',
                           widget: CustomSwitch(
@@ -621,7 +620,7 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 
-  userDetail({String? text, String title = '', Widget? widget}) {
+  Padding userDetail({String? text, String title = '', Widget? widget}) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 1.h),
       child: Row(
@@ -643,7 +642,7 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 
-  sessionButton({required String title}) {
+  Padding sessionButton({required String title}) {
     return Padding(
       padding: EdgeInsets.only(right: 2.w),
       child: MyButton(
@@ -652,7 +651,7 @@ class _UserProfileState extends State<UserProfile> {
           i = title;
           if (title == items[2] && widget.user?.id != null) {
             setLoading(true);
-            await BusAPIS.getReview(widget.user?.id?.toString() ?? "");
+            await BusAPIS.getReview(widget.user?.id?.toString() ?? '');
             setLoading(false);
           }
           setState(() {});
@@ -667,7 +666,7 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 
-  sessionButton2({required String title}) {
+  Expanded sessionButton2({required String title}) {
     return Expanded(
       child: MyButton(
         title: title,

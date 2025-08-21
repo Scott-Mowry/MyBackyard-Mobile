@@ -68,7 +68,7 @@ class _ProfileCompleteDialogState extends State<ProfileCompleteDialog> {
                       log('Yaha arha h 3');
                       widget.onYes(c);
                     },
-                    title: "Continue",
+                    title: 'Continue',
                   ),
                   SizedBox(height: 2.h),
                 ],

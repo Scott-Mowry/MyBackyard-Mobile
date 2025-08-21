@@ -1,10 +1,10 @@
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Model/category_model.dart';
+import 'package:backyard/Utils/my_colors.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:backyard/Component/custom_text.dart';
-import 'package:backyard/Utils/my_colors.dart';
 import 'package:sizer/sizer.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 
 class CustomDropDown2 extends StatelessWidget {
   final CategoryModel? dropdownValue;
@@ -86,9 +86,8 @@ class CustomDropDown2 extends StatelessWidget {
                 )
                 .toList(),
         value: dropdownValue,
-        onChanged: (CategoryModel? newValue) {
+        onChanged: (newValue) {
           onChanged?.call(newValue);
-          print(newValue?.categoryName);
         },
         hint: _text(text: hintText, fontWeight: FontWeight.w400),
         buttonStyleData: const ButtonStyleData(
@@ -130,7 +129,7 @@ class CustomDropDown2 extends StatelessWidget {
 
   Widget _text({String? text, Color? color, FontWeight? fontWeight}) {
     return MyText(
-      title: text ?? "",
+      title: text ?? '',
       size: fontSize,
       // textAlign: TextAlign.start,
       clr: color ?? MyColors().black,

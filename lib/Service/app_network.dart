@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Service/api.dart';
@@ -14,7 +15,7 @@ import 'package:provider/provider.dart';
 
 class AppNetwork {
   static Future<bool> checkInternet() async {
-    late bool internet = false;
+    late var internet = false;
     try {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
@@ -35,7 +36,7 @@ class AppNetwork {
   }) async {
     try {
       if (await checkInternet()) {
-        dynamic request =
+        final dynamic request =
             type == requestTypes.POST.name
                 ? MultipartRequest(type, Uri.parse('${API.url}$path'))
                 : Request(type, Uri.parse('${API.url}$path'));
@@ -65,25 +66,25 @@ class AppNetwork {
         if (parameters != null) {
           log('PARAMETERS: $parameters');
         }
-        StreamedResponse response = await request.send().timeout(
+        final StreamedResponse response = await request.send().timeout(
           API.timeout,
           onTimeout: () {
-            CustomToast().showToast(message: "Network Error");
+            CustomToast().showToast(message: 'Network Error');
             throw TimeoutException;
           },
         );
-        log("STATUS CODE: ${response.statusCode}");
+        log('STATUS CODE: ${response.statusCode}');
         if (response.statusCode == 401) {
           if (header) {
             on401Error();
           }
         } else {
           final res = await Response.fromStream(response);
-          log("RESPONSE: ${res.body}");
+          log('RESPONSE: ${res.body}');
           return res;
         }
       } else {
-        CustomToast().showToast(message: "No Internet Connection");
+        CustomToast().showToast(message: 'No Internet Connection');
       }
     } catch (e) {
       CustomToast().showToast(message: e.toString());
@@ -91,7 +92,7 @@ class AppNetwork {
     return null;
   }
 
-  static on401Error() {
+  static void on401Error() {
     Timer(const Duration(seconds: 1), () {
       navigatorKey.currentContext?.read<UserController>().clear();
       Navigator.of(navigatorKey.currentContext!).popUntil((route) => route.isFirst);
@@ -102,7 +103,7 @@ class AppNetwork {
   static void loadingProgressIndicator({double? value}) {
     showDialog(
       barrierDismissible: false,
-      barrierColor: const Color(0XFF22093C).withOpacity(.5),
+      barrierColor: const Color(0XFF22093C).withValues(alpha: .5),
       builder: (ctx) {
         return Center(
           child: CircularProgressIndicator(

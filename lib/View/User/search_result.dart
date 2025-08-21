@@ -2,25 +2,24 @@ import 'package:backyard/Arguments/profile_screen_arguments.dart';
 import 'package:backyard/Component/custom_empty_data.dart';
 import 'package:backyard/Component/custom_height.dart';
 import 'package:backyard/Component/custom_image.dart';
+import 'package:backyard/Component/custom_padding.dart';
+import 'package:backyard/Component/custom_text.dart';
+import 'package:backyard/Controller/home_controller.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Model/user_model.dart';
 import 'package:backyard/Service/bus_apis.dart';
+import 'package:backyard/Service/navigation_service.dart';
 // import 'package:backyard/Model/session_model.dart';
 import 'package:backyard/Utils/app_router_name.dart';
+import 'package:backyard/Utils/image_path.dart';
+import 'package:backyard/Utils/my_colors.dart';
+import 'package:backyard/View/User/offers.dart';
 import 'package:backyard/View/Widget/search_tile.dart';
+import 'package:backyard/View/base_view.dart';
 import 'package:backyard/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:backyard/Component/custom_padding.dart';
-import 'package:backyard/Controller/home_controller.dart';
-import 'package:backyard/Service/navigation_service.dart';
-import 'package:backyard/Utils/image_path.dart';
-import 'package:backyard/Utils/my_colors.dart';
-import 'package:backyard/View/base_view.dart';
-import '../../Component/custom_text.dart';
 import 'package:sizer/sizer.dart';
-
-import 'offers.dart';
 
 class SearchResultArguments {
   const SearchResultArguments({this.categoryId});
@@ -59,7 +58,7 @@ class _SearchResultState extends State<SearchResult> {
   }
 
   Future<void> getTrendingOffers() async {
-    await BusAPIS.getTrendingOffers(widget.categoryId ?? "");
+    await BusAPIS.getTrendingOffers(widget.categoryId ?? '');
   }
 
   void setLoading(bool val) {
@@ -150,7 +149,7 @@ class _SearchResultState extends State<SearchResult> {
     );
   }
 
-  businessTile({User? user, required BuildContext context}) {
+  Padding businessTile({User? user, required BuildContext context}) {
     return Padding(
       padding: EdgeInsets.only(right: 3.w),
       child: GestureDetector(
@@ -177,7 +176,7 @@ class _SearchResultState extends State<SearchResult> {
               url: user?.profileImage,
             ),
             SizedBox(height: 1.h),
-            MyText(title: user?.name ?? ""),
+            MyText(title: user?.name ?? ''),
           ],
         ),
       ),

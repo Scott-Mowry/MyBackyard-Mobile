@@ -1,6 +1,5 @@
+import 'package:backyard/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
-
-import '../Utils/my_colors.dart';
 
 class CustomSlider extends StatelessWidget {
   final double val, min, max;

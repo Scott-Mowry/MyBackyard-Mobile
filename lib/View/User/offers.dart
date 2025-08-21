@@ -1,6 +1,6 @@
-
 import 'package:backyard/Component/Appbar/appbar_components.dart';
 import 'package:backyard/Component/custom_buttom.dart';
+import 'package:backyard/Component/custom_empty_data.dart';
 import 'package:backyard/Component/custom_image.dart';
 import 'package:backyard/Component/custom_padding.dart';
 import 'package:backyard/Component/custom_refresh.dart';
@@ -9,22 +9,21 @@ import 'package:backyard/Controller/home_controller.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Model/offer_model.dart';
 import 'package:backyard/Service/bus_apis.dart';
+import 'package:backyard/Service/navigation_service.dart';
 // import 'package:backyard/Model/session_model.dart';
 // import 'package:backyard/Model/shop_model.dart';
 // import 'package:backyard/Model/user_model.dart';
 import 'package:backyard/Utils/app_router_name.dart';
+import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/Utils/utils.dart';
 import 'package:backyard/View/User/discount_offers.dart';
-import 'package:flutter/material.dart';
 import 'package:backyard/View/base_view.dart';
+import 'package:backyard/main.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import '../../../Utils/image_path.dart';
-import '../../Component/custom_empty_data.dart';
 import 'package:sizer/sizer.dart';
-import '../../Service/navigation_service.dart';
-import '../../main.dart';
 
 class Offers extends StatefulWidget {
   const Offers({super.key});
@@ -87,7 +86,7 @@ class _OffersState extends State<Offers> {
                         borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.15), // Shadow color
+                            color: Colors.black.withValues(alpha: 0.15), // Shadow color
                             blurRadius: 10, // Spread of the shadow
                             spreadRadius: 5, // Size of the shadow
                             offset: const Offset(0, 4), // Position of the shadow
@@ -99,7 +98,7 @@ class _OffersState extends State<Offers> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           CustomAppBar(
-                            screenTitle: "Saved",
+                            screenTitle: 'Saved',
                             leading: MenuIcon(),
                             trailing: NotificationIcon(),
                             bottom: 2.h,
@@ -179,7 +178,6 @@ class _OffersState extends State<Offers> {
   //     onTap: () {
   //       HomeController.i.onTapCurrentSession(s: s);
   //       HomeController.i.getSessionData(id: s.id);
-  //       print('Trainer ${trainer}');
   //       if (i == traineeList[1] && s.isPaid == 0 && !trainer) {
   //         paymentDialog();
   //       } else if (i == traineeList[0] && !trainer) {
@@ -478,7 +476,7 @@ class _OffersState extends State<Offers> {
   // userContainer({required User? u}) {
   //   return Container(
   //     decoration: BoxDecoration(
-  //         color: MyColors().secondaryColor.withOpacity(.3),
+  //         color: MyColors().secondaryColor.withValues(alpha: .3),
   //         borderRadius: BorderRadius.circular(100),
   //         border: Border.all(
   //           color: MyColors().secondaryColor,
@@ -549,7 +547,7 @@ class _OffersState extends State<Offers> {
   //   );
   // }
 
-  sessionButton({required String title}) {
+  Padding sessionButton({required String title}) {
     return Padding(
       padding: EdgeInsets.only(right: 2.w),
       child: MyButton(
@@ -627,7 +625,7 @@ class OfferTile extends StatelessWidget {
               color: MyColors().whiteColor,
               boxShadow: [
                 BoxShadow(
-                  color: MyColors().container.withOpacity(0.8), // Shadow color
+                  color: MyColors().container.withValues(alpha: 0.8), // Shadow color
                   blurRadius: 4, // Spread of the shadow
                   spreadRadius: 4, // Size of the shadow
                   offset: const Offset(0, 0), // Position of the shadow
@@ -661,7 +659,7 @@ class OfferTile extends StatelessWidget {
                             // width: 28.w,
                             width: 26.w,
                             child: Text(
-                              model?.title ?? "",
+                              model?.title ?? '',
                               maxLines: 2,
                               style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w600,
@@ -681,7 +679,7 @@ class OfferTile extends StatelessWidget {
                             padding: EdgeInsets.all(4) + EdgeInsets.symmetric(horizontal: 6),
                             child: MyText(
                               toverflow: TextOverflow.ellipsis,
-                              title: model?.category?.categoryName ?? "",
+                              title: model?.category?.categoryName ?? '',
                               clr: MyColors().whiteColor,
                               size: Utils.isTablet ? 15 : 9,
                             ),
@@ -733,7 +731,7 @@ class OfferTile extends StatelessWidget {
                               SizedBox(
                                 width: 60.w,
                                 child: Text(
-                                  model?.address ?? "",
+                                  model?.address ?? '',
                                   overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.poppins(
                                     fontWeight: FontWeight.w400,
@@ -772,7 +770,7 @@ class OfferTile extends StatelessWidget {
                           Expanded(
                             child: Text(
                               // '15% Discount on food and beverage',
-                              model?.shortDetail ?? "",
+                              model?.shortDetail ?? '',
                               style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w400,
                                 fontSize: Utils.isTablet ? 7.sp : 10.sp,

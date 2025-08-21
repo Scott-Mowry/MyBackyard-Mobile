@@ -1,10 +1,11 @@
 import 'dart:developer';
-import 'package:backyard/Utils/image_path.dart';
-import 'package:flutter/material.dart';
+
 import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Service/navigation_service.dart';
+import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
@@ -56,11 +57,11 @@ class OfferAvailedDialog extends StatelessWidget {
                   SizedBox(height: 2.h),
                   MyText(title: 'Offer has been successfully availed.', size: 14, center: true),
                   SizedBox(height: 2.h),
-                  textDetail(title: 'Offer', description: title ?? ""),
+                  textDetail(title: 'Offer', description: title ?? ''),
                   SizedBox(height: 1.h),
-                  textDetail(title: 'Date', description: DateFormat("dd MMMM yyyy").format(DateTime.now())),
+                  textDetail(title: 'Date', description: DateFormat('dd MMMM yyyy').format(DateTime.now())),
                   SizedBox(height: 1.h),
-                  textDetail(title: 'Time', description: DateFormat("hh : mm aa").format(DateTime.now())),
+                  textDetail(title: 'Time', description: DateFormat('hh : mm aa').format(DateTime.now())),
                   // SizedBox(
                   //   height: 1.h,
                   // ),
@@ -72,7 +73,7 @@ class OfferAvailedDialog extends StatelessWidget {
                       log('Yaha arha h 3');
                       onYes(c);
                     },
-                    title: "Continue",
+                    title: 'Continue',
                   ),
                   SizedBox(height: 2.h),
                 ],
@@ -84,7 +85,7 @@ class OfferAvailedDialog extends StatelessWidget {
     );
   }
 
-  textDetail({required String title, required String description}) {
+  Row textDetail({required String title, required String description}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [MyText(title: title, size: 16, clr: Color(0xff9FA2AB)), MyText(title: description, size: 12)],

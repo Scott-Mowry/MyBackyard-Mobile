@@ -1,11 +1,11 @@
+import 'package:backyard/Utils/app_strings.dart';
+import 'package:backyard/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:backyard/Utils/app_strings.dart';
-import 'package:backyard/Utils/my_colors.dart';
 import 'package:sizer/sizer.dart';
 
 class PhoneNumberTextField extends StatelessWidget {
@@ -42,7 +42,10 @@ class PhoneNumberTextField extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    TextStyle textStyle = GoogleFonts.roboto(fontSize: 14, color: Theme.of(context).indicatorColor.withOpacity(0.8));
+    final textStyle = GoogleFonts.roboto(
+      fontSize: 14,
+      color: Theme.of(context).indicatorColor.withValues(alpha: 0.8),
+    );
     return IntlPhoneField(
       initialValue: null,
       initialCountryCode: country, //'IN',//country??'IN',
@@ -57,7 +60,7 @@ class PhoneNumberTextField extends StatelessWidget {
       controller: controller,
       style: _textStyle(),
       decoration: InputDecoration(
-        hintText: "Phone Number",
+        hintText: 'Phone Number',
         labelText: '   Phone Number   ',
         labelStyle: textStyle.copyWith(color: MyColors().whiteColor),
         hintStyle: GoogleFonts.roboto(
@@ -80,15 +83,12 @@ class PhoneNumberTextField extends StatelessWidget {
         errorMaxLines: 2,
         errorStyle: const TextStyle(color: Colors.red, height: 1),
       ),
-      onChanged: (phone) {
-        print(phone.number);
-      },
+      onChanged: (phone) {},
       readOnly: isReadOnly ?? false,
       // countryReadOnly: isReadOnly??false,
       onCountryChanged: onCountryChanged,
 
       //     (country) {
-      //   print('Country changed to: ${country.name}');
       // },
     );
   }

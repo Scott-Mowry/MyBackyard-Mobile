@@ -3,8 +3,11 @@ import 'dart:ui';
 // import 'package:backyard/Arguments/screen_arguments.dart';
 import 'package:backyard/Component/Appbar/appbar_components.dart';
 import 'package:backyard/Component/custom_background_image.dart';
+import 'package:backyard/Component/custom_buttom.dart';
 import 'package:backyard/Component/custom_image.dart';
 import 'package:backyard/Component/custom_padding.dart';
+import 'package:backyard/Component/custom_terms_condition.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Component/custom_text_form_field.dart';
 import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Component/validations.dart';
@@ -15,6 +18,7 @@ import 'package:backyard/Service/auth_apis.dart';
 import 'package:backyard/Service/general_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
+import 'package:backyard/Utils/image_path.dart';
 // import 'package:backyard/Utils/enum.dart';
 import 'package:backyard/Utils/local_shared_preferences.dart';
 import 'package:backyard/Utils/my_colors.dart';
@@ -26,11 +30,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../Component/custom_buttom.dart';
-import '../../Component/custom_terms_condition.dart';
-import '../../Component/custom_text.dart';
-import '../../Utils/image_path.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -56,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     final val = SharedPreference().getSavedUser();
     if (val != null) {
-      savedUser = User.setUser2(val, token: val["bearer_token"]);
+      savedUser = User.setUser2(val, token: val['bearer_token']);
     }
     // TODO: implement initState
     super.initState();
@@ -132,9 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     size: 18,
                                                   ),
                                                   GestureDetector(
-                                                    onTap: () {
-                                                      AppNavigation.navigatorPop();
-                                                    },
+                                                    onTap: AppNavigation.navigatorPop,
                                                     child: Image.asset(ImagePath.close, scale: 2),
                                                   ),
                                                 ],
@@ -159,14 +156,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                                       savedUser = null;
                                                       setState(() {});
                                                     },
-                                                    title: "Yes",
+                                                    title: 'Yes',
                                                   ),
                                                   SizedBox(height: 1.5.h),
                                                   MyButton(
                                                     onTap: () {
                                                       AppNavigation.navigatorPop();
                                                     },
-                                                    title: "No",
+                                                    title: 'No',
                                                   ),
                                                   SizedBox(height: 2.h),
                                                 ],
@@ -183,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           onTap: () async {
                             AppNetwork.loadingProgressIndicator();
-                            final val = await AuthAPIS.signInWithId(id: savedUser?.id?.toString() ?? "");
+                            final val = await AuthAPIS.signInWithId(id: savedUser?.id?.toString() ?? '');
                             AppNavigation.navigatorPop();
                             if (val) {
                               AppNavigation.navigateTo(AppRouteName.HOME_SCREEN_ROUTE);
@@ -203,7 +200,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   shape: BoxShape.circle,
                                   height: 50,
                                   width: 50,
-                                  url: savedUser?.profileImage ?? "",
+                                  url: savedUser?.profileImage ?? '',
                                 ),
                                 SizedBox(width: 1.w),
                                 Padding(
@@ -217,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         size: 14,
                                         fontWeight: FontWeight.w600,
                                       ),
-                                      MyText(title: savedUser?.role?.name ?? "", size: 14),
+                                      MyText(title: savedUser?.role?.name ?? '', size: 14),
                                     ],
                                   ),
                                 ),
@@ -329,7 +326,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  onSubmit() async {
+  Future<void> onSubmit() async {
     if (_form.currentState?.validate() ?? false) {
       FocusManager.instance.primaryFocus?.unfocus();
       AppNetwork.loadingProgressIndicator();
@@ -339,7 +336,7 @@ class _LoginScreenState extends State<LoginScreen> {
         final userController = navigatorKey.currentContext?.read<UserController>();
         if (userController?.user?.isVerified == 0) {
           CustomToast().showToast(
-            message: "OTP Verification code has been sent to your email address",
+            message: 'OTP Verification code has been sent to your email address',
             toastLength: Toast.LENGTH_LONG,
             timeInSecForIosWeb: 5,
           );

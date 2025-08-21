@@ -28,7 +28,7 @@ class CustomToggle extends StatelessWidget {
                 color: selectedIndex == 0 ? Theme.of(context).primaryColorDark : Colors.white,
                 borderWidth: 4.0,
                 elevation: 0,
-                onChange: () {
+                onPressed: () {
                   selectedIndex = 0;
                   if (onTap != null) {
                     onTap?.call();
@@ -45,7 +45,7 @@ class CustomToggle extends StatelessWidget {
                 color: selectedIndex == 1 ? Theme.of(context).primaryColorDark : Colors.white,
                 borderWidth: 4.0,
                 elevation: 0,
-                onChange: () {
+                onPressed: () {
                   selectedIndex = 1;
                   if (onTap != null) {
                     onTap?.call();
@@ -63,7 +63,7 @@ class CustomToggle extends StatelessWidget {
                   color: selectedIndex == 2 ? Theme.of(context).primaryColorDark : Colors.white,
                   borderWidth: 4.0,
                   elevation: 0,
-                  onChange: () {
+                  onPressed: () {
                     selectedIndex = 2;
                     if (onTap != null) {
                       onTap?.call();
@@ -81,7 +81,7 @@ class CustomToggle extends StatelessWidget {
                   color: selectedIndex == 3 ? Theme.of(context).primaryColorDark : Colors.white,
                   borderWidth: 4.0,
                   elevation: 0,
-                  onChange: () {
+                  onPressed: () {
                     selectedIndex = 3;
                     if (onTap != null) {
                       onTap?.call();

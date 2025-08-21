@@ -1,11 +1,11 @@
+import 'package:backyard/Component/custom_buttom.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import '../../../../../Component/custom_buttom.dart';
-import '../../../../../Component/custom_text.dart';
 
 class SuccessPaymentDialog extends StatelessWidget {
   const SuccessPaymentDialog({super.key});
@@ -58,7 +58,7 @@ class SuccessPaymentDialog extends StatelessWidget {
                       // HomeController.i.jumpTo(i: 1);
                       // AppNavigation.navigateTo( AppRouteName.SHOP_LOCATION_ROUTE);
                     },
-                    title: "Continue",
+                    title: 'Continue',
                   ),
                 ],
               ),
@@ -70,7 +70,7 @@ class SuccessPaymentDialog extends StatelessWidget {
     );
   }
 
-  onWillPop(context) async {
+  Future<bool> onWillPop(context) async {
     AppNavigation.navigateTo(AppRouteName.HOME_SCREEN_ROUTE);
     return false;
   }

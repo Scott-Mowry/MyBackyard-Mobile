@@ -1,18 +1,16 @@
-
-import 'package:flutter/gestures.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:backyard/Model/faq_model.dart';
-import 'package:flutter/material.dart';
 import 'package:backyard/Component/custom_refresh.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Controller/home_controller.dart';
+import 'package:backyard/Model/faq_model.dart';
 import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/base_view.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../../../Component/custom_text.dart';
 import 'package:sizer/sizer.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 
 class FAQScreen extends StatefulWidget {
   const FAQScreen({super.key});
@@ -90,7 +88,7 @@ class _FAQScreenState extends State<FAQScreen> {
                       physics: ClampingScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: 12,
-                      itemBuilder: (BuildContext, int index) {
+                      itemBuilder: (BuildContext, index) {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 0.0),
                           child: GestureDetector(
@@ -117,7 +115,7 @@ class _FAQScreenState extends State<FAQScreen> {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       MyText(
-                                        title: "Question",
+                                        title: 'Question',
                                         size: 15,
                                         fontWeight: FontWeight.w600,
                                         clr: MyColors().whiteColor,
@@ -149,7 +147,7 @@ class _FAQScreenState extends State<FAQScreen> {
                                     ),
                                     padding: EdgeInsets.all(4.w),
                                     margin: EdgeInsets.only(bottom: 2.h),
-                                    child: MyText(title: "answer"),
+                                    child: MyText(title: 'answer'),
                                   ),
                                 ],
                                 SizedBox(height: 2.h),
@@ -173,7 +171,7 @@ class _FAQScreenState extends State<FAQScreen> {
                           child: RichText(
                             textAlign: TextAlign.center,
                             text: TextSpan(
-                              text: "",
+                              text: '',
                               style: GoogleFonts.roboto(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 13,
@@ -224,7 +222,8 @@ class _FAQScreenState extends State<FAQScreen> {
                                         },
                                 ),
                               ],
-                            ), textScaler: TextScaler.linear(1.03),
+                            ),
+                            textScaler: TextScaler.linear(1.03),
                           ),
                         ),
                       ],
@@ -365,13 +364,11 @@ class _FAQScreenState extends State<FAQScreen> {
   //   await HomeController.i.getFAQs(loading: loading ?? true, context: context);
   // }
 
-  void launchURL({required String email}) async {
-    final Uri params = Uri(scheme: 'mailto', path: email);
-    String url = params.toString();
+  Future<void> launchURL({required String email}) async {
+    final params = Uri(scheme: 'mailto', path: email);
+    final url = params.toString();
     if (await canLaunch(url)) {
       await launch(url);
-    } else {
-      print('Could not launch $url');
-    }
+    } else {}
   }
 }
