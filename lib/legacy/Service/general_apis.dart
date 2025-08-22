@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:backyard/Service/api.dart';
-import 'package:backyard/Service/app_network.dart';
+import 'package:backyard/legacy/Service/api.dart';
+import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/Utils/enum.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Model/category_model.dart';

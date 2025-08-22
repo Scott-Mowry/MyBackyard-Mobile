@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:backyard/Service/bus_apis.dart';
-import 'package:backyard/Service/general_apis.dart';
-import 'package:backyard/Service/socket_service.dart';
+import 'package:backyard/legacy/Service/bus_apis.dart';
+import 'package:backyard/legacy/Service/general_apis.dart';
+import 'package:backyard/legacy/Service/socket_service.dart';
 import 'package:backyard/Utils/app_size.dart';
 import 'package:backyard/Utils/enum.dart';
 import 'package:backyard/Utils/image_path.dart';

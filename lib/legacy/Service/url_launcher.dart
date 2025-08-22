@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:backyard/Service/general_apis.dart';
-import 'package:backyard/Service/navigation_service.dart';
+import 'package:backyard/legacy/Service/general_apis.dart';
+import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_strings.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';

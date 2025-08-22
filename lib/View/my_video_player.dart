@@ -6,7 +6,7 @@
 // import 'package:backyard/legacy/Component/custom_videoplayer.dart';
 // import 'package:backyard/legacy/Controller/home_controller.dart';
 // import 'package:backyard/legacy/Model/chat_model.dart';
-// import 'package:backyard/Service/navigation_service.dart';
+// import 'package:backyard/legacy/Service/navigation_service.dart';
 // import 'package:backyard/Utils/enum.dart';
 // import 'package:backyard/Utils/my_colors.dart';
 // import 'package:backyard/View/Widget/bordered_container.dart';

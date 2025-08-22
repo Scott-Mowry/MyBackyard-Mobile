@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:backyard/Service/bus_apis.dart';
+import 'package:backyard/legacy/Service/bus_apis.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/User/offers.dart';
 import 'package:backyard/View/Widget/Dialog/reject_dialog.dart';

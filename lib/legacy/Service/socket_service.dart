@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:backyard/Service/api.dart';
-import 'package:backyard/Service/socket_navigation_class.dart';
+import 'package:backyard/legacy/Service/api.dart';
+import 'package:backyard/legacy/Service/socket_navigation_class.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/main.dart';
 import 'package:provider/provider.dart';

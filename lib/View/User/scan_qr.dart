@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:backyard/Service/app_network.dart';
-import 'package:backyard/Service/bus_apis.dart';
-import 'package:backyard/Service/navigation_service.dart';
+import 'package:backyard/legacy/Service/app_network.dart';
+import 'package:backyard/legacy/Service/bus_apis.dart';
+import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/Widget/Dialog/offer_availed.dart';

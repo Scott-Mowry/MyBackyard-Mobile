@@ -1,6 +1,6 @@
-import 'package:backyard/Service/app_network.dart';
-import 'package:backyard/Service/auth_apis.dart';
-import 'package:backyard/Service/navigation_service.dart';
+import 'package:backyard/legacy/Service/app_network.dart';
+import 'package:backyard/legacy/Service/auth_apis.dart';
+import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
