@@ -115,10 +115,7 @@ class ImageGalleryClass {
 
   Future<void> getPdfFile({required ValueChanged<String?> onMediaChanged, BuildContext? context}) async {
     try {
-      final result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['pdf', 'doc'],
-      );
+      final result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['pdf', 'doc']);
       if (result != null) {
         final file = result.files.first;
         onMediaChanged(file.path);
@@ -179,7 +176,10 @@ class ImageGalleryClass {
     }
   }
 
-  Future<void> getMultipleImages({required ValueChanged<List<String?>?> onMediaChanged, required BuildContext context}) async {
+  Future<void> getMultipleImages({
+    required ValueChanged<List<String?>?> onMediaChanged,
+    required BuildContext context,
+  }) async {
     try {
       // getFilePath =
       final multiImages = await picker.pickMultiImage(imageQuality: 80);

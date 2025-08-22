@@ -42,10 +42,7 @@ class PhoneNumberTextField extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final textStyle = GoogleFonts.roboto(
-      fontSize: 14,
-      color: Theme.of(context).indicatorColor.withValues(alpha: 0.8),
-    );
+    final textStyle = GoogleFonts.roboto(fontSize: 14, color: Theme.of(context).indicatorColor.withValues(alpha: 0.8));
     return IntlPhoneField(
       initialValue: null,
       initialCountryCode: country, //'IN',//country??'IN',

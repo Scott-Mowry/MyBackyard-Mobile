@@ -207,7 +207,10 @@ class _AddCardState extends State<AddCard> {
           'Content-Type': 'application/json',
           'Authorization': 'Basic ${base64.encode(utf8.encode('nzpL73LfqcrxyeVhMageUNcL97L1YeVw:1234'))}',
         };
-        final request = http.Request('POST', Uri.parse('https://api.sandbox.epsgsecure.app/api/v2/transactions/charge'));
+        final request = http.Request(
+          'POST',
+          Uri.parse('https://api.sandbox.epsgsecure.app/api/v2/transactions/charge'),
+        );
         request.body = json.encode({
           'name': name.text,
           'amount': price,

@@ -17,7 +17,8 @@ class CustomImage extends StatelessWidget {
   final BorderRadius? borderRadius;
   final bool photoView;
 
-  const CustomImage({super.key, 
+  const CustomImage({
+    super.key,
     this.url,
     this.shape,
     this.fit,

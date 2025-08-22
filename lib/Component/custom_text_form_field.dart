@@ -120,10 +120,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = GoogleFonts.roboto(
-      fontSize: 14,
-      color: Theme.of(context).indicatorColor.withValues(alpha: 0.8),
-    );
+    final textStyle = GoogleFonts.roboto(fontSize: 14, color: Theme.of(context).indicatorColor.withValues(alpha: 0.8));
     responsive.setContext(context);
     return SizedBox(
       height: widget.height,

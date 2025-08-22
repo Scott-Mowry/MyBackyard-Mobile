@@ -4,12 +4,7 @@ import 'package:flutter/material.dart';
 class AppNavigation {
   AppNavigation._();
   static Future<void> navigateToRemovingAll(String routeName, {Object? arguments}) async {
-    Navigator.pushNamedAndRemoveUntil(
-      navigatorKey.currentContext!,
-      routeName,
-      (route) => false,
-      arguments: arguments,
-    );
+    Navigator.pushNamedAndRemoveUntil(navigatorKey.currentContext!, routeName, (route) => false, arguments: arguments);
   }
 
   static Future<void> navigateTo(String routeName, {Object? arguments}) async {

@@ -12,7 +12,8 @@ class CustomDialog extends StatelessWidget {
   final Widget? child;
   final String? title, description, image, b1, b2;
 
-  const CustomDialog({super.key, 
+  const CustomDialog({
+    super.key,
     required this.onYes,
     this.title,
     this.button2,
@@ -49,10 +50,7 @@ class CustomDialog extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     size: 18,
                   ),
-                  GestureDetector(
-                    onTap: AppNavigation.navigatorPop,
-                    child: Image.asset(ImagePath.close, scale: 2),
-                  ),
+                  GestureDetector(onTap: AppNavigation.navigatorPop, child: Image.asset(ImagePath.close, scale: 2)),
                 ],
               ),
             ),

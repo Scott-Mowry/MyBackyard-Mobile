@@ -901,10 +901,7 @@ class _DayPickerState extends State<_DayPicker> {
         final isToday = DateUtils.isSameDay(widget.currentDate, dayToBuild);
         final semanticLabelSuffix = isToday ? ', ${localizations.currentDateLabel}' : '';
 
-        final states = <WidgetState>{
-          if (isDisabled) WidgetState.disabled,
-          if (isSelectedDay) WidgetState.selected,
-        };
+        final states = <WidgetState>{if (isDisabled) WidgetState.disabled, if (isSelectedDay) WidgetState.selected};
 
         final dayForegroundColor = resolve<Color?>(
           (theme) => isToday ? theme?.todayForegroundColor : theme?.dayForegroundColor,
@@ -915,8 +912,7 @@ class _DayPickerState extends State<_DayPicker> {
           states,
         );
         final dayOverlayColor = WidgetStateProperty.resolveWith<Color?>(
-          (states) =>
-              effectiveValue((theme) => theme?.dayOverlayColor?.resolve(states)),
+          (states) => effectiveValue((theme) => theme?.dayOverlayColor?.resolve(states)),
         );
         final decoration =
             isToday
@@ -1107,14 +1103,10 @@ class _YearPickerState extends State<YearPicker> {
     final isSelected = year == widget.selectedDate.year;
     final isDisabled = year < widget.firstDate.year || year > widget.lastDate.year;
 
-    final states = <WidgetState>{
-      if (isDisabled) WidgetState.disabled,
-      if (isSelected) WidgetState.selected,
-    };
+    final states = <WidgetState>{if (isDisabled) WidgetState.disabled, if (isSelected) WidgetState.selected};
 
     final overlayColor = WidgetStateProperty.resolveWith<Color?>(
-      (states) =>
-          effectiveValue((theme) => theme?.dayOverlayColor?.resolve(states)),
+      (states) => effectiveValue((theme) => theme?.dayOverlayColor?.resolve(states)),
     );
 
     final decoration = BoxDecoration(

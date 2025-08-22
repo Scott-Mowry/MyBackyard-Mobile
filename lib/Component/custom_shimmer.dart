@@ -7,7 +7,8 @@ class CustomShimmer extends StatelessWidget {
   final bool? shimmerHighlightColorEnable;
   final Widget child;
 
-  const CustomShimmer({super.key, 
+  const CustomShimmer({
+    super.key,
     this.shimmerBaseColor,
     this.shimmerHighlightColor,
     this.shimmerHighlightColorEnable,
