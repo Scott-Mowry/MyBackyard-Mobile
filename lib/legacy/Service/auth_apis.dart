@@ -11,7 +11,7 @@ import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/enum.dart';
 import 'package:backyard/legacy/Utils/local_shared_preferences.dart';
-import 'package:backyard/main.dart';
+import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';

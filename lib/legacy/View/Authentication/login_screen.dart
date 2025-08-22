@@ -24,7 +24,7 @@ import 'package:backyard/legacy/Utils/local_shared_preferences.dart';
 import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
-import 'package:backyard/main.dart';
+import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';

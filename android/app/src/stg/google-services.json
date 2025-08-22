@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "778233061802",
+    "project_id": "my-backyard-usa",
+    "storage_bucket": "my-backyard-usa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:778233061802:android:131b3e3de756695feecbd3",
+        "android_client_info": {
+          "package_name": "com.app.mybackyardusa.stg"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0VdGpdRGnbTx-OpRu4Vm8NT4AQ_VVuso"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

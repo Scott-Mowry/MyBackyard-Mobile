@@ -27,7 +27,7 @@ import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/profile_complete_dialog.dart';
 import 'package:backyard/legacy/View/Widget/upload_media.dart';
 import 'package:backyard/legacy/View/base_view.dart';
-import 'package:backyard/main.dart';
+import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/helpers.dart';
 import 'package:place_picker/place_picker.dart';

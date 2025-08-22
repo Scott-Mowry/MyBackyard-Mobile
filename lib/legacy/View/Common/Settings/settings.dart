@@ -18,7 +18,7 @@ import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Authentication/change_password.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/delete_account.dart';
 import 'package:backyard/legacy/View/base_view.dart';
-import 'package:backyard/main.dart';
+import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';

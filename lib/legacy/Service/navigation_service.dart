@@ -1,4 +1,4 @@
-import 'package:backyard/main.dart';
+import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 
 class AppNavigation {

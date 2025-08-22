@@ -17,7 +17,7 @@ import 'package:backyard/legacy/Utils/enum.dart';
 import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/profile_complete_dialog.dart';
 import 'package:backyard/legacy/View/base_view.dart';
-import 'package:backyard/main.dart';
+import 'package:backyard/boot.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

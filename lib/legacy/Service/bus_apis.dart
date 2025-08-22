@@ -11,7 +11,7 @@ import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Utils/enum.dart';
-import 'package:backyard/main.dart';
+import 'package:backyard/boot.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';

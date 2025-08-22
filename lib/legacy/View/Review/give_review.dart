@@ -23,7 +23,7 @@
 // import 'package:carousel_slider/carousel_slider.dart';
 //
 // import '../../Utils/my_colors.dart';
-// import '../../main.dart';
+// import '../../boot.dart';
 //
 // class GiveReview extends StatelessWidget {
 //   double rate = 0;

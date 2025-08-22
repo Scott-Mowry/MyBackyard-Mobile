@@ -17,7 +17,7 @@ import 'package:backyard/legacy/View/Common/user_profile.dart';
 import 'package:backyard/legacy/View/User/category.dart';
 import 'package:backyard/legacy/View/User/offers.dart';
 import 'package:backyard/legacy/View/User/user_home.dart';
-import 'package:backyard/main.dart';
+import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

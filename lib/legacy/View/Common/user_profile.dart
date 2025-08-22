@@ -20,7 +20,7 @@ import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/User/give_review.dart';
 import 'package:backyard/legacy/View/User/offers.dart';
 import 'package:backyard/legacy/View/base_view.dart';
-import 'package:backyard/main.dart';
+import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';

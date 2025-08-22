@@ -18,7 +18,7 @@ import 'package:sizer/sizer.dart';
 
 BitmapDescriptor pin = BitmapDescriptor.defaultMarker;
 
-void main() async {
+Future<void> boot() async {
   configLoading();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

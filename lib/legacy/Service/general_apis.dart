@@ -7,7 +7,7 @@ import 'package:backyard/legacy/Model/response_model.dart';
 import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Utils/enum.dart';
-import 'package:backyard/main.dart';
+import 'package:backyard/boot.dart';
 import 'package:provider/provider.dart';
 
 class GeneralAPIS {
