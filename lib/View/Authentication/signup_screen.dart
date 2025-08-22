@@ -3,7 +3,7 @@
 // import 'package:backyard/legacy/Component/custom_padding.dart';
 // import 'package:backyard/legacy/Component/custom_textfield.dart';
 // import 'package:backyard/legacy/Component/title.dart';
-// import 'package:backyard/Controller/auth_controller.dart';
+// import 'package:backyard/legacy/Controller/auth_controller.dart';
 // import 'package:flutter/gestures.dart';
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';

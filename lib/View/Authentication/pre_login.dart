@@ -1,6 +1,5 @@
 import 'dart:io' show Platform;
 
-import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/auth_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';
@@ -14,6 +13,7 @@ import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_terms_condition.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
+import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';

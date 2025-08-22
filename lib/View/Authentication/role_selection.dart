@@ -1,4 +1,3 @@
-import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/enum.dart';
@@ -9,6 +8,7 @@ import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_terms_condition.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
+import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';

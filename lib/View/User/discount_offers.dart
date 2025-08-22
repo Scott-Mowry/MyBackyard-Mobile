@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
-import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Model/offer_model.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/bus_apis.dart';
@@ -24,6 +23,7 @@ import 'package:backyard/legacy/Component/custom_image.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
+import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/main.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

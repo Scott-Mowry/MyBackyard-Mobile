@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Model/user_model.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Service/socket_service.dart';
@@ -11,6 +10,7 @@ import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/local_shared_preferences.dart';
 import 'package:backyard/Utils/utils.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
+import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

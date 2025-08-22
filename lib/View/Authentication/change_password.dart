@@ -1,4 +1,3 @@
-import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/auth_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';
@@ -12,6 +11,7 @@ import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/validations.dart';
+import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -6,9 +6,9 @@
 //
 // import 'package:get/get.dart';
 // import 'package:backyard/legacy/Component/custom_elevated_button.dart';
-// import 'package:backyard/Controller/home_controller.dart';
-// import 'package:backyard/Controller/profile_controller.dart';
-// import 'package:backyard/Controller/theme_controller.dart';
+// import 'package:backyard/legacy/Controller/home_controller.dart';
+// import 'package:backyard/legacy/Controller/profile_controller.dart';
+// import 'package:backyard/legacy/Controller/theme_controller.dart';
 // import 'package:backyard/View/notification.dart';
 // import 'package:backyard/View/widget/image_preview.dart';
 // import 'package:backyard/View/widget/job_categories_card.dart';

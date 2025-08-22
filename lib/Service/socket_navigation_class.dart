@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Model/user_model.dart';
+import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/main.dart';
 import 'package:provider/provider.dart';
 
