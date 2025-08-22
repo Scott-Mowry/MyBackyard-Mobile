@@ -1,22 +1,15 @@
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter/material.dart';
-import 'package:backyard/Component/custom_buttom.dart';
-import 'package:backyard/Component/custom_card.dart';
-import 'package:backyard/Component/custom_empty_data.dart';
-import 'package:backyard/Component/custom_image.dart';
 import 'package:backyard/Component/custom_padding.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Controller/home_controller.dart';
-import 'package:backyard/Service/navigation_service.dart';
-import 'package:backyard/Utils/app_router_name.dart';
-import 'package:backyard/Utils/enum.dart';
-import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/base_view.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../Component/custom_text.dart';
 import 'package:sizer/sizer.dart';
 
 class PaymentHistory extends StatefulWidget {
+  const PaymentHistory({super.key});
+
   @override
   State<PaymentHistory> createState() => _PaymentHistoryState();
 }
@@ -33,22 +26,20 @@ class _PaymentHistoryState extends State<PaymentHistory> {
   @override
   Widget build(BuildContext context) {
     return BaseView(
-        screenTitle: 'Payment History',
-        bgImage: '',
-        showAppBar: true,
-        showBackButton: true,
-        child: CustomPadding(
-          horizontalPadding: 4.w,
-          topPadding: 0,
-          child: Consumer<HomeController>(builder: (context, val, _) {
+      screenTitle: 'Payment History',
+      bgImage: '',
+      showAppBar: true,
+      showBackButton: true,
+      child: CustomPadding(
+        horizontalPadding: 4.w,
+        topPadding: 0,
+        child: Consumer<HomeController>(
+          builder: (context, val, _) {
             return Column(
               children: [
                 Container(
                   width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: MyColors().secondaryColor,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+                  decoration: BoxDecoration(color: MyColors().secondaryColor, borderRadius: BorderRadius.circular(20)),
                   padding: EdgeInsets.all(8.w),
                   child: Column(
                     children: [
@@ -58,22 +49,18 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                         size: 25,
                         clr: MyColors().whiteColor,
                       ),
-                      MyText(
-                          title: '\$${11}',
-                          fontWeight: FontWeight.w600,
-                          size: 30,
-                          clr: MyColors().whiteColor),
+                      MyText(title: '\$${11}', fontWeight: FontWeight.w600, size: 30, clr: MyColors().whiteColor),
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 // sessionList(s: d.earnings),
               ],
             );
-          }),
-        ));
+          },
+        ),
+      ),
+    );
   }
   // Widget sessionList({required RxList<SessionModel> s}){
   //   return Expanded(
@@ -176,7 +163,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
   // userContainer({required User? u}){
   //   return Container(
   //     decoration: BoxDecoration(
-  //         color: MyColors().secondaryColor.withOpacity(.3),
+  //         color: MyColors().secondaryColor.withValues(alpha: .3),
   //         borderRadius: BorderRadius.circular(100),
   //         border: Border.all(color: MyColors().secondaryColor,)
   //     ),

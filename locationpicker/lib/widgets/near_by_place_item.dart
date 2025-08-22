@@ -5,7 +5,7 @@ class NearbyPlaceItem extends StatelessWidget {
   final NearbyPlace nearbyPlace;
   final VoidCallback onTap;
 
-  NearbyPlaceItem(this.nearbyPlace, this.onTap);
+  const NearbyPlaceItem(this.nearbyPlace, this.onTap, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class NearbyPlaceItem extends StatelessWidget {
             children: <Widget>[
               Image.network(nearbyPlace.icon!, width: 16),
               SizedBox(width: 24),
-              Expanded(child: Text("${nearbyPlace.name}", style: TextStyle(fontSize: 16)))
+              Expanded(child: Text('${nearbyPlace.name}', style: TextStyle(fontSize: 16)))
             ],
           ),
         ),

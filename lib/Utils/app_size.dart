@@ -13,5 +13,4 @@ class AppSize {
   // static double SERVICE_BUTTON_WIDTH = .65.sw;
   // static double SERVICE_BUTTON_HEIGHT = 0.06.sh;
   // static double SERVICE_BUTTON_FONTSIZE = 10;
-
 }

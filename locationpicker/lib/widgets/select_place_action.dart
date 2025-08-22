@@ -5,7 +5,7 @@ class SelectPlaceAction extends StatelessWidget {
   final String tapToSelectActionText;
   final VoidCallback onTap;
 
-  SelectPlaceAction(this.locationName, this.onTap, this.tapToSelectActionText);
+  const SelectPlaceAction(this.locationName, this.onTap, this.tapToSelectActionText, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class SelectPlaceAction extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(locationName, style: TextStyle(fontSize: 16)),
-                    Text(this.tapToSelectActionText, style: TextStyle(color: Colors.grey, fontSize: 15)),
+                    Text(tapToSelectActionText, style: TextStyle(color: Colors.grey, fontSize: 15)),
                   ],
                 ),
               ),

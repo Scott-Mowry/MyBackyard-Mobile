@@ -1,11 +1,10 @@
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Model/category_model.dart';
+import 'package:backyard/Utils/my_colors.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:backyard/Component/custom_text.dart';
-import 'package:backyard/Model/category_product_model.dart';
-import 'package:backyard/Utils/my_colors.dart';
 import 'package:sizer/sizer.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 
 class CustomDropDown2 extends StatelessWidget {
   final CategoryModel? dropdownValue;
@@ -13,58 +12,51 @@ class CustomDropDown2 extends StatelessWidget {
   final Widget? prefix;
   final List<CategoryModel>? dropDownData;
   final Function(CategoryModel?)? onChanged;
-  final double? width,
-      fontSize,
-      dropDownWidth,
-      buttonPadding,
-      menuItemPadding,
-      horizontalPadding,
-      verticalPadding;
+  final double? width, fontSize, dropDownWidth, buttonPadding, menuItemPadding, horizontalPadding, verticalPadding;
   final Color? borderColor, bgColor;
   final EdgeInsets? contentPadding;
   final Offset? offset;
   final bool? showBorder;
   final String? Function(CategoryModel?)? validator;
 
-  const CustomDropDown2(
-      {Key? key,
-      this.dropDownData,
-      this.borderColor = Colors.transparent,
-      this.dropdownValue,
-      this.width,
-      this.onChanged,
-      this.fontSize = 15,
-      this.hintText,
-      this.bgColor,
-      this.verticalPadding,
-      this.horizontalPadding,
-      this.validator,
-      this.prefix,
-      this.showBorder = false,
-      this.contentPadding,
-      this.menuItemPadding,
-      this.dropDownWidth,
-      this.buttonPadding,
-      this.offset})
-      : super(key: key);
+  const CustomDropDown2({
+    super.key,
+    this.dropDownData,
+    this.borderColor = Colors.transparent,
+    this.dropdownValue,
+    this.width,
+    this.onChanged,
+    this.fontSize = 15,
+    this.hintText,
+    this.bgColor,
+    this.verticalPadding,
+    this.horizontalPadding,
+    this.validator,
+    this.prefix,
+    this.showBorder = false,
+    this.contentPadding,
+    this.menuItemPadding,
+    this.dropDownWidth,
+    this.buttonPadding,
+    this.offset,
+  });
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButtonFormField2<CategoryModel>(
-        style: GoogleFonts.roboto(
-          fontSize: 14,
-          color: MyColors().black,
-        ),
+        style: GoogleFonts.roboto(fontSize: 14, color: MyColors().black),
         validator: validator!,
         decoration: InputDecoration(
           isDense: true,
           prefix: prefix,
-          contentPadding: contentPadding ??
+          contentPadding:
+              contentPadding ??
               EdgeInsets.only(
-                  left: horizontalPadding ?? 2.w,
-                  top: verticalPadding ?? 1.5.h,
-                  bottom: verticalPadding ?? 1.5.h),
+                left: horizontalPadding ?? 2.w,
+                top: verticalPadding ?? 1.5.h,
+                bottom: verticalPadding ?? 1.5.h,
+              ),
           fillColor: bgColor ?? MyColors().whiteColor,
           border: _outlineInputBorder(),
           enabledBorder: _outlineInputBorder(),
@@ -73,39 +65,35 @@ class CustomDropDown2 extends StatelessWidget {
           errorStyle: _errorStyle(),
           filled: true,
         ),
-        menuItemStyleData: MenuItemStyleData(
-          padding: EdgeInsets.symmetric(horizontal: menuItemPadding ?? 2.w),
-        ),
+        menuItemStyleData: MenuItemStyleData(padding: EdgeInsets.symmetric(horizontal: menuItemPadding ?? 2.w)),
         iconStyleData: const IconStyleData(
-            // icon: Padding(
-            //   padding: EdgeInsets.only(right: 16.w),
-            //   child: Image.asset(AssetPath.DROPDOWN_ICON, scale: 4),
-            // ),
-            icon: Padding(
-          padding: EdgeInsets.only(right: 20),
-          child: Icon(Icons.expand_more_rounded),
-        )
+          // icon: Padding(
+          //   padding: EdgeInsets.only(right: 16.w),
+          //   child: Image.asset(AssetPath.DROPDOWN_ICON, scale: 4),
+          // ),
+          icon: Padding(padding: EdgeInsets.only(right: 20), child: Icon(Icons.expand_more_rounded)),
 
-            // iconSize: 30,
-            ),
+          // iconSize: 30,
+        ),
         isExpanded: true,
-        items: dropDownData!
-            .map((item) => DropdownMenuItem<CategoryModel>(
-                  value: item,
-                  child:
-                      _text(text: item.categoryName, color: MyColors().black),
-                ))
-            .toList(),
+        items:
+            dropDownData!
+                .map(
+                  (item) => DropdownMenuItem<CategoryModel>(
+                    value: item,
+                    child: _text(text: item.categoryName, color: MyColors().black),
+                  ),
+                )
+                .toList(),
         value: dropdownValue,
-        onChanged: (CategoryModel? newValue) {
+        onChanged: (newValue) {
           onChanged?.call(newValue);
-          print(newValue?.categoryName);
         },
         hint: _text(text: hintText, fontWeight: FontWeight.w400),
         buttonStyleData: const ButtonStyleData(
-            // padding: EdgeInsets.symmetric(vertical: 7.w),
-            //width: 0.5.sw,
-            ),
+          // padding: EdgeInsets.symmetric(vertical: 7.w),
+          //width: 0.5.sw,
+        ),
         dropdownStyleData: DropdownStyleData(
           // padding: EdgeInsets.only(left: horizontalPadding ?? 5.w),
           elevation: 1,
@@ -119,33 +107,29 @@ class CustomDropDown2 extends StatelessWidget {
             border: Border.all(width: 2, color: Colors.transparent),
             color: MyColors().whiteColor,
           ),
-          
         ),
-        
       ),
     );
   }
 
   TextStyle _errorStyle() {
-    return const TextStyle(
-      color: Colors.red,
-      height: 0.7,
-    );
+    return const TextStyle(color: Colors.red, height: 0.7);
   }
 
   OutlineInputBorder _outlineInputBorder() {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(8),
       borderSide: BorderSide(
-          width: 1,
-          style: showBorder == true ? BorderStyle.solid : BorderStyle.none,
-          color: borderColor ?? Colors.transparent),
+        width: 1,
+        style: showBorder == true ? BorderStyle.solid : BorderStyle.none,
+        color: borderColor ?? Colors.transparent,
+      ),
     );
   }
 
   Widget _text({String? text, Color? color, FontWeight? fontWeight}) {
     return MyText(
-      title: text ?? "",
+      title: text ?? '',
       size: fontSize,
       // textAlign: TextAlign.start,
       clr: color ?? MyColors().black,

@@ -1,6 +1,5 @@
-
 class CardModel {
-  String id='';
+  String id = '';
   String? object;
   dynamic addressCity;
   dynamic addressCountry;
@@ -25,7 +24,7 @@ class CardModel {
   dynamic wallet;
 
   CardModel({
-    this.id='',
+    this.id = '',
     this.object,
     this.addressCity,
     this.addressCountry,
@@ -51,7 +50,7 @@ class CardModel {
   });
 
   CardModel.fromJson(Map<String, dynamic> json) {
-    id = json['id']??'';
+    id = json['id'] ?? '';
     object = json['object'] as String?;
     addressCity = json['address_city'];
     addressCountry = json['address_country'];
@@ -77,7 +76,7 @@ class CardModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> json = <String, dynamic>{};
+    final json = <String, dynamic>{};
     json['id'] = id;
     json['object'] = object;
     json['address_city'] = addressCity;

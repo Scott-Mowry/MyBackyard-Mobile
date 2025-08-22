@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreference {
@@ -24,17 +23,17 @@ class SharedPreference {
   ////////////////////// User ///////////////////////////
   Future<void> setUser({Map<String, dynamic>? user, String? token}) async {
     if (token != null) {
-      user?.addAll({"bearer_token": token});
+      user?.addAll({'bearer_token': token});
     }
-    await _sharedPreferences?.setString("user", json.encode(user));
+    await _sharedPreferences?.setString('user', json.encode(user));
   }
 
   Future<void> saveUser({Map<String, dynamic>? user}) async {
-    await _sharedPreferences?.setString("saved_user", json.encode(user));
+    await _sharedPreferences?.setString('saved_user', json.encode(user));
   }
 
   Map<String, dynamic>? getSavedUser() {
-    String? val = _sharedPreferences?.getString("saved_user");
+    final val = _sharedPreferences?.getString('saved_user');
     if (val != null) {
       return json.decode(val);
     } else {
@@ -43,7 +42,7 @@ class SharedPreference {
   }
 
   Map<String, dynamic>? getUser() {
-    String? val = _sharedPreferences?.getString("user");
+    final val = _sharedPreferences?.getString('user');
     if (val != null) {
       return json.decode(val);
     } else {

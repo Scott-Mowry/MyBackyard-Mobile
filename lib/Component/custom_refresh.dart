@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomRefresh extends StatelessWidget {
-  const CustomRefresh({Key? key,required this.child,required this.onRefresh}) : super(key: key);
+  const CustomRefresh({super.key, required this.child, required this.onRefresh});
   final Widget child;
   final Function onRefresh;
 
@@ -14,11 +14,11 @@ class CustomRefresh extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh:_refreshData,
+      onRefresh: _refreshData,
       // edgeOffset: -1000,
       color: Color(0xffB4B4B4),
       backgroundColor: Colors.white,
-      child:child
+      child: child,
     );
   }
 }

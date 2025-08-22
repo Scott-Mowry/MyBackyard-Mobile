@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class Responsive {
@@ -7,10 +5,10 @@ class Responsive {
   double? blockSizeVertical;
   double? textRatio;
 
-  setContext(context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    textRatio = MediaQuery.of(context).textScaleFactor;
+  void setContext(context) {
+    final width = MediaQuery.sizeOf(context).width;
+    final height = MediaQuery.sizeOf(context).height;
+    textRatio = MediaQuery.textScaleFactorOf(context);
     blockSizeHorizontal = width / 100; // 4
     blockSizeVertical = height / 100; // 6
   }

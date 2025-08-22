@@ -29,8 +29,9 @@ class NotificationModel {
     createdAt = json['createdAt'] ?? '';
     date = json['date'] ?? '';
     sessionId = json['session_id'] ?? '';
-    user = (json['sender_id'] as Map<String, dynamic>?) != null
-        ? User.setUser(json['sender_id'] as Map<String, dynamic>)
-        : null;
+    user =
+        (json['sender_id'] as Map<String, dynamic>?) != null
+            ? User.setUser(json['sender_id'] as Map<String, dynamic>)
+            : null;
   }
 }

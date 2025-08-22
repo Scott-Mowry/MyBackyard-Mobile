@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class SearchInput extends StatefulWidget {
   final ValueChanged<String> onSearchInput;
 
-  SearchInput(this.onSearchInput);
+  const SearchInput(this.onSearchInput, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => SearchInputState();
@@ -24,30 +24,30 @@ class SearchInputState extends State<SearchInput> {
   @override
   void initState() {
     super.initState();
-    this.editController.addListener(this.onSearchInputChange);
+    editController.addListener(onSearchInputChange);
   }
 
   @override
   void dispose() {
-    this.editController.removeListener(this.onSearchInputChange);
-    this.editController.dispose();
+    editController.removeListener(onSearchInputChange);
+    editController.dispose();
 
     super.dispose();
   }
 
   void onSearchInputChange() {
-    if (this.editController.text.isEmpty) {
-      this.debouncer?.cancel();
-      widget.onSearchInput(this.editController.text);
+    if (editController.text.isEmpty) {
+      debouncer?.cancel();
+      widget.onSearchInput(editController.text);
       return;
     }
 
-    if (this.debouncer?.isActive ?? false) {
-      this.debouncer?.cancel();
+    if (debouncer?.isActive ?? false) {
+      debouncer?.cancel();
     }
 
-    this.debouncer = Timer(Duration(milliseconds: 500), () {
-      widget.onSearchInput(this.editController.text);
+    debouncer = Timer(Duration(milliseconds: 500), () {
+      widget.onSearchInput(editController.text);
     });
   }
 
@@ -55,40 +55,38 @@ class SearchInputState extends State<SearchInput> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        // color: Colors.white,
+      ),
       child: Row(
         children: <Widget>[
-          Icon(Icons.search,
-              color: Theme.of(context).textTheme.bodySmall?.color),
+          Icon(Icons.search, color: Theme.of(context).textTheme.bodySmall?.color),
           SizedBox(width: 8),
           Expanded(
             child: TextField(
-              decoration: InputDecoration(
-                  hintText: "Search place", border: InputBorder.none),
-              controller: this.editController,
+              decoration: InputDecoration(hintText: 'Search place', border: InputBorder.none),
+              controller: editController,
               onChanged: (value) {
                 setState(() {
-                  this.hasSearchEntry = value.isNotEmpty;
+                  hasSearchEntry = value.isNotEmpty;
                 });
               },
               style: TextStyle(color: Colors.black),
             ),
           ),
           SizedBox(width: 8),
-          if (this.hasSearchEntry)
+          if (hasSearchEntry)
             GestureDetector(
               child: Icon(Icons.clear, color: Colors.black),
               onTap: () {
-                this.editController.clear();
+                editController.clear();
                 setState(() {
-                  this.hasSearchEntry = false;
+                  hasSearchEntry = false;
                 });
               },
             ),
         ],
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        // color: Colors.white,
       ),
     );
   }

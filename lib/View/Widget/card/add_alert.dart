@@ -7,7 +7,7 @@
 // import 'package:sizer/sizer.dart';
 // import '../../../Component/custom_buttom.dart';
 // import '../../../Component/custom_text.dart';
-// import '../../../Component/custom_textfield.dart';
+// import '../../../Component/custom_text_form_field.dart';
 // import '../../../Utils/responsive.dart';
 // import 'package:month_year_picker/month_year_picker.dart';
 //
@@ -61,7 +61,7 @@
 //                   SizedBox(height: 2.h,),
 //                   MyTextField(
 //                     maxLength: 40,
-//                     borderColor: Theme.of(context).hintColor.withOpacity(.1),
+//                     borderColor: Theme.of(context).hintColor.withValues(alpha: .1),
 //                     width: 90.w,
 //                     hintText: "Name",
 //                     controller: name,
@@ -70,7 +70,7 @@
 //                   Padding(
 //                       padding: const EdgeInsets.symmetric(vertical: 8.0),
 //                       child: MyTextField(
-//                         borderColor: Theme.of(context).hintColor.withOpacity(.1),
+//                         borderColor: Theme.of(context).hintColor.withValues(alpha: .1),
 //                         hintText: 'Enter card number',
 //                         cardFormat:true,
 //                         maxLength: 19,
@@ -87,7 +87,7 @@
 //                           Flexible(
 //                             child: MyTextField(
 //                               hintText: 'Expiry',
-//                               borderColor: Theme.of(context).hintColor.withOpacity(.1),
+//                               borderColor: Theme.of(context).hintColor.withValues(alpha: .1),
 //                               cardExpiration:true,
 //                               maxLength: 5,
 //                               inputType: TextInputType.number,
@@ -101,7 +101,7 @@
 //                           SizedBox(width: 3.w,),
 //                           Flexible(
 //                             child: MyTextField(
-//                               borderColor: Theme.of(context).hintColor.withOpacity(.1),
+//                               borderColor: Theme.of(context).hintColor.withValues(alpha: .1),
 //                               hintText: 'CVC',
 //                               inputType: TextInputType.number,
 //                               maxLength: 3,
@@ -163,7 +163,6 @@
 //       firstDate: DateTime.now(),
 //       lastDate: DateTime(3000),
 //     );
-//     print(selected);
 //
 //     if (selected != null) {
 //       expiry.text=Utils.getFormattedMonthYear(

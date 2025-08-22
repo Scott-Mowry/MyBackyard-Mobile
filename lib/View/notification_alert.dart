@@ -41,16 +41,11 @@
 //       sound: true,
 //     );
 //     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-//       print('User granted permission');
 //     } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
-//       print('User granted provisional permission');
 //     } else {
-//       print('User declined or has not accepted permission');
 //     }
 //   }
 // }
-
-
 
 // import 'dart:convert';
 // import 'dart:developer';
@@ -70,23 +65,18 @@
 
 // Future<void> firebaseMessagingBackgroundHandler(RemoteMessage? message) async {
 //   if (kDebugMode) {
-//     print("Handling a background message");
-//     print("_messaging onBackgroundMessage: ${message?.data}");
 //   }
 //   if (message != null) {
 //     if (kDebugMode) {
-//       print("message is not null");
 //     }
 //     if (navigatorKey.currentState?.context != null) {
 //       if (kDebugMode) {
-//         print("context is not null");
 //       }
 //       // BlocProvider.of<AuthenticationCubit>(MyApp.navigatorKey.currentState!.context)
 //       //     .setNotificationsCount(
 //       //     notificationCount: message.data['notification_count'].toString());
 //     } else {
 //       if (kDebugMode) {
-//         print("context is null");
 //       }
 //     }
 //   }
@@ -130,7 +120,6 @@
 //   }
 
 //   Future initializeNotificationSettings() async {
-//     print('initializeNotificationSettings');
 //     NotificationSettings? settings =
 //     await _firebaseMessaging?.requestPermission(
 //       alert: true,
@@ -143,16 +132,13 @@
 //     );
 //     if (settings?.authorizationStatus == AuthorizationStatus.authorized) {
 //       if (kDebugMode) {
-//         print('User granted permission');
 //       }
 //     } else if (settings?.authorizationStatus ==
 //         AuthorizationStatus.provisional) {
 //       if (kDebugMode) {
-//         print('User granted provisional permission');
 //       }
 //     } else {
 //       if (kDebugMode) {
-//         print('User declined or has not accepted permission');
 //       }
 //     }
 

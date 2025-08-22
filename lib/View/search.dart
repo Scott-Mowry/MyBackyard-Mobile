@@ -18,7 +18,7 @@
 // import 'package:backyard/constant/strings.dart';
 // import '../../Component/custom_buttom.dart';
 // import '../../Component/custom_text.dart';
-// import '../../Component/custom_textfield.dart';
+// import '../../Component/custom_text_form_field.dart';
 // import '../../Utils/my_colors.dart';
 // import '../../Utils/image_path.dart';
 // import '../../Utils/responsive.dart';
@@ -41,7 +41,6 @@
 //       trailing: false,
 //       showBottomBar: true,
 //       onTapTrailing: (){
-//         print("TRappped");
 //         //Get.to(Notifications(),transition: Transition.leftToRight, duration: const Duration(milliseconds: 300),); Get.to(Notifications());
 //       },
 //       child: Padding(
@@ -75,7 +74,7 @@
 //                       height: responsive.setHeight(5.5),
 //                       width: responsive.setWidth(12),
 //                       decoration: BoxDecoration(
-//                         color:  Theme.of(context).primaryColorDark.withOpacity(0.2),
+//                         color:  Theme.of(context).primaryColorDark.withValues(alpha: 0.2),
 //                         borderRadius: BorderRadius.circular(6),
 //                       ),
 //                       // alignment: Alignment.center,

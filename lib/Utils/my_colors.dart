@@ -29,22 +29,17 @@ ThemeData darkTheme = ThemeData(
   hoverColor: const Color(0xff2972FE), // BlueWidgetColorColor
   dividerColor: const Color(0xff646464), //divider color
 
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    backgroundColor: Color(0xff252525),
-  ),
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(backgroundColor: Color(0xff252525)),
   // cardColor: Color(0xff394452),
   cardColor: const Color(0xff252525),
   // focusColor: const Color(0xff161B20),//lightBlackColor
   canvasColor: Colors.transparent,
   hintColor: const Color(0xff4A4A4A),
-  buttonTheme: const ButtonThemeData(
-    buttonColor: Colors.amber,
-    disabledColor: Colors.grey,
-  ),
+  buttonTheme: const ButtonThemeData(buttonColor: Colors.amber, disabledColor: Colors.grey),
   pageTransitionsTheme: const PageTransitionsTheme(
     builders: {
-      TargetPlatform.android: const CupertinoPageTransitionsBuilder(),
-      TargetPlatform.iOS: const CupertinoPageTransitionsBuilder(),
+      TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
     },
   ),
   // textSelectionTheme: const TextSelectionThemeData(cursorColor: Color(0xff161B20), selectionColor: Colors.white,)
@@ -63,9 +58,7 @@ ThemeData lightTheme = ThemeData(
   // ),
   colorScheme: const ColorScheme.light(primary: Color(0xff57BA00)),
 
-  textButtonTheme: TextButtonThemeData(
-    style: TextButton.styleFrom(foregroundColor: Colors.black),
-  ),
+  textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(foregroundColor: Colors.black)),
 
   brightness: Brightness.light,
   textTheme: const TextTheme(
@@ -90,17 +83,12 @@ ThemeData lightTheme = ThemeData(
   dividerColor: const Color(0xff646464),
 
   // colorScheme: ColorScheme(brightness: brightness, primary: primary, onPrimary: onPrimary, secondary: secondary, onSecondary: onSecondary, error: error, onError: onError, background: background, onBackground: onBackground, surface: surface, onSurface: onSurface),
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    backgroundColor: Color(0xffF4F6F9),
-  ),
-  buttonTheme: const ButtonThemeData(
-    buttonColor: Colors.blue,
-    disabledColor: Colors.grey,
-  ),
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(backgroundColor: Color(0xffF4F6F9)),
+  buttonTheme: const ButtonThemeData(buttonColor: Colors.blue, disabledColor: Colors.grey),
   pageTransitionsTheme: const PageTransitionsTheme(
     builders: {
-      TargetPlatform.android: const CupertinoPageTransitionsBuilder(),
-      TargetPlatform.iOS: const CupertinoPageTransitionsBuilder(),
+      TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
     },
   ),
   // textSelectionTheme: const TextSelectionThemeData(cursorColor: Color(0xffF6F8FB), selectionColor: Color(0xff394452),)
@@ -137,7 +125,7 @@ class MyColors {
   Color greyColor3 = const Color(0xffABABAB);
   Color lightGrey = const Color(0xffF5F5F5);
   Color shimmerColor = Colors.grey;
-  Color shimmerBaseColor = Colors.grey.withOpacity(0.8);
+  Color shimmerBaseColor = Colors.grey.withValues(alpha: 0.8);
   Color hintColor = const Color(0xff8E9192);
   Color greyColor = const Color(0xff6A6A6A);
   Color darkGreyColor = const Color(0xff373737);

@@ -1,20 +1,16 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:backyard/Arguments/profile_screen_arguments.dart';
 import 'package:backyard/Model/reiview_model.dart';
 import 'package:backyard/Model/user_model.dart';
-import 'package:backyard/Service/api.dart';
 import 'package:backyard/Service/bus_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';
-import 'package:backyard/Service/socket_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/enum.dart';
 import 'package:backyard/Utils/local_shared_preferences.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/Utils/utils.dart';
-import 'package:backyard/main.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -31,9 +27,8 @@ class UserController extends ChangeNotifier {
       Permission.locationAlways.request();
     }
     locationStream = Geolocator.getPositionStream(
-            locationSettings:
-                const LocationSettings(accuracy: LocationAccuracy.best))
-        .listen((event) async {
+      locationSettings: const LocationSettings(accuracy: LocationAccuracy.best),
+    ).listen((event) async {
       if ((geo ?? false) && (_user?.token != null)) {
         if (onTap && mapController != null) {
           if (user?.role == Role.User) {
@@ -43,28 +38,31 @@ class UserController extends ChangeNotifier {
             lat = event.latitude;
             lng = event.longitude;
           }
-          List<Placemark> placemarks =
-              await placemarkFromCoordinates(event.latitude, event.longitude);
+          final placemarks = await placemarkFromCoordinates(event.latitude, event.longitude);
           if (user?.role == Role.User) {
-            _user?.address = placemarks[0].locality ?? "";
+            _user?.address = placemarks[0].locality ?? '';
           } else {
-            address = placemarks[0].locality ?? "";
+            address = placemarks[0].locality ?? '';
           }
           if (mapController != null) {
             await BusAPIS.getBuses(event.latitude, event.longitude);
-            mapController?.moveCamera(CameraUpdate.newCameraPosition(
-                CameraPosition(
-                    target: LatLng(event.latitude, event.longitude),
-                    zoom: 13.4746)));
+            mapController?.moveCamera(
+              CameraUpdate.newCameraPosition(
+                CameraPosition(target: LatLng(event.latitude, event.longitude), zoom: 13.4746),
+              ),
+            );
             circles.clear();
-            circles.add(Circle(
-                circleId: const CircleId("myLocation"),
+            circles.add(
+              Circle(
+                circleId: const CircleId('myLocation'),
                 radius: mile * 1609.344,
                 strokeWidth: 1,
                 zIndex: 0,
                 center: LatLng(event.latitude, event.longitude),
-                fillColor: MyColors().primaryColor.withOpacity(.15),
-                strokeColor: MyColors().primaryColor));
+                fillColor: MyColors().primaryColor.withValues(alpha: .15),
+                strokeColor: MyColors().primaryColor,
+              ),
+            );
             notifyListeners();
             onTap = false;
             Timer(const Duration(minutes: 10), () {
@@ -94,25 +92,27 @@ class UserController extends ChangeNotifier {
   List<User> busList = [];
   double lat = 0;
   double lng = 0;
-  String address = "";
-  int mile = 50 //25
+  String address = '';
+  int mile =
+      50 //25
       ;
 
   void setMile(int val) {
     mile = val;
-    final temp = circles
-        .where((element) => element.circleId == const CircleId("myLocation"))
-        .firstOrNull;
+    final temp = circles.where((element) => element.circleId == const CircleId('myLocation')).firstOrNull;
     if (temp != null) {
       circles.clear();
-      circles.add(Circle(
-          circleId: const CircleId("myLocation"),
+      circles.add(
+        Circle(
+          circleId: const CircleId('myLocation'),
           radius: mile * 1609.344,
           strokeWidth: 1,
           zIndex: 0,
           center: temp.center,
-          fillColor: MyColors().primaryColor.withOpacity(.15),
-          strokeColor: MyColors().primaryColor));
+          fillColor: MyColors().primaryColor.withValues(alpha: .15),
+          strokeColor: MyColors().primaryColor,
+        ),
+      );
     }
     notifyListeners();
   }
@@ -153,7 +153,6 @@ class UserController extends ChangeNotifier {
   }
 
   void setProductDetails(List<in_app.ProductDetails> val) {
-    print("Subscriptions Fetched");
     productDetails = val;
     productDetails.sort((a, b) => a.price.length.compareTo(b.price.length));
     notifyListeners();
@@ -181,33 +180,37 @@ class UserController extends ChangeNotifier {
   }
 
   Future<void> addMarker(User user) async {
-    MarkerId markerId = MarkerId(user.id?.toString() ?? "");
-    Marker marker = Marker(
+    final markerId = MarkerId(user.id?.toString() ?? '');
+    final marker = Marker(
       // onTap: () => AppNavigation.navigateTo(AppRouteName.USER_PROFILE_ROUTE,
       //     arguments: ProfileScreenArguments(
       //         isBusinessProfile: true, isMe: false, isUser: false, user: user)),
       markerId: markerId,
       infoWindow: InfoWindow(
         title: user.name,
-        snippet: (user.subId != 4)
-            ? user.description
-            : "${user.description}\n\nPhone Number:${user.phone}\n${user.address}",
+        snippet:
+            (user.subId != 4) ? user.description : '${user.description}\n\nPhone Number:${user.phone}\n${user.address}',
         anchor: const Offset(0, 1),
-        onTap: () => (user.subId != 4)
-            ? AppNavigation.navigateTo(AppRouteName.USER_PROFILE_ROUTE,
-                arguments: ProfileScreenArguments(
-                    isBusinessProfile: true,
-                    isMe: false,
-                    isUser: false,
-                    user: user))
-            : {},
+        onTap:
+            () =>
+                (user.subId != 4)
+                    ? AppNavigation.navigateTo(
+                      AppRouteName.USER_PROFILE_ROUTE,
+                      arguments: ProfileScreenArguments(
+                        isBusinessProfile: true,
+                        isMe: false,
+                        isUser: false,
+                        user: user,
+                      ),
+                    )
+                    : {},
       ),
       icon: await Utils.createBitmapDescriptorWithText(
-          (user.name ?? "").toUpperCase().characters.firstOrNull ?? "",
-          smaller: user.subId == 4)
+        (user.name ?? '').toUpperCase().characters.firstOrNull ?? '',
+        smaller: user.subId == 4,
+      ),
       // Utils.getNetworkImageMarker2(
       //     API.public_url + (user.profileImage ?? ""))
-      ,
       position: LatLng(user.latitude ?? 0.0, user.longitude ?? 0.0),
     );
     markers.add(marker);
@@ -262,7 +265,7 @@ class UserController extends ChangeNotifier {
   }
 
   Future<void> clear() async {
-    SharedPreference ld = SharedPreference();
+    final ld = SharedPreference();
     await ld.sharedPreference;
     final val = ld.getUser();
     ld.clear();

@@ -74,7 +74,7 @@
 //                       SizedBox(height: 2.h,),
 //                       Container(
 //                         decoration: BoxDecoration(
-//                             color: MyColors().secondaryColor.withOpacity(.3),
+//                             color: MyColors().secondaryColor.withValues(alpha: .3),
 //                             borderRadius: BorderRadius.circular(100),
 //                             border: Border.all(color: MyColors().secondaryColor,)
 //                         ),

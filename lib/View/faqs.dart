@@ -1,32 +1,20 @@
-import 'dart:developer';
-import 'dart:ui';
-
-import 'package:flutter/gestures.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:backyard/Arguments/screen_arguments.dart';
-import 'package:backyard/Model/faq_model.dart';
-import 'package:backyard/Model/menu_model.dart';
-import 'package:flutter/material.dart';
-import 'package:backyard/Component/custom_buttom.dart';
-import 'package:backyard/Component/custom_empty_data.dart';
-import 'package:backyard/Component/custom_image.dart';
 import 'package:backyard/Component/custom_refresh.dart';
+import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Controller/home_controller.dart';
-import 'package:backyard/Model/user_model.dart';
-import 'package:backyard/Service/navigation_service.dart';
-import 'package:backyard/Utils/app_router_name.dart';
+import 'package:backyard/Model/faq_model.dart';
 import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/base_view.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../../../Component/custom_text.dart';
 import 'package:sizer/sizer.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-
-import '../Utils/utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FAQScreen extends StatefulWidget {
+  const FAQScreen({super.key});
+
   @override
   State<FAQScreen> createState() => _FAQScreenState();
 }
@@ -42,53 +30,53 @@ class _FAQScreenState extends State<FAQScreen> {
   int selectedIndex = 0;
   List<FAQs> faqs = [
     FAQs(
-        question: 'Question 01?',
-        answer:
-            'Lorem ipsum dolor sit amet consectetur adipiscing, elit congue nisi rutrum platea lacinia sapien, sed vel cras torquent scelerisque. Tempus pharetra quam congue natoque aptent sollicitudin et bibendum ullamcorper fames facilisis urna, ac tempor arcu ridiculus proin etiam diam taciti vivamus id pulvinar.'),
+      question: 'Question 01?',
+      answer:
+          'Lorem ipsum dolor sit amet consectetur adipiscing, elit congue nisi rutrum platea lacinia sapien, sed vel cras torquent scelerisque. Tempus pharetra quam congue natoque aptent sollicitudin et bibendum ullamcorper fames facilisis urna, ac tempor arcu ridiculus proin etiam diam taciti vivamus id pulvinar.',
+    ),
     FAQs(
-        question: 'Question 02?',
-        answer:
-            'Lorem ipsum dolor sit amet consectetur adipiscing, elit congue nisi rutrum platea lacinia sapien, sed vel cras torquent scelerisque. Tempus pharetra quam congue natoque aptent sollicitudin et bibendum ullamcorper fames facilisis urna, ac tempor arcu ridiculus proin etiam diam taciti vivamus id pulvinar.'),
+      question: 'Question 02?',
+      answer:
+          'Lorem ipsum dolor sit amet consectetur adipiscing, elit congue nisi rutrum platea lacinia sapien, sed vel cras torquent scelerisque. Tempus pharetra quam congue natoque aptent sollicitudin et bibendum ullamcorper fames facilisis urna, ac tempor arcu ridiculus proin etiam diam taciti vivamus id pulvinar.',
+    ),
     FAQs(
-        question: 'Question 03?',
-        answer:
-            'Lorem ipsum dolor sit amet consectetur adipiscing, elit congue nisi rutrum platea lacinia sapien, sed vel cras torquent scelerisque. Tempus pharetra quam congue natoque aptent sollicitudin et bibendum ullamcorper fames facilisis urna, ac tempor arcu ridiculus proin etiam diam taciti vivamus id pulvinar.'),
+      question: 'Question 03?',
+      answer:
+          'Lorem ipsum dolor sit amet consectetur adipiscing, elit congue nisi rutrum platea lacinia sapien, sed vel cras torquent scelerisque. Tempus pharetra quam congue natoque aptent sollicitudin et bibendum ullamcorper fames facilisis urna, ac tempor arcu ridiculus proin etiam diam taciti vivamus id pulvinar.',
+    ),
     FAQs(
-        question: 'Question 04?',
-        answer:
-            'Lorem ipsum dolor sit amet consectetur adipiscing, elit congue nisi rutrum platea lacinia sapien, sed vel cras torquent scelerisque. Tempus pharetra quam congue natoque aptent sollicitudin et bibendum ullamcorper fames facilisis urna, ac tempor arcu ridiculus proin etiam diam taciti vivamus id pulvinar.'),
+      question: 'Question 04?',
+      answer:
+          'Lorem ipsum dolor sit amet consectetur adipiscing, elit congue nisi rutrum platea lacinia sapien, sed vel cras torquent scelerisque. Tempus pharetra quam congue natoque aptent sollicitudin et bibendum ullamcorper fames facilisis urna, ac tempor arcu ridiculus proin etiam diam taciti vivamus id pulvinar.',
+    ),
     FAQs(
-        question: 'Question 05?',
-        answer:
-            'Lorem ipsum dolor sit amet consectetur adipiscing, elit congue nisi rutrum platea lacinia sapien, sed vel cras torquent scelerisque. Tempus pharetra quam congue natoque aptent sollicitudin et bibendum ullamcorper fames facilisis urna, ac tempor arcu ridiculus proin etiam diam taciti vivamus id pulvinar.'),
+      question: 'Question 05?',
+      answer:
+          'Lorem ipsum dolor sit amet consectetur adipiscing, elit congue nisi rutrum platea lacinia sapien, sed vel cras torquent scelerisque. Tempus pharetra quam congue natoque aptent sollicitudin et bibendum ullamcorper fames facilisis urna, ac tempor arcu ridiculus proin etiam diam taciti vivamus id pulvinar.',
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return BaseView(
-        screenTitle: 'Support & Help',
-        showAppBar: true,
-        bgImage: '',
-        showBackButton: true,
-        resizeBottomInset: false,
-        child: CustomRefresh(
-          onRefresh: () async {
-            // await getData(loading: false);
-          },
-          child: Consumer<HomeController>(builder: (context, val, _) {
+      screenTitle: 'Support & Help',
+      showAppBar: true,
+      bgImage: '',
+      showBackButton: true,
+      resizeBottomInset: false,
+      child: CustomRefresh(
+        onRefresh: () async {
+          // await getData(loading: false);
+        },
+        child: Consumer<HomeController>(
+          builder: (context, val, _) {
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  MyText(
-                    title: 'FAQ',
-                    fontWeight: FontWeight.w600,
-                    size: 18,
-                  ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
+                  MyText(title: 'FAQ', fontWeight: FontWeight.w600, size: 18),
+                  SizedBox(height: 2.h),
                   // d.faqs.isEmpty
                   //     ? CustomEmptyData(
                   //         title: 'No FAQs',
@@ -97,87 +85,80 @@ class _FAQScreenState extends State<FAQScreen> {
                   //     :
                   Flexible(
                     child: ListView.builder(
-                        physics: ClampingScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: 12,
-                        itemBuilder: (BuildContext, int index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 0.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                // selectedIndex.value = index;
-                              },
-                              child: Column(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        color: selectedIndex == index
-                                            ? MyColors().secondaryColor
-                                            : MyColors().primaryColor2,
-                                        // border: Border.all(
-                                        //     color: MyColors().greyColor
-                                        // ),
-                                        borderRadius: selectedIndex == index
-                                            ? BorderRadius.vertical(
-                                                top: Radius.circular(25))
-                                            : BorderRadius.circular(25)),
-                                    padding: EdgeInsets.all(4.w),
-                                    // margin: EdgeInsets.only(bottom: 2.h),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        MyText(
-                                          title: "Question",
-                                          size: 15,
-                                          fontWeight: FontWeight.w600,
-                                          clr: MyColors().whiteColor,
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            if (selectedIndex == index) {
-                                              selectedIndex = 1000;
-                                            } else {
-                                              selectedIndex = index;
-                                            }
-                                            // selectedIndex.refresh();
-                                          },
-                                          child: Icon(
-                                            selectedIndex == index
-                                                ? Icons.expand_less
-                                                : Icons.expand_more,
-                                            color: MyColors().whiteColor,
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                      physics: ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: 12,
+                      itemBuilder: (BuildContext, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 0.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              // selectedIndex.value = index;
+                            },
+                            child: Column(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color:
+                                        selectedIndex == index ? MyColors().secondaryColor : MyColors().primaryColor2,
+                                    // border: Border.all(
+                                    //     color: MyColors().greyColor
+                                    // ),
+                                    borderRadius:
+                                        selectedIndex == index
+                                            ? BorderRadius.vertical(top: Radius.circular(25))
+                                            : BorderRadius.circular(25),
                                   ),
-                                  if (selectedIndex == index) ...[
-                                    Container(
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: MyColors().secondaryColor),
+                                  padding: EdgeInsets.all(4.w),
+                                  // margin: EdgeInsets.only(bottom: 2.h),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      MyText(
+                                        title: 'Question',
+                                        size: 15,
+                                        fontWeight: FontWeight.w600,
+                                        clr: MyColors().whiteColor,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          if (selectedIndex == index) {
+                                            selectedIndex = 1000;
+                                          } else {
+                                            selectedIndex = index;
+                                          }
+                                          // selectedIndex.refresh();
+                                        },
+                                        child: Icon(
+                                          selectedIndex == index ? Icons.expand_less : Icons.expand_more,
                                           color: MyColors().whiteColor,
-                                          borderRadius: BorderRadius.vertical(
-                                              bottom: Radius.circular(12))),
-                                      padding: EdgeInsets.all(4.w),
-                                      margin: EdgeInsets.only(bottom: 2.h),
-                                      child: MyText(title: "answer"),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                if (selectedIndex == index) ...[
+                                  Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: MyColors().secondaryColor),
+                                      color: MyColors().whiteColor,
+                                      borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)),
                                     ),
-                                  ],
-                                  SizedBox(
-                                    height: 2.h,
+                                    padding: EdgeInsets.all(4.w),
+                                    margin: EdgeInsets.only(bottom: 2.h),
+                                    child: MyText(title: 'answer'),
                                   ),
                                 ],
-                              ),
+                                SizedBox(height: 2.h),
+                              ],
                             ),
-                          );
-                        }),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
+                  SizedBox(height: 2.h),
                   GestureDetector(
                     onTap: () {
                       // AppNavigation.navigateTo(context, AppRouteName.CHAT_SCREEN_ROUTE,arguments: ScreenArguments(isSupport:true,u: User(id: HomeController.i.adminID)));
@@ -185,17 +166,12 @@ class _FAQScreenState extends State<FAQScreen> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image.asset(
-                          ImagePath.support,
-                          color: MyColors().secondaryColor,
-                          scale: 1.5,
-                        ),
+                        Image.asset(ImagePath.support, color: MyColors().secondaryColor, scale: 1.5),
                         Expanded(
                           child: RichText(
                             textAlign: TextAlign.center,
-                            textScaleFactor: 1.03,
                             text: TextSpan(
-                              text: "",
+                              text: '',
                               style: GoogleFonts.roboto(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 13,
@@ -206,11 +182,12 @@ class _FAQScreenState extends State<FAQScreen> {
                                 TextSpan(
                                   text: 'Chat with support',
                                   style: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14,
-                                      decorationThickness: 2,
-                                      color: MyColors().secondaryColor,
-                                      decoration: TextDecoration.underline),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                    decorationThickness: 2,
+                                    color: MyColors().secondaryColor,
+                                    decoration: TextDecoration.underline,
+                                  ),
                                   // recognizer: TapGestureRecognizer()
                                   //   ..onTap = () async {
                                   //     AppNavigation.navigateTo(context, AppRouteName.CHAT_SCREEN_ROUTE,);
@@ -232,26 +209,27 @@ class _FAQScreenState extends State<FAQScreen> {
                                 TextSpan(
                                   text: 'support@email.com',
                                   style: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14,
-                                      decorationThickness: 2,
-                                      color: MyColors().secondaryColor,
-                                      decoration: TextDecoration.underline),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () async {
-                                      launchURL(email: 'support@email.com');
-                                    },
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                    decorationThickness: 2,
+                                    color: MyColors().secondaryColor,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                  recognizer:
+                                      TapGestureRecognizer()
+                                        ..onTap = () async {
+                                          launchURL(email: 'support@email.com');
+                                        },
                                 ),
                               ],
                             ),
+                            textScaler: TextScaler.linear(1.03),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
+                  SizedBox(height: 2.h),
                 ],
               ),
 
@@ -376,24 +354,21 @@ class _FAQScreenState extends State<FAQScreen> {
               //   }
               // ),
             );
-          }),
-        ));
+          },
+        ),
+      ),
+    );
   }
 
   // Future<void> getData({loading}) async {
   //   await HomeController.i.getFAQs(loading: loading ?? true, context: context);
   // }
 
-  void launchURL({required String email}) async {
-    final Uri params = Uri(
-      scheme: 'mailto',
-      path: email,
-    );
-    String url = params.toString();
+  Future<void> launchURL({required String email}) async {
+    final params = Uri(scheme: 'mailto', path: email);
+    final url = params.toString();
     if (await canLaunch(url)) {
       await launch(url);
-    } else {
-      print('Could not launch $url');
-    }
+    } else {}
   }
 }

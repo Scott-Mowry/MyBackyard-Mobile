@@ -56,14 +56,13 @@
 // }
 
 import 'package:backyard/Component/app_regular_expressions.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 extension AppValidator on String {
   //-------------- Password Validator -------------------
-  get validatePass {
-    if (!RegularExpressions.PASSWORD_VALID_REGIX.hasMatch(this) && isNotEmpty) {
-      return "Password must be of 8 characters long and contain atleast 1 uppercase, 1 lowercase, 1 digit and 1 special character";
+  String? get validatePass {
+    if (!RegularExpressions.passwordValidRegex.hasMatch(this) && isNotEmpty) {
+      return 'Password must be of 8 characters long and contain atleast 1 uppercase, 1 lowercase, 1 digit and 1 special character';
     } else if (isEmpty) {
       return "Password field can't be empty.";
     }
@@ -71,16 +70,16 @@ extension AppValidator on String {
   }
 
   //-------------- Email Validator -------------------
-  get validateEmail {
-    if (!RegularExpressions.EMAIL_VALID_REGIX.hasMatch(this) && isNotEmpty) {
-      return "Please enter valid email address";
+  String? get validateEmail {
+    if (!RegularExpressions.emailValidRegex.hasMatch(this) && isNotEmpty) {
+      return 'Please enter valid email address';
     } else if (isEmpty) {
-      return "Email field cannot be empty";
+      return 'Email field cannot be empty';
     }
     return null;
   }
 
-  get validateZipCOde {
+  String? get validateZipCOde {
     // if (RegExp(r'^\d{5}(-\d{4})?$').hasMatch(this) && isNotEmpty) {
     //   return "Please enter valid Zip Code";
     // } else
@@ -88,7 +87,7 @@ extension AppValidator on String {
     //   return "Please enter valid Zip Code";
     // } else
     if (isEmpty) {
-      return "Zip Code field cannot be empty";
+      return 'Zip Code field cannot be empty';
     }
     return null;
   }
@@ -97,17 +96,17 @@ extension AppValidator on String {
   String? validateEmpty(String message) {
     if (isEmpty) {
       // return '$message field_cant_be_empty'.tr();
-      String returningString = 'field cannot be empty';
+      final returningString = 'field cannot be empty';
       return '$message $returningString';
     } else {
       return null;
     }
   }
 
-//---------------- OTP Validator ---------------
-  get validateOtp {
-    if ((this ?? "").length < 6) {
-      return "Password must be of 6 characters";
+  //---------------- OTP Validator ---------------
+  String? get validateOtp {
+    if (length < 6) {
+      return 'Password must be of 6 characters';
     }
     return null;
   }
@@ -115,29 +114,27 @@ extension AppValidator on String {
 
 class CreditCardNumberFormater extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     if (newValue.selection.baseOffset == 0) {
       return newValue;
     }
-    String enteredData = newValue.text; // get data enter by used in textField
-    StringBuffer buffer = StringBuffer();
+    final enteredData = newValue.text; // get data enter by used in textField
+    final buffer = StringBuffer();
 
-    for (int i = 0; i < enteredData.length; i++) {
+    for (var i = 0; i < enteredData.length; i++) {
       // add each character into String buffer
       buffer.write(enteredData[i]);
-      int index = i + 1;
+      final index = i + 1;
       if (index % 4 == 0 && enteredData.length != index) {
         // add space after 4th digit
-        buffer.write(" ");
+        buffer.write(' ');
       }
     }
 
     return TextEditingValue(
-        text: buffer.toString(), // final generated credit card number
-        selection: TextSelection.collapsed(
-            offset: buffer.toString().length) // keep the cursor at end
-        );
+      text: buffer.toString(), // final generated credit card number
+      selection: TextSelection.collapsed(offset: buffer.toString().length), // keep the cursor at end
+    );
   }
 }
 

@@ -70,7 +70,7 @@
 //                       children: [
 //                         Image.asset(ImagePath.upload,width: 5.w,),
 //                         SizedBox(height: 1.h,),
-//                         MyText(title: 'Upload Image',clr: MyColors().purpleLight.withOpacity(.7),fontWeight: FontWeight.w600,)
+//                         MyText(title: 'Upload Image',clr: MyColors().purpleLight.withValues(alpha: .7),fontWeight: FontWeight.w600,)
 //                       ],
 //                     ) : Container(
 //                       padding: const EdgeInsets.all(4.0),

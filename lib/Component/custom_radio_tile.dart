@@ -60,22 +60,22 @@ import 'package:flutter/material.dart';
 // }
 
 class CustomRadioTile extends StatelessWidget {
-  CustomRadioTile({Key? key, required this.v, this.color}) : super(key: key);
-  bool v = true;
-  Color? color;
+  final bool v;
+  final Color? color;
+
+  const CustomRadioTile({super.key, required this.v, this.color});
 
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-        radius: 8,
-        backgroundColor: color,
-        child: CircleAvatar(
-            radius: 7,
-            backgroundColor: Colors.white,
-            child: CircleAvatar(
-              radius: 4,
-              backgroundColor: v ? color : Colors.white,
-            )));
+      radius: 8,
+      backgroundColor: color,
+      child: CircleAvatar(
+        radius: 7,
+        backgroundColor: Colors.white,
+        child: CircleAvatar(radius: 4, backgroundColor: v ? color : Colors.white),
+      ),
+    );
   }
 }
 
@@ -122,6 +122,3 @@ class CustomRadioTile extends StatelessWidget {
 //     );
 //   }
 // }
-
-
-

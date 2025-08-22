@@ -38,25 +38,23 @@ class ProductsModel {
     quantity = json['quantity'] ?? 1;
     isFavourite = json['is_favourite'] ?? 0;
     description = json['description'] ?? '';
-    image = (json['prod_images'] as List?) != null
-        ? ((json['prod_images'] as List).isNotEmpty
-            ? (json['prod_images'] as List)[0]
-            : '')
-        : '';
+    image =
+        (json['prod_images'] as List?) != null
+            ? ((json['prod_images'] as List).isNotEmpty ? (json['prod_images'] as List)[0] : '')
+            : '';
     avgRating = json['avg_rating'] ?? 0.0;
     myRating = json['my_rating'];
-    categoryId = (json['category_id'] as Map<String, dynamic>?) != null
-        ? Category.fromJson(json['category_id'] as Map<String, dynamic>)
-        : null;
+    categoryId =
+        (json['category_id'] as Map<String, dynamic>?) != null
+            ? Category.fromJson(json['category_id'] as Map<String, dynamic>)
+            : null;
     category = categoryId?.categoryName ?? '';
-    prodImages = (json['prod_images'] as List?)
-        ?.map((dynamic e) => e as String)
-        .toList();
+    prodImages = (json['prod_images'] as List?)?.map((dynamic e) => e as String).toList();
     // rating = (json['rating'] as Map<String,dynamic>?) != null ? Rating.fromJson(json['rating'] as Map<String,dynamic>) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> json = <String, dynamic>{};
+    final json = <String, dynamic>{};
     json['_id'] = id;
     json['title'] = title;
     json['price'] = price;
@@ -69,7 +67,7 @@ class ProductsModel {
     json['avg_rating'] = avgRating;
     json['prod_images'] = prodImages;
     json['category_id'] = categoryId?.toJson();
-// json['rating'] = rating?.toJson();
+    // json['rating'] = rating?.toJson();
     return json;
   }
 }
@@ -78,10 +76,7 @@ class Category {
   String id = '';
   String categoryName = '';
 
-  Category({
-    this.id = '',
-    this.categoryName = '',
-  });
+  Category({this.id = '', this.categoryName = ''});
 
   Category.fromJson(Map<String, dynamic> json) {
     id = json['_id'] ?? '';
@@ -89,7 +84,7 @@ class Category {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> json = <String, dynamic>{};
+    final json = <String, dynamic>{};
     json['_id'] = id;
     json['name'] = categoryName;
     return json;

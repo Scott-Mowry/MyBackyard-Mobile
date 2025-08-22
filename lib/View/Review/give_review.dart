@@ -3,7 +3,7 @@
 // import 'package:backyard/Component/custom_checkbox.dart';
 // import 'package:backyard/Component/custom_image.dart';
 // import 'package:backyard/Component/custom_padding.dart';
-// import 'package:backyard/Component/custom_textfield.dart';
+// import 'package:backyard/Component/custom_text_form_field.dart';
 // import 'package:backyard/Component/custom_toast.dart';
 // import 'package:backyard/Service/navigation_service.dart';
 // import 'package:backyard/Utils/app_router_name.dart';
@@ -44,7 +44,7 @@
 //               crossAxisAlignment: CrossAxisAlignment.center,
 //               mainAxisAlignment: MainAxisAlignment.center,
 //               children: [
-//                 SizedBox(height: MediaQuery.of(context).viewInsets.bottom == 0?15.h:0.h,),
+//                 SizedBox(height: MediaQuery.viewInsetsOf(context).bottom == 0?15.h:0.h,),
 //                 MyText(title: 'Leave a Review',size: 22,),
 //                 SizedBox(height: 2.h,),
 //                 MyText(title: 'Please give your rating & also your review',size: 18,),
