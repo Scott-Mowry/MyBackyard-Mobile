@@ -1,6 +1,6 @@
-import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 

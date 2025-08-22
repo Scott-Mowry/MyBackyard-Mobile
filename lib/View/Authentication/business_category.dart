@@ -1,12 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:backyard/legacy/Component/custom_buttom.dart';
-import 'package:backyard/legacy/Component/custom_image.dart';
-import 'package:backyard/legacy/Component/custom_padding.dart';
-import 'package:backyard/legacy/Component/custom_refresh.dart';
-import 'package:backyard/legacy/Component/custom_text.dart';
-import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/Controller/home_controller.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Service/app_network.dart';
@@ -18,6 +12,12 @@ import 'package:backyard/Utils/enum.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/Widget/Dialog/profile_complete_dialog.dart';
 import 'package:backyard/View/base_view.dart';
+import 'package:backyard/legacy/Component/custom_buttom.dart';
+import 'package:backyard/legacy/Component/custom_image.dart';
+import 'package:backyard/legacy/Component/custom_padding.dart';
+import 'package:backyard/legacy/Component/custom_refresh.dart';
+import 'package:backyard/legacy/Component/custom_text.dart';
+import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';

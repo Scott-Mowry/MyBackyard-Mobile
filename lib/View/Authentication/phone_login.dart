@@ -1,12 +1,5 @@
 import 'dart:developer';
 
-import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
-import 'package:backyard/legacy/Component/custom_background_image.dart';
-import 'package:backyard/legacy/Component/custom_buttom.dart';
-import 'package:backyard/legacy/Component/custom_padding.dart';
-import 'package:backyard/legacy/Component/custom_text.dart';
-import 'package:backyard/legacy/Component/custom_text_form_field.dart';
-import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
@@ -14,6 +7,13 @@ import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/Authentication/enter_otp.dart';
 import 'package:backyard/View/Widget/appLogo.dart';
+import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
+import 'package:backyard/legacy/Component/custom_background_image.dart';
+import 'package:backyard/legacy/Component/custom_buttom.dart';
+import 'package:backyard/legacy/Component/custom_padding.dart';
+import 'package:backyard/legacy/Component/custom_text.dart';
+import 'package:backyard/legacy/Component/custom_text_form_field.dart';
+import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';

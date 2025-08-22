@@ -1,9 +1,5 @@
 import 'dart:ui';
 
-import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
-import 'package:backyard/legacy/Component/custom_empty_data.dart';
-import 'package:backyard/legacy/Component/custom_padding.dart';
-import 'package:backyard/legacy/Component/custom_refresh.dart';
 import 'package:backyard/Controller/home_controller.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Model/offer_model.dart';
@@ -13,6 +9,10 @@ import 'package:backyard/View/User/offers.dart';
 import 'package:backyard/View/Widget/Dialog/reject_dialog.dart';
 import 'package:backyard/View/Widget/search_tile.dart';
 import 'package:backyard/View/base_view.dart';
+import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
+import 'package:backyard/legacy/Component/custom_empty_data.dart';
+import 'package:backyard/legacy/Component/custom_padding.dart';
+import 'package:backyard/legacy/Component/custom_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
