@@ -85,14 +85,15 @@ apply-lint:
 
 ANDROID_APP_ID=com.app.mybackyardusa
 IOS_APP_ID=com.celect.mybackyardapp
-FIREBASE_ID_PROD=my-backyard-944b1
-FIREBASE_ID_STG=mybackyardusa-stg
+FIREBASE_ID=my-backyard-usa
 
 FIREBASE_OPTIONS_PATH=./lib/core/firebase_options/firebase_options
 
 # Generate firebase configurations for each environment
-gen-firebase-configs:
-	fvm exec flutterfire config -y -p ${FIREBASE_ID_STG} -o ${FIREBASE_OPTIONS_PATH}_stg.dart -i ${IOS_APP_ID}.stg -a ${ANDROID_APP_ID}.stg
+gen-firebase-configs-stg:
+	fvm exec flutterfire config -y -p ${FIREBASE_ID} -o ${FIREBASE_OPTIONS_PATH}_stg.dart -i ${IOS_APP_ID}.stg -a ${ANDROID_APP_ID}.stg
 	mv ios/Runner/GoogleService-Info.plist .firebase/stg && mv android/app/google-services.json .firebase/stg
-	fvm exec flutterfire config -y -p ${FIREBASE_ID_PROD} -o ${FIREBASE_OPTIONS_PATH}_prod.dart -i ${IOS_APP_ID} -a ${ANDROID_APP_ID}
+
+gen-firebase-configs-prod:
+	fvm exec flutterfire config -y -p ${FIREBASE_ID} -o ${FIREBASE_OPTIONS_PATH}_prod.dart -i ${IOS_APP_ID} -a ${ANDROID_APP_ID}
 	mv ios/Runner/GoogleService-Info.plist .firebase/prod && mv android/app/google-services.json .firebase/prod

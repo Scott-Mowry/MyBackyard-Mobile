@@ -1,5 +1,5 @@
 name: backyard
-description: "A new Flutter project."
+description: "My Backyard USA"
 publish_to: "none"
 version: 2.0.0+0
 
@@ -126,15 +126,10 @@ flutter:
     - assets/icons/
     - assets/random/
 
-#  fonts:
-#    - family: Jost
-#      fonts:
-#        - asset: assets/fonts/Jost-VariableFont_wght.ttf
-#          style: normal
-#    - family: Mulish
-#      fonts:
-#        - asset: assets/fonts/Mulish-VariableFont_wght.ttf
-#          style: normal
+    - assets_new/icons/
+    - assets_new/images/
+    - assets_new/fonts/
+    - assets_new/launcher/
 
 flavorizr:
   ide: idea

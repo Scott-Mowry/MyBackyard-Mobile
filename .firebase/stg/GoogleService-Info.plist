@@ -2,22 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>936593739098-mefs8s2o13908fftp6jfknsg1hhgtl0f.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.936593739098-mefs8s2o13908fftp6jfknsg1hhgtl0f</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCRlLta5d2rybxDlYvLVKvixxlqGiB1vdU</string>
+	<string>AIzaSyBM3EaXixlJh0xQIiyUBu5Cyc6WMOgKAsU</string>
 	<key>GCM_SENDER_ID</key>
-	<string>936593739098</string>
+	<string>778233061802</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.celect.mybackyardapp</string>
+	<string>com.celect.mybackyardapp.stg</string>
 	<key>PROJECT_ID</key>
-	<string>my-backyard-944b1</string>
+	<string>my-backyard-usa</string>
 	<key>STORAGE_BUCKET</key>
-	<string>my-backyard-944b1.appspot.com</string>
+	<string>my-backyard-usa.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:936593739098:ios:371f6c31053051ce8b3763</string>
+	<string>1:778233061802:ios:d64b44600b5a6da8eecbd3</string>
 </dict>
 </plist>
