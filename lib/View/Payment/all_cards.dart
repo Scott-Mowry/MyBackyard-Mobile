@@ -1,11 +1,11 @@
 import 'dart:ui';
 
-import 'package:backyard/Component/custom_buttom.dart';
-import 'package:backyard/Component/custom_empty_data.dart';
-import 'package:backyard/Component/custom_padding.dart';
-import 'package:backyard/Component/custom_radio_tile.dart';
-import 'package:backyard/Component/custom_text.dart';
-import 'package:backyard/Component/custom_toast.dart';
+import 'package:backyard/legacy/Component/custom_buttom.dart';
+import 'package:backyard/legacy/Component/custom_empty_data.dart';
+import 'package:backyard/legacy/Component/custom_padding.dart';
+import 'package:backyard/legacy/Component/custom_radio_tile.dart';
+import 'package:backyard/legacy/Component/custom_text.dart';
+import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/Controller/home_controller.dart';
 import 'package:backyard/Model/card_model.dart';
 import 'package:backyard/Service/navigation_service.dart';

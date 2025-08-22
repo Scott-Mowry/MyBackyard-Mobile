@@ -1,6 +1,3 @@
-import 'package:backyard/Arguments/content_argument.dart';
-import 'package:backyard/Component/custom_drawer.dart';
-import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Controller/home_controller.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Service/navigation_service.dart';
@@ -17,6 +14,9 @@ import 'package:backyard/View/Common/user_profile.dart';
 import 'package:backyard/View/User/category.dart';
 import 'package:backyard/View/User/offers.dart';
 import 'package:backyard/View/User/user_home.dart';
+import 'package:backyard/legacy/Arguments/content_argument.dart';
+import 'package:backyard/legacy/Component/custom_drawer.dart';
+import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

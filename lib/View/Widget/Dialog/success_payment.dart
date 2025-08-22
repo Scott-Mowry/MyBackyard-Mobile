@@ -1,5 +1,5 @@
-import 'package:backyard/Component/custom_buttom.dart';
-import 'package:backyard/Component/custom_text.dart';
+import 'package:backyard/legacy/Component/custom_buttom.dart';
+import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/image_path.dart';

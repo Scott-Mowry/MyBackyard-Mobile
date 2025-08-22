@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:backyard/Component/custom_buttom.dart';
-import 'package:backyard/Component/custom_image.dart';
-import 'package:backyard/Component/custom_padding.dart';
-import 'package:backyard/Component/custom_refresh.dart';
-import 'package:backyard/Component/custom_text.dart';
-import 'package:backyard/Component/custom_toast.dart';
+import 'package:backyard/legacy/Component/custom_buttom.dart';
+import 'package:backyard/legacy/Component/custom_image.dart';
+import 'package:backyard/legacy/Component/custom_padding.dart';
+import 'package:backyard/legacy/Component/custom_refresh.dart';
+import 'package:backyard/legacy/Component/custom_text.dart';
+import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/Controller/home_controller.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Service/app_network.dart';

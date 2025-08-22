@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:backyard/Component/custom_buttom.dart';
-import 'package:backyard/Component/custom_padding.dart';
+import 'package:backyard/legacy/Component/custom_buttom.dart';
+import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/bus_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';

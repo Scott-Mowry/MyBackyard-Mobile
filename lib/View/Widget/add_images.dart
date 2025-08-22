@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:backyard/Component/custom_text.dart';
+import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/Model/file_network.dart';
 import 'package:backyard/Service/api.dart';
 import 'package:backyard/Utils/image_path.dart';

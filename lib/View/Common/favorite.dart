@@ -1,8 +1,3 @@
-import 'package:backyard/Arguments/profile_screen_arguments.dart';
-import 'package:backyard/Component/Appbar/appbar_components.dart';
-import 'package:backyard/Component/custom_buttom.dart';
-import 'package:backyard/Component/custom_padding.dart';
-import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/image_path.dart';
@@ -10,6 +5,11 @@ import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/User/offers.dart';
 import 'package:backyard/View/Widget/search_tile.dart';
 import 'package:backyard/View/base_view.dart';
+import 'package:backyard/legacy/Arguments/profile_screen_arguments.dart';
+import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
+import 'package:backyard/legacy/Component/custom_buttom.dart';
+import 'package:backyard/legacy/Component/custom_padding.dart';
+import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 

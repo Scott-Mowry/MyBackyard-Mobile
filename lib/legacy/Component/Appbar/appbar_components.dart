@@ -1,12 +1,12 @@
-import 'package:backyard/Arguments/screen_arguments.dart';
-import 'package:backyard/Component/custom_icon_container.dart';
-import 'package:backyard/Component/custom_text.dart';
 import 'package:backyard/Controller/home_controller.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/Utils/utils.dart';
+import 'package:backyard/legacy/Arguments/screen_arguments.dart';
+import 'package:backyard/legacy/Component/custom_icon_container.dart';
+import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';

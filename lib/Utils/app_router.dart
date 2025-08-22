@@ -1,6 +1,6 @@
-import 'package:backyard/Arguments/content_argument.dart';
-import 'package:backyard/Arguments/profile_screen_arguments.dart';
-import 'package:backyard/Arguments/screen_arguments.dart';
+import 'package:backyard/legacy/Arguments/content_argument.dart';
+import 'package:backyard/legacy/Arguments/profile_screen_arguments.dart';
+import 'package:backyard/legacy/Arguments/screen_arguments.dart';
 import 'package:backyard/Service/url_launcher.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/View/Authentication/business_category.dart';

@@ -1,6 +1,6 @@
-import 'package:backyard/Component/custom_card.dart';
-import 'package:backyard/Component/custom_radio_tile.dart';
-import 'package:backyard/Component/custom_text.dart';
+import 'package:backyard/legacy/Component/custom_card.dart';
+import 'package:backyard/legacy/Component/custom_radio_tile.dart';
+import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/Model/card_model.dart';
 import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';

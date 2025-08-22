@@ -1,10 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:backyard/Arguments/content_argument.dart';
-import 'package:backyard/Component/custom_buttom.dart';
-import 'package:backyard/Component/custom_text.dart';
-import 'package:backyard/Component/custom_toast.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Model/menu_model.dart';
 import 'package:backyard/Service/app_in_app_purchase.dart';
@@ -17,6 +13,10 @@ import 'package:backyard/Utils/enum.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/Widget/Dialog/profile_complete_dialog.dart';
 import 'package:backyard/View/base_view.dart';
+import 'package:backyard/legacy/Arguments/content_argument.dart';
+import 'package:backyard/legacy/Component/custom_buttom.dart';
+import 'package:backyard/legacy/Component/custom_text.dart';
+import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/main.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -493,7 +493,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             recognizer:
                 TapGestureRecognizer()
                   ..onTap = () async {
-                    AppNavigation.navigateTo(
+                    return AppNavigation.navigateTo(
                       AppRouteName.CONTENT_SCREEN,
                       arguments: ContentRoutingArgument(
                         title: 'Terms & Conditions',

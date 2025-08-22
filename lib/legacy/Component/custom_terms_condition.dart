@@ -1,8 +1,8 @@
-import 'package:backyard/Arguments/content_argument.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/Utils/app_strings.dart';
 import 'package:backyard/Utils/my_colors.dart';
+import 'package:backyard/legacy/Arguments/content_argument.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

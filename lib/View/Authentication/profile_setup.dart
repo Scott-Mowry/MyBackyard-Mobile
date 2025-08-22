@@ -2,16 +2,6 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:backyard/Arguments/screen_arguments.dart';
-import 'package:backyard/Component/Appbar/appbar_components.dart';
-import 'package:backyard/Component/custom_background_image.dart';
-import 'package:backyard/Component/custom_buttom.dart';
-import 'package:backyard/Component/custom_padding.dart';
-import 'package:backyard/Component/custom_switch.dart';
-import 'package:backyard/Component/custom_text.dart';
-import 'package:backyard/Component/custom_text_form_field.dart';
-import 'package:backyard/Component/custom_toast.dart';
-import 'package:backyard/Component/validations.dart';
 import 'package:backyard/Controller/home_controller.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Service/api.dart';
@@ -27,6 +17,16 @@ import 'package:backyard/Utils/utils.dart';
 import 'package:backyard/View/Widget/Dialog/profile_complete_dialog.dart';
 import 'package:backyard/View/Widget/upload_media.dart';
 import 'package:backyard/View/base_view.dart';
+import 'package:backyard/legacy/Arguments/screen_arguments.dart';
+import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
+import 'package:backyard/legacy/Component/custom_background_image.dart';
+import 'package:backyard/legacy/Component/custom_buttom.dart';
+import 'package:backyard/legacy/Component/custom_padding.dart';
+import 'package:backyard/legacy/Component/custom_switch.dart';
+import 'package:backyard/legacy/Component/custom_text.dart';
+import 'package:backyard/legacy/Component/custom_text_form_field.dart';
+import 'package:backyard/legacy/Component/custom_toast.dart';
+import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/main.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/helpers.dart';
@@ -536,7 +536,8 @@ class _ProfileSetupState extends State<ProfileSetup> {
             'phone': phone.text,
             'image': imageProfile ?? '',
           };
-          AppNavigation.navigateTo(
+
+          return AppNavigation.navigateTo(
             AppRouteName.SCHEDULE_SCREEN_ROUTE,
             arguments: ScreenArguments(args: arguments, fromEdit: false),
           );

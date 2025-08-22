@@ -1,16 +1,16 @@
 import 'dart:ui';
 
-// import 'package:backyard/Arguments/screen_arguments.dart';
-import 'package:backyard/Component/Appbar/appbar_components.dart';
-import 'package:backyard/Component/custom_background_image.dart';
-import 'package:backyard/Component/custom_buttom.dart';
-import 'package:backyard/Component/custom_image.dart';
-import 'package:backyard/Component/custom_padding.dart';
-import 'package:backyard/Component/custom_terms_condition.dart';
-import 'package:backyard/Component/custom_text.dart';
-import 'package:backyard/Component/custom_text_form_field.dart';
-import 'package:backyard/Component/custom_toast.dart';
-import 'package:backyard/Component/validations.dart';
+// import 'package:backyard/legacy/Arguments/screen_arguments.dart';
+import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
+import 'package:backyard/legacy/Component/custom_background_image.dart';
+import 'package:backyard/legacy/Component/custom_buttom.dart';
+import 'package:backyard/legacy/Component/custom_image.dart';
+import 'package:backyard/legacy/Component/custom_padding.dart';
+import 'package:backyard/legacy/Component/custom_terms_condition.dart';
+import 'package:backyard/legacy/Component/custom_text.dart';
+import 'package:backyard/legacy/Component/custom_text_form_field.dart';
+import 'package:backyard/legacy/Component/custom_toast.dart';
+import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Model/user_model.dart';
 import 'package:backyard/Service/app_network.dart';

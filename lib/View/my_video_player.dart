@@ -1,9 +1,9 @@
 // import 'package:get/get.dart';
 // import 'package:flutter/material.dart';
 // import 'package:google_fonts/google_fonts.dart';
-// import 'package:backyard/Component/custom_image.dart';
-// import 'package:backyard/Component/custom_text.dart';
-// import 'package:backyard/Component/custom_videoplayer.dart';
+// import 'package:backyard/legacy/Component/custom_image.dart';
+// import 'package:backyard/legacy/Component/custom_text.dart';
+// import 'package:backyard/legacy/Component/custom_videoplayer.dart';
 // import 'package:backyard/Controller/home_controller.dart';
 // import 'package:backyard/Model/chat_model.dart';
 // import 'package:backyard/Service/navigation_service.dart';

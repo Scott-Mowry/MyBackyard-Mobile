@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:backyard/Component/custom_text.dart';
+import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Model/user_model.dart';
 import 'package:backyard/Service/navigation_service.dart';

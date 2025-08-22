@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:backyard/Component/Appbar/appbar_components.dart';
-import 'package:backyard/Component/custom_background_image.dart';
-import 'package:backyard/Component/custom_padding.dart';
-import 'package:backyard/Component/custom_text.dart';
-import 'package:backyard/Component/custom_toast.dart';
+import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
+import 'package:backyard/legacy/Component/custom_background_image.dart';
+import 'package:backyard/legacy/Component/custom_padding.dart';
+import 'package:backyard/legacy/Component/custom_text.dart';
+import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/auth_apis.dart';

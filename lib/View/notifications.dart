@@ -1,5 +1,5 @@
-import 'package:backyard/Component/custom_refresh.dart';
-import 'package:backyard/Component/custom_text.dart';
+import 'package:backyard/legacy/Component/custom_refresh.dart';
+import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/Controller/user_controller.dart';
 import 'package:backyard/Model/notification_model.dart';
 import 'package:backyard/Utils/my_colors.dart';

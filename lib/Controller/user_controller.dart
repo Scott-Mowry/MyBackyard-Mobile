@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:backyard/Arguments/profile_screen_arguments.dart';
+import 'package:backyard/legacy/Arguments/profile_screen_arguments.dart';
 import 'package:backyard/Model/reiview_model.dart';
 import 'package:backyard/Model/user_model.dart';
 import 'package:backyard/Service/bus_apis.dart';

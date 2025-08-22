@@ -1,5 +1,5 @@
-import 'package:backyard/Component/custom_buttom.dart';
-import 'package:backyard/Component/custom_text.dart';
+import 'package:backyard/legacy/Component/custom_buttom.dart';
+import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/auth_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';

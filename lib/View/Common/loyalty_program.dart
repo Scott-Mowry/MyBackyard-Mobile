@@ -1,5 +1,5 @@
-import 'package:backyard/Component/custom_padding.dart';
-import 'package:backyard/Component/custom_text.dart';
+import 'package:backyard/legacy/Component/custom_padding.dart';
+import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/Utils/image_path.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/base_view.dart';

@@ -1,8 +1,8 @@
-// import 'package:backyard/Component/Appbar/appbar_components.dart';
-// import 'package:backyard/Component/custom_background_image.dart';
-// import 'package:backyard/Component/custom_padding.dart';
-// import 'package:backyard/Component/custom_textfield.dart';
-// import 'package:backyard/Component/title.dart';
+// import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
+// import 'package:backyard/legacy/Component/custom_background_image.dart';
+// import 'package:backyard/legacy/Component/custom_padding.dart';
+// import 'package:backyard/legacy/Component/custom_textfield.dart';
+// import 'package:backyard/legacy/Component/title.dart';
 // import 'package:backyard/Controller/auth_controller.dart';
 // import 'package:flutter/gestures.dart';
 // import 'package:flutter/material.dart';

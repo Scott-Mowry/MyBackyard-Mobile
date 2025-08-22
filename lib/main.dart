@@ -23,7 +23,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await AppInAppPurchase().initialize();
-  ScreenUtil.ensureScreenSize();
+  await ScreenUtil.ensureScreenSize();
   HttpOverrides.global = MyHttpOverrides();
   runApp(MultiProvider(providers: StateManagement.providersList, child: const MyApp()));
 }
