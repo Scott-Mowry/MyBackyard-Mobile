@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:backyard/View/Widget/Dialog/logout.dart';
 import 'package:backyard/legacy/Arguments/content_argument.dart';
 import 'package:backyard/legacy/Component/custom_image.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
@@ -14,6 +13,7 @@ import 'package:backyard/legacy/Utils/enum.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
+import 'package:backyard/legacy/View/Widget/Dialog/logout.dart';
 import 'package:backyard/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
