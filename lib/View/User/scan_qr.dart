@@ -18,8 +18,10 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sizer/sizer.dart';
 
 class ScanQR extends StatefulWidget {
-  bool fromOffer = false;
-  ScanQR({super.key, this.fromOffer = false});
+  final bool fromOffer;
+
+  const ScanQR({super.key, this.fromOffer = false});
+
   @override
   State<ScanQR> createState() => _ScanQRState();
 }

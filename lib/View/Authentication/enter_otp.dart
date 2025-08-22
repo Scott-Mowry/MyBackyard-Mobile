@@ -37,9 +37,9 @@ class EnterOTPArguements {
 class EnterOTP extends StatefulWidget {
   final String? phoneNumber;
   final bool? fromForgot;
-  String? verification;
+  final String? verification;
 
-  EnterOTP({super.key, this.phoneNumber, this.verification, this.fromForgot});
+  const EnterOTP({super.key, this.phoneNumber, this.verification, this.fromForgot});
 
   @override
   State<EnterOTP> createState() => _EnterOTPState();
@@ -255,7 +255,7 @@ class _EnterOTPState extends State<EnterOTP> {
     try {
       AppNetwork.loadingProgressIndicator();
 
-      FirebaseAuth.instance.verifyPhoneNumber(
+      await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: '+1$phoneNumber',
         timeout: const Duration(seconds: 60),
         verificationCompleted: (authCredential) async {},
@@ -264,7 +264,6 @@ class _EnterOTPState extends State<EnterOTP> {
           CustomToast().showToast(message: 'Invalid Phone Number');
         },
         codeSent: (verificationId, forceResendingToken) {
-          widget.verification = verificationId;
           AppNavigation.navigatorPop();
           CustomToast().showToast(
             message: 'We have resend OTP verification code at your phone number',
