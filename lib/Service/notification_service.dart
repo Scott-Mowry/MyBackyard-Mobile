@@ -54,7 +54,7 @@
 // import 'dart:developer';
 // import 'dart:io';
 // import 'package:backyard/legacy/Controller/auth_controller.dart';
-// import 'package:backyard/Model/notification_model.dart';
+// import 'package:backyard/legacy/Model/notification_model.dart';
 // import 'package:backyard/main.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:flutter/cupertino.dart';

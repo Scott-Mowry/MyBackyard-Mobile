@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:backyard/Model/reiview_model.dart';
-import 'package:backyard/Model/user_model.dart';
 import 'package:backyard/Service/bus_apis.dart';
 import 'package:backyard/Service/navigation_service.dart';
 import 'package:backyard/Utils/app_router_name.dart';
@@ -11,6 +9,8 @@ import 'package:backyard/Utils/local_shared_preferences.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/Utils/utils.dart';
 import 'package:backyard/legacy/Arguments/profile_screen_arguments.dart';
+import 'package:backyard/legacy/Model/reiview_model.dart';
+import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';

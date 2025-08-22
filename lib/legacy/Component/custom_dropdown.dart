@@ -1,6 +1,6 @@
-import 'package:backyard/Model/category_model.dart';
 import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
+import 'package:backyard/legacy/Model/category_model.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

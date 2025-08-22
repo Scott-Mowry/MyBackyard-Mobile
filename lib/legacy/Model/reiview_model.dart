@@ -1,4 +1,4 @@
-import 'package:backyard/Model/user_model.dart';
+import 'package:backyard/legacy/Model/user_model.dart';
 
 class Review {
   int? id;

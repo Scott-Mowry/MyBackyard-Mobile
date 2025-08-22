@@ -11,7 +11,7 @@
 // import 'package:backyard/legacy/Controller/auth_controller.dart';
 // import 'package:backyard/legacy/Controller/global_controller.dart';
 // import 'package:backyard/legacy/Controller/home_controller.dart';
-// import 'package:backyard/Model/category_product_model.dart';
+// import 'package:backyard/legacy/Model/category_product_model.dart';
 // import 'package:backyard/Service/navigation_service.dart';
 // import 'package:backyard/Utils/app_router_name.dart';
 // import 'package:backyard/Utils/app_size.dart';

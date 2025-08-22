@@ -1,9 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:backyard/Model/category_model.dart';
-import 'package:backyard/Model/category_product_model.dart';
-import 'package:backyard/Model/offer_model.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/bus_apis.dart';
 import 'package:backyard/Service/general_apis.dart';
@@ -24,6 +21,9 @@ import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
+import 'package:backyard/legacy/Model/category_model.dart';
+import 'package:backyard/legacy/Model/category_product_model.dart';
+import 'package:backyard/legacy/Model/offer_model.dart';
 import 'package:backyard/main.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';

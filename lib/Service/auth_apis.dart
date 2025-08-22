@@ -1,8 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:backyard/Model/response_model.dart';
-import 'package:backyard/Model/user_model.dart';
 import 'package:backyard/Service/api.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/navigation_service.dart';
@@ -11,6 +9,8 @@ import 'package:backyard/Utils/enum.dart';
 import 'package:backyard/Utils/local_shared_preferences.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
+import 'package:backyard/legacy/Model/response_model.dart';
+import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/main.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

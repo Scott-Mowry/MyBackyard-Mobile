@@ -1,10 +1,10 @@
 import 'dart:ui' as ui;
 
-import 'package:backyard/Model/card_model.dart';
-import 'package:backyard/Model/category_model.dart';
-import 'package:backyard/Model/offer_model.dart';
-import 'package:backyard/Model/places_model.dart';
-import 'package:backyard/Model/user_model.dart';
+import 'package:backyard/legacy/Model/card_model.dart';
+import 'package:backyard/legacy/Model/category_model.dart';
+import 'package:backyard/legacy/Model/offer_model.dart';
+import 'package:backyard/legacy/Model/places_model.dart';
+import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

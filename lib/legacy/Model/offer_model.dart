@@ -1,4 +1,4 @@
-import 'package:backyard/Model/category_model.dart';
+import 'package:backyard/legacy/Model/category_model.dart';
 
 class Offer {
   int? id;

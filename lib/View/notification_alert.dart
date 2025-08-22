@@ -55,7 +55,7 @@
 // import 'package:flutter/foundation.dart';
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // import 'package:backyard/legacy/Controller/auth_controller.dart';
-// import 'package:backyard/Model/user_model.dart';
+// import 'package:backyard/legacy/Model/user_model.dart';
 // import 'package:backyard/Utils/local_shared_preferences.dart';
 // import 'package:backyard/Utils/utils.dart';
 // import 'package:backyard/main.dart';

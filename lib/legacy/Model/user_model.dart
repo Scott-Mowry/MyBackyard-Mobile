@@ -1,5 +1,5 @@
-import 'package:backyard/Model/day_schedule.dart';
 import 'package:backyard/Utils/enum.dart';
+import 'package:backyard/legacy/Model/day_schedule.dart';
 
 class User {
   int? id;

@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:backyard/Model/user_model.dart';
 import 'package:backyard/Service/app_network.dart';
 import 'package:backyard/Service/auth_apis.dart';
 import 'package:backyard/Service/general_apis.dart';
@@ -24,6 +23,7 @@ import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
+import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/main.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
