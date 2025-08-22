@@ -1,12 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:backyard/legacy/Service/bus_apis.dart';
-import 'package:backyard/legacy/Service/general_apis.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/Utils/image_path.dart';
-import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/Widget/Dialog/custom_dialog.dart';
 import 'package:backyard/View/Widget/upload_media.dart';
 import 'package:backyard/View/base_view.dart';
@@ -24,6 +18,12 @@ import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Model/category_model.dart';
 import 'package:backyard/legacy/Model/category_product_model.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
+import 'package:backyard/legacy/Service/app_network.dart';
+import 'package:backyard/legacy/Service/bus_apis.dart';
+import 'package:backyard/legacy/Service/general_apis.dart';
+import 'package:backyard/legacy/Service/navigation_service.dart';
+import 'package:backyard/legacy/Utils/image_path.dart';
+import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/main.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';

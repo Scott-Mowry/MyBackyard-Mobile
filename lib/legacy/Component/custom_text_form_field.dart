@@ -1,5 +1,5 @@
-import 'package:backyard/Utils/my_colors.dart';
-import 'package:backyard/Utils/responsive.dart';
+import 'package:backyard/legacy/Utils/my_colors.dart';
+import 'package:backyard/legacy/Utils/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';

@@ -1,8 +1,8 @@
 import 'package:backyard/legacy/Service/api.dart';
-import 'package:backyard/Utils/image_path.dart';
-import 'package:backyard/Utils/loader.dart';
-import 'package:backyard/Utils/my_colors.dart';
-import 'package:backyard/Utils/photo_view.dart';
+import 'package:backyard/legacy/Utils/image_path.dart';
+import 'package:backyard/legacy/Utils/loader.dart';
+import 'package:backyard/legacy/Utils/my_colors.dart';
+import 'package:backyard/legacy/Utils/photo_view.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';

@@ -1,5 +1,3 @@
-import 'package:backyard/legacy/Service/url_launcher.dart';
-import 'package:backyard/Utils/app_router_name.dart';
 import 'package:backyard/View/Authentication/business_category.dart';
 import 'package:backyard/View/Authentication/change_password.dart';
 import 'package:backyard/View/Authentication/edit_schedule_time.dart';
@@ -34,6 +32,8 @@ import 'package:backyard/View/splash.dart';
 import 'package:backyard/legacy/Arguments/content_argument.dart';
 import 'package:backyard/legacy/Arguments/profile_screen_arguments.dart';
 import 'package:backyard/legacy/Arguments/screen_arguments.dart';
+import 'package:backyard/legacy/Service/url_launcher.dart';
+import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:flutter/material.dart';
 
 Route onGenerateRoute(RouteSettings routeSettings) {

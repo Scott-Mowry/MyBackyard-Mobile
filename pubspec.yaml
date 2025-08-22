@@ -91,6 +91,10 @@ dependencies:
   place_picker:
     path: locationpicker
 
+  image: any
+  image_picker_for_web: any
+  shared_preferences_web: any
+  flutter_web_plugins: any
 dependency_overrides:
 
 dev_dependencies:

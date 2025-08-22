@@ -1,11 +1,5 @@
 import 'dart:io' show Platform;
 
-import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:backyard/legacy/Service/auth_apis.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/Utils/app_router_name.dart';
-import 'package:backyard/Utils/image_path.dart';
-import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/Widget/appLogo.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -14,6 +8,12 @@ import 'package:backyard/legacy/Component/custom_terms_condition.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
+import 'package:backyard/legacy/Service/app_network.dart';
+import 'package:backyard/legacy/Service/auth_apis.dart';
+import 'package:backyard/legacy/Service/navigation_service.dart';
+import 'package:backyard/legacy/Utils/app_router_name.dart';
+import 'package:backyard/legacy/Utils/image_path.dart';
+import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';

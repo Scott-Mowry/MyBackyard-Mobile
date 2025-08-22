@@ -1,7 +1,5 @@
 import 'dart:ui';
 
-import 'package:backyard/legacy/Service/bus_apis.dart';
-import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/User/offers.dart';
 import 'package:backyard/View/Widget/Dialog/reject_dialog.dart';
 import 'package:backyard/View/Widget/search_tile.dart';
@@ -13,6 +11,8 @@ import 'package:backyard/legacy/Component/custom_refresh.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
+import 'package:backyard/legacy/Service/bus_apis.dart';
+import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';

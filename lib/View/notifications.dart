@@ -1,10 +1,10 @@
-import 'package:backyard/Utils/my_colors.dart';
-import 'package:backyard/Utils/utils.dart';
 import 'package:backyard/View/base_view.dart';
 import 'package:backyard/legacy/Component/custom_refresh.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/notification_model.dart';
+import 'package:backyard/legacy/Utils/my_colors.dart';
+import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';

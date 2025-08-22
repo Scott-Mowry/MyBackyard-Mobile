@@ -1,5 +1,3 @@
-import 'package:backyard/legacy/Service/bus_apis.dart';
-import 'package:backyard/Utils/my_colors.dart';
 import 'package:backyard/View/User/offers.dart';
 import 'package:backyard/View/base_view.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
@@ -11,6 +9,8 @@ import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Model/file_network.dart';
 import 'package:backyard/legacy/Model/user_model.dart';
+import 'package:backyard/legacy/Service/bus_apis.dart';
+import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
