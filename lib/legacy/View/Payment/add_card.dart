@@ -5,6 +5,7 @@ import 'dart:ui';
 
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/repositories/connectivity_repository.dart';
 import 'package:backyard/core/services/auth_service.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -170,11 +171,11 @@ class _AddCardState extends State<AddCard> {
     } else if (cvc.text.length < 3) {
       CustomToast().showToast(message: 'Please enter valid CVV.');
     } else {
-      AppNetwork.loadingProgressIndicator();
+      getIt<AppNetwork>().loadingProgressIndicator();
       final val = await cardAPI();
       AppNavigation.navigatorPop();
       if (val) {
-        AppNetwork.loadingProgressIndicator();
+        getIt<AppNetwork>().loadingProgressIndicator();
         final user = context.read<UserController>().user;
         final result = await getIt<AuthService>().completeProfile(
           firstName: user?.name,
@@ -203,7 +204,7 @@ class _AddCardState extends State<AddCard> {
   Future<bool> cardAPI() async {
     try {
       final price = widget.test?['price'] as double;
-      if (await AppNetwork.checkInternet()) {
+      if (getIt<ConnectivityRepository>().hasInternetAccess) {
         final headers = {
           'Content-Type': 'application/json',
           'Authorization': 'Basic ${base64.encode(utf8.encode('nzpL73LfqcrxyeVhMageUNcL97L1YeVw:1234'))}',

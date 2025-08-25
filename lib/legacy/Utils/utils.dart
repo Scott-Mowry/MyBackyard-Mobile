@@ -368,7 +368,8 @@ class Utils {
     if (fromLogout == true) {
       await getIt<AuthService>().signOut();
     }
-    AppNavigation.navigateTo(AppRouteName.ROLE_SELECTION);
+
+    return AppNavigation.navigateTo(AppRouteName.ROLE_SELECTION);
   }
 
   String parseDate({required String d}) {

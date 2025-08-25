@@ -63,11 +63,11 @@ class _EnterOTPState extends State<EnterOTP> {
       });
       if (val) {
         if (widget.verification != null) {
-          AppNetwork.loadingProgressIndicator();
+          getIt<AppNetwork>().loadingProgressIndicator();
           await resendCode(phoneNumber: widget.phoneNumber ?? '');
           AppNavigation.navigatorPop();
         } else {
-          AppNetwork.loadingProgressIndicator();
+          getIt<AppNetwork>().loadingProgressIndicator();
           final value = await getIt<AuthService>().resendCode(id: userController.user?.id.toString());
           AppNavigation.navigatorPop();
           if (value) {
@@ -254,7 +254,7 @@ class _EnterOTPState extends State<EnterOTP> {
 
   Future<void> resendCode({required String phoneNumber}) async {
     try {
-      AppNetwork.loadingProgressIndicator();
+      getIt<AppNetwork>().loadingProgressIndicator();
 
       await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: '+1$phoneNumber',
@@ -292,7 +292,7 @@ class _EnterOTPState extends State<EnterOTP> {
     required String verificationCode,
   }) async {
     try {
-      AppNetwork.loadingProgressIndicator();
+      getIt<AppNetwork>().loadingProgressIndicator();
       final AuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId,
         smsCode: verificationCode,
@@ -331,7 +331,7 @@ class _EnterOTPState extends State<EnterOTP> {
     //       verificationId: widget.verification ?? "",
     //       verificationCode: otp.text);
     // } else {
-    AppNetwork.loadingProgressIndicator();
+    getIt<AppNetwork>().loadingProgressIndicator();
     final value = await getIt<AuthService>().verifyAccount(otpCode: otp.text, id: userController.user?.id ?? 0);
     if (!(widget.fromForgot ?? false)) {
       await GeneralAPIS.getPlaces();

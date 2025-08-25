@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:backyard/boot.dart';
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -450,7 +451,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                       }
                                       if ((form.currentState?.validate() ?? false) && !error) {
                                         if (widget.edit) {
-                                          AppNetwork.loadingProgressIndicator();
+                                          getIt<AppNetwork>().loadingProgressIndicator();
                                           final val = await BusAPIS.editOffer(
                                             offerId: widget.model?.id?.toString(),
                                             title: titleController.text,
@@ -468,7 +469,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                             AppNavigation.navigatorPop();
                                           }
                                         } else {
-                                          AppNetwork.loadingProgressIndicator();
+                                          getIt<AppNetwork>().loadingProgressIndicator();
                                           final val = await BusAPIS.addOffer(
                                             title: titleController.text,
                                             categoryId: selected?.id?.toString() ?? '',

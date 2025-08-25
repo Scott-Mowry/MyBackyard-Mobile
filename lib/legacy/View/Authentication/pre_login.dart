@@ -2,6 +2,7 @@ import 'dart:io' show Platform;
 
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/repositories/connectivity_repository.dart';
 import 'package:backyard/core/services/auth_service.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -33,8 +34,8 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
   late final userController = context.read<UserController>();
 
   Future<void> appleFunction() async {
-    AppNetwork.loadingProgressIndicator();
-    final internet = await AppNetwork.checkInternet();
+    getIt<AppNetwork>().loadingProgressIndicator();
+    final internet = getIt<ConnectivityRepository>().hasInternetAccess;
     if (internet) {
       try {
         final credential = await SignInWithApple.getAppleIDCredential(
@@ -77,8 +78,8 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
   }
 
   Future<void> googleFunction() async {
-    AppNetwork.loadingProgressIndicator();
-    final internet = await AppNetwork.checkInternet();
+    getIt<AppNetwork>().loadingProgressIndicator();
+    final internet = getIt<ConnectivityRepository>().hasInternetAccess;
     if (internet) {
       final googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
       try {

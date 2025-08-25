@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:developer';
 
+import 'package:backyard/core/dependencies/dependency_injector.dart';
+import 'package:backyard/core/repositories/local_storage_repository.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/user_model.dart';
@@ -9,7 +9,6 @@ import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Service/socket_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/local_shared_preferences.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +17,7 @@ import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
@@ -29,36 +29,25 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     timer = Timer(const Duration(seconds: 3), () async {
-      final localDatabase = SharedPreference();
       final socket = SocketService.instance;
       socket?.initializeSocket();
       socket?.connectSocket();
       socket?.socketResponseMethod();
-      await localDatabase.sharedPreference;
-      final user = localDatabase.getUser();
 
-      if (user != null) {
-        userFunction(user);
-      } else {
-        AppNavigation.navigateReplacementNamed(AppRouteName.LOGIN_SCREEN_ROUTE);
+      final localStorageRepository = getIt<LocalStorageRepository>();
+      final user = await localStorageRepository.getUser();
+      final bearerToken = user?['bearer_token'] as String?;
+      if (user != null && bearerToken != null && bearerToken.isNotEmpty) {
+        final savedUsed = User.setUser2(user, token: bearerToken);
+        context.read<UserController>().setUser(savedUsed);
+
+        SocketService.instance?.userResponse();
+        await Navigator.of(context).pushReplacementNamed(AppRouteName.HOME_SCREEN_ROUTE);
+        return;
       }
+
+      return AppNavigation.navigateReplacementNamed(AppRouteName.LOGIN_SCREEN_ROUTE);
     });
-  }
-
-  @override
-  void dispose() {
-    timer?.cancel();
-    // TODO: implement dispose
-    super.dispose();
-  }
-
-  void userFunction(Map<String, dynamic> user) {
-    log('USER MODEL: ${json.encode(user)}');
-    context.read<UserController>().setUser(User.setUser2(user, token: user['bearer_token']));
-    log('Bearer Token:');
-    log(context.read<UserController>().user?.token ?? '');
-    SocketService.instance?.userResponse();
-    Navigator.of(context).pushReplacementNamed(AppRouteName.HOME_SCREEN_ROUTE);
   }
 
   @override
@@ -70,18 +59,6 @@ class _SplashScreenState extends State<SplashScreen> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // Container(
-          //   alignment: Alignment.bottomCenter,
-          //   padding: EdgeInsets.only(bottom: 3.h),
-          //   decoration: BoxDecoration(
-          //       image: DecorationImage(
-          //     image: AssetImage(ImagePath.splashImage),
-          //   )),
-          //   child: Image.asset(
-          //     ImagePath.go,
-          //     scale: 2,
-          //   ),
-          // ),
           Image.asset(ImagePath.bgImage1, fit: BoxFit.cover, width: 1.sw),
           SizedBox(
             width: Utils.isTablet ? .6.sw : null,
@@ -120,5 +97,11 @@ class _SplashScreenState extends State<SplashScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 }

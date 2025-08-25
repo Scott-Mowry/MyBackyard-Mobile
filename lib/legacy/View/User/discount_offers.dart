@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:backyard/boot.dart';
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Arguments/content_argument.dart';
@@ -268,7 +269,7 @@ class _DiscountOffersState extends State<DiscountOffers> {
                             if (widget.model?.isAvailed == 1) {
                               downloadDialog2(context, data);
                             } else {
-                              AppNetwork.loadingProgressIndicator();
+                              getIt<AppNetwork>().loadingProgressIndicator();
                               final val = await BusAPIS.availOffer(offerId: widget.model?.id?.toString());
                               AppNavigation.navigatorPop();
                               if (val) {
@@ -428,7 +429,7 @@ class _DiscountOffersState extends State<DiscountOffers> {
               b1: 'Yes',
               b2: 'No',
               onYes: (v) async {
-                AppNetwork.loadingProgressIndicator();
+                getIt<AppNetwork>().loadingProgressIndicator();
                 final val = await BusAPIS.deleteOffer(offerId: widget.model?.id?.toString() ?? '');
                 AppNavigation.navigatorPop();
                 if (val) {

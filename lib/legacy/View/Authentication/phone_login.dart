@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
@@ -140,7 +141,7 @@ class PhoneLogin extends StatelessWidget {
     if (_form.currentState?.validate() ?? false) {
       await signInWithPhone(
         phoneNumber: phone.text.replaceAll(' ', ''),
-        setProgressBar: AppNetwork.loadingProgressIndicator,
+        setProgressBar: getIt<AppNetwork>().loadingProgressIndicator,
         cancelProgressBar: AppNavigation.navigatorPop,
       );
     }

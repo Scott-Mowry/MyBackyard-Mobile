@@ -64,6 +64,26 @@ abstract class _LocalStorageRepository with Store {
     }
   }
 
+  Future<void> setUser(Map<String, dynamic>? user) async {
+    return _secureStorage.write(key: 'user', value: json.encode(user));
+  }
+
+  Future<Map<String, dynamic>?> getUser() async {
+    final userJsonRaw = await _secureStorage.read(key: 'user');
+    if (userJsonRaw == null) return null;
+    return json.decode(userJsonRaw);
+  }
+
+  Future<String?> getBearerToken() async {
+    final userJsonRaw = await _secureStorage.read(key: 'user');
+    if (userJsonRaw == null) return null;
+
+    final user = json.decode(userJsonRaw);
+    if (user is! Map<String, dynamic>) return null;
+
+    return user['bearer_token'];
+  }
+
   @action
   void saveTokenCredentialsInMemory(TokenCredentials tokenCreds) {
     final decodedToken = JwtDecoder.decode(tokenCreds.accessToken);
@@ -112,6 +132,6 @@ abstract class _LocalStorageRepository with Store {
     tokenCreds = null;
     jwtUserInfo = null;
 
-    await _secureStorage.delete(key: _tokenCredentialsKey);
+    await _secureStorage.deleteAll();
   }
 }

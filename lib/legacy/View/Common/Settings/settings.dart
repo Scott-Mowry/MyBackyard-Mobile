@@ -179,7 +179,7 @@ class _SettingsState extends State<Settings> {
                   title: 'Delete Account',
                   subTitle: 'Do you want to delete your account?',
                   onYes: () async {
-                    AppNetwork.loadingProgressIndicator();
+                    getIt<AppNetwork>().loadingProgressIndicator();
                     await getIt<AuthService>().deleteAccount();
                     AppNavigation.navigatorPop();
                   },
@@ -283,7 +283,7 @@ class _SettingsState extends State<Settings> {
                   title: 'Delete Account',
                   subTitle: 'Do you want to delete your account?',
                   onYes: () async {
-                    AppNetwork.loadingProgressIndicator();
+                    getIt<AppNetwork>().loadingProgressIndicator();
                     await getIt<AuthService>().deleteAccount();
                     AppNavigation.navigatorPop();
                   },

@@ -143,7 +143,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   Future<void> onSubmit() async {
     if (_form.currentState?.validate() ?? false) {
       FocusManager.instance.primaryFocus?.unfocus();
-      AppNetwork.loadingProgressIndicator();
+      getIt<AppNetwork>().loadingProgressIndicator();
       final user = context.read<UserController>().user;
       final val = await getIt<AuthService>().changePassword(id: user?.id ?? 0, password: password.text);
       AppNavigation.navigatorPop();

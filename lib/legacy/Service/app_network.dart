@@ -1,98 +1,91 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:backyard/boot.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
+import 'package:backyard/core/repositories/connectivity_repository.dart';
+import 'package:backyard/core/repositories/local_storage_repository.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:injectable/injectable.dart';
 import 'package:provider/provider.dart';
 
-class AppNetwork {
-  static Future<bool> checkInternet() async {
-    late var internet = false;
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        internet = true;
-      }
-    } on SocketException catch (_) {
-      internet = false;
-    }
-    return internet;
-  }
-
-  static FutureOr<Response?> networkRequest(
+abstract class AppNetwork {
+  FutureOr<Response?> networkRequest(
     String type,
     String path, {
     Map<String, String>? parameters,
     List<MultipartFile>? attachments,
-    bool header = false,
+  });
+
+  void on401Error();
+
+  void loadingProgressIndicator({double? value});
+}
+
+@Injectable(as: AppNetwork)
+class AppNetworkImpl implements AppNetwork {
+  final LocalStorageRepository _localStorageRepository;
+  final ConnectivityRepository _connectivityRepository;
+
+  const AppNetworkImpl(this._localStorageRepository, this._connectivityRepository);
+
+  FutureOr<Response?> networkRequest(
+    String type,
+    String path, {
+    Map<String, String>? parameters,
+    List<MultipartFile>? attachments,
   }) async {
     try {
-      if (await checkInternet()) {
-        final dynamic request =
-            type == RequestTypeEnum.POST.name
-                ? MultipartRequest(type, Uri.parse('${API.url}$path'))
-                : Request(type, Uri.parse('${API.url}$path'));
-        request.headers.addAll({'Content-Type': 'application/json'});
-        if (parameters != null) {
-          // if ((type == requestTypes.POST.name ||
-          //         type == requestTypes.PUT.name) &&
-          //     attachments != null) {
-          request.fields.addAll(parameters);
-          // } else {
-          //   request.body = json.encode(parameters);
-          // }
-        }
-        if (attachments != null) {
-          if (attachments.isNotEmpty) {
-            request.files.addAll(attachments);
-          }
-        }
-        if (header) {
-          request.headers.addAll({
-            'Authorization': 'Bearer ${navigatorKey.currentContext?.read<UserController>().user?.token ?? ""}',
-            'Accept': 'application/json',
-          });
-          log('HEADER: ${request.headers.toString()}');
-        }
-        log('API URL:${API.url}$path');
-        if (parameters != null) {
-          log('PARAMETERS: $parameters');
-        }
-        final StreamedResponse response = await request.send().timeout(
-          API.timeout,
-          onTimeout: () {
-            CustomToast().showToast(message: 'Network Error');
-            throw TimeoutException;
-          },
-        );
-        log('STATUS CODE: ${response.statusCode}');
-        if (response.statusCode == 401) {
-          if (header) {
-            on401Error();
-          }
-        } else {
-          final res = await Response.fromStream(response);
-          log('RESPONSE: ${res.body}');
-          return res;
-        }
-      } else {
+      if (!_connectivityRepository.hasInternetAccess) {
         CustomToast().showToast(message: 'No Internet Connection');
+        return null;
       }
+
+      final dynamic request =
+          type == RequestTypeEnum.POST.name
+              ? MultipartRequest(type, Uri.parse('${API.url}$path'))
+              : Request(type, Uri.parse('${API.url}$path'));
+      request.headers.addAll({'Content-Type': 'application/json'});
+      if (parameters != null) request.fields.addAll(parameters);
+      if (attachments != null && attachments.isNotEmpty) request.files.addAll(attachments);
+
+      request.headers.addAll({'Accept': 'application/json'});
+
+      final bearerToken = await _localStorageRepository.getBearerToken();
+      print('BEARER ${bearerToken}');
+      if (bearerToken != null && bearerToken.isNotEmpty) {
+        request.headers.addAll({'Authorization': 'Bearer $bearerToken'});
+      }
+
+      final StreamedResponse response = await request.send().timeout(
+        API.timeout,
+        onTimeout: () {
+          CustomToast().showToast(message: 'Network Error');
+          throw TimeoutException;
+        },
+      );
+
+      if (response.statusCode == 401) {
+        on401Error();
+        return null;
+      }
+
+      final res = await Response.fromStream(response);
+      log('RESPONSE: ${res.body}');
+      return res;
     } catch (e) {
       CustomToast().showToast(message: e.toString());
+      return null;
     }
-    return null;
   }
 
-  static void on401Error() {
+  void on401Error() {
     Timer(const Duration(seconds: 1), () {
       navigatorKey.currentContext?.read<UserController>().clear();
       Navigator.of(navigatorKey.currentContext!).popUntil((route) => route.isFirst);
@@ -100,7 +93,7 @@ class AppNetwork {
     });
   }
 
-  static void loadingProgressIndicator({double? value}) {
+  void loadingProgressIndicator({double? value}) {
     showDialog(
       barrierDismissible: false,
       barrierColor: const Color(0XFF22093C).withValues(alpha: .5),

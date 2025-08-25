@@ -131,7 +131,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
           // }
           // }
           // } else {
-          AppNetwork.loadingProgressIndicator();
+          getIt<AppNetwork>().loadingProgressIndicator();
           final result = await getIt<AuthService>().completeProfile(subId: getId2(event.productID)?.toString());
           AppNavigation.navigatorPop();
           if (result) {

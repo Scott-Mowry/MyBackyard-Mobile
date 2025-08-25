@@ -64,7 +64,7 @@ class _LogoutAlertState extends State<LogoutAlert> {
                   SizedBox(height: 3.h),
                   MyButton(
                     onTap: () async {
-                      AppNetwork.loadingProgressIndicator();
+                      getIt<AppNetwork>().loadingProgressIndicator();
                       await getIt<AuthService>().signOut();
                     },
                     title: 'Logout',

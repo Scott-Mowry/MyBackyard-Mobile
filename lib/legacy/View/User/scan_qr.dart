@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -111,7 +112,7 @@ class _ScanQRState extends State<ScanQR> {
                   onTap:
                       pause
                           ? () async {
-                            AppNetwork.loadingProgressIndicator();
+                            getIt<AppNetwork>().loadingProgressIndicator();
                             final val = await BusAPIS.claimOffer(offerId: data['offer'], userId: data['user_id']);
                             AppNavigation.navigatorPop();
                             if (val) {

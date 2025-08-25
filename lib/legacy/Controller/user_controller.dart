@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
+import 'package:backyard/core/repositories/local_storage_repository.dart';
 import 'package:backyard/legacy/Arguments/profile_screen_arguments.dart';
 import 'package:backyard/legacy/Model/reiview_model.dart';
 import 'package:backyard/legacy/Model/user_model.dart';
-import 'package:backyard/legacy/Service/bus_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
-import 'package:backyard/legacy/Utils/local_shared_preferences.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -20,12 +20,8 @@ import 'package:permission_handler/permission_handler.dart';
 
 class UserController extends ChangeNotifier {
   UserController({required this.context}) {
-    // Permission.locationAlways.request();
-    if (Platform.isAndroid) {
-      Permission.location.request();
-    } else {
-      Permission.locationAlways.request();
-    }
+    Platform.isAndroid ? Permission.location.request() : Permission.locationAlways.request();
+
     locationStream = Geolocator.getPositionStream(
       locationSettings: const LocationSettings(accuracy: LocationAccuracy.best),
     ).listen((event) async {
@@ -44,9 +40,8 @@ class UserController extends ChangeNotifier {
           } else {
             address = placemarks[0].locality ?? '';
           }
-          if (mapController != null) {
-            await BusAPIS.getBuses(event.latitude, event.longitude);
-            mapController?.moveCamera(
+          if (mapController != null && _user?.token != null && _user!.token!.isNotEmpty) {
+            await mapController?.moveCamera(
               CameraUpdate.newCameraPosition(
                 CameraPosition(target: LatLng(event.latitude, event.longitude), zoom: 13.4746),
               ),
@@ -80,6 +75,7 @@ class UserController extends ChangeNotifier {
   GoogleMapController? mapController;
   BuildContext context;
   User? _user;
+
   User? get user => _user;
   bool? geo = true;
   Set<Circle> circles = {};
@@ -265,11 +261,8 @@ class UserController extends ChangeNotifier {
   }
 
   Future<void> clear() async {
-    final ld = SharedPreference();
-    await ld.sharedPreference;
-    final val = ld.getUser();
-    ld.clear();
-    ld.saveUser(user: val);
+    final localStorageRepository = getIt<LocalStorageRepository>();
+    await localStorageRepository.deleteAll();
     _user = null;
     isSwitch = false;
   }

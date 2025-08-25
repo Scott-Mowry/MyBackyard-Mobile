@@ -488,7 +488,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
     setState(() => errorText = (imageProfile ?? '').isEmpty);
     if ((_form.currentState?.validate() ?? false) && !(errorText)) {
       if (widget.editProfile) {
-        AppNetwork.loadingProgressIndicator();
+        getIt<AppNetwork>().loadingProgressIndicator();
         await getIt<AuthService>().completeProfile(
           firstName: firstName.text,
           lastName: role == UserRoleEnum.Business ? lastName.text : null,
@@ -513,7 +513,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
         AppNavigation.navigatorPop();
       } else {
         if (role == UserRoleEnum.User) {
-          AppNetwork.loadingProgressIndicator();
+          getIt<AppNetwork>().loadingProgressIndicator();
           final value = await getIt<AuthService>().completeProfile(
             firstName: firstName.text,
             lastName: lastName.text,

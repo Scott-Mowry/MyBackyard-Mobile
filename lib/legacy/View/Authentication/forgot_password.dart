@@ -88,7 +88,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Future<void> onSubmit() async {
     if (_form.currentState?.validate() ?? false) {
       FocusManager.instance.primaryFocus?.unfocus();
-      AppNetwork.loadingProgressIndicator();
+      getIt<AppNetwork>().loadingProgressIndicator();
       final val = await getIt<AuthService>().forgotPassword(email: email.text);
       AppNavigation.navigatorPop();
       if (val) {

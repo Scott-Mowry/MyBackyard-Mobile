@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:backyard/boot.dart';
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
@@ -20,10 +21,9 @@ class BusAPIS {
   static Future<void> getBuses(double? lat, double? long) async {
     try {
       final controller = navigatorKey.currentContext?.read<UserController>();
-      final res = await AppNetwork.networkRequest(
+      final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.GET.name,
         '${API.GET_BUSES_ENDPOINT}?lat=${lat ?? 0.0}&long=${long ?? 0.0}&radius=${(controller?.mile ?? 0)}',
-        header: true,
       );
       if (res != null) {
         final model = responseModelFromJson(res.body);
@@ -53,10 +53,10 @@ class BusAPIS {
       final attachments = <MultipartFile>[];
       final parameters = <String, String>{};
       parameters.addAll({'offer_id': offerId ?? ''});
-      final res = await AppNetwork.networkRequest(
+      final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.POST.name,
         API.AVAIL_OFFER_ENDPOINT,
-        header: true,
+
         parameters: parameters,
         attachments: attachments,
       );
@@ -81,10 +81,10 @@ class BusAPIS {
       final controller = navigatorKey.currentContext?.read<UserController>();
       final parameters = <String, String>{};
       parameters.addAll({'bus_id': busId ?? '', 'rate': rate ?? '', 'feedback': feedback ?? ''});
-      final res = await AppNetwork.networkRequest(
+      final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.POST.name,
         API.POST_REVIEW_ENDPOINT,
-        header: true,
+
         parameters: parameters,
       );
       if (res != null) {
@@ -108,10 +108,10 @@ class BusAPIS {
       final attachments = <MultipartFile>[];
       final parameters = <String, String>{};
       parameters.addAll({'offer_id': offerId ?? '', 'user_id': userId ?? ''});
-      final res = await AppNetwork.networkRequest(
+      final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.POST.name,
         API.CLAIM_OFFER_ENDPOINT,
-        header: true,
+
         parameters: parameters,
         attachments: attachments,
       );
@@ -153,10 +153,10 @@ class BusAPIS {
         'desc': desc ?? '',
       };
       attachments.add(await http.MultipartFile.fromPath('image', image?.path ?? ''));
-      final res = await AppNetwork.networkRequest(
+      final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.POST.name,
         API.ADD_OFFETS_ENDPOINT,
-        header: true,
+
         parameters: parameters,
         attachments: attachments,
       );
@@ -219,10 +219,10 @@ class BusAPIS {
         attachments.add(await http.MultipartFile.fromPath('image', image?.path ?? ''));
       }
 
-      final res = await AppNetwork.networkRequest(
+      final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.POST.name,
         API.EDIT_OFFETS_ENDPOINT,
-        header: true,
+
         parameters: parameters,
         attachments: attachments,
       );
@@ -251,10 +251,10 @@ class BusAPIS {
       final parameters = <String, String>{};
       parameters.addAll({'offer_id': offerId ?? ''});
 
-      final res = await AppNetwork.networkRequest(
+      final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.POST.name,
         API.DELETE_OFFETS_ENDPOINT,
-        header: true,
+
         parameters: parameters,
         attachments: attachments,
       );
@@ -279,10 +279,9 @@ class BusAPIS {
     try {
       final controller = navigatorKey.currentContext?.read<HomeController>();
       controller?.setOffers([]);
-      final res = await AppNetwork.networkRequest(
+      final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.GET.name,
         '${API.GET_OFFERS_ENDPOINT}?bus_id=$busId',
-        header: true,
       );
       if (res != null) {
         final model = responseModelFromJson(res.body);
@@ -302,10 +301,9 @@ class BusAPIS {
     try {
       final controller = navigatorKey.currentContext?.read<HomeController>();
       controller?.setOffers([]);
-      final res = await AppNetwork.networkRequest(
+      final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.GET.name,
         '${API.GET_OFFERS_ENDPOINT}?type=trending&category_id=$categoryId',
-        header: true,
       );
       if (res != null) {
         final model = responseModelFromJson(res.body);
@@ -329,7 +327,7 @@ class BusAPIS {
       if (isSwitch ?? false) {
         endpoint += '?switch=User';
       }
-      final res = await AppNetwork.networkRequest(RequestTypeEnum.GET.name, endpoint, header: true);
+      final res = await getIt<AppNetwork>().networkRequest(RequestTypeEnum.GET.name, endpoint);
       if (res != null) {
         final model = responseModelFromJson(res.body);
 
@@ -348,10 +346,9 @@ class BusAPIS {
     try {
       final controller = navigatorKey.currentContext?.read<HomeController>();
       controller?.setOffers([]);
-      final res = await AppNetwork.networkRequest(
+      final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.GET.name,
         '${API.GET_OFFERS_ENDPOINT}?type=fav',
-        header: true,
       );
       if (res != null) {
         final model = responseModelFromJson(res.body);
@@ -371,10 +368,9 @@ class BusAPIS {
     try {
       final controller = navigatorKey.currentContext?.read<HomeController>();
       controller?.setCustomerOffers([]);
-      final res = await AppNetwork.networkRequest(
+      final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.GET.name,
         '${API.GET_OFFERS_ENDPOINT}?switch_user_id=$userId',
-        header: true,
       );
       if (res != null) {
         final model = responseModelFromJson(res.body);
@@ -393,7 +389,7 @@ class BusAPIS {
     try {
       final controller = navigatorKey.currentContext?.read<HomeController>();
       controller?.setCustomersList([]);
-      final res = await AppNetwork.networkRequest(RequestTypeEnum.GET.name, API.GET_CUSTOMERS_ENDPOINT, header: true);
+      final res = await getIt<AppNetwork>().networkRequest(RequestTypeEnum.GET.name, API.GET_CUSTOMERS_ENDPOINT);
       if (res != null) {
         final model = responseModelFromJson(res.body);
 
@@ -412,10 +408,9 @@ class BusAPIS {
     try {
       final controller = navigatorKey.currentContext?.read<UserController>();
       controller?.setReviews([]);
-      final res = await AppNetwork.networkRequest(
+      final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.GET.name,
         '${API.GET_REVIEWS_ENDPOINT}?bus_id=$busId',
-        header: true,
       );
       if (res != null) {
         final model = responseModelFromJson(res.body);

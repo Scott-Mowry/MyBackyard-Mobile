@@ -1,3 +1,4 @@
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -97,7 +98,7 @@ class _GiveReviewState extends State<GiveReview> {
                 title: 'Submit Review',
                 onTap: () async {
                   if (_form.currentState?.validate() ?? false) {
-                    AppNetwork.loadingProgressIndicator();
+                    getIt<AppNetwork>().loadingProgressIndicator();
                     final val = await BusAPIS.submiteReview(
                       busId: widget.busId,
                       rate: rate.toInt().toString(),

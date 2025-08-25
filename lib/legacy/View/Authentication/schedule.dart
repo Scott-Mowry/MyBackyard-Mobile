@@ -292,7 +292,7 @@ class _ScheduleState extends State<Schedule> {
               )
               .toList();
       if (widget.edit) {
-        AppNetwork.loadingProgressIndicator();
+        getIt<AppNetwork>().loadingProgressIndicator();
         final value = await getIt<AuthService>().completeProfile(days: temp);
         AppNavigation.navigatorPop();
         if (value) {

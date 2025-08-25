@@ -50,7 +50,6 @@ class MyBackyardApiEndpoints {
 
   // Auth
   static const SIGN_IN_ENDPOINT = '/login';
-  static const SIGN_IN_WITH_ID_ENDPOINT = '/loginWithId';
   static const FORGOT_PASSWORD_ENDPOINT = '/forgotPassword';
   static const CHANGE_PASSWORD_ENDPOINT = '/changePassword';
   static const VERIFY_ACCOUNT_ENDPOINT = '/verification';

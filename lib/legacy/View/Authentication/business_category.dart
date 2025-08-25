@@ -192,7 +192,7 @@ class _CategoryState extends State<Category> {
       final userController = context.read<UserController>();
       userController.setCategory(val.categories?[selected.first].id);
       final user = userController.user;
-      AppNetwork.loadingProgressIndicator();
+      getIt<AppNetwork>().loadingProgressIndicator();
       final result = await getIt<AuthService>().completeProfile(
         firstName: user?.name,
         lastName: user?.lastName,
