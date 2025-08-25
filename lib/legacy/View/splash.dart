@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    timer = Timer(const Duration(seconds: 3), () async {
+    timer = Timer(const Duration(seconds: 1), () async {
       final socket = SocketService.instance;
       socket?.initializeSocket();
       socket?.connectSocket();

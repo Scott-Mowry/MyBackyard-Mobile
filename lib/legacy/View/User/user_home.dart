@@ -123,8 +123,8 @@ class _UserHomeState extends State<UserHome> {
 
   @override
   void dispose() {
-    super.dispose();
     navigatorKey.currentContext?.read<UserController>().setController(null);
+    super.dispose();
   }
 
   @override

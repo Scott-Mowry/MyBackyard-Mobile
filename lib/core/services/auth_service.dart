@@ -23,8 +23,6 @@ import 'package:provider/provider.dart';
 abstract class AuthService {
   Future<bool> signIn({required String email, required String password});
 
-  Future<bool> signInWithId({required String id});
-
   Future<bool> forgotPassword({required String email});
 
   Future<bool> changePassword({required int id, required String password});
@@ -69,57 +67,25 @@ class AuthServiceImpl implements AuthService {
   @override
   Future<bool> signIn({required String email, required String password, String? deviceToken}) async {
     try {
-      final res = await _appNetwork.networkRequest(
-        RequestTypeEnum.POST.name,
-        API.SIGN_IN_ENDPOINT,
-        parameters: {
-          'email': email,
-          'password': password,
-          'devicetoken': deviceToken ?? '',
-          'devicetype': Platform.isAndroid ? 'android' : 'ios',
-        },
-      );
+      final payload = {
+        'email': email,
+        'password': password,
+        'devicetoken': deviceToken ?? '',
+        'devicetype': Platform.isAndroid ? 'android' : 'ios',
+      };
 
-      if (res == null) return false;
+      final res = await _apiClient.post(API.SIGN_IN_ENDPOINT, data: payload);
 
-      final model = responseModelFromJson(res.body);
-      if (model.status != 1) {
-        CustomToast().showToast(message: model.message ?? '');
+      final respModel = ResponseModel.fromJson(res.data);
+      if (respModel.status != 1) {
+        CustomToast().showToast(message: respModel.message ?? '');
         return false;
       }
 
-      navigatorKey.currentContext?.read<UserController>().setUser(User.setUser2(model.data?['user']));
-      if (model.data?['user']['is_profile_completed'] == 1 && model.data?['user']['is_verified'] == 1) {
+      navigatorKey.currentContext?.read<UserController>().setUser(User.setUser2(respModel.data?['user']));
+      if (respModel.data?['user']['is_profile_completed'] == 1 && respModel.data?['user']['is_verified'] == 1) {
         await _localStorageRepository.deleteAll();
-        await _localStorageRepository.setUser(model.data?['user']);
-      }
-
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  @override
-  Future<bool> signInWithId({required String id}) async {
-    try {
-      final res = await _appNetwork.networkRequest(
-        RequestTypeEnum.GET.name,
-        '${API.SIGN_IN_WITH_ID_ENDPOINT}?user_id=$id',
-      );
-
-      if (res == null) return false;
-
-      final model = responseModelFromJson(res.body);
-      if (model.status != 1) {
-        CustomToast().showToast(message: model.message ?? '');
-        return false;
-      }
-
-      navigatorKey.currentContext?.read<UserController>().setUser(User.setUser2(model.data?['user']));
-      if (model.data?['user']['is_profile_completed'] == 1 && model.data?['user']['is_verified'] == 1) {
-        await _localStorageRepository.deleteAll();
-        await _localStorageRepository.setUser(model.data?['user']);
+        await _localStorageRepository.setUser(respModel.data?['user']);
       }
 
       return true;
@@ -131,15 +97,8 @@ class AuthServiceImpl implements AuthService {
   @override
   Future<bool> forgotPassword({required String email}) async {
     try {
-      final res = await _appNetwork.networkRequest(
-        RequestTypeEnum.POST.name,
-        API.FORGOT_PASSWORD_ENDPOINT,
-        parameters: {'email': email},
-      );
-
-      if (res == null) return false;
-
-      final model = responseModelFromJson(res.body);
+      final res = await _apiClient.post(API.FORGOT_PASSWORD_ENDPOINT, data: {'email': email});
+      final model = ResponseModel.fromJson(res.data);
       if (model.status != 1) {
         CustomToast().showToast(message: model.message ?? '');
         return false;
