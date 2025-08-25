@@ -3,8 +3,10 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:backyard/boot.dart';
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
+import 'package:backyard/core/services/auth_service.dart';
 import 'package:backyard/legacy/Arguments/screen_arguments.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
@@ -19,7 +21,6 @@ import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
@@ -488,7 +489,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
     if ((_form.currentState?.validate() ?? false) && !(errorText)) {
       if (widget.editProfile) {
         AppNetwork.loadingProgressIndicator();
-        await AuthAPIS.completeProfile(
+        await getIt<AuthService>().completeProfile(
           firstName: firstName.text,
           lastName: role == UserRoleEnum.Business ? lastName.text : null,
           categoryId: role == UserRoleEnum.Business ? userController.user?.categoryId : null,
@@ -513,7 +514,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
       } else {
         if (role == UserRoleEnum.User) {
           AppNetwork.loadingProgressIndicator();
-          final value = await AuthAPIS.completeProfile(
+          final value = await getIt<AuthService>().completeProfile(
             firstName: firstName.text,
             lastName: lastName.text,
             isPushNotify: '1',

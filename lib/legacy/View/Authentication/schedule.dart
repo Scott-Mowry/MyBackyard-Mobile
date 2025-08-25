@@ -1,5 +1,7 @@
 import 'package:backyard/boot.dart';
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/services/auth_service.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
@@ -10,7 +12,6 @@ import 'package:backyard/legacy/Model/day_schedule.dart';
 import 'package:backyard/legacy/Model/menu_model.dart';
 import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/View/Authentication/edit_schedule_time.dart';
@@ -292,7 +293,7 @@ class _ScheduleState extends State<Schedule> {
               .toList();
       if (widget.edit) {
         AppNetwork.loadingProgressIndicator();
-        final value = await AuthAPIS.completeProfile(days: temp);
+        final value = await getIt<AuthService>().completeProfile(days: temp);
         AppNavigation.navigatorPop();
         if (value) {
           AppNavigation.navigatorPop();

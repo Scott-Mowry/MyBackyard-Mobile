@@ -9,3 +9,5 @@ const kConnectivityInitErrorKey = 'CONNECTIVITY_INIT_ERROR';
 const kLocationServicesDisabledErrorKey = 'LOCATION_SERVICES_DISABLED_ERROR';
 const kLocationPermissionsDeniedErrorKey = 'LOCATION_PERMISSIONS_DENIED_ERROR';
 const kSaveAppFlavorOnDiskErrorKey = 'SAVE_FLAVOR_ON_DISK_ERROR';
+const kPushNotificationsInitErrorKey = 'PUSH_NOTIFICATIONS_INIT_ERROR';
+const kSubscribeToFcmTopicErrorKey = 'SUBSCRIBE_TO_FCM_TOPIC_ERROR';

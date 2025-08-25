@@ -5,9 +5,10 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:backyard/boot.dart';
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/services/auth_service.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
-import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/app_strings.dart';
@@ -365,7 +366,7 @@ class Utils {
 
   static Future<void> logout({bool fromLogout = false, required BuildContext c}) async {
     if (fromLogout == true) {
-      await AuthAPIS.signOut();
+      await getIt<AuthService>().signOut();
     }
     AppNavigation.navigateTo(AppRouteName.ROLE_SELECTION);
   }

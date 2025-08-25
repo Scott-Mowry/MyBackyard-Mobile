@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/services/auth_service.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -9,7 +11,6 @@ import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
@@ -67,7 +68,7 @@ class _EnterOTPState extends State<EnterOTP> {
           AppNavigation.navigatorPop();
         } else {
           AppNetwork.loadingProgressIndicator();
-          final value = await AuthAPIS.resendCode(id: userController.user?.id.toString());
+          final value = await getIt<AuthService>().resendCode(id: userController.user?.id.toString());
           AppNavigation.navigatorPop();
           if (value) {
             CustomToast().showToast(message: 'We have resend OTP verification code at your email address');
@@ -299,7 +300,7 @@ class _EnterOTPState extends State<EnterOTP> {
       final user = await FirebaseAuth.instance.signInWithCredential(credential);
       if (user.user != null) {
         FirebaseAuth.instance.signOut();
-        final value = await AuthAPIS.socialLogin(
+        final value = await getIt<AuthService>().socialLogin(
           phone: phoneNo ?? '',
           socialToken: user.user?.uid,
           socialType: 'phone',
@@ -331,7 +332,7 @@ class _EnterOTPState extends State<EnterOTP> {
     //       verificationCode: otp.text);
     // } else {
     AppNetwork.loadingProgressIndicator();
-    final value = await AuthAPIS.verifyAccount(otpCode: otp.text, id: userController.user?.id ?? 0);
+    final value = await getIt<AuthService>().verifyAccount(otpCode: otp.text, id: userController.user?.id ?? 0);
     if (!(widget.fromForgot ?? false)) {
       await GeneralAPIS.getPlaces();
     }

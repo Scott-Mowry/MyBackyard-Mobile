@@ -1,4 +1,6 @@
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/services/auth_service.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -9,7 +11,6 @@ import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
@@ -88,7 +89,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     if (_form.currentState?.validate() ?? false) {
       FocusManager.instance.primaryFocus?.unfocus();
       AppNetwork.loadingProgressIndicator();
-      final val = await AuthAPIS.forgotPassword(email: email.text);
+      final val = await getIt<AuthService>().forgotPassword(email: email.text);
       AppNavigation.navigatorPop();
       if (val) {
         CustomToast().showToast(

@@ -14,11 +14,44 @@ import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/local_shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class AuthAPIS {
-  static Future<bool> signIn({required String email, required String password}) async {
+abstract class AuthService {
+  Future<bool> signIn({required String email, required String password});
+  Future<bool> signInWithId({required String id});
+  Future<bool> forgotPassword({required String email});
+  Future<bool> changePassword({required int id, required String password});
+  Future<bool> verifyAccount({required String otpCode, required int id});
+  Future<bool> completeProfile({
+    String? firstName,
+    String? isPushNotify,
+    String? lastName,
+    String? zipCode,
+    String? address,
+    String? email,
+    String? phone,
+    String? description,
+    String? subId,
+    double? lat,
+    double? long,
+    String? role,
+    int? categoryId,
+    List<BussinessScheduling>? days,
+    File? image,
+  });
+  Future<bool> resendCode({String? id});
+  Future<void> signOut();
+  Future<bool> socialLogin({String? socialToken, String? socialType, String? name, String? email, String? phone});
+  Future<void> deleteAccount();
+}
+
+@Injectable(as: AuthService)
+class AuthServiceImpl implements AuthService {
+  const AuthServiceImpl();
+  @override
+  Future<bool> signIn({required String email, required String password}) async {
     try {
       // final devicetoken = await FirebaseMessaging.instance.getToken();
       // final type =
@@ -57,7 +90,8 @@ class AuthAPIS {
     }
   }
 
-  static Future<bool> signInWithId({required String id}) async {
+  @override
+  Future<bool> signInWithId({required String id}) async {
     try {
       final res = await AppNetwork.networkRequest(
         RequestTypeEnum.GET.name,
@@ -86,7 +120,8 @@ class AuthAPIS {
     }
   }
 
-  static Future<bool> forgotPassword({required String email}) async {
+  @override
+  Future<bool> forgotPassword({required String email}) async {
     try {
       final res = await AppNetwork.networkRequest(
         RequestTypeEnum.POST.name,
@@ -110,7 +145,8 @@ class AuthAPIS {
     }
   }
 
-  static Future<bool> changePassword({required int id, required String password}) async {
+  @override
+  Future<bool> changePassword({required int id, required String password}) async {
     try {
       final res = await AppNetwork.networkRequest(
         RequestTypeEnum.POST.name,
@@ -134,7 +170,8 @@ class AuthAPIS {
     }
   }
 
-  static Future<bool> verifyAccount({required String otpCode, required int id}) async {
+  @override
+  Future<bool> verifyAccount({required String otpCode, required int id}) async {
     try {
       // final devicetoken = await FirebaseMessaging.instance.getToken();
       final res = await AppNetwork.networkRequest(
@@ -170,7 +207,8 @@ class AuthAPIS {
     }
   }
 
-  static Future<bool> completeProfile({
+  @override
+  Future<bool> completeProfile({
     String? firstName,
     String? isPushNotify,
     String? lastName,
@@ -280,7 +318,7 @@ class AuthAPIS {
     }
   }
 
-  static TimeOfDay _get24hour(String val) {
+  TimeOfDay _get24hour(String val) {
     var hour = int.parse(val.split(':').first);
     final minute = int.parse(val.split(':').last.split(' ').first);
 
@@ -298,7 +336,8 @@ class AuthAPIS {
     return TimeOfDay(hour: hour, minute: minute);
   }
 
-  static Future<bool> resendCode({String? id}) async {
+  @override
+  Future<bool> resendCode({String? id}) async {
     try {
       final res = await AppNetwork.networkRequest(
         RequestTypeEnum.POST.name,
@@ -321,7 +360,8 @@ class AuthAPIS {
     }
   }
 
-  static Future<void> signOut() async {
+  @override
+  Future<void> signOut() async {
     try {
       AppNetwork.loadingProgressIndicator();
       final res = await AppNetwork.networkRequest(RequestTypeEnum.POST.name, API.SIGN_OUT_ENDPOINT, header: true);
@@ -341,7 +381,8 @@ class AuthAPIS {
     }
   }
 
-  static Future<bool> socialLogin({
+  @override
+  Future<bool> socialLogin({
     String? socialToken,
     String? socialType,
     String? name,
@@ -407,7 +448,8 @@ class AuthAPIS {
     }
   }
 
-  static Future<void> deleteAccount() async {
+  @override
+  Future<void> deleteAccount() async {
     try {
       AppNetwork.loadingProgressIndicator();
       final res = await AppNetwork.networkRequest(RequestTypeEnum.POST.name, API.DELETE_ACCOUNT_ENDPOINT, header: true);

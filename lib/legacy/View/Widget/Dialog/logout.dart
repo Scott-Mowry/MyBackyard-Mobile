@@ -1,8 +1,9 @@
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/services/auth_service.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -64,14 +65,10 @@ class _LogoutAlertState extends State<LogoutAlert> {
                   MyButton(
                     onTap: () async {
                       AppNetwork.loadingProgressIndicator();
-                      await AuthAPIS.signOut();
+                      await getIt<AuthService>().signOut();
                     },
                     title: 'Logout',
                   ),
-                  // SizedBox(height: 1.h,),
-                  // GestureDetector(
-                  //     onTap: (){AppNavigation.navigatorPop(context);},
-                  //     child: MyText(title: 'Not Now!',size: 17,center: true,clr: MyColors().secondaryColor,fontWeight: FontWeight.w600,)),
                   SizedBox(height: 3.5.h),
                 ],
               ),

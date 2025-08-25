@@ -1,7 +1,9 @@
 import 'dart:ui';
 
 import 'package:backyard/boot.dart';
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/services/auth_service.dart';
 // import 'package:backyard/legacy/Arguments/screen_arguments.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
@@ -16,7 +18,6 @@ import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
@@ -180,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           onTap: () async {
                             AppNetwork.loadingProgressIndicator();
-                            final val = await AuthAPIS.signInWithId(id: savedUser?.id?.toString() ?? '');
+                            final val = await getIt<AuthService>().signInWithId(id: savedUser?.id?.toString() ?? '');
                             AppNavigation.navigatorPop();
                             if (val) {
                               AppNavigation.navigateTo(AppRouteName.HOME_SCREEN_ROUTE);
@@ -334,7 +335,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_form.currentState?.validate() ?? false) {
       FocusManager.instance.primaryFocus?.unfocus();
       AppNetwork.loadingProgressIndicator();
-      final val = await AuthAPIS.signIn(email: email.text, password: password.text);
+      final val = await getIt<AuthService>().signIn(email: email.text, password: password.text);
       AppNavigation.navigatorPop();
       if (val) {
         final userController = navigatorKey.currentContext?.read<UserController>();

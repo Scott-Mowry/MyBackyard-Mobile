@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
+import 'package:backyard/core/services/auth_service.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_image.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -12,7 +14,6 @@ import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
@@ -192,7 +193,7 @@ class _CategoryState extends State<Category> {
       userController.setCategory(val.categories?[selected.first].id);
       final user = userController.user;
       AppNetwork.loadingProgressIndicator();
-      final result = await AuthAPIS.completeProfile(
+      final result = await getIt<AuthService>().completeProfile(
         firstName: user?.name,
         lastName: user?.lastName,
         description: user?.description,

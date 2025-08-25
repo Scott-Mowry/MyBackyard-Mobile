@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/services/auth_service.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
@@ -11,7 +13,6 @@ import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/profile_complete_dialog.dart';
@@ -175,7 +176,7 @@ class _AddCardState extends State<AddCard> {
       if (val) {
         AppNetwork.loadingProgressIndicator();
         final user = context.read<UserController>().user;
-        final result = await AuthAPIS.completeProfile(
+        final result = await getIt<AuthService>().completeProfile(
           firstName: user?.name,
           lastName: user?.lastName,
           description: user?.description,

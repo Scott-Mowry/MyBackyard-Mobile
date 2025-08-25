@@ -1,8 +1,10 @@
 import 'dart:ui';
 
 import 'package:backyard/boot.dart';
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
+import 'package:backyard/core/services/auth_service.dart';
 import 'package:backyard/legacy/Arguments/content_argument.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -11,7 +13,6 @@ import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/menu_model.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/app_strings.dart';
@@ -179,7 +180,7 @@ class _SettingsState extends State<Settings> {
                   subTitle: 'Do you want to delete your account?',
                   onYes: () async {
                     AppNetwork.loadingProgressIndicator();
-                    await AuthAPIS.deleteAccount();
+                    await getIt<AuthService>().deleteAccount();
                     AppNavigation.navigatorPop();
                   },
                 ),
@@ -283,7 +284,7 @@ class _SettingsState extends State<Settings> {
                   subTitle: 'Do you want to delete your account?',
                   onYes: () async {
                     AppNetwork.loadingProgressIndicator();
-                    await AuthAPIS.deleteAccount();
+                    await getIt<AuthService>().deleteAccount();
                     AppNavigation.navigatorPop();
                   },
                 ),

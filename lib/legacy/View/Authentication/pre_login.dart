@@ -1,6 +1,8 @@
 import 'dart:io' show Platform;
 
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/services/auth_service.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -9,7 +11,6 @@ import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
@@ -49,7 +50,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
           name = temp.isNotEmpty ? temp.split('@').first : temp;
         }
 
-        if (await AuthAPIS.socialLogin(
+        if (await getIt<AuthService>().socialLogin(
           socialType: 'apple',
           email: email,
           socialToken: credential.userIdentifier ?? '',
@@ -87,7 +88,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
 
         if (googleSignInAccount != null) {
           await googleSignIn.signOut();
-          if (await AuthAPIS.socialLogin(
+          if (await getIt<AuthService>().socialLogin(
             socialType: 'google',
             socialToken: googleSignInAccount.id,
             name: googleSignInAccount.displayName ?? '',
