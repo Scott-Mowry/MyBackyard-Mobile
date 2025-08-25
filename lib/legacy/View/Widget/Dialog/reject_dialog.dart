@@ -1,3 +1,4 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_radio_tile.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
@@ -5,7 +6,6 @@ import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -28,7 +28,7 @@ class _RejectDialogState extends State<RejectDialog> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: MyColors().whiteColor, borderRadius: BorderRadius.circular(20)),
+      decoration: BoxDecoration(color: CustomColors.whiteColor, borderRadius: BorderRadius.circular(20)),
       // height: responsive.setHeight(75),
       width: 100.w,
       child: SingleChildScrollView(
@@ -37,7 +37,7 @@ class _RejectDialogState extends State<RejectDialog> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: MyColors().secondaryColor,
+                color: CustomColors.secondaryColor,
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
               ),
               padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.w),
@@ -46,7 +46,7 @@ class _RejectDialogState extends State<RejectDialog> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Icon(Icons.close_outlined, color: Colors.transparent),
-                  MyText(title: widget.title ?? 'Reject', clr: MyColors().whiteColor, fontWeight: FontWeight.w600),
+                  MyText(title: widget.title ?? 'Reject', clr: CustomColors.whiteColor, fontWeight: FontWeight.w600),
                   GestureDetector(
                     onTap: AppNavigation.navigatorPop,
                     child: const Icon(Icons.close_outlined, color: Colors.white),
@@ -61,7 +61,7 @@ class _RejectDialogState extends State<RejectDialog> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: MyColors().secondaryColor.withValues(alpha: .3),
+                      color: CustomColors.secondaryColor.withValues(alpha: .3),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     padding: EdgeInsets.all(3.w),
@@ -75,7 +75,7 @@ class _RejectDialogState extends State<RejectDialog> {
                               widget.description ??
                               'Reject the ride within a specific timeframe (05 minutes) without incurring additional fees.',
                           size: 12,
-                          clr: MyColors().greyColor.withValues(alpha: .6),
+                          clr: CustomColors.greyColor.withValues(alpha: .6),
                         ),
                       ],
                     ),
@@ -102,7 +102,7 @@ class _RejectDialogState extends State<RejectDialog> {
                           alignment: Alignment.center,
                           child: Row(
                             children: [
-                              CustomRadioTile(v: (i == index), color: MyColors().secondaryColor),
+                              CustomRadioTile(v: (i == index), color: CustomColors.secondaryColor),
                               SizedBox(width: 2.w),
                               Expanded(child: MyText(title: options[index], size: 15)),
                             ],
@@ -122,10 +122,10 @@ class _RejectDialogState extends State<RejectDialog> {
                       controller: other,
                       borderRadius: 10,
                       maxLength: 275,
-                      backgroundColor: MyColors().secondaryColor.withValues(alpha: .3),
-                      borderColor: MyColors().secondaryColor,
-                      hintTextColor: MyColors().grey,
-                      textColor: MyColors().black,
+                      backgroundColor: CustomColors.secondaryColor.withValues(alpha: .3),
+                      borderColor: CustomColors.secondaryColor,
+                      hintTextColor: CustomColors.grey,
+                      textColor: CustomColors.black,
                     ),
                     SizedBox(height: 2.h),
                   ],

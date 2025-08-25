@@ -1,3 +1,4 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Arguments/screen_arguments.dart';
 import 'package:backyard/legacy/Component/custom_icon_container.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
@@ -5,7 +6,6 @@ import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -154,7 +154,7 @@ class CustomAppBar extends StatelessWidget {
                 size: Utils.isTablet ? 20 : 18,
                 toverflow: TextOverflow.ellipsis,
                 fontWeight: FontWeight.w600,
-                clr: titleColor ?? MyColors().black,
+                clr: titleColor ?? CustomColors.black,
               ),
             ),
           ),

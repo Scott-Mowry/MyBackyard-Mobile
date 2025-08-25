@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:backyard/boot.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Arguments/content_argument.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
@@ -13,11 +16,8 @@ import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/app_strings.dart';
-import 'package:backyard/legacy/Utils/enum.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/profile_complete_dialog.dart';
 import 'package:backyard/legacy/View/base_view.dart';
-import 'package:backyard/boot.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -79,14 +79,14 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       subscribed = getId(navigatorKey.currentContext?.read<UserController>().user?.subId ?? 0);
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      if (user?.role == Role.Business) {
+      if (user?.role == UserRoleEnum.Business) {
         await AppInAppPurchase().fetchSubscriptions([
-          subscription_enums.bus_basic.name,
-          subscription_enums.bus_sub_annually.name,
-          subscription_enums.bus_sub_monthly.name,
+          SubscriptionTypeEnum.bus_basic.name,
+          SubscriptionTypeEnum.bus_sub_annually.name,
+          SubscriptionTypeEnum.bus_sub_monthly.name,
         ]);
       } else {
-        await AppInAppPurchase().fetchSubscriptions([subscription_enums.user_sub.name]);
+        await AppInAppPurchase().fetchSubscriptions([SubscriptionTypeEnum.user_sub.name]);
       }
     });
     purchaseStream = AppInAppPurchase().purchaseStream.listen((events) async {
@@ -261,7 +261,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             child: Consumer<UserController>(
               builder: (context, value, child) {
                 if (value.loading) {
-                  return Center(child: CircularProgressIndicator(color: MyColors().greenColor));
+                  return Center(child: CircularProgressIndicator(color: CustomColors.greenColor));
                 } else {
                   ///------------- CAROUSAL SLIDER -----------------
                   ///
@@ -343,7 +343,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                           height: 22.h,
                                           padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.w),
                                           decoration: BoxDecoration(
-                                            color: MyColors().primaryColor,
+                                            color: CustomColors.primaryGreenColor,
                                             borderRadius: BorderRadius.circular(20),
                                             border: Border.all(color: Colors.white),
                                             boxShadow: [
@@ -363,13 +363,13 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                 children: [
                                                   MyText(
                                                     title: value.productDetails[i].price,
-                                                    clr: MyColors().whiteColor,
+                                                    clr: CustomColors.whiteColor,
                                                     fontWeight: FontWeight.w600,
                                                     size: 26,
                                                   ),
                                                   MyText(
                                                     title: getDuration(value.productDetails[i].id),
-                                                    clr: MyColors().whiteColor.withValues(alpha: .5),
+                                                    clr: CustomColors.whiteColor.withValues(alpha: .5),
                                                     fontWeight: FontWeight.w600,
                                                     size: 14,
                                                   ),
@@ -377,7 +377,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                               ),
                                               MyText(
                                                 title: value.productDetails[i].title.split('(').firstOrNull ?? '',
-                                                clr: MyColors().whiteColor,
+                                                clr: CustomColors.whiteColor,
                                                 align: TextAlign.center,
                                                 fontStyle: FontStyle.italic,
                                                 fontWeight: FontWeight.w500,
@@ -391,7 +391,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                           margin: EdgeInsets.all(10),
                                           child: Icon(
                                             Icons.arrow_forward_rounded,
-                                            color: MyColors().whiteColor.withValues(alpha: .5),
+                                            color: CustomColors.whiteColor.withValues(alpha: .5),
                                           ),
                                         ),
                                       ],
@@ -449,7 +449,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               },
             ),
           ),
-          if (widget.fromCompleteProfile && (user?.role == Role.User))
+          if (widget.fromCompleteProfile && (user?.role == UserRoleEnum.User))
             GestureDetector(onTap: () {}, child: const Text('Skip')),
           // Consumer<UserController>(builder: (context, val, _) {
           //   return Row(
@@ -479,7 +479,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     return RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-        style: GoogleFonts.roboto(fontWeight: FontWeight.w400, fontSize: 13, color: MyColors().black),
+        style: GoogleFonts.roboto(fontWeight: FontWeight.w400, fontSize: 13, color: CustomColors.black),
         children: [
           TextSpan(
             text: '\nTerms & Conditions',
@@ -488,7 +488,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               fontWeight: FontWeight.w600,
               fontSize: 16,
               decorationThickness: 2,
-              color: MyColors().greenColor,
+              color: CustomColors.greenColor,
             ),
             recognizer:
                 TapGestureRecognizer()
@@ -509,7 +509,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               fontWeight: FontWeight.w600,
               fontSize: 16,
               decorationThickness: 2,
-              color: MyColors().black,
+              color: CustomColors.black,
             ),
             recognizer: TapGestureRecognizer()..onTap = () {},
           ),
@@ -520,7 +520,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               fontWeight: FontWeight.w600,
               fontSize: 16,
               decorationThickness: 2,
-              color: MyColors().greenColor,
+              color: CustomColors.greenColor,
             ),
             recognizer:
                 TapGestureRecognizer()
@@ -575,7 +575,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
           Container(
             width: double.infinity,
             decoration: BoxDecoration(
-              color: MyColors().primaryColor,
+              color: CustomColors.primaryGreenColor,
               borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
             ),
             padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.w),
@@ -585,10 +585,10 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    MyText(title: m.price, clr: MyColors().whiteColor, fontWeight: FontWeight.w600, size: 30),
+                    MyText(title: m.price, clr: CustomColors.whiteColor, fontWeight: FontWeight.w600, size: 30),
                     MyText(
                       title: getDuration(m.id),
-                      clr: MyColors().whiteColor.withValues(alpha: .5),
+                      clr: CustomColors.whiteColor.withValues(alpha: .5),
                       fontWeight: FontWeight.w600,
                       size: 18,
                     ),
@@ -596,7 +596,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                 ),
                 MyText(
                   title: m.title.split('(').firstOrNull ?? '',
-                  clr: MyColors().whiteColor,
+                  clr: CustomColors.whiteColor,
                   fontWeight: FontWeight.w500,
                   size: 16,
                   height: 1.1,
@@ -622,10 +622,10 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(height: 2.h),
-                MyText(title: 'Description:', clr: MyColors().black, fontWeight: FontWeight.w600, size: 15),
+                MyText(title: 'Description:', clr: CustomColors.black, fontWeight: FontWeight.w600, size: 15),
                 MyText(
                   title: m.description, //getPrice(m.id, m.price),
-                  clr: MyColors().black,
+                  clr: CustomColors.black,
                   align: TextAlign.center,
                   size: 14,
                 ),
@@ -641,7 +641,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Icons.check, color: MyColors().primaryColor),
+                  Icon(Icons.check, color: CustomColors.primaryGreenColor),
                   SizedBox(width: 2.w),
                   Expanded(
                     child: MyText(
@@ -651,7 +651,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.w300,
                       height: 1.3,
-                      clr: MyColors().black,
+                      clr: CustomColors.black,
                     ),
                   ),
                 ],
@@ -738,7 +738,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
   }
 
   List<MenuModel> s =
-      navigatorKey.currentContext?.read<UserController>().user?.role == Role.User
+      navigatorKey.currentContext?.read<UserController>().user?.role == UserRoleEnum.User
           ? [
             MenuModel(
               name: 'All Access User', //'Standard Package',

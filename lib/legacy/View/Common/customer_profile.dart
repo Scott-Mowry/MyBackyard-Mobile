@@ -1,3 +1,5 @@
+import 'package:backyard/boot.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
@@ -8,10 +10,8 @@ import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Model/file_network.dart';
 import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/User/offers.dart';
 import 'package:backyard/legacy/View/base_view.dart';
-import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -93,7 +93,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
                 Container(
                   decoration: BoxDecoration(
                     // color: Colors.red,
-                    color: MyColors().primaryColor,
+                    color: CustomColors.primaryGreenColor,
                     shape: BoxShape.circle,
                   ),
                   height: 15.9.h,
@@ -133,12 +133,12 @@ class _CustomerProfileState extends State<CustomerProfile> {
                 MyText(
                   title: widget.user?.offerCount?.toString() ?? '0',
                   size: 36,
-                  clr: MyColors().primaryColor,
+                  clr: CustomColors.primaryGreenColor,
                   fontWeight: FontWeight.w600,
                 ),
                 SizedBox(height: 2.h),
                 if (val.loading) ...[
-                  CircularProgressIndicator(color: MyColors().primaryColor),
+                  CircularProgressIndicator(color: CustomColors.primaryGreenColor),
                 ] else
                   Expanded(
                     child: SingleChildScrollView(
@@ -251,7 +251,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
         crossAxisAlignment: title != '' ? CrossAxisAlignment.start : CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          MyText(title: title, size: 14, clr: MyColors().black, fontWeight: FontWeight.w600),
+          MyText(title: title, size: 14, clr: CustomColors.black, fontWeight: FontWeight.w600),
           SizedBox(width: 2.w),
           Expanded(child: Align(alignment: Alignment.centerRight, child: MyText(title: text, size: 14))),
         ],
@@ -268,9 +268,9 @@ class _CustomerProfileState extends State<CustomerProfile> {
           setState(() {});
         },
         gradient: false,
-        bgColor: i == title ? MyColors().primaryColor : MyColors().whiteColor,
-        borderColor: MyColors().primaryColor,
-        textColor: i == title ? null : MyColors().primaryColor,
+        bgColor: i == title ? CustomColors.primaryGreenColor : CustomColors.whiteColor,
+        borderColor: CustomColors.primaryGreenColor,
+        textColor: i == title ? null : CustomColors.primaryGreenColor,
         height: 5.2.h,
         width: 40.w,
       ),

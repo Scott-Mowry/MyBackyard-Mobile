@@ -1,5 +1,5 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 
 class ScreenTitle extends StatelessWidget {
@@ -10,6 +10,11 @@ class ScreenTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MyText(title: title ?? '', fontWeight: fontWeight ?? FontWeight.w500, size: 17, clr: MyColors().whiteColor);
+    return MyText(
+      title: title ?? '',
+      fontWeight: fontWeight ?? FontWeight.w500,
+      size: 17,
+      clr: CustomColors.whiteColor,
+    );
   }
 }

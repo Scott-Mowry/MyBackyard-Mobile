@@ -1,3 +1,5 @@
+import 'package:backyard/boot.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
@@ -11,10 +13,8 @@ import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/Authentication/edit_schedule_time.dart';
 import 'package:backyard/legacy/View/base_view.dart';
-import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -106,7 +106,7 @@ class _ScheduleState extends State<Schedule> {
       showAppBar: true,
       showBackButton: true,
       trailingAppBar: IconButton(
-        icon: Icon(Icons.select_all_outlined, size: 24.sp, color: MyColors().black),
+        icon: Icon(Icons.select_all_outlined, size: 24.sp, color: CustomColors.black),
         onPressed: () async {
           await Navigator.pushNamed(
             context,
@@ -327,7 +327,7 @@ class _ScheduleState extends State<Schedule> {
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
-        decoration: BoxDecoration(color: MyColors().lightGrey2, borderRadius: BorderRadius.circular(25)),
+        decoration: BoxDecoration(color: CustomColors.lightGrey2, borderRadius: BorderRadius.circular(25)),
         child: MyText(title: t),
       ),
     );

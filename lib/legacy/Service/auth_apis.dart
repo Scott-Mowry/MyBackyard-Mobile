@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:backyard/boot.dart';
+import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/response_model.dart';
@@ -9,9 +11,7 @@ import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
-import 'package:backyard/legacy/Utils/enum.dart';
 import 'package:backyard/legacy/Utils/local_shared_preferences.dart';
-import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -24,7 +24,7 @@ class AuthAPIS {
       // final type =
       //     navigatorKey.currentContext?.read<UserController>().user?.role;
       final res = await AppNetwork.networkRequest(
-        requestTypes.POST.name,
+        RequestTypeEnum.POST.name,
         API.SIGN_IN_ENDPOINT,
         parameters: {
           'email': email,
@@ -59,7 +59,10 @@ class AuthAPIS {
 
   static Future<bool> signInWithId({required String id}) async {
     try {
-      final res = await AppNetwork.networkRequest(requestTypes.GET.name, '${API.SIGN_IN_WITH_ID_ENDPOINT}?user_id=$id');
+      final res = await AppNetwork.networkRequest(
+        RequestTypeEnum.GET.name,
+        '${API.SIGN_IN_WITH_ID_ENDPOINT}?user_id=$id',
+      );
       if (res != null) {
         final model = responseModelFromJson(res.body);
         if (model.status == 1) {
@@ -86,7 +89,7 @@ class AuthAPIS {
   static Future<bool> forgotPassword({required String email}) async {
     try {
       final res = await AppNetwork.networkRequest(
-        requestTypes.POST.name,
+        RequestTypeEnum.POST.name,
         API.FORGOT_PASSWORD_ENDPOINT,
         parameters: {'email': email},
       );
@@ -110,7 +113,7 @@ class AuthAPIS {
   static Future<bool> changePassword({required int id, required String password}) async {
     try {
       final res = await AppNetwork.networkRequest(
-        requestTypes.POST.name,
+        RequestTypeEnum.POST.name,
         API.CHANGE_PASSWORD_ENDPOINT,
         parameters: {'id': id.toString(), 'password': password},
       );
@@ -135,7 +138,7 @@ class AuthAPIS {
     try {
       // final devicetoken = await FirebaseMessaging.instance.getToken();
       final res = await AppNetwork.networkRequest(
-        requestTypes.POST.name,
+        RequestTypeEnum.POST.name,
         API.VERIFY_ACCOUNT_ENDPOINT,
         parameters: {
           'otp': otpCode,
@@ -244,7 +247,7 @@ class AuthAPIS {
         attachments.add(await http.MultipartFile.fromPath('profile_image', image.path));
       }
       final res = await AppNetwork.networkRequest(
-        requestTypes.POST.name,
+        RequestTypeEnum.POST.name,
         API.COMPLETE_PROFILE_ENDPOINT,
         parameters: parameters,
         attachments: attachments,
@@ -298,7 +301,7 @@ class AuthAPIS {
   static Future<bool> resendCode({String? id}) async {
     try {
       final res = await AppNetwork.networkRequest(
-        requestTypes.POST.name,
+        RequestTypeEnum.POST.name,
         API.RESEND_OTP_ENDPOINT,
         parameters: {'user_id': id ?? ''},
       );
@@ -321,7 +324,7 @@ class AuthAPIS {
   static Future<void> signOut() async {
     try {
       AppNetwork.loadingProgressIndicator();
-      final res = await AppNetwork.networkRequest(requestTypes.POST.name, API.SIGN_OUT_ENDPOINT, header: true);
+      final res = await AppNetwork.networkRequest(RequestTypeEnum.POST.name, API.SIGN_OUT_ENDPOINT, header: true);
       AppNavigation.navigatorPop();
       if (res != null) {
         final model = responseModelFromJson(res.body);
@@ -357,7 +360,7 @@ class AuthAPIS {
         lastName = (name ?? '');
       }
       final res = await AppNetwork.networkRequest(
-        requestTypes.POST.name,
+        RequestTypeEnum.POST.name,
         API.SOCIAL_LOGIN_ENDPOINT,
         parameters: {
           'first_name': firstName,
@@ -407,7 +410,7 @@ class AuthAPIS {
   static Future<void> deleteAccount() async {
     try {
       AppNetwork.loadingProgressIndicator();
-      final res = await AppNetwork.networkRequest(requestTypes.POST.name, API.DELETE_ACCOUNT_ENDPOINT, header: true);
+      final res = await AppNetwork.networkRequest(RequestTypeEnum.POST.name, API.DELETE_ACCOUNT_ENDPOINT, header: true);
       AppNavigation.navigatorPop();
       if (res != null) {
         final model = responseModelFromJson(res.body);

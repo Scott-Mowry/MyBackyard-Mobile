@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,9 +48,9 @@ class ImageGalleryClass {
                     child: Row(
                       children: [
                         SizedBox(width: 15.0),
-                        Icon(Icons.camera_enhance, color: MyColors().primaryColor),
+                        Icon(Icons.camera_enhance, color: CustomColors.primaryGreenColor),
                         SizedBox(width: 15.0),
-                        Text('Camera', style: TextStyle(color: MyColors().primaryColor, fontSize: 18.0)),
+                        Text('Camera', style: TextStyle(color: CustomColors.primaryGreenColor, fontSize: 18.0)),
                       ],
                     ),
                   ),
@@ -75,9 +75,9 @@ class ImageGalleryClass {
                     child: Row(
                       children: [
                         SizedBox(width: 15.0),
-                        Icon(Icons.image, color: MyColors().primaryColor),
+                        Icon(Icons.image, color: CustomColors.primaryGreenColor),
                         SizedBox(width: 15.0),
-                        Text('Gallery', style: TextStyle(color: MyColors().primaryColor, fontSize: 18.0)),
+                        Text('Gallery', style: TextStyle(color: CustomColors.primaryGreenColor, fontSize: 18.0)),
                       ],
                     ),
                   ),
@@ -96,9 +96,9 @@ class ImageGalleryClass {
                       child: Row(
                         children: [
                           SizedBox(width: 15.0),
-                          Icon(Icons.file_copy_sharp, color: MyColors().primaryColor),
+                          Icon(Icons.file_copy_sharp, color: CustomColors.primaryGreenColor),
                           SizedBox(width: 15.0),
-                          Text('File', style: TextStyle(color: MyColors().primaryColor, fontSize: 18.0)),
+                          Text('File', style: TextStyle(color: CustomColors.primaryGreenColor, fontSize: 18.0)),
                         ],
                       ),
                     ),

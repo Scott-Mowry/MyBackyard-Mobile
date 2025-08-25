@@ -1,4 +1,4 @@
-import 'package:backyard/legacy/Utils/my_colors.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -18,8 +18,8 @@ class CustomShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      highlightColor: shimmerHighlightColor ?? MyColors().shimmerColor,
-      baseColor: shimmerBaseColor ?? MyColors().shimmerBaseColor,
+      highlightColor: shimmerHighlightColor ?? CustomColors.grey,
+      baseColor: shimmerBaseColor ?? CustomColors.grey.withValues(alpha: 0.8),
       enabled: shimmerHighlightColorEnable ?? true,
       child: child,
     );

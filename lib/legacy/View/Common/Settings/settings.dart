@@ -1,5 +1,8 @@
 import 'dart:ui';
 
+import 'package:backyard/boot.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Arguments/content_argument.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -12,13 +15,10 @@ import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/app_strings.dart';
-import 'package:backyard/legacy/Utils/enum.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Authentication/change_password.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/delete_account.dart';
 import 'package:backyard/legacy/View/base_view.dart';
-import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -42,7 +42,7 @@ class _SettingsState extends State<Settings> {
   bool get getBusinesses =>
       (navigatorKey.currentContext?.read<UserController>().isSwitch ?? false)
           ? false
-          : navigatorKey.currentContext?.read<UserController>().user?.role == Role.Business;
+          : navigatorKey.currentContext?.read<UserController>().user?.role == UserRoleEnum.Business;
 
   @override
   Widget build(Build) {
@@ -61,12 +61,12 @@ class _SettingsState extends State<Settings> {
             ),
             Consumer<UserController>(
               builder: (context, val, _) {
-                return (val.user?.role == Role.Business)
+                return (val.user?.role == UserRoleEnum.Business)
                     ? Padding(
                       padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: MyColors().whiteColor,
+                          color: CustomColors.whiteColor,
                           borderRadius: BorderRadius.circular(100),
                           boxShadow: [
                             BoxShadow(
@@ -84,8 +84,8 @@ class _SettingsState extends State<Settings> {
                             MyText(title: 'Switch User', fontWeight: FontWeight.w500, size: Utils.isTablet ? 18 : 15),
                             CustomSwitch(
                               switchValue: val.isSwitch,
-                              toggleColor: MyColors().primaryColor,
-                              inActiveColor: MyColors().greyColor3.withValues(alpha: .2),
+                              toggleColor: CustomColors.primaryGreenColor,
+                              inActiveColor: CustomColors.pinkColor.withValues(alpha: .2),
                               onChange: (v) {},
                               onChange2: (v) {
                                 val.setSwitch(v);
@@ -112,7 +112,7 @@ class _SettingsState extends State<Settings> {
     );
   }
 
-  late bool business = context.read<UserController>().user?.role == Role.Business;
+  late bool business = context.read<UserController>().user?.role == UserRoleEnum.Business;
 
   void getData() {
     if (context.read<UserController>().user?.isPushNotify == 1) {
@@ -332,7 +332,7 @@ class _SettingsState extends State<Settings> {
             decoration:
             // index==0?
             BoxDecoration(
-              color: MyColors().whiteColor,
+              color: CustomColors.whiteColor,
               borderRadius: BorderRadius.circular(100),
               boxShadow: [
                 BoxShadow(
@@ -347,7 +347,7 @@ class _SettingsState extends State<Settings> {
             //   borderRadius: BorderRadius.circular(100),
             //   gradient: LinearGradient(colors: [
             //     MyColors().primaryColor,
-            //     MyColors().primaryColor2 ], begin: Alignment.centerLeft, end: Alignment.centerRight)
+            //     MyColors().primaryColor ], begin: Alignment.centerLeft, end: Alignment.centerRight)
             // )
             padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: Utils.isTablet ? 7.sp : 15.sp),
             margin: EdgeInsets.only(bottom: Utils.isTablet ? 2.h : 1.5.h),
@@ -372,8 +372,8 @@ class _SettingsState extends State<Settings> {
                   // ),
                   CustomSwitch(
                     switchValue: val,
-                    toggleColor: MyColors().primaryColor,
-                    inActiveColor: MyColors().greyColor3.withValues(alpha: .2),
+                    toggleColor: CustomColors.primaryGreenColor,
+                    inActiveColor: CustomColors.pinkColor.withValues(alpha: .2),
                     onChange: (v) {},
                     onChange2: (v) async {
                       val = !val;

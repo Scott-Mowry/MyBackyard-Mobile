@@ -1,9 +1,9 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -12,7 +12,7 @@ class SuccessPaymentDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: MyColors().whiteColor, borderRadius: BorderRadius.circular(20)),
+      decoration: BoxDecoration(color: CustomColors.whiteColor, borderRadius: BorderRadius.circular(20)),
       // height: responsive.setHeight(75),
       width: 100.w,
       child: SingleChildScrollView(
@@ -21,7 +21,7 @@ class SuccessPaymentDialog extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: MyColors().secondaryColor,
+                color: CustomColors.secondaryColor,
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
               ),
               padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.w),
@@ -30,7 +30,7 @@ class SuccessPaymentDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Icon(Icons.close_outlined, color: Colors.transparent),
-                  MyText(title: 'Successful', clr: MyColors().whiteColor, fontWeight: FontWeight.w600),
+                  MyText(title: 'Successful', clr: CustomColors.whiteColor, fontWeight: FontWeight.w600),
                   GestureDetector(
                     onTap: () {
                       AppNavigation.navigatorPop();

@@ -1,6 +1,6 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Model/category_model.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -45,7 +45,7 @@ class CustomDropDown2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButtonFormField2<CategoryModel>(
-        style: GoogleFonts.roboto(fontSize: 14, color: MyColors().black),
+        style: GoogleFonts.roboto(fontSize: 14, color: CustomColors.black),
         validator: validator!,
         decoration: InputDecoration(
           isDense: true,
@@ -57,7 +57,7 @@ class CustomDropDown2 extends StatelessWidget {
                 top: verticalPadding ?? 1.5.h,
                 bottom: verticalPadding ?? 1.5.h,
               ),
-          fillColor: bgColor ?? MyColors().whiteColor,
+          fillColor: bgColor ?? CustomColors.whiteColor,
           border: _outlineInputBorder(),
           enabledBorder: _outlineInputBorder(),
           focusedBorder: _outlineInputBorder(),
@@ -81,7 +81,7 @@ class CustomDropDown2 extends StatelessWidget {
                 .map(
                   (item) => DropdownMenuItem<CategoryModel>(
                     value: item,
-                    child: _text(text: item.categoryName, color: MyColors().black),
+                    child: _text(text: item.categoryName, color: CustomColors.black),
                   ),
                 )
                 .toList(),
@@ -105,7 +105,7 @@ class CustomDropDown2 extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             border: Border.all(width: 2, color: Colors.transparent),
-            color: MyColors().whiteColor,
+            color: CustomColors.whiteColor,
           ),
         ),
       ),
@@ -132,7 +132,7 @@ class CustomDropDown2 extends StatelessWidget {
       title: text ?? '',
       size: fontSize,
       // textAlign: TextAlign.start,
-      clr: color ?? MyColors().black,
+      clr: color ?? CustomColors.black,
       fontWeight: fontWeight ?? FontWeight.w600,
     );
   }

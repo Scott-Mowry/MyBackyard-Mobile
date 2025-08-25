@@ -1,5 +1,8 @@
 import 'dart:ui';
 
+import 'package:backyard/boot.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Arguments/content_argument.dart';
 import 'package:backyard/legacy/Component/custom_image.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
@@ -9,12 +12,9 @@ import 'package:backyard/legacy/Model/menu_model.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/app_strings.dart';
-import 'package:backyard/legacy/Utils/enum.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/logout.dart';
-import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -65,9 +65,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                           Container(
                             decoration: BoxDecoration(
                               // color: Colors.red,
-                              color: MyColors().primaryColor,
+                              color: CustomColors.primaryGreenColor,
                               shape: BoxShape.circle,
-                              border: Border.all(color: MyColors().whiteColor, width: 1),
+                              border: Border.all(color: CustomColors.whiteColor, width: 1),
                             ),
                             padding: EdgeInsets.all(6),
                             height: Utils.isTablet ? 12.h : 16.h,
@@ -87,7 +87,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             title: val.user?.name ?? '',
                             fontWeight: FontWeight.w500,
                             size: 18,
-                            clr: MyColors().whiteColor,
+                            clr: CustomColors.whiteColor,
                           ),
                           // MyText(title: AuthController.i.user.value.fullName,fontWeight: FontWeight.w600,size: 18,clr: MyColors().whiteColor),
                           // SizedBox(
@@ -99,7 +99,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                               toverflow: TextOverflow.ellipsis,
                               title: val.user?.email ?? '',
                               size: 15,
-                              clr: MyColors().whiteColor,
+                              clr: CustomColors.whiteColor,
                             ),
                           ),
                         ],
@@ -143,7 +143,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   child: Container(
                     padding: EdgeInsets.all(4.w) + EdgeInsets.only(right: 5.w),
                     decoration: BoxDecoration(
-                      color: MyColors().whiteColor,
+                      color: CustomColors.whiteColor,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: 0.2), // Shadow color
@@ -162,7 +162,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       children: [
                         Image.asset(ImagePath.logout, scale: 2),
                         SizedBox(width: 2.w),
-                        MyText(title: 'Logout', clr: MyColors().primaryColor, fontWeight: FontWeight.w500, size: 18),
+                        MyText(
+                          title: 'Logout',
+                          clr: CustomColors.primaryGreenColor,
+                          fontWeight: FontWeight.w500,
+                          size: 18,
+                        ),
                       ],
                     ),
                   ),
@@ -181,7 +186,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               height: 10.h,
               width: 18.w,
               color: Colors.transparent,
-              child: Icon(Icons.close, color: MyColors().whiteColor, size: Utils.isTablet ? 45 : 30),
+              child: Icon(Icons.close, color: CustomColors.whiteColor, size: Utils.isTablet ? 45 : 30),
             ),
           ),
         ),
@@ -207,9 +212,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
               },
               child: Row(
                 children: [
-                  Image.asset(l[index].image!, scale: 2, color: MyColors().whiteColor),
+                  Image.asset(l[index].image!, scale: 2, color: CustomColors.whiteColor),
                   SizedBox(width: 3.w),
-                  MyText(title: l[index].name!, fontWeight: FontWeight.w500, size: 18, clr: MyColors().whiteColor),
+                  MyText(title: l[index].name!, fontWeight: FontWeight.w500, size: 18, clr: CustomColors.whiteColor),
                 ],
               ),
             );
@@ -350,5 +355,5 @@ class _CustomDrawerState extends State<CustomDrawer> {
   bool business =
       (navigatorKey.currentContext?.read<UserController>().isSwitch ?? false)
           ? false
-          : navigatorKey.currentContext?.read<UserController>().user?.role == Role.Business;
+          : navigatorKey.currentContext?.read<UserController>().user?.role == UserRoleEnum.Business;
 }

@@ -1,9 +1,9 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_refresh.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Model/faq_model.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +100,9 @@ class _FAQScreenState extends State<FAQScreen> {
                                 Container(
                                   decoration: BoxDecoration(
                                     color:
-                                        selectedIndex == index ? MyColors().secondaryColor : MyColors().primaryColor2,
+                                        selectedIndex == index
+                                            ? CustomColors.secondaryColor
+                                            : CustomColors.primaryGreenColor,
                                     // border: Border.all(
                                     //     color: MyColors().greyColor
                                     // ),
@@ -118,7 +120,7 @@ class _FAQScreenState extends State<FAQScreen> {
                                         title: 'Question',
                                         size: 15,
                                         fontWeight: FontWeight.w600,
-                                        clr: MyColors().whiteColor,
+                                        clr: CustomColors.whiteColor,
                                       ),
                                       GestureDetector(
                                         onTap: () {
@@ -131,7 +133,7 @@ class _FAQScreenState extends State<FAQScreen> {
                                         },
                                         child: Icon(
                                           selectedIndex == index ? Icons.expand_less : Icons.expand_more,
-                                          color: MyColors().whiteColor,
+                                          color: CustomColors.whiteColor,
                                         ),
                                       ),
                                     ],
@@ -141,8 +143,8 @@ class _FAQScreenState extends State<FAQScreen> {
                                   Container(
                                     width: double.infinity,
                                     decoration: BoxDecoration(
-                                      border: Border.all(color: MyColors().secondaryColor),
-                                      color: MyColors().whiteColor,
+                                      border: Border.all(color: CustomColors.secondaryColor),
+                                      color: CustomColors.whiteColor,
                                       borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)),
                                     ),
                                     padding: EdgeInsets.all(4.w),
@@ -166,7 +168,7 @@ class _FAQScreenState extends State<FAQScreen> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image.asset(ImagePath.support, color: MyColors().secondaryColor, scale: 1.5),
+                        Image.asset(ImagePath.support, color: CustomColors.secondaryColor, scale: 1.5),
                         Expanded(
                           child: RichText(
                             textAlign: TextAlign.center,
@@ -175,7 +177,7 @@ class _FAQScreenState extends State<FAQScreen> {
                               style: GoogleFonts.roboto(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 13,
-                                color: MyColors().secondaryColor,
+                                color: CustomColors.secondaryColor,
                                 // decoration: TextDecoration.underline
                               ),
                               children: [
@@ -185,7 +187,7 @@ class _FAQScreenState extends State<FAQScreen> {
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14,
                                     decorationThickness: 2,
-                                    color: MyColors().secondaryColor,
+                                    color: CustomColors.secondaryColor,
                                     decoration: TextDecoration.underline,
                                   ),
                                   // recognizer: TapGestureRecognizer()
@@ -199,7 +201,7 @@ class _FAQScreenState extends State<FAQScreen> {
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14,
                                     decorationThickness: 2,
-                                    color: MyColors().black,
+                                    color: CustomColors.black,
                                   ),
                                   // recognizer: TapGestureRecognizer()
                                   //   ..onTap = () async {
@@ -212,7 +214,7 @@ class _FAQScreenState extends State<FAQScreen> {
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14,
                                     decorationThickness: 2,
-                                    color: MyColors().secondaryColor,
+                                    color: CustomColors.secondaryColor,
                                     decoration: TextDecoration.underline,
                                   ),
                                   recognizer:

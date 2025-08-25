@@ -1,3 +1,6 @@
+import 'package:backyard/boot.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
@@ -13,14 +16,11 @@ import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
-import 'package:backyard/legacy/Utils/enum.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/User/give_review.dart';
 import 'package:backyard/legacy/View/User/offers.dart';
 import 'package:backyard/legacy/View/base_view.dart';
-import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +44,7 @@ class _UserProfileState extends State<UserProfile> {
   late bool business =
       (navigatorKey.currentContext?.read<UserController>().isSwitch ?? false)
           ? false
-          : navigatorKey.currentContext?.read<UserController>().user?.role == Role.Business;
+          : navigatorKey.currentContext?.read<UserController>().user?.role == UserRoleEnum.Business;
   List<String> items = ['Offers', 'About', 'Reviews'];
   String i = 'Offers';
 
@@ -117,7 +117,7 @@ class _UserProfileState extends State<UserProfile> {
                 CustomAppBar(
                   screenTitle: business ? 'Business Profile' : widget.user?.name ?? 'Profile',
                   leading: BackButton(),
-                  trailing: business ? Image.asset(ImagePath.favorite, scale: 2.5, color: MyColors().redColor) : null,
+                  trailing: business ? Image.asset(ImagePath.favorite, scale: 2.5, color: CustomColors.redColor) : null,
                   bottom: 2.h,
                 ),
               ],
@@ -132,7 +132,7 @@ class _UserProfileState extends State<UserProfile> {
                               val.loading
                                   ? [
                                     SizedBox(height: 30.h),
-                                    Center(child: CircularProgressIndicator(color: MyColors().primaryColor)),
+                                    Center(child: CircularProgressIndicator(color: CustomColors.primaryGreenColor)),
                                   ]
                                   : [
                                     if (val.user != null)
@@ -157,7 +157,11 @@ class _UserProfileState extends State<UserProfile> {
                                             size: 16,
                                           ),
                                         ),
-                                        Image.asset(ImagePath.location, scale: 2, color: MyColors().primaryColor),
+                                        Image.asset(
+                                          ImagePath.location,
+                                          scale: 2,
+                                          color: CustomColors.primaryGreenColor,
+                                        ),
                                       ],
                                     ),
                                     SizedBox(height: 1.h),
@@ -345,7 +349,7 @@ class _UserProfileState extends State<UserProfile> {
                                       MyText(
                                         title: 'Open • Closes',
                                         fontWeight: FontWeight.w600,
-                                        clr: MyColors().primaryColor,
+                                        clr: CustomColors.primaryGreenColor,
                                       ),
                                       SizedBox(height: 2.h),
                                       for (
@@ -535,7 +539,7 @@ class _UserProfileState extends State<UserProfile> {
                 Container(
                   decoration: BoxDecoration(
                     // color: Colors.red,
-                    color: MyColors().primaryColor,
+                    color: CustomColors.primaryGreenColor,
                     shape: BoxShape.circle,
                   ),
                   height: 15.9.h,
@@ -597,7 +601,7 @@ class _UserProfileState extends State<UserProfile> {
                             width: Utils.isTablet ? 8 : 12,
                             switchValue: val.geo,
                             onChange: (v) {},
-                            toggleColor: MyColors().primaryColor,
+                            toggleColor: CustomColors.primaryGreenColor,
                             onChange2: (v) async {
                               val.setGeo(v);
                             },
@@ -627,7 +631,7 @@ class _UserProfileState extends State<UserProfile> {
         crossAxisAlignment: title != '' ? CrossAxisAlignment.start : CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          MyText(title: title, size: Utils.isTablet ? 18 : 14, clr: MyColors().black, fontWeight: FontWeight.w600),
+          MyText(title: title, size: Utils.isTablet ? 18 : 14, clr: CustomColors.black, fontWeight: FontWeight.w600),
           SizedBox(width: 2.w),
           if (text != null)
             Expanded(
@@ -657,9 +661,9 @@ class _UserProfileState extends State<UserProfile> {
           setState(() {});
         },
         gradient: false,
-        bgColor: i == title ? MyColors().black : MyColors().whiteColor,
-        borderColor: MyColors().black,
-        textColor: i == title ? null : MyColors().black,
+        bgColor: i == title ? CustomColors.black : CustomColors.whiteColor,
+        borderColor: CustomColors.black,
+        textColor: i == title ? null : CustomColors.black,
         height: 5.2.h,
         width: 29.w,
       ),
@@ -675,9 +679,9 @@ class _UserProfileState extends State<UserProfile> {
           setState(() {});
         },
         gradient: false,
-        bgColor: i == title ? MyColors().black : MyColors().whiteColor,
-        borderColor: MyColors().black,
-        textColor: i == title ? null : MyColors().black,
+        bgColor: i == title ? CustomColors.black : CustomColors.whiteColor,
+        borderColor: CustomColors.black,
+        textColor: i == title ? null : CustomColors.black,
         height: 5.2.h,
         width: 40.w,
       ),

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -8,7 +9,6 @@ import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/User/offers.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/reject_dialog.dart';
 import 'package:backyard/legacy/View/Widget/search_tile.dart';
@@ -71,7 +71,7 @@ class _BusinessHomeState extends State<BusinessHome> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color: MyColors().whiteColor,
+                        color: CustomColors.whiteColor,
                         borderRadius: const BorderRadius.vertical(bottom: Radius.circular(15)),
                         boxShadow: [
                           BoxShadow(
@@ -112,7 +112,7 @@ class _BusinessHomeState extends State<BusinessHome> {
                       Column(
                         children: [
                           SizedBox(height: 20.h),
-                          Center(child: CircularProgressIndicator(color: MyColors().greenColor)),
+                          Center(child: CircularProgressIndicator(color: CustomColors.greenColor)),
                         ],
                       )
                     else if ((val2.offers ?? []).isEmpty)

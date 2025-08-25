@@ -17,7 +17,7 @@
 // import 'package:backyard/Utils/app_size.dart';
 // import 'package:backyard/Utils/app_strings.dart';
 // import 'package:backyard/Utils/image_path.dart';
-// import 'package:backyard/Utils/my_colors.dart';
+// import 'package:backyard/Utils/custom_colors.dart';
 // import 'package:backyard/Utils/utils.dart';
 // import 'package:backyard/legacy/View/Widget/Dialog/rating.dart';
 // import 'package:backyard/legacy/View/Widget/counter.dart';

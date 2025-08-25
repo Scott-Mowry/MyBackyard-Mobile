@@ -4,8 +4,8 @@
 
 import 'dart:math' as math;
 
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -1110,7 +1110,7 @@ class _YearPickerState extends State<YearPicker> {
     );
 
     final decoration = BoxDecoration(
-      color: isSelected ? MyColors().pinkColor : Colors.transparent,
+      color: isSelected ? CustomColors.pinkColor : Colors.transparent,
       borderRadius: BorderRadius.circular(4),
     );
 

@@ -1,7 +1,7 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -31,7 +31,7 @@ class LoyaltyProgram extends StatelessWidget {
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: MyColors().primaryColor,
+                      color: CustomColors.primaryGreenColor,
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         BoxShadow(
@@ -49,7 +49,7 @@ class LoyaltyProgram extends StatelessWidget {
                           title: 'Rewards Coins',
                           fontWeight: FontWeight.w700,
                           center: true,
-                          clr: MyColors().whiteColor,
+                          clr: CustomColors.whiteColor,
                           size: 20,
                         ),
                         SizedBox(height: .5.h),
@@ -57,7 +57,7 @@ class LoyaltyProgram extends StatelessWidget {
                           title: '5000',
                           fontWeight: FontWeight.w700,
                           center: true,
-                          clr: MyColors().whiteColor,
+                          clr: CustomColors.whiteColor,
                           size: 20,
                         ),
                         SizedBox(height: 2.h),
@@ -101,10 +101,10 @@ class HistoryTile extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: MyColors().whiteColor,
+          color: CustomColors.whiteColor,
           boxShadow: [
             BoxShadow(
-              color: MyColors().container.withValues(alpha: 0.8), // Shadow color
+              color: CustomColors.container.withValues(alpha: 0.8), // Shadow color
               blurRadius: 10, // Spread of the shadow
               spreadRadius: 5, // Size of the shadow
               offset: const Offset(0, 4), // Position of the shadow
@@ -132,7 +132,7 @@ class HistoryTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   MyText(title: 'Offer 03', fontWeight: FontWeight.w600, size: 12),
-                  MyText(title: 'Successful', clr: MyColors().grey, size: 14),
+                  MyText(title: 'Successful', clr: CustomColors.grey, size: 14),
                 ],
               ),
             ),
@@ -143,7 +143,7 @@ class HistoryTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   MyText(title: 'Lorum Ipsum Cafe', fontWeight: FontWeight.w600, size: 12),
-                  MyText(title: 'Business Name', clr: MyColors().grey, size: 14),
+                  MyText(title: 'Business Name', clr: CustomColors.grey, size: 14),
                 ],
               ),
             ),

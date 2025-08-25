@@ -70,6 +70,7 @@
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
 		84592F9C197FE6043E077A3E /* prodLaunchScreen.storyboard */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.storyboard; name = prodLaunchScreen.storyboard; path = Runner/prodLaunchScreen.storyboard; sourceTree = "<group>"; };
 		8BDDE884C8A08CE21506ECD2 /* Pods-RunnerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.debug.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		8E08DDE616DCC987A85A0FC3 /* Pods-Runner.debug-stg.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-stg.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-stg.xcconfig"; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
 		97C146EE1CF9000F007C117D /* Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -118,6 +119,7 @@
 				8BDDE884C8A08CE21506ECD2 /* Pods-RunnerTests.debug.xcconfig */,
 				D4DCEA584C8A1196C3E4578D /* Pods-RunnerTests.release.xcconfig */,
 				AE5AA978E52F023ADF3E6580 /* Pods-RunnerTests.profile.xcconfig */,
+				8E08DDE616DCC987A85A0FC3 /* Pods-Runner.debug-stg.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -223,8 +225,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */;
 			buildPhases = (
-				AAD3552B3D808E94586389A6 /* Firebase Setup */,
 				3A83814ED1CDDB1CBB8C0A6E /* [CP] Check Pods Manifest.lock */,
+				AAD3552B3D808E94586389A6 /* Firebase Setup */,
 				9740EEB61CF901F6004384FC /* Run Script */,
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,

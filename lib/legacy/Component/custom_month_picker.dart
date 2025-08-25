@@ -1,6 +1,6 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -55,10 +55,10 @@ class _CustomAppExitDialogState extends State<CustomMonthPickerDialog> {
                   decoration: BoxDecoration(
                     color:
                         widget.selectedMonth == (index + 1)
-                            ? MyColors().pinkColor
+                            ? CustomColors.pinkColor
                             : Colors.transparent, //MyColors().pinkColor.withValues(alpha: 0.7),
                     borderRadius: BorderRadius.circular(widget.selectedMonth == (index + 1) ? 4 : 0),
-                    border: widget.selectedMonth == (index + 1) ? Border.all(color: MyColors().pinkColor) : null,
+                    border: widget.selectedMonth == (index + 1) ? Border.all(color: CustomColors.pinkColor) : null,
                   ),
                   child: MyText(
                     title: MONTH_LIST[index].toString(),

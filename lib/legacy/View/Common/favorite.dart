@@ -1,3 +1,4 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Arguments/profile_screen_arguments.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -6,7 +7,6 @@ import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/User/offers.dart';
 import 'package:backyard/legacy/View/Widget/search_tile.dart';
 import 'package:backyard/legacy/View/base_view.dart';
@@ -49,7 +49,7 @@ class _FavoriteState extends State<Favorite> {
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
-                color: MyColors().whiteColor,
+                color: CustomColors.whiteColor,
                 borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
                 boxShadow: [
                   BoxShadow(
@@ -135,9 +135,9 @@ class _FavoriteState extends State<Favorite> {
           setState(() {});
         },
         gradient: false,
-        bgColor: i == title ? MyColors().primaryColor : MyColors().whiteColor,
-        borderColor: MyColors().primaryColor,
-        textColor: i == title ? null : MyColors().primaryColor,
+        bgColor: i == title ? CustomColors.primaryGreenColor : CustomColors.whiteColor,
+        borderColor: CustomColors.primaryGreenColor,
+        textColor: i == title ? null : CustomColors.primaryGreenColor,
         height: 5.2.h,
         width: 40.w,
       ),

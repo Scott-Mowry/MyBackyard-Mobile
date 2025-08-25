@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:backyard/boot.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Arguments/profile_screen_arguments.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
@@ -12,12 +14,10 @@ import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/reject_dialog.dart';
 import 'package:backyard/legacy/View/Widget/search_tile.dart';
 import 'package:backyard/legacy/View/base_view.dart';
-import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -74,7 +74,7 @@ class _CustomersState extends State<Customers> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color: MyColors().whiteColor,
+                        color: CustomColors.whiteColor,
                         borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
                         boxShadow: [
                           BoxShadow(
@@ -126,7 +126,7 @@ class _CustomersState extends State<Customers> {
                     //                   : null,
                     //             ))),
                     val.loading
-                        ? Center(child: CircularProgressIndicator(color: MyColors().primaryColor))
+                        ? Center(child: CircularProgressIndicator(color: CustomColors.primaryGreenColor))
                         : Expanded(
                           child: SingleChildScrollView(
                             physics: const AlwaysScrollableScrollPhysics(),
@@ -204,10 +204,10 @@ class CustomerTile extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: MyColors().whiteColor,
+              color: CustomColors.whiteColor,
               boxShadow: [
                 BoxShadow(
-                  color: MyColors().container.withValues(alpha: 0.8), // Shadow color
+                  color: CustomColors.container.withValues(alpha: 0.8), // Shadow color
                   blurRadius: 10, // Spread of the shadow
                   spreadRadius: 5, // Size of the shadow
                   offset: const Offset(0, 4), // Position of the shadow
@@ -260,7 +260,7 @@ class CustomerTile extends StatelessWidget {
                           Expanded(
                             child: MyText(
                               title: model?.offerCount.toString() ?? '0',
-                              clr: MyColors().primaryColor,
+                              clr: CustomColors.primaryGreenColor,
                               fontWeight: FontWeight.bold,
                               size: 13,
                             ),
@@ -316,7 +316,7 @@ class CustomerTile extends StatelessWidget {
                     bottomLeft: Radius.circular(10),
                     bottomRight: Radius.circular(10),
                   ),
-                  color: MyColors().primaryColor,
+                  color: CustomColors.primaryGreenColor,
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -324,12 +324,12 @@ class CustomerTile extends StatelessWidget {
                     MyText(
                       title: position?.toString() ?? '',
                       size: Utils.isTablet ? 7.sp : 13.sp,
-                      clr: MyColors().whiteColor,
+                      clr: CustomColors.whiteColor,
                     ),
                     MyText(
                       title: getPosition(position ?? 0),
                       size: Utils.isTablet ? 5.sp : 9.sp,
-                      clr: MyColors().whiteColor,
+                      clr: CustomColors.whiteColor,
                     ),
                   ],
                 ),

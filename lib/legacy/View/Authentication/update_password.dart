@@ -4,7 +4,7 @@
 // import 'package:sizer/sizer.dart';
 // import 'package:backyard/legacy/View/Widget/appLogo.dart';
 // import '../../../Component/custom_buttom.dart';
-// import '../../../Utils/my_colors.dart';
+// import '../../../Utils/custom_colors.dart';
 // import '../../../Utils/image_path.dart';
 // import '../../Component/custom_rectangle_textfield.dart';
 // import '../base_view.dart';

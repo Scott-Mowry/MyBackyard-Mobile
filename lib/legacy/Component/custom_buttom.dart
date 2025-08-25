@@ -1,5 +1,5 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -54,11 +54,11 @@ class MyButton extends StatelessWidget {
         // margin: EdgeInsets.symmetric(horizontal: 8),
         margin: const EdgeInsets.symmetric(horizontal: 0),
         decoration: BoxDecoration(
-          color: bgColor ?? MyColors().black,
+          color: bgColor ?? CustomColors.black,
           gradient:
               gradient == true
                   ? LinearGradient(
-                    colors: [MyColors().primaryColor, MyColors().primaryColor2],
+                    colors: [CustomColors.primaryGreenColor, CustomColors.primaryGreenColor],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
 
@@ -76,7 +76,7 @@ class MyButton extends StatelessWidget {
           children: [
             if (loading ?? false) ...[
               const Spacer(),
-              CircularProgressIndicator(color: MyColors().greenColor),
+              CircularProgressIndicator(color: CustomColors.greenColor),
               const Spacer(),
             ] else ...[
               showPrefix == true

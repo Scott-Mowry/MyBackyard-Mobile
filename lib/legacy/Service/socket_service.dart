@@ -1,9 +1,9 @@
 import 'dart:developer';
 
+import 'package:backyard/boot.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Service/socket_navigation_class.dart';
-import 'package:backyard/boot.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 

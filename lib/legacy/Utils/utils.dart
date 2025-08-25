@@ -4,13 +4,13 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import 'package:backyard/boot.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/app_strings.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
-import 'package:backyard/boot.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:encrypt/encrypt.dart' as en;
 import 'package:flutter/material.dart';
@@ -139,7 +139,7 @@ class Utils {
     final paint =
         Paint()
           ..style = PaintingStyle.stroke
-          ..color = MyColors().primaryColor
+          ..color = CustomColors.primaryGreenColor
           ..strokeWidth = 15.0;
 
     final radius = image.width / 2;
@@ -181,7 +181,7 @@ class Utils {
 
     final paint =
         Paint()
-          ..color = MyColors().primaryColor
+          ..color = CustomColors.primaryGreenColor
           ..style = PaintingStyle.fill;
 
     canvas.drawCircle(const Offset(size / 2, size / 2), size / 2, paint);
@@ -388,7 +388,7 @@ class Utils {
       showTitleActions: true,
       onChanged: (date) {},
       onConfirm: (date) {},
-      theme: picker.DatePickerTheme(doneStyle: TextStyle(color: MyColors().primaryColor2, fontSize: 16)),
+      theme: picker.DatePickerTheme(doneStyle: TextStyle(color: CustomColors.primaryGreenColor, fontSize: 16)),
       currentTime: DateTime.now(),
       locale: LocaleType.en,
     );

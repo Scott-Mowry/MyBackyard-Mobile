@@ -1,3 +1,6 @@
+import 'package:backyard/boot.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Arguments/content_argument.dart';
 import 'package:backyard/legacy/Component/custom_drawer.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
@@ -6,9 +9,7 @@ import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Service/socket_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
-import 'package:backyard/legacy/Utils/enum.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Business/business_home.dart';
 import 'package:backyard/legacy/View/Business/customers.dart';
@@ -17,7 +18,6 @@ import 'package:backyard/legacy/View/Common/user_profile.dart';
 import 'package:backyard/legacy/View/User/category.dart';
 import 'package:backyard/legacy/View/User/offers.dart';
 import 'package:backyard/legacy/View/User/user_home.dart';
-import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,7 +37,7 @@ class _HomeViewState extends State<HomeView> {
   late final business =
       (navigatorKey.currentContext?.read<UserController>().isSwitch ?? false)
           ? false
-          : navigatorKey.currentContext?.read<UserController>().user?.role == Role.Business;
+          : navigatorKey.currentContext?.read<UserController>().user?.role == UserRoleEnum.Business;
 
   void setIndex(int val) {
     navigatorKey.currentContext?.read<HomeController>().setIndex(val);
@@ -105,7 +105,7 @@ class _HomeViewState extends State<HomeView> {
                       child: Container(
                         height: 50.h,
                         width: 50.h,
-                        decoration: BoxDecoration(color: MyColors().whiteColor, shape: BoxShape.circle),
+                        decoration: BoxDecoration(color: CustomColors.whiteColor, shape: BoxShape.circle),
                         child: Image.asset(ImagePath.add, fit: BoxFit.fitHeight, color: Color(activeColor)),
                       ),
                     ),

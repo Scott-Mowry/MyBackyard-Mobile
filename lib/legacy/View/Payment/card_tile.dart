@@ -1,9 +1,9 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_card.dart';
 import 'package:backyard/legacy/Component/custom_radio_tile.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Model/card_model.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:sizer/sizer.dart';
@@ -31,9 +31,9 @@ class CardTile extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(3.0),
                 margin: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(color: MyColors().whiteColor, shape: BoxShape.circle),
+                decoration: BoxDecoration(color: CustomColors.whiteColor, shape: BoxShape.circle),
                 alignment: Alignment.topCenter,
-                child: Image.asset(ImagePath.delete, color: MyColors().errorColor, width: 5.w),
+                child: Image.asset(ImagePath.delete, color: CustomColors.redColor, width: 5.w),
               ),
             ),
           ],
@@ -53,7 +53,7 @@ class CardTile extends StatelessWidget {
                   SizedBox(width: 2.w),
                   MyText(title: '**** **** **** ${c.last4}'),
                   Spacer(),
-                  CustomRadioTile(v: (index == 0), color: MyColors().visaColor),
+                  CustomRadioTile(v: (index == 0), color: CustomColors.visaColor),
                   // Obx(()=> CustomRadioTile(v: (true).obs,color: MyColors().visaColor,))
                 ],
               ),

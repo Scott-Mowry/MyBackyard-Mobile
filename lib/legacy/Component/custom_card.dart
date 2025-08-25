@@ -1,4 +1,4 @@
-import 'package:backyard/legacy/Utils/my_colors.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -15,7 +15,7 @@ class CustomCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       margin: margin,
       elevation: elevation ?? 3,
-      color: MyColors().whiteColor,
+      color: CustomColors.whiteColor,
       child: Padding(padding: padding ?? EdgeInsets.all(2.5.w), child: child),
     );
   }

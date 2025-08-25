@@ -1,7 +1,7 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +39,10 @@ class _PaymentHistoryState extends State<PaymentHistory> {
               children: [
                 Container(
                   width: double.infinity,
-                  decoration: BoxDecoration(color: MyColors().secondaryColor, borderRadius: BorderRadius.circular(20)),
+                  decoration: BoxDecoration(
+                    color: CustomColors.secondaryColor,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   padding: EdgeInsets.all(8.w),
                   child: Column(
                     children: [
@@ -47,9 +50,9 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                         title: 'Total Earnings',
                         fontWeight: FontWeight.w600,
                         size: 25,
-                        clr: MyColors().whiteColor,
+                        clr: CustomColors.whiteColor,
                       ),
-                      MyText(title: '\$${11}', fontWeight: FontWeight.w600, size: 30, clr: MyColors().whiteColor),
+                      MyText(title: '\$${11}', fontWeight: FontWeight.w600, size: 30, clr: CustomColors.whiteColor),
                     ],
                   ),
                 ),

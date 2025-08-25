@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:backyard/boot.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_dropdown.dart';
@@ -20,11 +22,9 @@ import 'package:backyard/legacy/Service/bus_apis.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/custom_dialog.dart';
 import 'package:backyard/legacy/View/Widget/upload_media.dart';
 import 'package:backyard/legacy/View/base_view.dart';
-import 'package:backyard/boot.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -116,7 +116,7 @@ class _CreateOfferState extends State<CreateOffer> {
             child: Consumer<HomeController>(
               builder: (context, val, _) {
                 return val.loading
-                    ? Center(child: CircularProgressIndicator(color: MyColors().primaryColor))
+                    ? Center(child: CircularProgressIndicator(color: CustomColors.primaryGreenColor))
                     : Column(
                       children: [
                         CustomAppBar(
@@ -160,7 +160,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                             // radius: Radius.circular(12),
                                             // padding: EdgeInsets.all(6),
                                             options: RectDottedBorderOptions(
-                                              color: MyColors().secondaryColor,
+                                              color: CustomColors.secondaryColor,
                                               padding: EdgeInsets.all(6),
                                               strokeWidth: 2,
                                               dashPattern: [6, 6, 6, 6],
@@ -312,7 +312,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                             child: Opacity(
                                               opacity: .7,
                                               child: CircleAvatar(
-                                                backgroundColor: MyColors().primaryColor,
+                                                backgroundColor: CustomColors.primaryGreenColor,
                                                 child: const Icon(Icons.close, color: Colors.black),
                                               ),
                                             ),
@@ -333,7 +333,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                     controller: titleController,
                                     maxLength: 32,
                                     showLabel: false,
-                                    backgroundColor: MyColors().container,
+                                    backgroundColor: CustomColors.container,
                                     validation: (p0) => p0?.validateEmpty('Title'),
                                     // borderColor: MyColors().secondaryColor,
                                     // hintTextColor: MyColors().grey,
@@ -344,7 +344,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                   SizedBox(height: 1.h),
                                   CustomDropDown2(
                                     hintText: 'Select Category',
-                                    bgColor: MyColors().container,
+                                    bgColor: CustomColors.container,
                                     dropDownData: val.categories,
                                     dropdownValue: selected,
                                     validator: (p0) => (p0 == null) ? "Category can't be empty" : null,
@@ -363,7 +363,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                     inputType: const TextInputType.numberWithOptions(decimal: true),
                                     showLabel: false,
                                     numberWithDecimal: true,
-                                    backgroundColor: MyColors().container,
+                                    backgroundColor: CustomColors.container,
                                     validation: (p0) => p0?.validateEmpty('Actual Price'),
                                     // borderColor: MyColors().secondaryColor,
                                     // hintTextColor: MyColors().grey,
@@ -379,7 +379,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                     inputType: const TextInputType.numberWithOptions(decimal: true),
                                     showLabel: false,
                                     numberWithDecimal: true,
-                                    backgroundColor: MyColors().container,
+                                    backgroundColor: CustomColors.container,
                                     validation: (p0) => p0?.validateEmpty('Discount Price'),
                                     // borderColor: MyColors().secondaryColor,
                                     // hintTextColor: MyColors().grey,
@@ -422,7 +422,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                     validation: (p0) => p0?.validateEmpty('Short Detail'),
                                     borderRadius: 10,
                                     maxLength: 275,
-                                    backgroundColor: MyColors().container,
+                                    backgroundColor: CustomColors.container,
                                   ),
                                   SizedBox(height: 2.h),
                                   customTitle(title: 'Description'),
@@ -437,7 +437,7 @@ class _CreateOfferState extends State<CreateOffer> {
                                     validation: (p0) => p0?.validateEmpty('Description'),
                                     borderRadius: 10,
                                     maxLength: 275,
-                                    backgroundColor: MyColors().container,
+                                    backgroundColor: CustomColors.container,
                                   ),
                                   SizedBox(height: 2.h),
                                   MyButton(
@@ -548,9 +548,9 @@ class _CreateOfferState extends State<CreateOffer> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(ImagePath.upload, scale: 2, color: MyColors().primaryColor),
+                  Image.asset(ImagePath.upload, scale: 2, color: CustomColors.primaryGreenColor),
                   SizedBox(height: 1.h),
-                  MyText(title: 'Upload image', size: 16, clr: MyColors().black, fontWeight: FontWeight.w600),
+                  MyText(title: 'Upload image', size: 16, clr: CustomColors.black, fontWeight: FontWeight.w600),
                 ],
               ),
             ),

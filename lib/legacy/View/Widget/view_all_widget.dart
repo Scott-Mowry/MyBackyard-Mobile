@@ -1,5 +1,5 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -17,7 +17,9 @@ class ViewAll extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(child: MyText(title: title ?? '', size: 20, clr: MyColors().whiteColor, fontWeight: FontWeight.w700)),
+        Expanded(
+          child: MyText(title: title ?? '', size: 20, clr: CustomColors.whiteColor, fontWeight: FontWeight.w700),
+        ),
         if (showTrailing) ...[
           SizedBox(width: 4.w),
           InkWell(
@@ -30,7 +32,7 @@ class ViewAll extends StatelessWidget {
                   title: 'View All',
                   size: 16,
                   under: true,
-                  clr: MyColors().whiteColor,
+                  clr: CustomColors.whiteColor,
                   fontWeight: FontWeight.w700,
                 ),
           ),

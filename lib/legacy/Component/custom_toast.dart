@@ -1,8 +1,8 @@
-import 'package:backyard/legacy/Utils/my_colors.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class CustomToast {
-  MyColors colors = MyColors();
+  CustomColors colors = CustomColors();
   void showToast({String? message, Toast? toastLength, int? timeInSecForIosWeb}) {
     Fluttertoast.showToast(
       msg: message ?? '',

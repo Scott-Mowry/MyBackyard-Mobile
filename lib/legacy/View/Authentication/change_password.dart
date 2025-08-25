@@ -1,3 +1,5 @@
+import 'package:backyard/boot.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -10,9 +12,7 @@ import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
-import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -54,7 +54,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   Widget build(BuildContext context) {
     return CustomBackgroundImage(
       image: (widget.fromSettings ?? false) ? '' : null,
-      color: (widget.fromSettings ?? false) ? MyColors().whiteColor : null,
+      color: (widget.fromSettings ?? false) ? CustomColors.whiteColor : null,
       child: CustomPadding(
         topPadding: 6.h,
         child: Column(
@@ -79,14 +79,14 @@ class _ChangePasswordState extends State<ChangePassword> {
                             controller: password,
                             maxLength: 35,
                             inputType: TextInputType.emailAddress,
-                            prefixWidget: Icon(Icons.lock, color: MyColors().primaryColor),
+                            prefixWidget: Icon(Icons.lock, color: CustomColors.primaryGreenColor),
                             obscureText: show,
                             suffixIcons: GestureDetector(
                               onTap: hideShow,
                               child: Image.asset(
                                 show ? ImagePath.showPass2 : ImagePath.showPass,
                                 scale: 3,
-                                color: MyColors().primaryColor,
+                                color: CustomColors.primaryGreenColor,
                               ),
                             ),
                             validation: (p0) => p0?.validatePass,
@@ -97,14 +97,14 @@ class _ChangePasswordState extends State<ChangePassword> {
                             controller: confPassword,
                             maxLength: 35,
                             inputType: TextInputType.emailAddress,
-                            prefixWidget: Icon(Icons.lock, color: MyColors().primaryColor),
+                            prefixWidget: Icon(Icons.lock, color: CustomColors.primaryGreenColor),
                             obscureText: show2,
                             suffixIcons: GestureDetector(
                               onTap: hideShow2,
                               child: Image.asset(
                                 show2 ? ImagePath.showPass2 : ImagePath.showPass,
                                 scale: 3,
-                                color: MyColors().primaryColor,
+                                color: CustomColors.primaryGreenColor,
                               ),
                             ),
                             validation: (p0) {

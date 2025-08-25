@@ -1,10 +1,10 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/legacy/Model/day_schedule.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
@@ -105,7 +105,7 @@ class _TimeSchedulingEditScreenState extends State<TimeSchedulingEditScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Checkbox(
-                            activeColor: MyColors().primaryColor,
+                            activeColor: CustomColors.primaryGreenColor,
                             value: list.any((element) => element == daysOfWeek.values[index]),
                             onChanged: (val) {
                               if (val != null) {
@@ -257,7 +257,7 @@ class _TimeSchedulingEditScreenState extends State<TimeSchedulingEditScreen> {
           height: 20,
           toggleSize: 14,
           value: active,
-          activeColor: MyColors().primaryColor,
+          activeColor: CustomColors.primaryGreenColor,
           inactiveColor: const Color(0xFF707070),
           onToggle: (value) {
             active = value;

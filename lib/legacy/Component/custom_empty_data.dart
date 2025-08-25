@@ -1,5 +1,5 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -35,7 +35,7 @@ class CustomEmptyData extends StatelessWidget {
                     onTap: () {
                       onTapSubTitle!();
                     },
-                    child: MyText(title: subTitle!, size: 12, clr: MyColors().fbColor, under: true),
+                    child: MyText(title: subTitle!, size: 12, clr: CustomColors.fbColor, under: true),
                   ),
                 ],
               ],

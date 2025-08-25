@@ -1,5 +1,6 @@
 import 'dart:io' show Platform;
 
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -12,7 +13,6 @@ import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -144,7 +144,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
                 prefixIconPath: ImagePath.phone,
                 showPrefix: true,
                 prefixIconSize: 2,
-                bgColor: MyColors().greenColor,
+                bgColor: CustomColors.greenColor,
                 gradient: false,
                 onTap: () {
                   AppNavigation.navigateTo(AppRouteName.PHONE_LOGIN_SCREEN_ROUTE);
@@ -153,7 +153,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
               SizedBox(height: 2.h),
               MyButton(
                 title: 'Sign in with Google',
-                bgColor: MyColors().gPayColor,
+                bgColor: CustomColors.gPayColor,
                 prefixIconPath: ImagePath.google,
                 prefixIconSize: 2,
                 showPrefix: true,
@@ -164,8 +164,8 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
                 SizedBox(height: 2.h),
                 MyButton(
                   title: 'Sign in with Apple',
-                  textColor: MyColors().black,
-                  bgColor: MyColors().whiteColor,
+                  textColor: CustomColors.black,
+                  bgColor: CustomColors.whiteColor,
                   prefixIconPath: ImagePath.apple,
                   showPrefix: true,
                   gradient: false,

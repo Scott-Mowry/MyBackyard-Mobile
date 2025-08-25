@@ -1,6 +1,6 @@
+import 'package:backyard/boot.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
-import 'package:backyard/boot.dart';
 import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';

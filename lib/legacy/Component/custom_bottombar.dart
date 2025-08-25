@@ -1,7 +1,7 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Model/menu_model.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -26,7 +26,7 @@ class CustomBottomBar extends StatelessWidget {
           height: 7.h,
           width: 100.w,
           decoration: BoxDecoration(
-            color: MyColors().whiteColor,
+            color: CustomColors.whiteColor,
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.2), // Shadow color

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
@@ -13,7 +14,6 @@ import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/profile_complete_dialog.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +69,7 @@ class _AddCardState extends State<AddCard> {
                 controller: name,
                 maxLength: 32,
                 showLabel: false,
-                backgroundColor: MyColors().container,
+                backgroundColor: CustomColors.container,
               ),
               SizedBox(height: 2.h),
               customTitle(title: 'Card Number'),
@@ -81,7 +81,7 @@ class _AddCardState extends State<AddCard> {
                 controller: cardNumber,
                 maxLength: 19,
                 showLabel: false,
-                backgroundColor: MyColors().container,
+                backgroundColor: CustomColors.container,
               ),
               SizedBox(height: 2.h),
               Row(
@@ -99,7 +99,7 @@ class _AddCardState extends State<AddCard> {
                           inputType: TextInputType.number,
                           controller: expiry,
                           showLabel: false,
-                          backgroundColor: MyColors().container,
+                          backgroundColor: CustomColors.container,
 
                           // readOnly: true,
                           // onTap: (){
@@ -123,7 +123,7 @@ class _AddCardState extends State<AddCard> {
                           maxLength: 4,
                           controller: cvc,
                           cardFormat: true,
-                          backgroundColor: MyColors().container,
+                          backgroundColor: CustomColors.container,
                         ),
                       ],
                     ),

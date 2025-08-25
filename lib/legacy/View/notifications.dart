@@ -1,8 +1,8 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_refresh.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/notification_model.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
@@ -116,7 +116,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            color: MyColors().whiteColor,
+                            color: CustomColors.whiteColor,
                             borderRadius: BorderRadius.all(Radius.circular(15)),
                             boxShadow: [
                               BoxShadow(
@@ -152,7 +152,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               ),
                               Align(
                                 alignment: Alignment.topRight,
-                                child: MyText(title: '  5 mins ago', size: 13, clr: MyColors().grey),
+                                child: MyText(title: '  5 mins ago', size: 13, clr: CustomColors.grey),
                               ),
                             ],
                           ),
@@ -282,7 +282,7 @@ class NotifcationTile extends StatelessWidget {
       },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        color: MyColors().whiteColor,
+        color: CustomColors.whiteColor,
         margin: EdgeInsets.only(bottom: 1.h),
         child: Container(
           decoration: BoxDecoration(

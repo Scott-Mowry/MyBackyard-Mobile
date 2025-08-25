@@ -1,9 +1,9 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -18,7 +18,7 @@ class _LogoutAlertState extends State<LogoutAlert> {
   @override
   Widget build(BuildContext c) {
     return Container(
-      decoration: BoxDecoration(color: MyColors().whiteColor, borderRadius: BorderRadius.circular(20)),
+      decoration: BoxDecoration(color: CustomColors.whiteColor, borderRadius: BorderRadius.circular(20)),
       // height: responsive.setHeight(75),
       width: 100.w,
       child: SingleChildScrollView(
@@ -27,7 +27,7 @@ class _LogoutAlertState extends State<LogoutAlert> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: MyColors().primaryColor,
+                color: CustomColors.primaryGreenColor,
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
               ),
               padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.w),
@@ -36,7 +36,7 @@ class _LogoutAlertState extends State<LogoutAlert> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Icon(Icons.close_outlined, color: Colors.transparent),
-                  MyText(title: 'Logout', clr: MyColors().whiteColor, fontWeight: FontWeight.w600),
+                  MyText(title: 'Logout', clr: CustomColors.whiteColor, fontWeight: FontWeight.w600),
                   GestureDetector(
                     onTap: AppNavigation.navigatorPop,
                     child: const Icon(Icons.close_outlined, color: Colors.white),

@@ -19,7 +19,7 @@
 // import '../../Component/custom_buttom.dart';
 // import '../../Component/custom_text.dart';
 // import '../../Component/custom_text_form_field.dart';
-// import '../../Utils/my_colors.dart';
+// import '../../Utils/custom_colors.dart';
 // import '../../Utils/image_path.dart';
 // import '../../Utils/responsive.dart';
 // import 'base_view.dart';

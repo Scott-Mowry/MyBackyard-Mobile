@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -11,7 +12,6 @@ import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/Authentication/enter_otp.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -54,7 +54,7 @@ class PhoneLogin extends StatelessWidget {
                       Form(
                         key: _form,
                         child: CustomTextFormField(
-                          prefixWidget: Image.asset(ImagePath.phone, scale: 2, color: MyColors().primaryColor),
+                          prefixWidget: Image.asset(ImagePath.phone, scale: 2, color: CustomColors.primaryGreenColor),
                           controller: phone,
                           hintText: 'Phone Number',
                           prefixText: '+1',

@@ -1,3 +1,5 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -6,8 +8,6 @@ import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
-import 'package:backyard/legacy/Utils/enum.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,12 +33,12 @@ class _RoleSelectionState extends State<RoleSelection> {
               SizedBox(height: 3.h),
               AppLogo(onTap: () {}, scale: 2.5),
               SizedBox(height: 4.h),
-              MyText(title: 'Role Selection', size: 20, clr: MyColors().black, fontWeight: FontWeight.w600),
+              MyText(title: 'Role Selection', size: 20, clr: CustomColors.black, fontWeight: FontWeight.w600),
               SizedBox(height: 4.h),
               MyButton(
                 title: 'Continue as a User',
                 onTap: () {
-                  context.read<UserController>().setRole(Role.User);
+                  context.read<UserController>().setRole(UserRoleEnum.User);
                   AppNavigation.navigateTo(AppRouteName.PRE_LOGIN_SCREEN_ROUTE);
                 },
               ),
@@ -46,7 +46,7 @@ class _RoleSelectionState extends State<RoleSelection> {
               MyButton(
                 title: 'Continue as a Business',
                 onTap: () {
-                  context.read<UserController>().setRole(Role.Business);
+                  context.read<UserController>().setRole(UserRoleEnum.Business);
                   AppNavigation.navigateTo(AppRouteName.PRE_LOGIN_SCREEN_ROUTE);
                 },
               ),

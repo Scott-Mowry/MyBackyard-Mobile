@@ -1,10 +1,10 @@
 import 'dart:io';
 
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_strings.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -106,7 +106,7 @@ class _ContentScreenState extends State<ContentScreen> {
     return widget.contentType == AppStrings.CREATE_MERCHANT
         ? null
         : AppBar(
-          backgroundColor: MyColors().black,
+          backgroundColor: CustomColors.black,
           leading: InkWell(
             onTap: () {
               FocusManager.instance.primaryFocus?.unfocus();
@@ -137,7 +137,7 @@ class _ContentScreenState extends State<ContentScreen> {
             size: 18,
             toverflow: TextOverflow.ellipsis,
             fontWeight: FontWeight.w700,
-            clr: MyColors().whiteColor,
+            clr: CustomColors.whiteColor,
           ),
           elevation: 0,
         );

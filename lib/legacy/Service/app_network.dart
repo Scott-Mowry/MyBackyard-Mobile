@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:backyard/boot.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
-import 'package:backyard/legacy/Utils/enum.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
-import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +37,7 @@ class AppNetwork {
     try {
       if (await checkInternet()) {
         final dynamic request =
-            type == requestTypes.POST.name
+            type == RequestTypeEnum.POST.name
                 ? MultipartRequest(type, Uri.parse('${API.url}$path'))
                 : Request(type, Uri.parse('${API.url}$path'));
         request.headers.addAll({'Content-Type': 'application/json'});
@@ -108,7 +108,7 @@ class AppNetwork {
         return Center(
           child: CircularProgressIndicator(
             strokeWidth: 3,
-            backgroundColor: MyColors().primaryColor,
+            backgroundColor: CustomColors.primaryGreenColor,
             value: value,
             valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
           ),

@@ -1,8 +1,8 @@
 import 'dart:developer';
 
+import 'package:backyard/boot.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/user_model.dart';
-import 'package:backyard/boot.dart';
 import 'package:provider/provider.dart';
 
 class SocketNavigationClass {

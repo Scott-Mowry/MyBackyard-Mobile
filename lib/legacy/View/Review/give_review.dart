@@ -22,7 +22,7 @@
 // import 'package:sizer/sizer.dart';
 // import 'package:carousel_slider/carousel_slider.dart';
 //
-// import '../../Utils/my_colors.dart';
+// import '../../Utils/custom_colors.dart';
 // import '../../boot.dart';
 //
 // class GiveReview extends StatelessWidget {

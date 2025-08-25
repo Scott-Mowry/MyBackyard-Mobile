@@ -9,7 +9,7 @@
 // import 'package:get/get.dart';
 // import 'package:google_fonts/google_fonts.dart';
 // import 'package:backyard/legacy/Service/navigation_service.dart';
-// import 'package:backyard/Utils/my_colors.dart';
+// import 'package:backyard/Utils/custom_colors.dart';
 // import 'package:backyard/Utils/utils.dart';
 // import 'package:sizer/sizer.dart';
 // import '../../Component/custom_buttom.dart';

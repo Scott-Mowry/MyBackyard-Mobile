@@ -1,7 +1,7 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/loader.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/Utils/photo_view.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +75,7 @@ class CustomImage extends StatelessWidget {
       fit: fit ?? BoxFit.cover,
       cache: true,
 
-      border: (border ?? false) ? Border.all(color: MyColors().primaryColor, width: 2) : null,
+      border: (border ?? false) ? Border.all(color: CustomColors.primaryGreenColor, width: 2) : null,
       shape: shape ?? BoxShape.rectangle,
       borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(radius ?? 0)),
       loadStateChanged: (state) {

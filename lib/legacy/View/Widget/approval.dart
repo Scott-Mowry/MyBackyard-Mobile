@@ -1,3 +1,4 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -5,7 +6,6 @@ import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -41,7 +41,7 @@ class Approval extends StatelessWidget {
                           size: 15,
                           center: true,
                           fontStyle: FontStyle.italic,
-                          clr: MyColors().whiteColor,
+                          clr: CustomColors.whiteColor,
                         ),
                       ],
                     ),

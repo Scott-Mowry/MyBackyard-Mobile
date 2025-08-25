@@ -1,3 +1,4 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_image.dart';
 import 'package:backyard/legacy/Component/custom_refresh.dart';
@@ -8,7 +9,6 @@ import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/User/search_result.dart';
 import 'package:backyard/legacy/View/base_view.dart';
@@ -81,7 +81,7 @@ class _CategoryState extends State<Category> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: MyColors().whiteColor,
+                      color: CustomColors.whiteColor,
                       borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
                       boxShadow: [
                         BoxShadow(
@@ -119,7 +119,7 @@ class _CategoryState extends State<Category> {
                     // CustomAppBar(screenTitle:"Location",leading: CustomBackButton(),titleColor: MyColors().black,),
                   ),
                   if (val.loading)
-                    Expanded(child: Center(child: CircularProgressIndicator(color: MyColors().primaryColor)))
+                    Expanded(child: Center(child: CircularProgressIndicator(color: CustomColors.primaryGreenColor)))
                   else
                     Expanded(
                       child: GridView.builder(

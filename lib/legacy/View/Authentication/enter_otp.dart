@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -12,7 +13,6 @@ import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -144,18 +144,18 @@ class _EnterOTPState extends State<EnterOTP> {
                             shape: PinCodeFieldShape.circle,
                             fieldHeight: Utils.isTablet ? 44.r : 48.r,
                             fieldWidth: Utils.isTablet ? 44.r : 48.r,
-                            activeFillColor: MyColors().secondaryColor,
-                            inactiveFillColor: MyColors().secondaryColor,
-                            selectedFillColor: MyColors().secondaryColor,
+                            activeFillColor: CustomColors.secondaryColor,
+                            inactiveFillColor: CustomColors.secondaryColor,
+                            selectedFillColor: CustomColors.secondaryColor,
                             borderRadius: BorderRadius.circular(8),
-                            inactiveColor: MyColors().whiteColor,
-                            activeColor: MyColors().whiteColor,
-                            selectedColor: MyColors().whiteColor,
+                            inactiveColor: CustomColors.whiteColor,
+                            activeColor: CustomColors.whiteColor,
+                            selectedColor: CustomColors.whiteColor,
                             borderWidth: 1,
                             errorBorderColor: Theme.of(context).colorScheme.error,
                           ),
-                          textStyle: TextStyle(color: MyColors().black, fontSize: 15),
-                          cursorColor: MyColors().whiteColor,
+                          textStyle: TextStyle(color: CustomColors.black, fontSize: 15),
+                          cursorColor: CustomColors.whiteColor,
                           keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
                           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                           enableActiveFill: true,
@@ -177,14 +177,14 @@ class _EnterOTPState extends State<EnterOTP> {
                     textAlign: TextAlign.center,
                     text: TextSpan(
                       text: "Didn't receive a code? ",
-                      style: GoogleFonts.roboto(color: MyColors().black, fontSize: Utils.isTablet ? 18 : 15),
+                      style: GoogleFonts.roboto(color: CustomColors.black, fontSize: Utils.isTablet ? 18 : 15),
                       children: [
                         TextSpan(
                           text: 'Resend Code',
                           style: GoogleFonts.roboto(
                             decoration: TextDecoration.underline,
                             fontWeight: FontWeight.w600,
-                            color: resend == 0 ? MyColors().black : MyColors().hintColor,
+                            color: resend == 0 ? CustomColors.black : CustomColors.hintColor,
                             fontSize: Utils.isTablet ? 18 : 16,
                           ),
                           recognizer: TapGestureRecognizer()..onTap = startTimer,
@@ -210,7 +210,7 @@ class _EnterOTPState extends State<EnterOTP> {
         fontSize: Utils.isTablet ? 8.sp : 14.sp,
         height: Utils.isTablet ? null : 1.1.sp,
         fontWeight: FontWeight.w400,
-        color: MyColors().black,
+        color: CustomColors.black,
       ),
     );
   }
@@ -227,13 +227,13 @@ class _EnterOTPState extends State<EnterOTP> {
             width: Utils.isTablet ? 100.r : 110.r,
             height: Utils.isTablet ? 100.r : 110.r,
             alignment: Alignment.center,
-            decoration: BoxDecoration(color: MyColors().black, shape: BoxShape.circle),
+            decoration: BoxDecoration(color: CustomColors.black, shape: BoxShape.circle),
             child: Text(
               "00:${resend < 10 ? "0$resend" : resend}",
               style: TextStyle(
                 fontSize: Utils.isTablet ? 11.sp : 16.sp,
                 fontWeight: FontWeight.w600,
-                color: MyColors().whiteColor,
+                color: CustomColors.whiteColor,
               ),
             ),
           ),
@@ -242,7 +242,7 @@ class _EnterOTPState extends State<EnterOTP> {
             height: Utils.isTablet ? 97.r : 107.r,
             child: CircularProgressIndicator(
               value: resend / 59,
-              color: MyColors().whiteColor,
+              color: CustomColors.whiteColor,
               backgroundColor: Colors.transparent,
             ),
           ),

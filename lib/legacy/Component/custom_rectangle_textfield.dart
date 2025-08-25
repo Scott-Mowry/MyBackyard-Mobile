@@ -1,5 +1,5 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -72,7 +72,7 @@ class CustomRectangulatTextFormField extends StatelessWidget {
         height: 7.8.h,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: bgColor ?? MyColors().purpleColor.withValues(alpha: 0.4),
+          color: bgColor ?? CustomColors.purpleColor.withValues(alpha: 0.4),
           border: Border.all(color: Colors.white),
           borderRadius: BorderRadius.circular(10),
         ),

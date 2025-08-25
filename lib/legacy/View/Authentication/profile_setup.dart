@@ -2,6 +2,9 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:backyard/boot.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Arguments/screen_arguments.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
@@ -20,14 +23,11 @@ import 'package:backyard/legacy/Service/auth_apis.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
-import 'package:backyard/legacy/Utils/enum.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/profile_complete_dialog.dart';
 import 'package:backyard/legacy/View/Widget/upload_media.dart';
 import 'package:backyard/legacy/View/base_view.dart';
-import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/helpers.dart';
 import 'package:place_picker/place_picker.dart';
@@ -44,8 +44,8 @@ class ProfileSetup extends StatefulWidget {
 }
 
 class _ProfileSetupState extends State<ProfileSetup> {
-  late Role? role = context.read<UserController>().user?.role;
-  late bool business = role == Role.Business;
+  late UserRoleEnum? role = context.read<UserController>().user?.role;
+  late bool business = role == UserRoleEnum.Business;
   String? imageProfile;
   bool isMerchantSetupActive = false;
   TextEditingController firstName = TextEditingController();
@@ -65,14 +65,17 @@ class _ProfileSetupState extends State<ProfileSetup> {
   double lat = 0, lng = 0;
   bool emailReadOnly = false, phoneReadOnly = false;
   String? merchantUrl;
-  imageType type = imageType.asset;
+  ImageTypeEnum type = ImageTypeEnum.asset;
   late final userController = context.read<UserController>();
   late final userController2 = context.watch<UserController>();
 
   /// #Timer
   bool isTimeComplete = false;
 
-  Map<Role, String> descriptions = {Role.User: 'Consumer Interface', Role.Business: 'Business + Consumer Interface'};
+  Map<UserRoleEnum, String> descriptions = {
+    UserRoleEnum.User: 'Consumer Interface',
+    UserRoleEnum.Business: 'Business + Consumer Interface',
+  };
 
   @override
   void initState() {
@@ -92,7 +95,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
       description.text = userController.user?.description ?? '';
       imageProfile = userController.user?.profileImage ?? '';
       title = 'Edit Profile';
-      type = imageType.network;
+      type = ImageTypeEnum.network;
     }
     // TODO: implement initState
     super.initState();
@@ -140,7 +143,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                             onMediaChanged: (val) {
                               if (val != null) {
                                 imageProfile = val;
-                                type = imageType.file;
+                                type = ImageTypeEnum.file;
                                 setState(() {
                                   errorText = (imageProfile ?? '').isEmpty;
                                 });
@@ -150,23 +153,23 @@ class _ProfileSetupState extends State<ProfileSetup> {
                         },
                         child: CircleAvatar(
                           radius: 70.0,
-                          backgroundColor: MyColors().primaryColor,
+                          backgroundColor: CustomColors.primaryGreenColor,
                           child: CircleAvatar(
                             radius: 65.0,
                             backgroundImage:
-                                (type == imageType.network
+                                (type == ImageTypeEnum.network
                                         ? NetworkImage("${API.public_url}${imageProfile ?? ""}")
-                                        : type == imageType.file
+                                        : type == ImageTypeEnum.file
                                         ? FileImage(File(imageProfile ?? ''))
                                         : const AssetImage(ImagePath.noUserImage))
                                     as ImageProvider,
                             child: Align(
                               alignment: Alignment.bottomRight,
                               child: CircleAvatar(
-                                backgroundColor: MyColors().whiteColor,
+                                backgroundColor: CustomColors.whiteColor,
                                 radius: 14.0,
                                 child: CircleAvatar(
-                                  backgroundColor: MyColors().primaryColor,
+                                  backgroundColor: CustomColors.primaryGreenColor,
                                   radius: 13.0,
                                   child: GestureDetector(
                                     onTap: () async {
@@ -176,7 +179,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                                         onMediaChanged: (val) {
                                           if (val != null) {
                                             imageProfile = val;
-                                            type = imageType.file;
+                                            type = ImageTypeEnum.file;
                                             setState(() {
                                               errorText = (imageProfile ?? '').isEmpty;
                                             });
@@ -214,19 +217,19 @@ class _ProfileSetupState extends State<ProfileSetup> {
                           size: 18,
                           toverflow: TextOverflow.ellipsis,
                           fontWeight: FontWeight.w600,
-                          clr: MyColors().black,
+                          clr: CustomColors.black,
                         ),
                       ),
                       SizedBox(height: 1.8.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          for (int i = 0; i < Role.values.length; i++)
+                          for (int i = 0; i < UserRoleEnum.values.length; i++)
                             GestureDetector(
                               onTap: () {
-                                role = Role.values[i];
-                                userController.setRole(Role.values[i]);
-                                business = role == Role.Business;
+                                role = UserRoleEnum.values[i];
+                                userController.setRole(UserRoleEnum.values[i]);
+                                business = role == UserRoleEnum.Business;
                                 _form.currentState?.reset();
                                 setState(() {});
                               },
@@ -239,19 +242,22 @@ class _ProfileSetupState extends State<ProfileSetup> {
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: (role ?? Role.User) == Role.values[i] ? Colors.black : null,
+                                      color:
+                                          (role ?? UserRoleEnum.User) == UserRoleEnum.values[i] ? Colors.black : null,
                                       border: Border.all(
                                         width: 2,
                                         color:
-                                            (role ?? Role.User) == Role.values[i] ? Colors.transparent : Colors.black,
+                                            (role ?? UserRoleEnum.User) == UserRoleEnum.values[i]
+                                                ? Colors.transparent
+                                                : Colors.black,
                                       ),
                                     ),
                                     child:
-                                        (role ?? Role.User) == Role.values[i]
+                                        (role ?? UserRoleEnum.User) == UserRoleEnum.values[i]
                                             ? Icon(
                                               Icons.check,
                                               size: Utils.isTablet ? 16 : 14,
-                                              color: widget.editProfile ? Colors.white : MyColors().primaryColor,
+                                              color: widget.editProfile ? Colors.white : CustomColors.primaryGreenColor,
                                             )
                                             : null,
                                   ),
@@ -261,7 +267,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
-                                        Role.values[i].name,
+                                        UserRoleEnum.values[i].name,
                                         style: TextStyle(
                                           fontSize: Utils.isTablet ? 19 : 16,
                                           fontWeight: FontWeight.bold,
@@ -269,7 +275,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                                         ),
                                       ),
                                       Text(
-                                        descriptions[Role.values[i]] ?? '',
+                                        descriptions[UserRoleEnum.values[i]] ?? '',
                                         style: TextStyle(
                                           fontSize: Utils.isTablet ? 13 : 10,
                                           fontWeight: FontWeight.w300,
@@ -296,9 +302,9 @@ class _ProfileSetupState extends State<ProfileSetup> {
                           prefixWidget: Image.asset(
                             ImagePath.person,
                             scale: 2,
-                            color: widget.editProfile ? MyColors().primaryColor : MyColors().primaryColor,
+                            color: widget.editProfile ? CustomColors.primaryGreenColor : CustomColors.primaryGreenColor,
                           ),
-                          backgroundColor: !widget.editProfile ? null : MyColors().container,
+                          backgroundColor: !widget.editProfile ? null : CustomColors.container,
                           validation: (p0) => p0?.validateEmpty(business ? 'Business Name' : 'First Name'),
                         ),
                         SizedBox(height: 1.5.h),
@@ -310,9 +316,10 @@ class _ProfileSetupState extends State<ProfileSetup> {
                             prefixWidget: Image.asset(
                               ImagePath.person,
                               scale: 2,
-                              color: widget.editProfile ? MyColors().primaryColor : MyColors().primaryColor,
+                              color:
+                                  widget.editProfile ? CustomColors.primaryGreenColor : CustomColors.primaryGreenColor,
                             ),
-                            backgroundColor: !widget.editProfile ? null : MyColors().container,
+                            backgroundColor: !widget.editProfile ? null : CustomColors.container,
                             validation: (p0) => p0?.validateEmpty('Last Name'),
                           ),
                           SizedBox(height: 1.5.h),
@@ -331,9 +338,10 @@ class _ProfileSetupState extends State<ProfileSetup> {
                             prefixWidget: Image.asset(
                               ImagePath.email,
                               scale: 2,
-                              color: widget.editProfile ? MyColors().primaryColor : MyColors().primaryColor,
+                              color:
+                                  widget.editProfile ? CustomColors.primaryGreenColor : CustomColors.primaryGreenColor,
                             ),
-                            backgroundColor: !widget.editProfile ? null : MyColors().container,
+                            backgroundColor: !widget.editProfile ? null : CustomColors.container,
                             validation: (p0) => p0?.validateEmail,
                           ),
                           SizedBox(height: 1.5.h),
@@ -343,13 +351,14 @@ class _ProfileSetupState extends State<ProfileSetup> {
                             prefixWidget: Image.asset(
                               ImagePath.phone,
                               scale: 2,
-                              color: widget.editProfile ? MyColors().primaryColor : MyColors().primaryColor,
+                              color:
+                                  widget.editProfile ? CustomColors.primaryGreenColor : CustomColors.primaryGreenColor,
                             ),
                             controller: phone,
                             hintText: 'Phone Number',
                             inputType: TextInputType.phone,
                             contact: true,
-                            backgroundColor: !widget.editProfile ? null : MyColors().container,
+                            backgroundColor: !widget.editProfile ? null : CustomColors.container,
                             validation: (value) {
                               final cleanedPhoneNumber = value.toString().replaceAll(
                                 RegExp(r'[()-\s]'),
@@ -373,8 +382,8 @@ class _ProfileSetupState extends State<ProfileSetup> {
                             controller: zipCode,
                             hintText: 'Zip Code',
                             maxLength: 6,
-                            prefixWidget: Icon(Icons.map, color: MyColors().primaryColor),
-                            backgroundColor: !widget.editProfile ? null : MyColors().container,
+                            prefixWidget: Icon(Icons.map, color: CustomColors.primaryGreenColor),
+                            backgroundColor: !widget.editProfile ? null : CustomColors.container,
                             validation: (p0) => p0?.validateZipCOde,
                           ),
                           SizedBox(height: 1.5.h),
@@ -403,7 +412,8 @@ class _ProfileSetupState extends State<ProfileSetup> {
                             prefixWidget: Image.asset(
                               ImagePath.location,
                               scale: 2,
-                              color: widget.editProfile ? MyColors().primaryColor : MyColors().primaryColor,
+                              color:
+                                  widget.editProfile ? CustomColors.primaryGreenColor : CustomColors.primaryGreenColor,
                             ),
                             controller: location,
                             hintText: 'Address',
@@ -411,7 +421,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                             onTap: () async {
                               await getAddress(context);
                             },
-                            backgroundColor: !widget.editProfile ? null : MyColors().container,
+                            backgroundColor: !widget.editProfile ? null : CustomColors.container,
                           ),
                           SizedBox(height: 1.5.h),
                           CustomTextFormField(
@@ -423,7 +433,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                             controller: description,
                             borderRadius: 10,
                             maxLength: 275,
-                            backgroundColor: !widget.editProfile ? null : MyColors().container,
+                            backgroundColor: !widget.editProfile ? null : CustomColors.container,
                             validation: (p0) => p0?.validateEmpty('description'),
                           ),
                           SizedBox(height: 1.5.h),
@@ -441,9 +451,9 @@ class _ProfileSetupState extends State<ProfileSetup> {
               MyButton(
                 width: Utils.isTablet ? 60.w : 90.w,
                 title: 'Update Hours',
-                borderColor: MyColors().black,
-                bgColor: MyColors().whiteColor,
-                textColor: MyColors().black,
+                borderColor: CustomColors.black,
+                bgColor: CustomColors.whiteColor,
+                textColor: CustomColors.black,
                 onTap: () {
                   AppNavigation.navigateTo(
                     AppRouteName.SCHEDULE_SCREEN_ROUTE,
@@ -480,35 +490,35 @@ class _ProfileSetupState extends State<ProfileSetup> {
         AppNetwork.loadingProgressIndicator();
         await AuthAPIS.completeProfile(
           firstName: firstName.text,
-          lastName: role == Role.Business ? lastName.text : null,
-          categoryId: role == Role.Business ? userController.user?.categoryId : null,
-          description: role == Role.Business ? description.text : null,
+          lastName: role == UserRoleEnum.Business ? lastName.text : null,
+          categoryId: role == UserRoleEnum.Business ? userController.user?.categoryId : null,
+          description: role == UserRoleEnum.Business ? description.text : null,
           isPushNotify: '1',
           email: emailC.text != userController.user?.email && emailC.text.isNotEmpty ? emailC.text : null,
           phone: phone.text != (userController.user?.phone ?? '') ? phone.text : null,
           days: userController.user?.days,
-          address: role == Role.Business ? location.text : null,
-          lat: role == Role.Business ? lat : null,
-          long: role == Role.Business ? lng : null,
-          zipCode: role == Role.Business ? null : zipCode.text,
+          address: role == UserRoleEnum.Business ? location.text : null,
+          lat: role == UserRoleEnum.Business ? lat : null,
+          long: role == UserRoleEnum.Business ? lng : null,
+          zipCode: role == UserRoleEnum.Business ? null : zipCode.text,
           image:
               imageProfile == null
                   ? null
-                  : type == imageType.file
+                  : type == ImageTypeEnum.file
                   ? File(imageProfile ?? '')
                   : null,
         );
         AppNavigation.navigatorPop();
         AppNavigation.navigatorPop();
       } else {
-        if (role == Role.User) {
+        if (role == UserRoleEnum.User) {
           AppNetwork.loadingProgressIndicator();
           final value = await AuthAPIS.completeProfile(
             firstName: firstName.text,
             lastName: lastName.text,
             isPushNotify: '1',
             email: emailC.text != userController.user?.email && emailC.text.isNotEmpty ? emailC.text : null,
-            role: Role.User.name,
+            role: UserRoleEnum.User.name,
             zipCode: zipCode.text,
             // phone: phone.text != (userController.user?.phone ?? "")
             //     ? phone.text

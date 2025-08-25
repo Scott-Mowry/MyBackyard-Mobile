@@ -1,10 +1,10 @@
 import 'dart:developer';
 
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -30,7 +30,7 @@ class _ProfileCompleteDialogState extends State<ProfileCompleteDialog> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: MyColors().primaryColor,
+                color: CustomColors.primaryGreenColor,
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
               ),
               padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.w),
@@ -39,7 +39,7 @@ class _ProfileCompleteDialogState extends State<ProfileCompleteDialog> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Image.asset(ImagePath.close, scale: 2, color: Colors.transparent),
-                  MyText(title: 'Successfully', clr: MyColors().whiteColor, fontWeight: FontWeight.w600, size: 18),
+                  MyText(title: 'Successfully', clr: CustomColors.whiteColor, fontWeight: FontWeight.w600, size: 18),
                   GestureDetector(
                     onTap: () {
                       AppNavigation.navigatorPop();

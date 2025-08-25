@@ -1,6 +1,6 @@
 // import 'package:backyard/legacy/Component/custom_switch.dart';
 // import 'package:backyard/legacy/Controller/home_controller.dart';
-// import 'package:backyard/Utils/my_colors.dart';
+// import 'package:backyard/Utils/custom_colors.dart';
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
 // import 'package:sizer/sizer.dart';

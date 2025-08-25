@@ -1,3 +1,5 @@
+import 'package:backyard/boot.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
@@ -15,11 +17,9 @@ import 'package:backyard/legacy/Service/navigation_service.dart';
 // import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/User/discount_offers.dart';
 import 'package:backyard/legacy/View/base_view.dart';
-import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -82,7 +82,7 @@ class _OffersState extends State<Offers> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color: MyColors().whiteColor,
+                        color: CustomColors.whiteColor,
                         borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
                         boxShadow: [
                           BoxShadow(
@@ -131,7 +131,7 @@ class _OffersState extends State<Offers> {
                       Column(
                         children: [
                           SizedBox(height: 20.h),
-                          Center(child: CircularProgressIndicator(color: MyColors().greenColor)),
+                          Center(child: CircularProgressIndicator(color: CustomColors.greenColor)),
                         ],
                       )
                     else if ((val.offers ?? []).isEmpty)
@@ -557,9 +557,9 @@ class _OffersState extends State<Offers> {
           setState(() {});
         },
         gradient: false,
-        bgColor: i == title ? MyColors().secondaryColor : MyColors().whiteColor,
-        borderColor: MyColors().secondaryColor,
-        textColor: i == title ? null : MyColors().secondaryColor,
+        bgColor: i == title ? CustomColors.secondaryColor : CustomColors.whiteColor,
+        borderColor: CustomColors.secondaryColor,
+        textColor: i == title ? null : CustomColors.secondaryColor,
         height: 5.2.h,
         width: 30.w,
       ),
@@ -622,10 +622,10 @@ class OfferTile extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: MyColors().whiteColor,
+              color: CustomColors.whiteColor,
               boxShadow: [
                 BoxShadow(
-                  color: MyColors().container.withValues(alpha: 0.8), // Shadow color
+                  color: CustomColors.container.withValues(alpha: 0.8), // Shadow color
                   blurRadius: 4, // Spread of the shadow
                   spreadRadius: 4, // Size of the shadow
                   offset: const Offset(0, 0), // Position of the shadow
@@ -673,14 +673,14 @@ class OfferTile extends StatelessWidget {
                           Container(
                             width: 15.w,
                             decoration: BoxDecoration(
-                              color: MyColors().primaryColor,
+                              color: CustomColors.primaryGreenColor,
                               borderRadius: BorderRadius.circular(20),
                             ),
                             padding: EdgeInsets.all(4) + EdgeInsets.symmetric(horizontal: 6),
                             child: MyText(
                               toverflow: TextOverflow.ellipsis,
                               title: model?.category?.categoryName ?? '',
-                              clr: MyColors().whiteColor,
+                              clr: CustomColors.whiteColor,
                               size: Utils.isTablet ? 15 : 9,
                             ),
                           ),
@@ -689,14 +689,14 @@ class OfferTile extends StatelessWidget {
                             SizedBox(width: 2.w),
                             Container(
                               decoration: BoxDecoration(
-                                color: MyColors().primaryColor,
+                                color: CustomColors.primaryGreenColor,
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               padding: EdgeInsets.all(6) + EdgeInsets.symmetric(horizontal: 6),
                               child: Row(
                                 children: [
-                                  Image.asset(ImagePath.coins, color: MyColors().whiteColor, scale: 3),
-                                  MyText(title: '  500', clr: MyColors().whiteColor, size: 11),
+                                  Image.asset(ImagePath.coins, color: CustomColors.whiteColor, scale: 3),
+                                  MyText(title: '  500', clr: CustomColors.whiteColor, size: 11),
                                 ],
                               ),
                             ),
@@ -705,7 +705,7 @@ class OfferTile extends StatelessWidget {
                               title: '\$${model?.actualPrice?.toStringAsFixed(2) ?? ""}   ',
                               fontWeight: FontWeight.w600,
                               size: Utils.isTablet ? 6.sp : 12,
-                              clr: MyColors().grey,
+                              clr: CustomColors.grey,
                               cut: true,
                             ),
                             MyText(
@@ -723,7 +723,7 @@ class OfferTile extends StatelessWidget {
                             children: [
                               Image.asset(
                                 ImagePath.location,
-                                color: MyColors().primaryColor,
+                                color: CustomColors.primaryGreenColor,
                                 height: Utils.isTablet ? 9.sp : 13.sp,
                                 fit: BoxFit.fitHeight,
                               ),
@@ -784,7 +784,7 @@ class OfferTile extends StatelessWidget {
                               title: 'Received',
                               size: 11,
                               fontWeight: FontWeight.w600,
-                              clr: MyColors().primaryColor,
+                              clr: CustomColors.primaryGreenColor,
                             ),
                           ],
                         ],

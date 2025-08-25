@@ -1,4 +1,4 @@
-import 'package:backyard/legacy/Utils/my_colors.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomSlider extends StatelessWidget {
@@ -22,14 +22,14 @@ class CustomSlider extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: SliderTheme(
         data: SliderTheme.of(context).copyWith(
-          thumbColor: MyColors().grey,
+          thumbColor: CustomColors.grey,
           trackShape: CustomTrackShape(),
           // disabledActiveTrackColor: Colors.red,
           // disabledInactiveTrackColor: Colors.red,
-          activeTrackColor: MyColors().lightGrey2,
-          activeTickMarkColor: MyColors().lightGrey2,
-          inactiveTrackColor: MyColors().grey,
-          inactiveTickMarkColor: MyColors().grey,
+          activeTrackColor: CustomColors.lightGrey2,
+          activeTickMarkColor: CustomColors.lightGrey2,
+          inactiveTrackColor: CustomColors.grey,
+          inactiveTickMarkColor: CustomColors.grey,
           trackHeight: 8,
         ),
         child: Slider(value: val, min: min, max: max, divisions: divisions ?? 19, onChanged: onChange),

@@ -1,6 +1,6 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_text_form_field.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -40,7 +40,7 @@ class _SearchTileState extends State<SearchTile> {
     return Container(
       // height: 5.5.h,
       decoration: BoxDecoration(
-        border: Border.all(color: MyColors().lightGreyColor),
+        border: Border.all(color: CustomColors.lightGreyColor),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -55,12 +55,12 @@ class _SearchTileState extends State<SearchTile> {
               showLabel: false,
               readOnly: widget.readOnly,
               borderRadius: 8,
-              backgroundColor: MyColors().whiteColor,
+              backgroundColor: CustomColors.whiteColor,
               // borderColor: MyColors().lightGreyColor,
-              textColor: MyColors().black,
-              hintTextColor: MyColors().greyColor,
+              textColor: CustomColors.black,
+              hintTextColor: CustomColors.greyColor,
               onTap: widget.onTap,
-              prefixWidget: Icon(Icons.search, color: MyColors().primaryColor),
+              prefixWidget: Icon(Icons.search, color: CustomColors.primaryGreenColor),
               onTapSuffixIcon: () {},
               // suffixIconData: Image.asset(ImagePath.filterIcon,scale: 4,)
               // suffixIcons: Image.asset(ImagePath.filterIcon,scale: 4,)

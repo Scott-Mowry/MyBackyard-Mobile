@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Arguments/profile_screen_arguments.dart';
 import 'package:backyard/legacy/Model/reiview_model.dart';
 import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
-import 'package:backyard/legacy/Utils/enum.dart';
 import 'package:backyard/legacy/Utils/local_shared_preferences.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -31,7 +31,7 @@ class UserController extends ChangeNotifier {
     ).listen((event) async {
       if ((geo ?? false) && (_user?.token != null)) {
         if (onTap && mapController != null) {
-          if (user?.role == Role.User) {
+          if (user?.role == UserRoleEnum.User) {
             _user?.latitude = event.latitude;
             _user?.longitude = event.longitude;
           } else {
@@ -39,7 +39,7 @@ class UserController extends ChangeNotifier {
             lng = event.longitude;
           }
           final placemarks = await placemarkFromCoordinates(event.latitude, event.longitude);
-          if (user?.role == Role.User) {
+          if (user?.role == UserRoleEnum.User) {
             _user?.address = placemarks[0].locality ?? '';
           } else {
             address = placemarks[0].locality ?? '';
@@ -59,8 +59,8 @@ class UserController extends ChangeNotifier {
                 strokeWidth: 1,
                 zIndex: 0,
                 center: LatLng(event.latitude, event.longitude),
-                fillColor: MyColors().primaryColor.withValues(alpha: .15),
-                strokeColor: MyColors().primaryColor,
+                fillColor: CustomColors.primaryGreenColor.withValues(alpha: .15),
+                strokeColor: CustomColors.primaryGreenColor,
               ),
             );
             notifyListeners();
@@ -109,8 +109,8 @@ class UserController extends ChangeNotifier {
           strokeWidth: 1,
           zIndex: 0,
           center: temp.center,
-          fillColor: MyColors().primaryColor.withValues(alpha: .15),
-          strokeColor: MyColors().primaryColor,
+          fillColor: CustomColors.primaryGreenColor.withValues(alpha: .15),
+          strokeColor: CustomColors.primaryGreenColor,
         ),
       );
     }
@@ -255,7 +255,7 @@ class UserController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setRole(Role val) {
+  void setRole(UserRoleEnum val) {
     if (_user == null) {
       _user = User(role: val);
     } else {

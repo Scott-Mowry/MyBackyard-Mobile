@@ -1,4 +1,4 @@
-import 'package:backyard/legacy/Utils/my_colors.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Utils/responsive.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -45,20 +45,20 @@ class _CustomSwitchState extends State<CustomSwitch> {
       toggleSize: responsive.setTextScale(20),
       value: widget.switchValue ?? false,
       borderRadius: 30.0,
-      toggleColor: widget.toggleColor ?? MyColors().primaryColor2,
+      toggleColor: widget.toggleColor ?? CustomColors.primaryGreenColor,
       padding: 3.0,
-      activeColor: widget.toggleColor ?? MyColors().greyColor.withValues(alpha: .2),
-      inactiveColor: widget.inActiveColor ?? MyColors().whiteColor,
+      activeColor: widget.toggleColor ?? CustomColors.greyColor.withValues(alpha: .2),
+      inactiveColor: widget.inActiveColor ?? CustomColors.whiteColor,
       showOnOff: true,
       onToggle: (val) {
         widget.onChange2(val);
       },
       activeText: widget.toggleValue1 ?? '',
       inactiveText: widget.toggleValue2 ?? '',
-      activeTextColor: MyColors().blackLight,
-      inactiveTextColor: MyColors().blackLight,
-      inactiveToggleColor: MyColors().primaryColor,
-      activeToggleColor: MyColors().whiteColor,
+      activeTextColor: CustomColors.blackLight,
+      inactiveTextColor: CustomColors.blackLight,
+      inactiveToggleColor: CustomColors.primaryGreenColor,
+      activeToggleColor: CustomColors.whiteColor,
       inactiveTextFontWeight: FontWeight.w400,
       activeTextFontWeight: FontWeight.w400,
     );

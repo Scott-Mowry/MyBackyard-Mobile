@@ -1,8 +1,8 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_refresh.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -41,7 +41,7 @@ class _AllReviewsState extends State<AllReviews> {
             return Column(
               children: [
                 SizedBox(height: 3.h),
-                MyText(title: '${22}', fontWeight: FontWeight.w700, size: 40, clr: MyColors().primaryColor2),
+                MyText(title: '${22}', fontWeight: FontWeight.w700, size: 40, clr: CustomColors.primaryGreenColor),
                 SizedBox(height: 2.h),
                 RatingBar(
                   // initialRating:5,

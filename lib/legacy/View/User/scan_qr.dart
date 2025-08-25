@@ -3,13 +3,13 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/offer_availed.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
@@ -70,13 +70,13 @@ class _ScanQRState extends State<ScanQR> {
   Widget build(BuildContext context) {
     return BaseView(
       screenTitle: 'Scan QR',
-      backColor: MyColors().whiteColor,
-      screenTitleColor: MyColors().whiteColor,
+      backColor: CustomColors.whiteColor,
+      screenTitleColor: CustomColors.whiteColor,
       bgImage: '',
       showAppBar: true,
       showBackButton: true,
       bottomSafeArea: false,
-      backgroundColor: MyColors().primaryColor,
+      backgroundColor: CustomColors.primaryGreenColor,
       child: CustomPadding(
         horizontalPadding: 0.w,
         topPadding: 0,
@@ -89,11 +89,11 @@ class _ScanQRState extends State<ScanQR> {
                 onQRViewCreated: _onQRViewCreated,
                 onPermissionSet: (p0, p1) => _onPermissionSet(context, p0, p1),
                 overlay: QrScannerOverlayShape(
-                  borderColor: MyColors().whiteColor,
+                  borderColor: CustomColors.whiteColor,
                   borderRadius: 10,
                   borderLength: 130,
                   borderWidth: 10,
-                  overlayColor: MyColors().primaryColor,
+                  overlayColor: CustomColors.primaryGreenColor,
 
                   // cutOutBottomOffset:100
                 ),
@@ -106,8 +106,8 @@ class _ScanQRState extends State<ScanQR> {
                 child: MyButton(
                   bgColor: Colors.transparent,
                   title: 'Redeem Offer',
-                  textColor: pause ? MyColors().whiteColor : MyColors().whiteColor.withValues(alpha: .5),
-                  borderColor: pause ? MyColors().whiteColor : MyColors().whiteColor.withValues(alpha: .5),
+                  textColor: pause ? CustomColors.whiteColor : CustomColors.whiteColor.withValues(alpha: .5),
+                  borderColor: pause ? CustomColors.whiteColor : CustomColors.whiteColor.withValues(alpha: .5),
                   onTap:
                       pause
                           ? () async {

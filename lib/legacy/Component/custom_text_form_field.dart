@@ -1,4 +1,4 @@
-import 'package:backyard/legacy/Utils/my_colors.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Utils/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -110,7 +110,7 @@ class CustomTextFormField extends StatefulWidget {
 }
 
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
-  MyColors colors = MyColors();
+  CustomColors colors = CustomColors();
   Responsive responsive = Responsive();
   static MaskTextInputFormatter phoneNumberMask = MaskTextInputFormatter(
     mask: '(###) ###-####',
@@ -166,7 +166,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
               labelText: widget.showLabel == true ? '   ${widget.title ?? widget.hintText}   ' : null,
               labelStyle: textStyle.copyWith(color: widget.hintTextColor),
               hintText: widget.hintText,
-              fillColor: widget.backgroundColor ?? MyColors().secondaryColor,
+              fillColor: widget.backgroundColor ?? CustomColors.secondaryColor,
               filled: true,
               hintStyle: GoogleFonts.roboto(color: widget.hintTextColor ?? Colors.grey, fontSize: 16.sp),
               contentPadding: EdgeInsets.only(
@@ -193,7 +193,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: widget.filed == true ? colors.prefixContainerColor : Colors.transparent,
+                            color: widget.filed == true ? CustomColors.prefixContainerColor : Colors.transparent,
                           ),
                           child: Icon(
                             widget.prefixIconData,
@@ -207,7 +207,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                       ? OutlineInputBorder(
                         borderRadius: BorderRadius.circular(widget.borderRadius ?? 25),
                         borderSide: BorderSide(
-                          color: widget.borderColor != null ? widget.borderColor! : MyColors().prefixContainerColor,
+                          color: widget.borderColor != null ? widget.borderColor! : CustomColors.prefixContainerColor,
                           width: 1,
                         ),
                       )
@@ -223,13 +223,13 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                       ? OutlineInputBorder(
                         borderRadius: BorderRadius.circular(widget.borderRadius ?? 25),
                         borderSide: BorderSide(
-                          color: widget.borderColor != null ? widget.borderColor! : MyColors().prefixContainerColor,
+                          color: widget.borderColor != null ? widget.borderColor! : CustomColors.prefixContainerColor,
                           width: 1,
                         ),
                       )
                       : UnderlineInputBorder(
                         borderSide: BorderSide(
-                          color: widget.borderColor != null ? widget.borderColor! : MyColors().hintColor,
+                          color: widget.borderColor != null ? widget.borderColor! : CustomColors.hintColor,
                           width: 1.5,
                         ),
                       ),
@@ -238,13 +238,13 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                       ? OutlineInputBorder(
                         borderRadius: BorderRadius.circular(widget.borderRadius ?? 25),
                         borderSide: BorderSide(
-                          color: widget.borderColor != null ? widget.borderColor! : MyColors().hintColor,
+                          color: widget.borderColor != null ? widget.borderColor! : CustomColors.hintColor,
                           width: 1,
                         ),
                       )
                       : UnderlineInputBorder(
                         borderSide: BorderSide(
-                          color: widget.borderColor != null ? widget.borderColor! : MyColors().hintColor,
+                          color: widget.borderColor != null ? widget.borderColor! : CustomColors.hintColor,
                           width: 1,
                         ),
                       ),
@@ -253,13 +253,13 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                       ? OutlineInputBorder(
                         borderRadius: BorderRadius.circular(widget.borderRadius ?? 25),
                         borderSide: BorderSide(
-                          color: widget.borderColor != null ? widget.borderColor! : MyColors().hintColor,
+                          color: widget.borderColor != null ? widget.borderColor! : CustomColors.hintColor,
                           width: 1,
                         ),
                       )
                       : UnderlineInputBorder(
                         borderSide: BorderSide(
-                          color: widget.borderColor != null ? widget.borderColor! : MyColors().hintColor,
+                          color: widget.borderColor != null ? widget.borderColor! : CustomColors.hintColor,
                           width: 1,
                         ),
                       ),

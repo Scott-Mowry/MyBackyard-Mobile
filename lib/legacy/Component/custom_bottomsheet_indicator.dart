@@ -1,4 +1,4 @@
-import 'package:backyard/legacy/Utils/my_colors.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:flutter/material.dart';
 
 class BottomSheetIndicator extends StatelessWidget {
@@ -10,7 +10,7 @@ class BottomSheetIndicator extends StatelessWidget {
       child: Container(
         height: 7,
         width: 60,
-        decoration: BoxDecoration(color: MyColors().black, borderRadius: BorderRadius.circular(200)),
+        decoration: BoxDecoration(color: CustomColors.black, borderRadius: BorderRadius.circular(200)),
       ),
     );
   }

@@ -1,9 +1,9 @@
+import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Model/day_schedule.dart';
-import 'package:backyard/legacy/Utils/enum.dart';
 
 class User {
   int? id;
-  Role? role;
+  UserRoleEnum? role;
   String? name;
   String? lastName;
   String? profileImage;
@@ -139,8 +139,8 @@ class User {
     updatedAt: json['updated_at'] == null ? null : DateTime.parse(json['updated_at']),
   );
 
-  static Role? getRole(String? role) {
-    for (var element in Role.values) {
+  static UserRoleEnum? getRole(String? role) {
+    for (var element in UserRoleEnum.values) {
       if (element.name.toLowerCase() == role?.toLowerCase()) {
         return element;
       }
@@ -192,7 +192,7 @@ class User {
     return retList;
   }
 
-  set setRole(Role val) => role = val;
+  set setRole(UserRoleEnum val) => role = val;
 }
 
 class BussinessScheduling {

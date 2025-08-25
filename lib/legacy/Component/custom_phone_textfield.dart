@@ -1,5 +1,5 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Utils/app_strings.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -52,16 +52,16 @@ class PhoneNumberTextField extends StatelessWidget {
       dropdownIconPosition: IconPosition.trailing,
       dropdownTextStyle: _textStyle(),
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-      dropdownIcon: Icon(Icons.arrow_drop_down, color: iconColor ?? MyColors().whiteColor),
+      dropdownIcon: Icon(Icons.arrow_drop_down, color: iconColor ?? CustomColors.whiteColor),
       autovalidateMode: AutovalidateMode.disabled,
       controller: controller,
       style: _textStyle(),
       decoration: InputDecoration(
         hintText: 'Phone Number',
         labelText: '   Phone Number   ',
-        labelStyle: textStyle.copyWith(color: MyColors().whiteColor),
+        labelStyle: textStyle.copyWith(color: CustomColors.whiteColor),
         hintStyle: GoogleFonts.roboto(
-          color: textColor ?? MyColors().whiteColor,
+          color: textColor ?? CustomColors.whiteColor,
           fontSize: 11.sp,
 
           // fontSize: AppSize.TEXTFIELD_FONT_SIZE,//16,
@@ -92,7 +92,7 @@ class PhoneNumberTextField extends StatelessWidget {
 
   TextStyle _textStyle() {
     return GoogleFonts.roboto(
-      color: textColor ?? MyColors().whiteColor,
+      color: textColor ?? CustomColors.whiteColor,
       // fontSize: fontSize??AppSize.TEXTFIELD_FONT_SIZE,//16,
     );
   }
@@ -109,7 +109,7 @@ class PhoneNumberTextField extends StatelessWidget {
       borderRadius: BorderRadius.circular(25),
       borderSide: BorderSide(
         width: 1,
-        color: borderColor ?? MyColors().whiteColor,
+        color: borderColor ?? CustomColors.whiteColor,
         style: isBorder == true ? BorderStyle.solid : BorderStyle.none,
       ),
     );

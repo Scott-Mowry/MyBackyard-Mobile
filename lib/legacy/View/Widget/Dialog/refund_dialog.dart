@@ -1,10 +1,10 @@
 import 'dart:ui';
 
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/request_submitted.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -14,7 +14,7 @@ class RefundDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: MyColors().blackLight, borderRadius: BorderRadius.circular(12)),
+      decoration: BoxDecoration(color: CustomColors.blackLight, borderRadius: BorderRadius.circular(12)),
       // height: responsive.setHeight(75),
       width: 100.w,
       child: SingleChildScrollView(
@@ -35,7 +35,7 @@ class RefundDialog extends StatelessWidget {
                 },
                 title: 'Refund',
                 bgColor: Colors.transparent,
-                textColor: MyColors().whiteColor,
+                textColor: CustomColors.whiteColor,
                 gradient: false,
               ),
               SizedBox(height: 2.h),

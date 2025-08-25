@@ -1,7 +1,7 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -27,7 +27,7 @@ class _CartSellerState extends State<CartSeller> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: MyColors().purpleLight,
+                color: CustomColors.purpleColor,
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
               ),
               padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.w),
@@ -36,7 +36,11 @@ class _CartSellerState extends State<CartSeller> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Icon(Icons.close_outlined, color: Colors.transparent),
-                  MyText(title: 'Remove your previous items?', clr: MyColors().whiteColor, fontWeight: FontWeight.w600),
+                  MyText(
+                    title: 'Remove your previous items?',
+                    clr: CustomColors.whiteColor,
+                    fontWeight: FontWeight.w600,
+                  ),
                   GestureDetector(
                     onTap: AppNavigation.navigatorPop,
                     child: const Icon(Icons.close_outlined, color: Colors.white),
@@ -56,7 +60,7 @@ class _CartSellerState extends State<CartSeller> {
                   Center(
                     child: MyText(
                       title: 'You still have items from another seller. Start over with a fresh cart?',
-                      clr: MyColors().black,
+                      clr: CustomColors.black,
                       size: 13,
                       center: true,
                     ),
@@ -70,7 +74,7 @@ class _CartSellerState extends State<CartSeller> {
                             AppNavigation.navigatorPop();
                           },
                           title: 'Close',
-                          bgColor: MyColors().purpleColor,
+                          bgColor: CustomColors.purpleColor,
                         ),
                       ),
                       SizedBox(width: 2.w),

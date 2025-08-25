@@ -1,3 +1,4 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
@@ -7,7 +8,6 @@ import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -60,7 +60,7 @@ class _GiveReviewState extends State<GiveReview> {
               ratingWidget: RatingWidget(
                 full: Image.asset(ImagePath.star, scale: 1),
                 half: Image.asset(ImagePath.starHalf, scale: 2),
-                empty: Image.asset(ImagePath.star, scale: 1, color: MyColors().grey.withValues(alpha: .1)),
+                empty: Image.asset(ImagePath.star, scale: 1, color: CustomColors.grey.withValues(alpha: .1)),
               ),
               itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
               onRatingUpdate: (rating) {
@@ -81,10 +81,10 @@ class _GiveReviewState extends State<GiveReview> {
                 maxLines: 10,
                 minLines: 10,
                 controller: review,
-                backgroundColor: MyColors().container,
+                backgroundColor: CustomColors.container,
                 // borderColor: MyColors().secondaryColor,
-                hintTextColor: MyColors().grey,
-                textColor: MyColors().black,
+                hintTextColor: CustomColors.grey,
+                textColor: CustomColors.black,
                 borderRadius: 10,
                 maxLength: 275,
                 validation: (p0) => p0?.validateEmpty('Review Message'),

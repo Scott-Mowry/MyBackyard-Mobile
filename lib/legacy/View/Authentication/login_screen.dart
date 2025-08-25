@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:backyard/boot.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 // import 'package:backyard/legacy/Arguments/screen_arguments.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
@@ -21,10 +23,8 @@ import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 // import 'package:backyard/Utils/enum.dart';
 import 'package:backyard/legacy/Utils/local_shared_preferences.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
-import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -115,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           children: [
                                             Container(
                                               decoration: BoxDecoration(
-                                                color: MyColors().primaryColor,
+                                                color: CustomColors.primaryGreenColor,
                                                 borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
                                               ),
                                               padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.w),
@@ -126,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                   Image.asset(ImagePath.close, scale: 2, color: Colors.transparent),
                                                   MyText(
                                                     title: 'Remove Saved User',
-                                                    clr: MyColors().whiteColor,
+                                                    clr: CustomColors.whiteColor,
                                                     fontWeight: FontWeight.w600,
                                                     size: 18,
                                                   ),
@@ -191,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             width: 85.w,
                             height: 10.h,
                             decoration: BoxDecoration(
-                              color: MyColors().secondaryColor,
+                              color: CustomColors.secondaryColor,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Row(
@@ -231,7 +231,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontWeight: FontWeight.w600,
                             fontSize: 16,
                             decorationThickness: 2,
-                            color: MyColors().black,
+                            color: CustomColors.black,
                           ),
                         ),
                         SizedBox(height: 1.h),
@@ -247,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               fontWeight: FontWeight.w700,
                               fontSize: 17,
                               decorationThickness: 2,
-                              color: MyColors().black,
+                              color: CustomColors.black,
                             ),
                           ),
                         ),
@@ -261,7 +261,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 controller: email,
                                 maxLength: 35,
                                 inputType: TextInputType.emailAddress,
-                                prefixWidget: Image.asset(ImagePath.email, scale: 2, color: MyColors().primaryColor),
+                                prefixWidget: Image.asset(
+                                  ImagePath.email,
+                                  scale: 2,
+                                  color: CustomColors.primaryGreenColor,
+                                ),
                                 validation: (p0) => p0?.validateEmail,
                               ),
                               SizedBox(height: 2.h),
@@ -270,14 +274,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 controller: password,
                                 maxLength: 35,
                                 inputType: TextInputType.emailAddress,
-                                prefixWidget: Icon(Icons.lock, color: MyColors().primaryColor),
+                                prefixWidget: Icon(Icons.lock, color: CustomColors.primaryGreenColor),
                                 obscureText: show,
                                 suffixIcons: GestureDetector(
                                   onTap: hideShow,
                                   child: Image.asset(
                                     show ? ImagePath.showPass2 : ImagePath.showPass,
                                     scale: 3,
-                                    color: MyColors().primaryColor,
+                                    color: CustomColors.primaryGreenColor,
                                   ),
                                 ),
                                 validation: (p0) => p0?.validatePass,
@@ -300,7 +304,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fontWeight: FontWeight.w600,
                                   fontSize: 16,
                                   decorationThickness: 2,
-                                  color: MyColors().black,
+                                  color: CustomColors.black,
                                 ),
                               ),
                             ),

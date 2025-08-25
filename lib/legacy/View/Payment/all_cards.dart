@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -11,7 +12,6 @@ import 'package:backyard/legacy/Model/card_model.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/Payment/card_tile.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/success_payment.dart';
 import 'package:backyard/legacy/View/base_view.dart';
@@ -72,7 +72,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset(ImagePath.card2, scale: 2, color: MyColors().primaryColor),
+                        Image.asset(ImagePath.card2, scale: 2, color: CustomColors.primaryGreenColor),
                         SizedBox(height: 1.h),
                         MyText(title: '  Add New Card'),
                       ],
@@ -119,9 +119,9 @@ class _PaymentMethodState extends State<PaymentMethod> {
                           child: Container(
                             padding: EdgeInsets.all(3.w),
                             decoration: BoxDecoration(
-                              color: MyColors().secondaryColor.withValues(alpha: .3),
+                              color: CustomColors.secondaryColor.withValues(alpha: .3),
                               borderRadius: BorderRadius.circular(30),
-                              border: Border.all(color: MyColors().secondaryColor),
+                              border: Border.all(color: CustomColors.secondaryColor),
                             ),
                             child: Row(
                               children: [
@@ -131,7 +131,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                 // MyText(title: 'Visa Card:  ******9514',size: 15,),
                                 Spacer(),
                                 // CustomRadioTile(v: (c.isActive==1).obs,color: MyColors().visaColor,)
-                                CustomRadioTile(v: (index == 0), color: MyColors().whiteColor),
+                                CustomRadioTile(v: (index == 0), color: CustomColors.whiteColor),
                               ],
                             ),
                           ),
@@ -216,7 +216,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     padding: const EdgeInsets.all(3.0),
                     margin: const EdgeInsets.all(5.0),
                     alignment: Alignment.topCenter,
-                    child: Icon(Icons.delete_rounded, color: MyColors().primaryColor2),
+                    child: Icon(Icons.delete_rounded, color: CustomColors.primaryGreenColor),
                     // Image.asset(ImagePath.delete,width: 5.w,color: Colors.red,)
                   ),
                 ),
@@ -233,9 +233,9 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 // width: 80.w,
                 padding: EdgeInsets.all(3.w),
                 decoration: BoxDecoration(
-                  color: MyColors().secondaryColor.withValues(alpha: .3),
+                  color: CustomColors.secondaryColor.withValues(alpha: .3),
                   borderRadius: BorderRadius.circular(30),
-                  border: Border.all(color: MyColors().secondaryColor),
+                  border: Border.all(color: CustomColors.secondaryColor),
                 ),
                 alignment: Alignment.center,
                 child: Row(
@@ -244,7 +244,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     SizedBox(width: 2.w),
                     MyText(title: c[index].last4 ?? ''),
                     Spacer(),
-                    CustomRadioTile(v: (0 == index), color: MyColors().secondaryColor),
+                    CustomRadioTile(v: (0 == index), color: CustomColors.secondaryColor),
                   ],
                 ),
               ),

@@ -1,4 +1,4 @@
-// import 'package:backyard/Utils/my_colors.dart';
+// import 'package:backyard/Utils/custom_colors.dart';
 // import 'package:flutter/material.dart';
 // import 'package:sizer/sizer.dart';
 // import 'custom_text.dart';

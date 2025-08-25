@@ -1,7 +1,7 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -64,7 +64,7 @@ class BaseView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor ?? MyColors().whiteColor,
+      backgroundColor: backgroundColor ?? CustomColors.whiteColor,
       resizeToAvoidBottomInset: resizeBottomInset ?? true,
       // key: showDrawer == true ? _scaffoldKey : null,
       // drawer:showDrawer == true ? Container(
@@ -108,7 +108,7 @@ class BaseView extends StatelessWidget {
                   size: 18,
                   toverflow: TextOverflow.ellipsis,
                   fontWeight: FontWeight.w600,
-                  clr: screenTitleColor ?? MyColors().black,
+                  clr: screenTitleColor ?? CustomColors.black,
                 ),
                 elevation: 0,
                 actions: <Widget>[trailingAppBar ?? Container()],

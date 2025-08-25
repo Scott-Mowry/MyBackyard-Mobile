@@ -2,6 +2,9 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:backyard/boot.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_bottomsheet_indicator.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -18,11 +21,8 @@ import 'package:backyard/legacy/Service/bus_apis.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Service/socket_service.dart';
 import 'package:backyard/legacy/Utils/app_size.dart';
-import 'package:backyard/legacy/Utils/enum.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
-import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:geolocator/geolocator.dart';
@@ -75,7 +75,7 @@ class _UserHomeState extends State<UserHome> {
         Permission.locationAlways.request();
       }
       pos = await Geolocator.getLastKnownPosition();
-      if (controller?.user?.role == Role.Business) {
+      if (controller?.user?.role == UserRoleEnum.Business) {
         await BusAPIS.getBuses(pos?.latitude, pos?.longitude);
         // controller?.moveMap(CameraUpdate.newCameraPosition(CameraPosition(
         //     target: LatLng(pos?.latitude ?? 0, pos?.longitude ?? 0),
@@ -87,8 +87,8 @@ class _UserHomeState extends State<UserHome> {
             strokeWidth: 1,
             zIndex: 0,
             center: LatLng(pos?.latitude ?? 0, pos?.longitude ?? 0),
-            fillColor: MyColors().primaryColor.withValues(alpha: .15),
-            strokeColor: MyColors().primaryColor,
+            fillColor: CustomColors.primaryGreenColor.withValues(alpha: .15),
+            strokeColor: CustomColors.primaryGreenColor,
           ),
         );
       } else {
@@ -103,8 +103,8 @@ class _UserHomeState extends State<UserHome> {
             strokeWidth: 1,
             zIndex: 0,
             center: LatLng(pos?.latitude ?? 0, pos?.longitude ?? 0),
-            fillColor: MyColors().primaryColor.withValues(alpha: .15),
-            strokeColor: MyColors().primaryColor,
+            fillColor: CustomColors.primaryGreenColor.withValues(alpha: .15),
+            strokeColor: CustomColors.primaryGreenColor,
           ),
         );
       }
@@ -134,7 +134,7 @@ class _UserHomeState extends State<UserHome> {
         return
         // GetBuilder<MapsController>(builder: (d) { return
         value.loading
-            ? Center(child: CircularProgressIndicator(color: MyColors().primaryColor))
+            ? Center(child: CircularProgressIndicator(color: CustomColors.primaryGreenColor))
             : Stack(
               children: [
                 // GlobalController.values.location.isFalse?
@@ -235,7 +235,7 @@ class _UserHomeState extends State<UserHome> {
                 //   child:
                 Container(
                   decoration: BoxDecoration(
-                    color: Utils.isTablet ? null : MyColors().whiteColor,
+                    color: Utils.isTablet ? null : CustomColors.whiteColor,
                     borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
                     boxShadow:
                         Utils.isTablet
@@ -264,7 +264,7 @@ class _UserHomeState extends State<UserHome> {
                                     child: Container(
                                       padding: EdgeInsets.all(12),
                                       decoration: BoxDecoration(
-                                        color: MyColors().whiteColor,
+                                        color: CustomColors.whiteColor,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: MenuIcon(),
@@ -279,7 +279,7 @@ class _UserHomeState extends State<UserHome> {
                                     child: Container(
                                       padding: EdgeInsets.all(12),
                                       decoration: BoxDecoration(
-                                        color: MyColors().whiteColor,
+                                        color: CustomColors.whiteColor,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child:
@@ -291,7 +291,7 @@ class _UserHomeState extends State<UserHome> {
                                                       setState(() => filter = !filter),
                                                     ],
                                               )
-                                              : CircularProgressIndicator(color: MyColors().greenColor),
+                                              : CircularProgressIndicator(color: CustomColors.greenColor),
                                     ),
                                   )
                                   : FilterIcon(
@@ -308,7 +308,7 @@ class _UserHomeState extends State<UserHome> {
                                     child: Container(
                                       padding: EdgeInsets.all(12),
                                       decoration: BoxDecoration(
-                                        color: MyColors().whiteColor,
+                                        color: CustomColors.whiteColor,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: NotificationIcon(),
@@ -552,7 +552,7 @@ class _UserHomeState extends State<UserHome> {
                 return Container(
                   padding: EdgeInsets.all(4.w),
                   decoration: BoxDecoration(
-                    color: MyColors().whiteColor,
+                    color: CustomColors.whiteColor,
                     borderRadius: BorderRadius.vertical(top: Radius.circular(AppSize.BOTTOMSHEETRADIUS)),
                   ),
                   child: Column(
@@ -824,7 +824,7 @@ class _UserHomeState extends State<UserHome> {
         SizedBox(height: 1.h),
         CustomDropDown2(
           hintText: 'Select Category',
-          bgColor: MyColors().container,
+          bgColor: CustomColors.container,
           dropDownData: list,
           dropdownValue: selected,
           validator: (v) {
@@ -842,7 +842,7 @@ class _UserHomeState extends State<UserHome> {
           // inputType: TextInputType.number,
           showLabel: false,
           // onlyNumber: true,
-          backgroundColor: MyColors().container,
+          backgroundColor: CustomColors.container,
           // borderColor: MyColors().secondaryColor,
           // hintTextColor: MyColors().grey,
           // textColor: MyColors().black,
@@ -857,7 +857,7 @@ class _UserHomeState extends State<UserHome> {
           inputType: TextInputType.number,
           showLabel: false,
           onlyNumber: true,
-          backgroundColor: MyColors().container,
+          backgroundColor: CustomColors.container,
           // borderColor: MyColors().secondaryColor,
           // hintTextColor: MyColors().grey,
           // textColor: MyColors().black,
@@ -881,7 +881,7 @@ class _UserHomeState extends State<UserHome> {
                 alignment: Alignment.center,
                 child: Row(
                   children: [
-                    CustomRadioTile(v: (i == index), color: MyColors().black),
+                    CustomRadioTile(v: (i == index), color: CustomColors.black),
                     SizedBox(width: 2.w),
                     RatingBar(
                       initialRating: 4,

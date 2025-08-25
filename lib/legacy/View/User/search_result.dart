@@ -1,3 +1,5 @@
+import 'package:backyard/boot.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Arguments/profile_screen_arguments.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
 import 'package:backyard/legacy/Component/custom_height.dart';
@@ -12,11 +14,9 @@ import 'package:backyard/legacy/Service/navigation_service.dart';
 // import 'package:backyard/legacy/Model/session_model.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/View/User/offers.dart';
 import 'package:backyard/legacy/View/Widget/search_tile.dart';
 import 'package:backyard/legacy/View/base_view.dart';
-import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -94,7 +94,7 @@ class _SearchResultState extends State<SearchResult> {
                   ),
                 ),
                 if (val2.loading)
-                  Center(child: CircularProgressIndicator(color: MyColors().greenColor))
+                  Center(child: CircularProgressIndicator(color: CustomColors.greenColor))
                 else if (val2.busList.isEmpty)
                   Center(child: CustomEmptyData(title: 'No Nearby Business Found', hasLoader: false))
                 else
@@ -115,7 +115,7 @@ class _SearchResultState extends State<SearchResult> {
                 ),
                 // offerList(),
                 if (val.loading)
-                  Center(child: CircularProgressIndicator(color: MyColors().greenColor))
+                  Center(child: CircularProgressIndicator(color: CustomColors.greenColor))
                 else if ((val.offers ?? []).isEmpty)
                   Center(child: CustomEmptyData(title: 'No Trending Offers Found', hasLoader: false))
                 else

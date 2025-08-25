@@ -1,8 +1,8 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Arguments/content_argument.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/app_strings.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,7 +16,7 @@ class CustomTermsCondition extends StatelessWidget {
       textAlign: TextAlign.center,
       text: TextSpan(
         text: 'By sign-in, you agree to our ',
-        style: GoogleFonts.roboto(fontWeight: FontWeight.w400, fontSize: 13, color: MyColors().black),
+        style: GoogleFonts.roboto(fontWeight: FontWeight.w400, fontSize: 13, color: CustomColors.black),
         children: [
           TextSpan(
             text: '\nTerms & Conditions',
@@ -25,7 +25,7 @@ class CustomTermsCondition extends StatelessWidget {
               fontWeight: FontWeight.w600,
               fontSize: 16,
               decorationThickness: 2,
-              color: MyColors().black,
+              color: CustomColors.black,
             ),
             recognizer:
                 TapGestureRecognizer()
@@ -46,7 +46,7 @@ class CustomTermsCondition extends StatelessWidget {
               fontWeight: FontWeight.w600,
               fontSize: 16,
               decorationThickness: 2,
-              color: MyColors().black,
+              color: CustomColors.black,
             ),
             recognizer: TapGestureRecognizer()..onTap = () {},
           ),
@@ -57,7 +57,7 @@ class CustomTermsCondition extends StatelessWidget {
               fontWeight: FontWeight.w600,
               fontSize: 16,
               decorationThickness: 2,
-              color: MyColors().black,
+              color: CustomColors.black,
             ),
             recognizer:
                 TapGestureRecognizer()

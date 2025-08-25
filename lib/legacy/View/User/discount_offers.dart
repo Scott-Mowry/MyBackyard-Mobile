@@ -3,6 +3,9 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import 'package:backyard/boot.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Arguments/content_argument.dart';
 import 'package:backyard/legacy/Arguments/screen_arguments.dart';
 import 'package:backyard/legacy/Component/custom_bottomsheet_indicator.dart';
@@ -18,13 +21,10 @@ import 'package:backyard/legacy/Service/bus_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/app_size.dart';
-import 'package:backyard/legacy/Utils/enum.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/custom_dialog.dart';
 import 'package:backyard/legacy/View/base_view.dart';
-import 'package:backyard/boot.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pdf/pdf.dart';
@@ -57,7 +57,7 @@ class _DiscountOffersState extends State<DiscountOffers> {
   late bool business =
       (navigatorKey.currentContext?.read<UserController>().isSwitch ?? false)
           ? false
-          : navigatorKey.currentContext?.read<UserController>().user?.role == Role.Business;
+          : navigatorKey.currentContext?.read<UserController>().user?.role == UserRoleEnum.Business;
 
   String get data =>
   // encryption(
@@ -125,7 +125,10 @@ class _DiscountOffersState extends State<DiscountOffers> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           gradient: LinearGradient(
-                            colors: [MyColors().primaryColor.withValues(alpha: 0), MyColors().primaryColor],
+                            colors: [
+                              CustomColors.primaryGreenColor.withValues(alpha: 0),
+                              CustomColors.primaryGreenColor,
+                            ],
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                           ),
@@ -136,7 +139,7 @@ class _DiscountOffersState extends State<DiscountOffers> {
                   Column(
                     children: [
                       Container(
-                        decoration: BoxDecoration(color: MyColors().black, borderRadius: BorderRadius.circular(30)),
+                        decoration: BoxDecoration(color: CustomColors.black, borderRadius: BorderRadius.circular(30)),
                         padding: EdgeInsets.all(16) + EdgeInsets.symmetric(horizontal: 20),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -145,14 +148,14 @@ class _DiscountOffersState extends State<DiscountOffers> {
                               title: '\$${widget.model?.actualPrice}   ',
                               fontWeight: FontWeight.w600,
                               size: 16,
-                              clr: MyColors().whiteColor,
+                              clr: CustomColors.whiteColor,
                               cut: true,
                             ),
                             MyText(
                               title: '\$${widget.model?.discountPrice}',
                               fontWeight: FontWeight.w600,
                               size: 16,
-                              clr: MyColors().whiteColor,
+                              clr: CustomColors.whiteColor,
                             ),
                           ],
                         ),
@@ -191,11 +194,14 @@ class _DiscountOffersState extends State<DiscountOffers> {
                   Expanded(child: MyText(title: widget.model?.title ?? '', fontWeight: FontWeight.w600, size: 16)),
                   Container(
                     constraints: BoxConstraints(maxWidth: 53.w),
-                    decoration: BoxDecoration(color: MyColors().primaryColor, borderRadius: BorderRadius.circular(30)),
+                    decoration: BoxDecoration(
+                      color: CustomColors.primaryGreenColor,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     child: MyText(
                       title: widget.model?.category?.categoryName ?? '',
-                      clr: MyColors().whiteColor,
+                      clr: CustomColors.whiteColor,
                       size: Utils.isTablet ? 6.sp : 10.sp,
                     ),
                   ),
@@ -205,7 +211,12 @@ class _DiscountOffersState extends State<DiscountOffers> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(ImagePath.location, color: MyColors().primaryColor, height: 13.sp, fit: BoxFit.fitHeight),
+                  Image.asset(
+                    ImagePath.location,
+                    color: CustomColors.primaryGreenColor,
+                    height: 13.sp,
+                    fit: BoxFit.fitHeight,
+                  ),
                   SizedBox(width: 1.w),
                   SizedBox(
                     width: 85.w,
@@ -288,9 +299,9 @@ class _DiscountOffersState extends State<DiscountOffers> {
 
                           // }
                         },
-                        bgColor: MyColors().whiteColor,
-                        textColor: MyColors().black,
-                        borderColor: MyColors().black,
+                        bgColor: CustomColors.whiteColor,
+                        textColor: CustomColors.black,
+                        borderColor: CustomColors.black,
                       ),
                     ),
                 SizedBox(height: 2.h),
@@ -350,7 +361,7 @@ class _DiscountOffersState extends State<DiscountOffers> {
             return Container(
               padding: EdgeInsets.all(4.w),
               decoration: BoxDecoration(
-                color: MyColors().whiteColor,
+                color: CustomColors.whiteColor,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(AppSize.BOTTOMSHEETRADIUS)),
               ),
               child: Column(
@@ -368,7 +379,7 @@ class _DiscountOffersState extends State<DiscountOffers> {
                     },
                     child: Row(
                       children: [
-                        Image.asset(ImagePath.editProfile, scale: 2, color: MyColors().primaryColor),
+                        Image.asset(ImagePath.editProfile, scale: 2, color: CustomColors.primaryGreenColor),
                         SizedBox(width: 2.w),
                         MyText(title: 'Edit Offer', size: 17, fontWeight: FontWeight.w500),
                       ],
@@ -382,7 +393,7 @@ class _DiscountOffersState extends State<DiscountOffers> {
                     },
                     child: Row(
                       children: [
-                        Image.asset(ImagePath.delete, scale: 2, color: MyColors().redColor),
+                        Image.asset(ImagePath.delete, scale: 2, color: CustomColors.redColor),
                         SizedBox(width: 2.w),
                         MyText(title: 'Delete Offer', size: 17, fontWeight: FontWeight.w500),
                       ],

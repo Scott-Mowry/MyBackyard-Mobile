@@ -1,6 +1,6 @@
 // import 'package:flutter/material.dart';
 // import 'package:backyard/Utils/image_path.dart';
-// import 'package:backyard/Utils/my_colors.dart';
+// import 'package:backyard/Utils/custom_colors.dart';
 // import 'package:sizer/sizer.dart';
 // import 'package:get/get.dart';
 // import '../../Component/custom_text.dart';

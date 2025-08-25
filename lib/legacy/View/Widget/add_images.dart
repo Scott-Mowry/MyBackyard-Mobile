@@ -1,10 +1,10 @@
 import 'dart:io';
 
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Model/file_network.dart';
 import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -43,12 +43,12 @@ class AddImages extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(ImagePath.upload, scale: 4, color: editProfile ? MyColors().secondaryColor : null),
+                  Image.asset(ImagePath.upload, scale: 4, color: editProfile ? CustomColors.secondaryColor : null),
                   SizedBox(height: 1.h),
                   MyText(
                     title: 'Upload pictures',
                     size: 12,
-                    clr: editProfile ? MyColors().secondaryColor : MyColors().whiteColor,
+                    clr: editProfile ? CustomColors.secondaryColor : CustomColors.whiteColor,
                     fontStyle: FontStyle.italic,
                   ),
                 ],
@@ -66,9 +66,9 @@ class AddImages extends StatelessWidget {
                   height: 25.w,
                   // alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: MyColors().whiteColor,
+                    color: CustomColors.whiteColor,
                     borderRadius: BorderRadius.circular(3),
-                    border: Border.all(color: MyColors().primaryColor),
+                    border: Border.all(color: CustomColors.primaryGreenColor),
                     image:
                         index < imagePath.length
                             ? DecorationImage(
@@ -92,7 +92,7 @@ class AddImages extends StatelessWidget {
                                 }
                                 imagePath.removeAt(index);
                               },
-                              child: Icon(Icons.cancel, color: MyColors().primaryColor, size: 20),
+                              child: Icon(Icons.cancel, color: CustomColors.primaryGreenColor, size: 20),
                             ),
                           )
                           : const SizedBox(),

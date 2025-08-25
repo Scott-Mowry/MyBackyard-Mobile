@@ -1,10 +1,10 @@
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_radio_tile.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -27,7 +27,7 @@ class _DeleteDialogState extends State<DeleteDialog> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: MyColors().whiteColor, borderRadius: BorderRadius.circular(20)),
+      decoration: BoxDecoration(color: CustomColors.whiteColor, borderRadius: BorderRadius.circular(20)),
       // height: responsive.setHeight(75),
       width: 100.w,
       child: SingleChildScrollView(
@@ -36,7 +36,7 @@ class _DeleteDialogState extends State<DeleteDialog> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: MyColors().primaryColor,
+                color: CustomColors.primaryGreenColor,
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
               ),
               padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.w),
@@ -45,7 +45,7 @@ class _DeleteDialogState extends State<DeleteDialog> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Icon(Icons.close_outlined, color: Colors.transparent),
-                  MyText(title: 'Delete Account', clr: MyColors().whiteColor, fontWeight: FontWeight.w600),
+                  MyText(title: 'Delete Account', clr: CustomColors.whiteColor, fontWeight: FontWeight.w600),
                   GestureDetector(
                     onTap: AppNavigation.navigatorPop,
                     child: const Icon(Icons.close_outlined, color: Colors.white),
@@ -86,7 +86,7 @@ class _DeleteDialogState extends State<DeleteDialog> {
                           alignment: Alignment.center,
                           child: Row(
                             children: [
-                              CustomRadioTile(v: (i == index), color: MyColors().secondaryColor),
+                              CustomRadioTile(v: (i == index), color: CustomColors.secondaryColor),
                               SizedBox(width: 2.w),
                               Expanded(child: MyText(title: options[index], size: 15)),
                             ],
@@ -106,10 +106,10 @@ class _DeleteDialogState extends State<DeleteDialog> {
                       controller: other,
                       borderRadius: 10,
                       maxLength: 275,
-                      borderColor: MyColors().secondaryColor,
-                      backgroundColor: MyColors().secondaryColor.withValues(alpha: .4),
-                      hintTextColor: MyColors().grey,
-                      textColor: MyColors().black,
+                      borderColor: CustomColors.secondaryColor,
+                      backgroundColor: CustomColors.secondaryColor.withValues(alpha: .4),
+                      hintTextColor: CustomColors.grey,
+                      textColor: CustomColors.black,
                     ),
                     SizedBox(height: 2.h),
                   ],
@@ -134,7 +134,7 @@ class _DeleteDialogState extends State<DeleteDialog> {
                       title: 'Not Now!',
                       size: 17,
                       center: true,
-                      clr: MyColors().primaryColor,
+                      clr: CustomColors.primaryGreenColor,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
