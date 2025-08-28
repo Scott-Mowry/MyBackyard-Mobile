@@ -1,3 +1,6 @@
+import 'package:backyard/features/landing/landing_view.dart';
+import 'package:backyard/features/sign_in/sign_in_view.dart';
+import 'package:backyard/features/time_schedule/time_schedule_edit_view.dart';
 import 'package:backyard/legacy/Arguments/content_argument.dart';
 import 'package:backyard/legacy/Arguments/profile_screen_arguments.dart';
 import 'package:backyard/legacy/Arguments/screen_arguments.dart';
@@ -5,14 +8,10 @@ import 'package:backyard/legacy/Service/url_launcher.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/View/Authentication/business_category.dart';
 import 'package:backyard/legacy/View/Authentication/change_password.dart';
-import 'package:backyard/legacy/View/Authentication/edit_schedule_time.dart';
 import 'package:backyard/legacy/View/Authentication/enter_otp.dart';
 import 'package:backyard/legacy/View/Authentication/forgot_password.dart';
-import 'package:backyard/legacy/View/Authentication/login_screen.dart';
 import 'package:backyard/legacy/View/Authentication/phone_login.dart';
-import 'package:backyard/legacy/View/Authentication/pre_login.dart';
 import 'package:backyard/legacy/View/Authentication/profile_setup.dart';
-import 'package:backyard/legacy/View/Authentication/role_selection.dart';
 import 'package:backyard/legacy/View/Authentication/schedule.dart';
 import 'package:backyard/legacy/View/Business/create_offer.dart';
 import 'package:backyard/legacy/View/Common/Settings/settings.dart';
@@ -33,7 +32,6 @@ import 'package:backyard/legacy/View/Widget/approval.dart';
 import 'package:backyard/legacy/View/faqs.dart';
 import 'package:backyard/legacy/View/home_view.dart';
 import 'package:backyard/legacy/View/notifications.dart';
-import 'package:backyard/legacy/View/splash.dart';
 import 'package:flutter/material.dart';
 
 Route onGenerateRoute(RouteSettings routeSettings) {
@@ -41,17 +39,13 @@ Route onGenerateRoute(RouteSettings routeSettings) {
     settings: routeSettings,
     builder: (context) {
       switch (routeSettings.name) {
-        case AppRouteName.SPLASH_SCREEN_ROUTE:
-          return SplashScreen();
-        case AppRouteName.ROLE_SELECTION:
-          return RoleSelection();
-        case AppRouteName.PRE_LOGIN_SCREEN_ROUTE:
-          return PreLoginScreen();
-        case AppRouteName.LOGIN_SCREEN_ROUTE:
-          return LoginScreen();
+        case AppRouteName.LANDING_VIEW_ROUTE:
+          return LandingView();
+        case AppRouteName.LOGIN_VIEW_ROUTE:
+          return SignInView();
         case AppRouteName.TIME_SCHEDULING_EDIT_SCREEN_ROUTE:
-          final arg = routeSettings.arguments as TimeSchedulingEditArgument?;
-          return TimeSchedulingEditScreen(val: arg?.val, multiSelect: arg?.multiSelect);
+          final arg = routeSettings.arguments as TimeSchedulingEditArgs?;
+          return TimeScheduleEditView(val: arg?.val, multiSelect: arg?.multiSelect);
         case AppRouteName.CHANGE_PASSWORD_ROUTE:
           final arg = routeSettings.arguments as ChangePasswordArguments?;
           return ChangePassword(fromSettings: arg?.fromSettings);

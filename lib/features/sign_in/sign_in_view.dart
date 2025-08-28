@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:backyard/boot.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
@@ -25,14 +26,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+@RoutePage()
+class SignInView extends StatefulWidget {
+  const SignInView({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignInView> createState() => _SignInViewState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignInViewState extends State<SignInView> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   bool show = true;

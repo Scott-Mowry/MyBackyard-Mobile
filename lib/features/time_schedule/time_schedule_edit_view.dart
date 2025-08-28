@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -12,24 +13,25 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
-class TimeSchedulingEditArgument {
-  const TimeSchedulingEditArgument({this.val, this.multiSelect});
+class TimeSchedulingEditArgs {
+  const TimeSchedulingEditArgs({this.val, this.multiSelect});
 
   final DaySchedule? val;
   final bool? multiSelect;
 }
 
-class TimeSchedulingEditScreen extends StatefulWidget {
-  const TimeSchedulingEditScreen({super.key, this.val, this.multiSelect});
+@RoutePage()
+class TimeScheduleEditView extends StatefulWidget {
+  const TimeScheduleEditView({super.key, this.val, this.multiSelect});
 
   final DaySchedule? val;
   final bool? multiSelect;
 
   @override
-  State<TimeSchedulingEditScreen> createState() => _TimeSchedulingEditScreenState();
+  State<TimeScheduleEditView> createState() => _TimeScheduleEditViewState();
 }
 
-class _TimeSchedulingEditScreenState extends State<TimeSchedulingEditScreen> {
+class _TimeScheduleEditViewState extends State<TimeScheduleEditView> {
   late DaySchedule? temp = widget.val;
   late bool active = temp?.active ?? false;
   final formatter = NumberFormat('00');

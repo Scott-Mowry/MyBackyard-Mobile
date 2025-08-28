@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:backyard/boot.dart';
 import 'package:backyard/core/design_system/theme/theme_data.dart';
 import 'package:backyard/legacy/Utils/app_router.dart';
+import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -42,6 +43,7 @@ class MyBackyardApp extends StatelessWidget {
           locale: const Locale('en', 'US'),
           builder: EasyLoading.init(),
           onGenerateRoute: onGenerateRoute,
+          initialRoute: AppRouteName.LANDING_VIEW_ROUTE,
         );
       },
     );

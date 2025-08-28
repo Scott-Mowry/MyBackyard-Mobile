@@ -5,12 +5,8 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:backyard/boot.dart';
-import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
-import 'package:backyard/core/services/auth_service.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/app_strings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:encrypt/encrypt.dart' as en;
@@ -362,14 +358,6 @@ class Utils {
   static String relativeTime(String date) {
     final d = DateTime.parse(date);
     return Jiffy.parse(d.toLocal().toString()).fromNow();
-  }
-
-  static Future<void> logout({bool fromLogout = false, required BuildContext c}) async {
-    if (fromLogout == true) {
-      await getIt<AuthService>().signOut();
-    }
-
-    return AppNavigation.navigateTo(AppRouteName.ROLE_SELECTION);
   }
 
   String parseDate({required String d}) {

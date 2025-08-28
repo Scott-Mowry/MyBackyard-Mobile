@@ -89,7 +89,7 @@ class AppNetworkImpl implements AppNetwork {
     Timer(const Duration(seconds: 1), () {
       navigatorKey.currentContext?.read<UserController>().clear();
       Navigator.of(navigatorKey.currentContext!).popUntil((route) => route.isFirst);
-      Navigator.of(navigatorKey.currentContext!).pushReplacementNamed(AppRouteName.SPLASH_SCREEN_ROUTE);
+      Navigator.of(navigatorKey.currentContext!).pushReplacementNamed(AppRouteName.LANDING_VIEW_ROUTE);
     });
   }
 

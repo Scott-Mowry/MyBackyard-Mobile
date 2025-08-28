@@ -297,7 +297,7 @@ class AuthServiceImpl implements AuthService {
       }
 
       await navigatorKey.currentContext?.read<UserController>().clear();
-      await AppNavigation.navigateToRemovingAll(AppRouteName.SPLASH_SCREEN_ROUTE);
+      await AppNavigation.navigateToRemovingAll(AppRouteName.LANDING_VIEW_ROUTE);
       CustomToast().showToast(message: 'Logout Successfully');
     } catch (e) {
       log(e.toString());
@@ -383,7 +383,7 @@ class AuthServiceImpl implements AuthService {
       }
 
       await navigatorKey.currentContext?.read<UserController>().clear();
-      await AppNavigation.navigateToRemovingAll(AppRouteName.SPLASH_SCREEN_ROUTE);
+      await AppNavigation.navigateToRemovingAll(AppRouteName.LANDING_VIEW_ROUTE);
       CustomToast().showToast(message: 'Account Deleted Successfully');
     } catch (e) {
       log(e.toString());

@@ -2,6 +2,7 @@ import 'package:backyard/boot.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/services/auth_service.dart';
+import 'package:backyard/features/time_schedule/time_schedule_edit_view.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
@@ -14,7 +15,6 @@ import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
-import 'package:backyard/legacy/View/Authentication/edit_schedule_time.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -112,7 +112,7 @@ class _ScheduleState extends State<Schedule> {
           await Navigator.pushNamed(
             context,
             AppRouteName.TIME_SCHEDULING_EDIT_SCREEN_ROUTE,
-            arguments: TimeSchedulingEditArgument(multiSelect: true),
+            arguments: TimeSchedulingEditArgs(multiSelect: true),
           ).then((value) {
             if (value != null) {
               final list = value as List<DaySchedule>?;
@@ -226,7 +226,7 @@ class _ScheduleState extends State<Schedule> {
     await Navigator.pushNamed(
       context,
       AppRouteName.TIME_SCHEDULING_EDIT_SCREEN_ROUTE,
-      arguments: TimeSchedulingEditArgument(val: val),
+      arguments: TimeSchedulingEditArgs(val: val),
     ).then((value) {
       final temp = value as DaySchedule?;
       if (temp != null) {

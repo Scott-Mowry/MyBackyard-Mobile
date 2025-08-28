@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/annotations.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/repositories/local_storage_repository.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
@@ -15,14 +16,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+@RoutePage()
+class LandingView extends StatefulWidget {
+  const LandingView({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<LandingView> createState() => _LandingViewState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _LandingViewState extends State<LandingView> {
   Timer? timer;
 
   @override
@@ -46,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
         return;
       }
 
-      return AppNavigation.navigateReplacementNamed(AppRouteName.LOGIN_SCREEN_ROUTE);
+      return AppNavigation.navigateReplacementNamed(AppRouteName.LOGIN_VIEW_ROUTE);
     });
   }
 
