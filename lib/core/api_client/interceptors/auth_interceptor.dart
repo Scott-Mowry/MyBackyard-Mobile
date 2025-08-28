@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:backyard/core/api_client/api_client.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/repositories/local_storage_repository.dart';
-import 'package:backyard/core/services/auth_service.dart';
+import 'package:backyard/core/repositories/user_auth_repository.dart';
 import 'package:dio/dio.dart';
 
 class AuthInterceptor extends Interceptor {
@@ -40,7 +40,7 @@ class AuthInterceptor extends Interceptor {
     // 1.1 If not a retry request, attempt to refresh the token
     // 1.2 Logout if it's a retry request or the refresh attempt was unsuccessful
     final isRetryRequest = reqOpts.headers[retryCountHeader] == 1;
-    if (isRetryRequest) return getIt<AuthService>().signOut();
+    if (isRetryRequest) return getIt<UserAuthRepository>().signOut();
 
     // final successfulRefresh = isRetryRequest ? null : await _authRepository.refreshToken();
     // if (isRetryRequest || (successfulRefresh != null && !successfulRefresh)) {

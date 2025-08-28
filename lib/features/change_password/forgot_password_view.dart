@@ -1,7 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
-import 'package:backyard/core/services/auth_service.dart';
+import 'package:backyard/core/repositories/user_auth_repository.dart';
 import 'package:backyard/features/sign_in/enter_otp_view.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
@@ -91,7 +91,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     if (_form.currentState?.validate() ?? false) {
       FocusManager.instance.primaryFocus?.unfocus();
       getIt<AppNetwork>().loadingProgressIndicator();
-      final val = await getIt<AuthService>().forgotPassword(email: email.text);
+      final val = await getIt<UserAuthRepository>().forgotPassword(email: email.text);
       AppNavigation.navigatorPop();
       if (val) {
         CustomToast().showToast(

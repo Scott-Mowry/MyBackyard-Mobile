@@ -5,7 +5,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
-import 'package:backyard/core/services/auth_service.dart';
+import 'package:backyard/core/repositories/user_auth_repository.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_image.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -195,7 +195,7 @@ class _BusinessCategoryViewState extends State<BusinessCategoryView> {
       userController.setCategory(val.categories?[selected.first].id);
       final user = userController.user;
       getIt<AppNetwork>().loadingProgressIndicator();
-      final result = await getIt<AuthService>().completeProfile(
+      final result = await getIt<UserAuthRepository>().completeProfile(
         firstName: user?.name,
         lastName: user?.lastName,
         description: user?.description,

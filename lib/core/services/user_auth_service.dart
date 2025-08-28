@@ -20,7 +20,7 @@ import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-abstract class AuthService {
+abstract class UserAuthService {
   Future<bool> signIn({required String email, required String password});
 
   Future<bool> forgotPassword({required String email});
@@ -51,18 +51,20 @@ abstract class AuthService {
 
   Future<void> signOut();
 
-  Future<bool> socialLogin({String? socialToken, String? socialType, String? name, String? email, String? phone});
-
   Future<void> deleteAccount();
 }
 
-@Injectable(as: AuthService)
-class AuthServiceImpl implements AuthService {
+@Injectable(as: UserAuthService)
+class UserAuthServiceImpl implements UserAuthService {
   final ApiClient _apiClient;
   final AppNetwork _appNetwork;
   final LocalStorageRepository _localStorageRepository;
 
-  const AuthServiceImpl(@Named(kMyBackyardApiClient) this._apiClient, this._appNetwork, this._localStorageRepository);
+  const UserAuthServiceImpl(
+    @Named(kMyBackyardApiClient) this._apiClient,
+    this._appNetwork,
+    this._localStorageRepository,
+  );
 
   @override
   Future<bool> signIn({required String email, required String password, String? deviceToken}) async {
@@ -243,21 +245,6 @@ class AuthServiceImpl implements AuthService {
     }
   }
 
-  TimeOfDay _get24hour(String val) {
-    var hour = int.parse(val.split(':').first);
-    final minute = int.parse(val.split(':').last.split(' ').first);
-
-    if (val.split(':').last.split(' ').last == 'AM') {
-      if (hour == 12) hour = 0;
-    }
-
-    if (val.split(':').last.split(' ').last == 'PM') {
-      if (hour != 12) hour += 12;
-    }
-
-    return TimeOfDay(hour: hour, minute: minute);
-  }
-
   @override
   Future<bool> resendCode({String? id}) async {
     try {
@@ -305,69 +292,6 @@ class AuthServiceImpl implements AuthService {
   }
 
   @override
-  Future<bool> socialLogin({
-    String? socialToken,
-    String? socialType,
-    String? name,
-    String? email,
-    String? phone,
-    String? deviceToken,
-  }) async {
-    try {
-      String? firstName;
-      String? lastName;
-      if (name != null && (name).contains(' ')) {
-        firstName = (name).split(' ').first;
-        lastName = (name).split(' ').last;
-      } else {
-        firstName = (name ?? '');
-        lastName = (name ?? '');
-      }
-      final res = await _appNetwork.networkRequest(
-        RequestTypeEnum.POST.name,
-        API.SOCIAL_LOGIN_ENDPOINT,
-        parameters: {
-          'first_name': firstName,
-          'last_name': lastName,
-          'social_token': socialToken ?? '',
-          'social_type': socialType ?? '',
-          'device_type': Platform.isAndroid ? 'android' : 'ios',
-          'device_token': deviceToken ?? '',
-          'role': navigatorKey.currentContext?.read<UserController>().user?.role?.name ?? '',
-          'phone': phone ?? '',
-        },
-      );
-
-      if (res == null) return false;
-
-      final model = responseModelFromJson(res.body);
-      CustomToast().showToast(message: model.message ?? '');
-
-      if (model.status != 1) return false;
-
-      navigatorKey.currentContext?.read<UserController>().setUser(
-        User.setUser2(model.data?['user'], token: model.data?['bearer_token']),
-      );
-      if (socialType == 'phone') {
-        final user = navigatorKey.currentContext?.read<UserController>().user;
-        user?.phone = phone;
-        navigatorKey.currentContext?.read<UserController>().setUser(user!);
-      }
-      if (model.data?['user']['is_profile_completed'] == 1) {
-        if ((model.data['isDeleted'] ?? 0) == 0) {
-          await _localStorageRepository.deleteAll();
-          await _localStorageRepository.saveUserCredentials(model.data?['user']);
-        }
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      return false;
-    }
-  }
-
-  @override
   Future<void> deleteAccount() async {
     try {
       _appNetwork.loadingProgressIndicator();
@@ -388,5 +312,15 @@ class AuthServiceImpl implements AuthService {
     } catch (e) {
       log(e.toString());
     }
+  }
+
+  TimeOfDay _get24hour(String val) {
+    var hour = int.parse(val.split(':').first);
+    final minute = int.parse(val.split(':').last.split(' ').first);
+
+    if (val.split(':').last.split(' ').last == 'AM' && hour == 12) hour = 0;
+    if (val.split(':').last.split(' ').last == 'PM' && hour != 12) hour + 12;
+
+    return TimeOfDay(hour: hour, minute: minute);
   }
 }

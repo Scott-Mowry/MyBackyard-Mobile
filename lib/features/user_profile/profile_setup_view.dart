@@ -7,7 +7,7 @@ import 'package:backyard/boot.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
-import 'package:backyard/core/services/auth_service.dart';
+import 'package:backyard/core/repositories/user_auth_repository.dart';
 import 'package:backyard/legacy/Arguments/screen_arguments.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
@@ -491,7 +491,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
     if ((_form.currentState?.validate() ?? false) && !(errorText)) {
       if (widget.editProfile) {
         getIt<AppNetwork>().loadingProgressIndicator();
-        await getIt<AuthService>().completeProfile(
+        await getIt<UserAuthRepository>().completeProfile(
           firstName: firstName.text,
           lastName: role == UserRoleEnum.Business ? lastName.text : null,
           categoryId: role == UserRoleEnum.Business ? userController.user?.categoryId : null,
@@ -516,7 +516,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
       } else {
         if (role == UserRoleEnum.User) {
           getIt<AppNetwork>().loadingProgressIndicator();
-          final value = await getIt<AuthService>().completeProfile(
+          final value = await getIt<UserAuthRepository>().completeProfile(
             firstName: firstName.text,
             lastName: lastName.text,
             isPushNotify: '1',
@@ -564,10 +564,8 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return WillPopScope(
-          onWillPop: () async {
-            return false;
-          },
+        return PopScope(
+          canPop: false,
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: AlertDialog(

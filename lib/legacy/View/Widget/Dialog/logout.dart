@@ -1,6 +1,6 @@
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
-import 'package:backyard/core/services/auth_service.dart';
+import 'package:backyard/core/repositories/user_auth_repository.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
@@ -65,7 +65,7 @@ class _LogoutAlertState extends State<LogoutAlert> {
                   MyButton(
                     onTap: () async {
                       getIt<AppNetwork>().loadingProgressIndicator();
-                      await getIt<AuthService>().signOut();
+                      await getIt<UserAuthRepository>().signOut();
                     },
                     title: 'Logout',
                   ),

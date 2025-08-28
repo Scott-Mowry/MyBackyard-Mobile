@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:auto_route/annotations.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
-import 'package:backyard/core/services/auth_service.dart';
+import 'package:backyard/core/repositories/user_auth_repository.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -69,7 +69,7 @@ class _EnterOTPViewState extends State<EnterOTPView> {
           AppNavigation.navigatorPop();
         } else {
           getIt<AppNetwork>().loadingProgressIndicator();
-          final value = await getIt<AuthService>().resendCode(id: userController.user?.id.toString());
+          final value = await getIt<UserAuthRepository>().resendCode(id: userController.user?.id.toString());
           AppNavigation.navigatorPop();
           if (value) {
             CustomToast().showToast(message: 'We have resend OTP verification code at your email address');
@@ -286,54 +286,10 @@ class _EnterOTPViewState extends State<EnterOTPView> {
     }
   }
 
-  Future<void> verifyPhoneCode({
-    String? phoneNo,
-    String? phoneCode,
-    required String verificationId,
-    required String verificationCode,
-  }) async {
-    try {
-      getIt<AppNetwork>().loadingProgressIndicator();
-      final AuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: verificationId,
-        smsCode: verificationCode,
-      );
-      final user = await FirebaseAuth.instance.signInWithCredential(credential);
-      if (user.user != null) {
-        FirebaseAuth.instance.signOut();
-        final value = await getIt<AuthService>().socialLogin(
-          phone: phoneNo ?? '',
-          socialToken: user.user?.uid,
-          socialType: 'phone',
-        );
-        AppNavigation.navigatorPop();
-        if (value) {
-          AppNavigation.navigateTo(AppRouteName.HOME_VIEW_ROUTE);
-        } else {
-          if (userController.user?.isProfileCompleted != null) {
-            if ((userController.user?.isProfileCompleted ?? 0) == 0) {
-              AppNavigation.navigateTo(AppRouteName.COMPLETE_PROFILE_VIEW_ROUTE);
-            }
-          }
-        }
-      }
-    } catch (error) {
-      AppNavigation.navigatorPop();
-      CustomToast().showToast(message: 'Invalid OTP verification code');
-      otp.clear();
-    }
-  }
-
   Future<void> _onCompleteNavigation() async {
     FocusManager.instance.primaryFocus?.unfocus();
-    // if (widget.verification != null) {
-    //   await verifyPhoneCode(
-    //       phoneNo: widget.phoneNumber,
-    //       verificationId: widget.verification ?? "",
-    //       verificationCode: otp.text);
-    // } else {
     getIt<AppNetwork>().loadingProgressIndicator();
-    final value = await getIt<AuthService>().verifyAccount(otpCode: otp.text, id: userController.user?.id ?? 0);
+    final value = await getIt<UserAuthRepository>().verifyAccount(otpCode: otp.text, id: userController.user?.id ?? 0);
     if (!(widget.fromForgot ?? false)) {
       await GeneralAPIS.getPlaces();
     }
@@ -342,10 +298,8 @@ class _EnterOTPViewState extends State<EnterOTPView> {
       CustomToast().showToast(message: 'Account validation completed. OTP verified');
       navigation();
     } else {
-      // CustomToast().showToast(message: 'Invalid OTP verification code');
       otp.clear();
     }
-    // }
   }
 
   Future<void> navigation() async {
