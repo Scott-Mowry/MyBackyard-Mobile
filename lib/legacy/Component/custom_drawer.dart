@@ -157,7 +157,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           top: 5.h,
           right: Utils.isTablet ? 1.w : 4.w,
           child: InkWell(
-            onTap: context.maybePop,
+            onTap: () => Navigator.pop(context),
             child: Container(
               height: 10.h,
               width: 18.w,

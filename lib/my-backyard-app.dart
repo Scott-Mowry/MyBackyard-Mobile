@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:month_year_picker/month_year_picker.dart';
+import 'package:sizer/sizer.dart';
 
 class MyBackyardApp extends StatelessWidget {
   MyBackyardApp({super.key});
@@ -34,25 +35,29 @@ class MyBackyardApp extends StatelessWidget {
     );
 
     Utils.isTablet = isTablet(context);
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      theme: lightTheme,
-      darkTheme: lightTheme,
-      themeMode: ThemeMode.system,
-      localizationsDelegates: const [MonthYearPickerLocalizations.delegate],
-      title: 'My Backyard',
-      locale: const Locale('en', 'US'),
-      builder: EasyLoading.init(
-        builder: (context, child) {
-          final mediaQueryData = MediaQuery.of(context);
-          final scale = mediaQueryData.textScaler.clamp(
-            minScaleFactor: 1.0,
-            maxScaleFactor: defaultTargetPlatform == TargetPlatform.android ? 1.2 : 1.4,
-          );
-          return MediaQuery(data: mediaQueryData.copyWith(textScaler: scale), child: child!);
-        },
-      ),
-      routerConfig: appRouter.config(navigatorObservers: () => [getIt<CustomNavigatorObserver>()]),
+    return Sizer(
+      builder: (context, orientation, screenType) {
+        return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          theme: lightTheme,
+          darkTheme: lightTheme,
+          themeMode: ThemeMode.system,
+          localizationsDelegates: const [MonthYearPickerLocalizations.delegate],
+          title: 'My Backyard',
+          locale: const Locale('en', 'US'),
+          builder: EasyLoading.init(
+            builder: (context, child) {
+              final mediaQueryData = MediaQuery.of(context);
+              final scale = mediaQueryData.textScaler.clamp(
+                minScaleFactor: 1.0,
+                maxScaleFactor: defaultTargetPlatform == TargetPlatform.android ? 1.2 : 1.4,
+              );
+              return MediaQuery(data: mediaQueryData.copyWith(textScaler: scale), child: child!);
+            },
+          ),
+          routerConfig: appRouter.config(navigatorObservers: () => [getIt<CustomNavigatorObserver>()]),
+        );
+      },
     );
   }
 }

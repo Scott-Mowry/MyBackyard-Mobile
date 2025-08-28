@@ -15,7 +15,7 @@ void showSnackbar({
   scaffoldMessenger.showSnackBar(
     SnackBar(
       key: key,
-      behavior: SnackBarBehavior.fixed,
+      behavior: SnackBarBehavior.floating,
       padding: CustomSpacer.all.md,
       backgroundColor: CustomColors.grey,
       content: Row(
