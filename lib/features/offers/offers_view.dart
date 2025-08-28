@@ -22,13 +22,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class Offers extends StatefulWidget {
-  const Offers({super.key});
+class OffersView extends StatefulWidget {
+  final bool wantKeepAlive;
+
+  const OffersView({super.key, this.wantKeepAlive = false});
+
   @override
-  State<Offers> createState() => _OffersState();
+  State<OffersView> createState() => _OffersViewState();
 }
 
-class _OffersState extends State<Offers> {
+class _OffersViewState extends State<OffersView> with AutomaticKeepAliveClientMixin {
   TextEditingController s = TextEditingController();
   bool searchOn = false;
   List<String> trainerList = ['Assigned', 'In progress', 'Completed'],
@@ -36,6 +39,9 @@ class _OffersState extends State<Offers> {
   String i = '';
   final homeController = navigatorKey.currentContext?.read<HomeController>();
   final userController = navigatorKey.currentContext?.read<UserController>();
+
+  @override
+  bool get wantKeepAlive => widget.wantKeepAlive;
 
   @override
   void initState() {
@@ -57,6 +63,7 @@ class _OffersState extends State<Offers> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return PopScope(
       canPop: true,
       child: BaseView(

@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:backyard/boot.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/features/offers/offers_view.dart';
 import 'package:backyard/legacy/Arguments/profile_screen_arguments.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
 import 'package:backyard/legacy/Component/custom_height.dart';
@@ -15,7 +16,6 @@ import 'package:backyard/legacy/Service/navigation_service.dart';
 // import 'package:backyard/legacy/Model/session_model.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/View/User/offers.dart';
 import 'package:backyard/legacy/View/Widget/search_tile.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';

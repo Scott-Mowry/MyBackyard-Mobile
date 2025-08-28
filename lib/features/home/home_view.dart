@@ -2,6 +2,11 @@ import 'package:auto_route/annotations.dart';
 import 'package:backyard/boot.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
+import 'package:backyard/features/categories/categories_view.dart';
+import 'package:backyard/features/customers/customers_view.dart';
+import 'package:backyard/features/home/business_home_view.dart';
+import 'package:backyard/features/home/user_home_view.dart';
+import 'package:backyard/features/offers/offers_view.dart';
 import 'package:backyard/features/settings/settings_view.dart';
 import 'package:backyard/features/user_profile/user_profile_view.dart';
 import 'package:backyard/legacy/Arguments/content_argument.dart';
@@ -14,11 +19,6 @@ import 'package:backyard/legacy/Service/socket_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
-import 'package:backyard/legacy/View/Business/business_home.dart';
-import 'package:backyard/legacy/View/Business/customers.dart';
-import 'package:backyard/legacy/View/User/category.dart';
-import 'package:backyard/legacy/View/User/offers.dart';
-import 'package:backyard/legacy/View/User/user_home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +36,7 @@ class _HomeViewState extends State<HomeView> {
   int inActiveColor = 0XFFD2D2D2;
   int activeColor = 0XFF57BA00;
 
-  late final business =
+  late final isBusiness =
       (navigatorKey.currentContext?.read<UserController>().isSwitch ?? false)
           ? false
           : navigatorKey.currentContext?.read<UserController>().user?.role == UserRoleEnum.Business;
@@ -45,6 +45,34 @@ class _HomeViewState extends State<HomeView> {
     navigatorKey.currentContext?.read<HomeController>().setIndex(val);
     setState(() {});
   }
+
+  final userPages = <Widget>[
+    const UserHomeView(wantKeepAlive: true),
+    const CategoriesView(wantKeepAlive: true),
+    const OffersView(wantKeepAlive: true),
+    const UserProfileView(wantKeepAlive: true),
+  ];
+
+  final businessPages = <Widget>[
+    const BusinessHomeView(wantKeepAlive: true),
+    const Customers(wantKeepAlive: true),
+    const SettingsView(wantKeepAlive: true),
+    const UserProfileView(isUser: true, isMe: true, wantKeepAlive: true),
+  ];
+
+  List<Map<String, String>> userTabs = [
+    {'title': 'Home', 'icon': ImagePath.homeAltered},
+    {'title': 'Offers', 'icon': ImagePath.offerAltered},
+    {'title': 'Saved', 'icon': ImagePath.savedOffersIcon},
+    {'title': 'Profile', 'icon': ImagePath.profile},
+  ];
+
+  List<Map<String, String>> businessTab = [
+    {'title': 'Home', 'icon': ImagePath.home5},
+    {'title': 'Customers', 'icon': ImagePath.customers2},
+    {'title': 'Settings', 'icon': ImagePath.setting2},
+    {'title': 'Profile', 'icon': ImagePath.profile},
+  ];
 
   @override
   void initState() {
@@ -73,7 +101,7 @@ class _HomeViewState extends State<HomeView> {
             drawer: CustomDrawer(),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
             floatingActionButton:
-                (!business)
+                (!isBusiness)
                     ? null
                     : GestureDetector(
                       onTap: () {
@@ -114,8 +142,8 @@ class _HomeViewState extends State<HomeView> {
                   for (int i = 0; i < userTabs.length; i++)
                     Padding(
                       padding: EdgeInsets.only(
-                        right: business ? ((i == ((businessTab.length / 2) - 1)) ? 10.w : 0) : 0,
-                        left: business ? ((i == (businessTab.length / 2)) ? 10.w : 0) : 0,
+                        right: isBusiness ? ((i == ((businessTab.length / 2) - 1)) ? 10.w : 0) : 0,
+                        left: isBusiness ? ((i == (businessTab.length / 2)) ? 10.w : 0) : 0,
                       ),
                       child: GestureDetector(
                         onTap: () => setIndex(i),
@@ -123,7 +151,7 @@ class _HomeViewState extends State<HomeView> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Image.asset(
-                              business ? (businessTab[i]['icon'] ?? '') : (userTabs[i]['icon'] ?? ''),
+                              isBusiness ? (businessTab[i]['icon'] ?? '') : (userTabs[i]['icon'] ?? ''),
                               scale: 1,
                               fit: BoxFit.fitHeight,
                               color: Color(val.currentIndex == i ? activeColor : inActiveColor),
@@ -131,7 +159,7 @@ class _HomeViewState extends State<HomeView> {
                             ),
                             const SizedBox(height: 6),
                             Text(
-                              business ? (businessTab[i]['title'] ?? '') : (userTabs[i]['title'] ?? ''),
+                              isBusiness ? (businessTab[i]['title'] ?? '') : (userTabs[i]['title'] ?? ''),
                               style: TextStyle(
                                 color: Color(val.currentIndex == i ? activeColor : inActiveColor),
                                 fontWeight: val.currentIndex == i ? FontWeight.w600 : FontWeight.w500,
@@ -148,34 +176,11 @@ class _HomeViewState extends State<HomeView> {
                 ],
               ),
             ),
-            body: (business) ? businessPages[val.currentIndex] : userPages[val.currentIndex],
+            body: IndexedStack(index: val.currentIndex, children: isBusiness ? businessPages : userPages),
             extendBody: false,
           );
         },
       ),
     );
   }
-
-  List<Widget> userPages = <Widget>[UserHome(), const Category(), const Offers(), UserProfileView()];
-
-  List<Widget> businessPages = <Widget>[
-    const BusinessHome(),
-    const Customers(),
-    const SettingsView(),
-    UserProfileView(isUser: true, isMe: true),
-  ];
-
-  List<Map<String, String>> userTabs = [
-    {'title': 'Home', 'icon': ImagePath.homeAltered},
-    {'title': 'Offers', 'icon': ImagePath.offerAltered},
-    {'title': 'Saved', 'icon': ImagePath.savedOffersIcon},
-    {'title': 'Profile', 'icon': ImagePath.profile},
-  ];
-
-  List<Map<String, String>> businessTab = [
-    {'title': 'Home', 'icon': ImagePath.home5},
-    {'title': 'Customers', 'icon': ImagePath.customers2},
-    {'title': 'Settings', 'icon': ImagePath.setting2},
-    {'title': 'Profile', 'icon': ImagePath.profile},
-  ];
 }

@@ -1,6 +1,8 @@
 import 'dart:ui';
 
+import 'package:auto_route/annotations.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/features/offers/offers_view.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -9,7 +11,6 @@ import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
-import 'package:backyard/legacy/View/User/offers.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/reject_dialog.dart';
 import 'package:backyard/legacy/View/Widget/search_tile.dart';
 import 'package:backyard/legacy/View/base_view.dart';
@@ -17,17 +18,23 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class BusinessHome extends StatefulWidget {
-  const BusinessHome({super.key});
+@RoutePage()
+class BusinessHomeView extends StatefulWidget {
+  final bool wantKeepAlive;
+
+  const BusinessHomeView({super.key, this.wantKeepAlive = false});
 
   @override
-  State<BusinessHome> createState() => _BusinessHomeState();
+  State<BusinessHomeView> createState() => _BusinessHomeViewState();
 }
 
-class _BusinessHomeState extends State<BusinessHome> {
+class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepAliveClientMixin {
   TextEditingController s = TextEditingController();
   late final homeController = context.read<HomeController>();
   String search = '';
+
+  @override
+  bool get wantKeepAlive => widget.wantKeepAlive;
 
   @override
   void initState() {
@@ -50,11 +57,9 @@ class _BusinessHomeState extends State<BusinessHome> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        return Future(() => true);
-        // return Utils().onWillPop(context, currentBackPressTime: currentBackPressTime);
-      },
+    super.build(context);
+    return PopScope(
+      canPop: true,
       child: BaseView(
         bgImage: '',
         bottomSafeArea: false,

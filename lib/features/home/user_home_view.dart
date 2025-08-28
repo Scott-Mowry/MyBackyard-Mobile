@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:auto_route/annotations.dart';
 import 'package:backyard/boot.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
@@ -31,14 +32,17 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class UserHome extends StatefulWidget {
-  const UserHome({super.key});
+@RoutePage()
+class UserHomeView extends StatefulWidget {
+  final bool wantKeepAlive;
+
+  const UserHomeView({super.key, this.wantKeepAlive = false});
 
   @override
-  State<UserHome> createState() => _UserHomeState();
+  State<UserHomeView> createState() => _UserHomeViewState();
 }
 
-class _UserHomeState extends State<UserHome> {
+class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClientMixin {
   TextEditingController date = TextEditingController(),
       time = TextEditingController(),
       location = TextEditingController(),
@@ -56,8 +60,10 @@ class _UserHomeState extends State<UserHome> {
   Position? pos;
 
   @override
+  bool get wantKeepAlive => widget.wantKeepAlive;
+
+  @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       setLoading(true);
@@ -70,16 +76,14 @@ class _UserHomeState extends State<UserHome> {
     try {
       final controller = navigatorKey.currentContext?.read<UserController>();
       if (Platform.isAndroid) {
-        Permission.location.request();
+        await Permission.location.request();
       } else {
-        Permission.locationAlways.request();
+        await Permission.locationAlways.request();
       }
+
       pos = await Geolocator.getLastKnownPosition();
       if (controller?.user?.role == UserRoleEnum.Business) {
         await BusAPIS.getBuses(pos?.latitude, pos?.longitude);
-        // controller?.moveMap(CameraUpdate.newCameraPosition(CameraPosition(
-        //     target: LatLng(pos?.latitude ?? 0, pos?.longitude ?? 0),
-        //     zoom: 13.4746)));
         controller?.addCircles(
           Circle(
             circleId: const CircleId('myLocation'),
@@ -126,6 +130,7 @@ class _UserHomeState extends State<UserHome> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Consumer<HomeController>(
       builder: (context, value, child) {
         return value.loading
@@ -147,7 +152,7 @@ class _UserHomeState extends State<UserHome> {
                           circles: val.circles,
                           myLocationEnabled: true,
                           onMapCreated: (controller) async {
-                            controller.setMapStyle(
+                            await controller.setMapStyle(
                               '[{"elementType":"geometry","stylers":[{"color":"#f5f5f5"}]},{"elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"elementType":"labels.text.fill","stylers":[{"color":"#616161"}]},{"elementType":"labels.text.stroke","stylers":[{"color":"#f5f5f5"}]},{"featureType":"administrative.land_parcel","elementType":"labels.text.fill","stylers":[{"color":"#bdbdbd"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#eeeeee"}]},{"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#757575"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#e5e5e5"}]},{"featureType":"poi.park","elementType":"labels.text.fill","stylers":[{"color":"#9e9e9e"}]},{"featureType":"road","elementType":"geometry","stylers":[{"color":"#ffffff"}]},{"featureType":"road.arterial","elementType":"labels.text.fill","stylers":[{"color":"#757575"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#dadada"}]},{"featureType":"road.highway","elementType":"labels.text.fill","stylers":[{"color":"#616161"}]},{"featureType":"road.local","elementType":"labels.text.fill","stylers":[{"color":"#9e9e9e"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"color":"#e5e5e5"}]},{"featureType":"transit.station","elementType":"geometry","stylers":[{"color":"#eeeeee"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#c9c9c9"}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"color":"#9e9e9e"}]}]',
                             );
                             val.setController(controller);
@@ -160,51 +165,10 @@ class _UserHomeState extends State<UserHome> {
                           },
                           markers: context.watch<UserController>().markers,
                         ),
-                        // Positioned(
-                        //     left: 10,
-                        //     bottom: 100,
-                        //     child: Image.asset(ImagePath.appLogo,
-                        //         width: 45,
-                        //         height: 45,
-                        //         opacity: const AlwaysStoppedAnimation(.4))),
-                        // Positioned(
-                        //   right: 10,
-                        //   bottom: 100,
-                        //   child: Consumer<UserController>(
-                        //       builder: (context, val, _) {
-                        //     return GestureDetector(
-                        //       onTap: () async =>
-                        //           await Geolocator.getLastKnownPosition()
-                        //               .then((value) => val.animateMap(
-                        //                   CameraUpdate.newCameraPosition(
-                        //                       CameraPosition(
-                        //                           target: LatLng(
-                        //                               value?.latitude ?? 0,
-                        //                               value?.longitude ??
-                        //                                   0),
-                        //                           zoom: 13.4746))))
-                        //               .onError((error, stackTrace) =>
-                        //       child: Container(
-                        //         padding: const EdgeInsets.all(10),
-                        //         decoration: BoxDecoration(
-                        //             color: MyColors().whiteColor,
-                        //             borderRadius:
-                        //                 BorderRadius.circular(10)),
-                        //         child: Icon(Icons.my_location_outlined,
-                        //             color: MyColors().primaryColor),
-                        //       ),
-                        //     );
-                        //   }),
-                        // )
                       ],
                     );
                   },
                 ),
-                // GestureDetector(
-                //   onTap: () {
-                //     FocusManager.instance.primaryFocus?.unfocus();
-                //   },
-                //   child:
                 Container(
                   decoration: BoxDecoration(
                     color: Utils.isTablet ? null : CustomColors.whiteColor,
@@ -332,190 +296,19 @@ class _UserHomeState extends State<UserHome> {
                           },
                         ),
                       ],
-                      //         SearchTile(
-                      //           showFilter: true,
-                      //           search: location,
-                      //           readOnly: true,
-                      //           onTap: () async {
-                      //             await getAddress(context);
-                      //           },
-                      //           onTapFilter: () {
-                      //             filter = !filter;
-                      //             setState(() {});
-                      //           },
-                      //           onChange: (v) async {
-                      //             // await getAddress(context);
-                      //           },
-                      //         ),
-                      //         SizedBox(
-                      //           height: 2.h,
-                      //         ),
-                      //         if (filter) ...[
-                      //           filterSheet(value.categories ?? []),
-                      //           SizedBox(
-                      //             height: 2.h,
-                      //           ),
-                      //         ],
                     ],
                   ),
-                  //     // CustomAppBar(screenTitle:"Location",leading: CustomBackButton(),titleColor: MyColors().black,),
-                  //   ),
                 ),
               ],
             );
       },
     );
-    // });
   }
-
-  // void createSession(context) {
-  //   showModalBottomSheet(
-  //       isScrollControlled: true,
-  //       context: context,
-  //       // backgroundColor: MyColors().whiteColor,
-  //       builder: (BuildContext bc) {
-  //         return StatefulBuilder(builder:
-  //             (BuildContext context, StateSetter s /*You can rename this!*/) {
-  //           return Container(
-  //             padding: EdgeInsets.all(4.w),
-  //             decoration: BoxDecoration(
-  //                 color: MyColors().whiteColor,
-  //                 borderRadius: BorderRadius.vertical(
-  //                     top: Radius.circular(AppSize.BOTTOMSHEETRADIUS))),
-  //             child: Column(
-  //               mainAxisSize: MainAxisSize.min,
-  //               children: [
-  //                 BottomSheetIndicator(),
-  //                 SizedBox(
-  //                   height: 2.h,
-  //                 ),
-  //                 MyText(
-  //                   title: 'Book Session',
-  //                   fontWeight: FontWeight.w600,
-  //                   size: 20,
-  //                 ),
-  //                 SizedBox(
-  //                   height: 2.h,
-  //                 ),
-  //                 MyTextField(
-  //                   prefixWidget: Image.asset(ImagePath.location2,
-  //                       scale: 2, color: MyColors().secondaryColor),
-  //                   controller: location,
-  //                   hintText: 'Location',
-  //                   backgroundColor: MyColors().secondaryColor.withValues(alpha: .3),
-  //                   borderColor: MyColors().secondaryColor,
-  //                   hintTextColor: MyColors().grey,
-  //                   textColor: MyColors().black,
-  //                   readOnly: true,
-  //                   onTap: () async {
-  //                     await getAddress(context);
-  //                   },
-  //                 ),
-  //                 SizedBox(
-  //                   height: 2.h,
-  //                 ),
-  //                 Row(
-  //                   children: [
-  //                     Flexible(
-  //                       child: MyTextField(
-  //                         controller: date,
-  //                         prefixWidget: Image.asset(
-  //                           ImagePath.calendar,
-  //                           scale: 2,
-  //                           color: MyColors().secondaryColor,
-  //                         ),
-  //                         hintText: 'Pick Date',
-  //                         backgroundColor:
-  //                             MyColors().secondaryColor.withValues(alpha: .3),
-  //                         borderColor: MyColors().secondaryColor,
-  //                         hintTextColor: MyColors().grey,
-  //                         textColor: MyColors().black,
-  //                         readOnly: true,
-  //                         onTap: () async {
-  //                           FocusManager.instance.primaryFocus?.unfocus();
-  //                           date.text = await Utils().selectDate(context,
-  //                               initialDate: date.text != ''
-  //                                   ? Utils().convertToDateTime(d: date.text)
-  //                                   : null,
-  //                               firstDate: DateTime.now(),
-  //                               lastDate:
-  //                                   DateTime.now().add(Duration(days: 365)));
-  //                         },
-  //                       ),
-  //                     ),
-  //                     SizedBox(
-  //                       width: 3.w,
-  //                     ),
-  //                     Flexible(
-  //                       child: MyTextField(
-  //                         controller: time,
-  //                         prefixWidget: Image.asset(
-  //                           ImagePath.clock,
-  //                           scale: 2,
-  //                         ),
-  //                         textColor: MyColors().black,
-  //                         hintText: 'Pick Time',
-  //                         backgroundColor:
-  //                             MyColors().secondaryColor.withValues(alpha: .3),
-  //                         borderColor: MyColors().secondaryColor,
-  //                         hintTextColor: MyColors().grey,
-  //                         readOnly: true,
-  //                         onTap: () async {
-  //                           FocusManager.instance.primaryFocus?.unfocus();
-  //                           await Utils().selectTime(context, onTap: (v) {
-  //                             time.text = v.format(context);
-  //                             t = v;
-  //                           });
-  //                         },
-  //                       ),
-  //                     ),
-  //                   ],
-  //                 ),
-  //                 SizedBox(
-  //                   height: 2.h,
-  //                 ),
-  //                 MyTextField(
-  //                   controller: duration,
-  //                   prefixWidget: Image.asset(
-  //                     ImagePath.clock,
-  //                     scale: 2,
-  //                   ),
-  //                   hintText: 'Duration (min)',
-  //                   textColor: MyColors().black,
-  //                   backgroundColor: MyColors().secondaryColor.withValues(alpha: .3),
-  //                   borderColor: MyColors().secondaryColor,
-  //                   hintTextColor: MyColors().grey,
-  //                   maxLength: 3,
-  //                   inputType: TextInputType.number,
-  //                   onlyNumber: true,
-  //                 ),
-  //                 SizedBox(
-  //                   height: 2.h,
-  //                 ),
-  //                 MyButton(
-  //                   title: 'Continue',
-  //                   onTap: () {
-  //                     onSubmit(context);
-  //                   },
-  //                 ),
-  //                 SizedBox(
-  //                   height: 2.h,
-  //                 ),
-  //                 SizedBox(
-  //                   height: MediaQuery.viewInsetsOf(context).bottom,
-  //                 )
-  //               ],
-  //             ),
-  //           );
-  //         });
-  //       });
-  // }
 
   void confirmSession(context) {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      // backgroundColor: MyColors().whiteColor,
       builder: (bc) {
         return StatefulBuilder(
           builder: (context, s /*You can rename this!*/) {
@@ -547,134 +340,28 @@ class _UserHomeState extends State<UserHome> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       MyText(title: 'Current Location', size: 16, fontWeight: FontWeight.w600),
-                                      // MyText(
-                                      //   title: d.currentSession.value.location
-                                      //           ?.address ??
-                                      //       '',
-                                      //   clr: MyColors().grey,
-                                      // ),
                                     ],
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          // MyText(
-                          //   title: '${d.currentSession.value.distance ?? 0} km',
-                          //   fontWeight: FontWeight.w600,
-                          // ),
                         ],
                       ),
                       SizedBox(height: 2.h),
-                      // d.currentSession.value.trainer == null
-                      //     ? Column(
-                      //         crossAxisAlignment: CrossAxisAlignment.center,
-                      //         mainAxisAlignment: MainAxisAlignment.center,
-                      //         children: [
-                      //           Loader(),
-                      //           SizedBox(
-                      //             height: 1.h,
-                      //           ),
-                      //           MyText(title: 'Looking for Trainer'),
-                      //         ],
-                      //       )
-                      //     : Container(
-                      //         decoration: BoxDecoration(
-                      //             color:
-                      //                 MyColors().secondaryColor.withValues(alpha: .3),
-                      //             borderRadius: BorderRadius.circular(100),
-                      //             border: Border.all(
-                      //               color: MyColors().secondaryColor,
-                      //             )),
-                      //         padding: EdgeInsets.all(2.w),
-                      //         child: Row(
-                      //           crossAxisAlignment: CrossAxisAlignment.center,
-                      //           children: [
-                      //             CustomImage(
-                      //               url:
-                      //                   d.currentSession.value.trainer?.userImage,
-                      //               isProfile: true,
-                      //               photoView: false,
-                      //               height: 6.h,
-                      //               width: 6.h,
-                      //               radius: 200,
-                      //               fit: BoxFit.cover,
-                      //             ),
-                      //             SizedBox(
-                      //               width: 3.w,
-                      //             ),
-                      //             Expanded(
-                      //               child: Column(
-                      //                 crossAxisAlignment:
-                      //                     CrossAxisAlignment.start,
-                      //                 children: [
-                      //                   MyText(
-                      //                     title: d.currentSession.value.trainer
-                      //                             ?.fullName ??
-                      //                         '',
-                      //                     size: 13,
-                      //                     fontWeight: FontWeight.w600,
-                      //                   ),
-                      //                   Row(
-                      //                     children: [
-                      //                       Image.asset(
-                      //                         ImagePath.star,
-                      //                         scale: 2,
-                      //                       ),
-                      //                       MyText(
-                      //                         title:
-                      //                             ' ${d.currentSession.value.trainer?.totalReviews}',
-                      //                         size: 13,
-                      //                         fontWeight: FontWeight.w600,
-                      //                       ),
-                      //                       MyText(
-                      //                           title:
-                      //                               ' (${d.currentSession.value.trainer?.avgRating})',
-                      //                           size: 13,
-                      //                           fontStyle: FontStyle.italic),
-                      //                     ],
-                      //                   ),
-                      //                 ],
-                      //               ),
-                      //             ),
-                      //             SizedBox(
-                      //               width: 3.w,
-                      //             ),
-                      //             MyText(
-                      //               title: 'Trainer',
-                      //               size: 12,
-                      //               fontWeight: FontWeight.w600,
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ),
                       SizedBox(height: 2.h),
                       Row(
                         children: [
                           Expanded(
                             child: Row(
-                              children: [
-                                MyText(title: 'Date:', fontWeight: FontWeight.w600),
-                                SizedBox(width: 2.w),
-                                // MyText(
-                                //   title: d.currentSession.value.pickDate,
-                                //   clr: MyColors().grey,
-                                // ),
-                              ],
+                              children: [MyText(title: 'Date:', fontWeight: FontWeight.w600), SizedBox(width: 2.w)],
                             ),
                           ),
                           Expanded(
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                MyText(title: 'Cost:', fontWeight: FontWeight.w600),
-                                SizedBox(width: 2.w),
-                                // MyText(
-                                //   title: '\$ ${d.currentSession.value.cost}',
-                                //   clr: MyColors().grey,
-                                // ),
-                              ],
+                              children: [MyText(title: 'Cost:', fontWeight: FontWeight.w600), SizedBox(width: 2.w)],
                             ),
                           ),
                         ],
@@ -684,49 +371,19 @@ class _UserHomeState extends State<UserHome> {
                         children: [
                           Expanded(
                             child: Row(
-                              children: [
-                                MyText(title: 'Time:', fontWeight: FontWeight.w600),
-                                SizedBox(width: 2.w),
-                                // MyText(
-                                //   title: d.currentSession.value.pickTime,
-                                //   clr: MyColors().grey,
-                                // ),
-                              ],
+                              children: [MyText(title: 'Time:', fontWeight: FontWeight.w600), SizedBox(width: 2.w)],
                             ),
                           ),
                           Expanded(
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                MyText(title: 'Duration:', fontWeight: FontWeight.w600),
-                                SizedBox(width: 2.w),
-                                // MyText(
-                                //   title: '${d.currentSession.value.duration}',
-                                //   clr: MyColors().grey,
-                                // ),
-                              ],
+                              children: [MyText(title: 'Duration:', fontWeight: FontWeight.w600), SizedBox(width: 2.w)],
                             ),
                           ),
                         ],
                       ),
                       SizedBox(height: 2.h),
-                      // MyButton(
-                      //   title:
-                      //       HomeController.i.currentSession.value.trainer == null
-                      //           ? 'Cancel'
-                      //           : 'Continue',
-                      //   onTap: () {
-                      //     AppNavigation.navigatorPop(context);
-                      //     if (HomeController.i.currentSession.value.trainer ==
-                      //         null) {
-                      //       HomeController.i.cancelSession(
-                      //           id: HomeController.i.currentSession.value.id);
-                      //     } else {
-                      //       paymentDialog();
-                      //     }
-                      //   },
-                      // ),
                       SizedBox(height: 3.h),
                     ],
                   ),
@@ -739,52 +396,8 @@ class _UserHomeState extends State<UserHome> {
     );
   }
 
-  // paymentDialog() {
-  //   return showDialog(
-  //       context: context,
-  //       barrierDismissible: false,
-  //       builder: (BuildContext context) {
-  //         return BackdropFilter(
-  //           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-  //           child: AlertDialog(
-  //             backgroundColor: Colors.transparent,
-  //             contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-  //             content: PaymentDialog(
-  //               onYes: () {
-  //                 AppNavigation.navigateTo(
-  //                     context, AppRouteName.PAYMENT_METHOD_VIEW_ROUTE);
-  //               },
-  //             ),
-  //           ),
-  //         );
-  //       });
-  // }
-
-  void onSubmit(context) {
-    // var h = HomeController.i;
-    // h.address = location.text;
-    // h.date = date.text;
-    // h.time = time.text;
-    // h.duration = duration.text;
-    // h.bookingValidation(context, onSuccess: () {
-    //   AppNavigation.navigatorPop();
-    //   confirmSession(context);
-    // });
-  }
-
   Future<void> getAddress(context) async {
-    // Prediction? p = await PlacesAutocomplete.show(offset: 0, logo: const Text(""), types: [], strictbounds: false, context: context, apiKey: Utils.googleApiKey, mode: Mode.overlay, language: "us",);
-    // if(p!=null){
-    //   location.text = p.description??'';
-    // }
     final t = await Utils().showPlacePicker(context);
-    // Map<String,dynamic> temp=  await Utils.findStreetAreaMethod(context:context,prediction: t.formattedAddress.toString());
-
-    // HomeController.i.currentLocation =
-    //     LatLng(t.latLng?.latitude ?? 0, t.latLng?.longitude ?? 0);
-    // mapController?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-    //     target: HomeController.i.currentLocation, zoom: 14.4746)));
-    // MapsController.i.getMarkers(l: HomeController.i.currentLocation);
     location.text = t.formattedAddress ?? '';
   }
 
@@ -807,32 +420,17 @@ class _UserHomeState extends State<UserHome> {
         SizedBox(height: 2.h),
         customTitle(title: 'Locations'),
         SizedBox(height: 1.h),
-        CustomTextFormField(
-          hintText: 'Locations',
-          // controller: name,
-          // maxLength: 2,
-          // inputType: TextInputType.number,
-          showLabel: false,
-          // onlyNumber: true,
-          backgroundColor: CustomColors.container,
-          // borderColor: MyColors().secondaryColor,
-          // hintTextColor: MyColors().grey,
-          // textColor: MyColors().black,
-        ),
+        CustomTextFormField(hintText: 'Locations', showLabel: false, backgroundColor: CustomColors.container),
         SizedBox(height: 2.h),
         customTitle(title: 'Discount Percentages'),
         SizedBox(height: 1.h),
         CustomTextFormField(
           hintText: 'Discount Percentages',
-          // controller: name,
           maxLength: 2,
           inputType: TextInputType.number,
           showLabel: false,
           onlyNumber: true,
           backgroundColor: CustomColors.container,
-          // borderColor: MyColors().secondaryColor,
-          // hintTextColor: MyColors().grey,
-          // textColor: MyColors().black,
         ),
         SizedBox(height: 2.h),
         customTitle(title: 'Search By Rating'),
@@ -857,7 +455,6 @@ class _UserHomeState extends State<UserHome> {
                     SizedBox(width: 2.w),
                     RatingBar(
                       initialRating: 4,
-                      // initialRating:d.endUser.value.avgRating,
                       direction: Axis.horizontal,
                       allowHalfRating: false,
                       itemCount: 5,

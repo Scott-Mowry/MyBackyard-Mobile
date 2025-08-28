@@ -27,17 +27,22 @@ import 'package:sizer/sizer.dart';
 
 @RoutePage()
 class SettingsView extends StatefulWidget {
-  const SettingsView({super.key});
+  final bool wantKeepAlive;
+
+  const SettingsView({super.key, this.wantKeepAlive = false});
 
   @override
   State<SettingsView> createState() => _SettingsViewState();
 }
 
-class _SettingsViewState extends State<SettingsView> {
+class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClientMixin {
   bool val = false;
+
+  @override
+  bool get wantKeepAlive => widget.wantKeepAlive;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getData();
   }
@@ -49,6 +54,7 @@ class _SettingsViewState extends State<SettingsView> {
 
   @override
   Widget build(Build) {
+    super.build(context);
     return BaseView(
       bgImage: '',
       child: CustomPadding(

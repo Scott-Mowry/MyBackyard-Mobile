@@ -16,13 +16,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class Category extends StatefulWidget {
-  const Category({super.key});
+class CategoriesView extends StatefulWidget {
+  final bool wantKeepAlive;
+
+  const CategoriesView({super.key, this.wantKeepAlive = false});
+
   @override
-  State<Category> createState() => _CategoryState();
+  State<CategoriesView> createState() => _CategoriesViewState();
 }
 
-class _CategoryState extends State<Category> {
+class _CategoriesViewState extends State<CategoriesView> with AutomaticKeepAliveClientMixin {
   TextEditingController s = TextEditingController();
   bool searchOn = false;
   List<MenuModel> categories = [
@@ -41,6 +44,10 @@ class _CategoryState extends State<Category> {
     MenuModel(name: 'Health & Beauty', image: ImagePath.healthBeauty),
     MenuModel(name: 'Medical Services', image: ImagePath.medicalServices),
   ];
+
+  @override
+  bool get wantKeepAlive => widget.wantKeepAlive;
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -61,11 +68,9 @@ class _CategoryState extends State<Category> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        return Future(() => true);
-        // return Utils().onWillPop(context, currentBackPressTime: currentBackPressTime);
-      },
+    super.build(context);
+    return PopScope(
+      canPop: true,
       child: BaseView(
         bgImage: '',
         topSafeArea: false,

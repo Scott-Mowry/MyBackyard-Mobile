@@ -23,16 +23,21 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class Customers extends StatefulWidget {
-  const Customers({super.key});
+  final bool wantKeepAlive;
+
+  const Customers({super.key, this.wantKeepAlive = false});
 
   @override
   State<Customers> createState() => _CustomersState();
 }
 
-class _CustomersState extends State<Customers> {
+class _CustomersState extends State<Customers> with AutomaticKeepAliveClientMixin {
   TextEditingController s = TextEditingController();
   final homeController = navigatorKey.currentContext?.read<HomeController>();
   bool searchOn = false;
+
+  @override
+  bool get wantKeepAlive => widget.wantKeepAlive;
 
   @override
   void initState() {
@@ -52,6 +57,7 @@ class _CustomersState extends State<Customers> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return PopScope(
       canPop: true,
       child: BaseView(
