@@ -85,7 +85,7 @@ class AuthServiceImpl implements AuthService {
       navigatorKey.currentContext?.read<UserController>().setUser(User.setUser2(respModel.data?['user']));
       if (respModel.data?['user']['is_profile_completed'] == 1 && respModel.data?['user']['is_verified'] == 1) {
         await _localStorageRepository.deleteAll();
-        await _localStorageRepository.setUser(respModel.data?['user']);
+        await _localStorageRepository.saveUserCredentials(respModel.data?['user']);
       }
 
       return true;
@@ -160,7 +160,7 @@ class AuthServiceImpl implements AuthService {
       navigatorKey.currentContext?.read<UserController>().setUser(User.setUser2(model.data?['user']));
       if (model.data?['user']['is_profile_completed'] == 1) {
         await _localStorageRepository.deleteAll();
-        await _localStorageRepository.setUser(model.data?['user']);
+        await _localStorageRepository.saveUserCredentials(model.data?['user']);
       }
       return true;
     } catch (e) {
@@ -236,7 +236,7 @@ class AuthServiceImpl implements AuthService {
       navigatorKey.currentContext?.read<UserController>().setUser(User.setUser(model.data?['user']), isNotToken: true);
 
       await _localStorageRepository.deleteAll();
-      await _localStorageRepository.setUser(model.data?['user']);
+      await _localStorageRepository.saveUserCredentials(model.data?['user']);
       return true;
     } catch (e) {
       return false;
@@ -356,7 +356,7 @@ class AuthServiceImpl implements AuthService {
       if (model.data?['user']['is_profile_completed'] == 1) {
         if ((model.data['isDeleted'] ?? 0) == 0) {
           await _localStorageRepository.deleteAll();
-          await _localStorageRepository.setUser(model.data?['user']);
+          await _localStorageRepository.saveUserCredentials(model.data?['user']);
         }
         return true;
       } else {

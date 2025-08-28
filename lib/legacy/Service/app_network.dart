@@ -57,8 +57,8 @@ class AppNetworkImpl implements AppNetwork {
 
       request.headers.addAll({'Accept': 'application/json'});
 
-      final bearerToken = await _localStorageRepository.getBearerToken();
-      print('BEARER ${bearerToken}');
+      final userCredentials = await _localStorageRepository.getUserCredentials();
+      final bearerToken = userCredentials?['bearer_token'];
       if (bearerToken != null && bearerToken.isNotEmpty) {
         request.headers.addAll({'Authorization': 'Bearer $bearerToken'});
       }

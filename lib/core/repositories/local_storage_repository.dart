@@ -2,12 +2,8 @@ import 'dart:convert';
 
 import 'package:backyard/core/exception/app_exception_codes.dart';
 import 'package:backyard/core/exception/app_internal_error.dart';
-import 'package:backyard/core/model/jwt_user_info.dart';
-import 'package:backyard/core/model/token_credentials.dart';
-import 'package:backyard/flavors.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,7 +23,6 @@ class LocalStorageRepository extends _LocalStorageRepository with _$LocalStorage
 abstract class _LocalStorageRepository with Store {
   static const _appFirstUsed = 'appFirstUsed';
 
-  static const String _appBuildFlavorKey = 'app-build-flavor';
   static const String _tokenCredentialsKey = 'token-credentials';
 
   final _secureStorage = const FlutterSecureStorage(
@@ -35,13 +30,9 @@ abstract class _LocalStorageRepository with Store {
   );
 
   @observable
-  TokenCredentials? tokenCreds;
-
-  @observable
-  JwtUserInfo? jwtUserInfo;
-
-  @observable
   bool isFirstAppUse = false;
+
+  Map<String, dynamic>? userCredentials = <String, dynamic>{};
 
   @action
   Future<void> init() async {
@@ -56,16 +47,12 @@ abstract class _LocalStorageRepository with Store {
       }
 
       if (await _secureStorage.containsKey(key: _tokenCredentialsKey)) {
-        final tokenCreds = await getTokenCredentials();
-        saveTokenCredentialsInMemory(tokenCreds!);
+        final tokenCreds = await getUserCredentials();
+        saveUserCredentialsInMemory(tokenCreds!);
       }
     } catch (error, stack) {
       throw AppInternalError(code: kLocalStorageInitErrorKey, error: error, stack: stack);
     }
-  }
-
-  Future<void> setUser(Map<String, dynamic>? user) async {
-    return _secureStorage.write(key: 'user', value: json.encode(user));
   }
 
   Future<Map<String, dynamic>?> getUser() async {
@@ -74,64 +61,25 @@ abstract class _LocalStorageRepository with Store {
     return json.decode(userJsonRaw);
   }
 
-  Future<String?> getBearerToken() async {
-    final userJsonRaw = await _secureStorage.read(key: 'user');
-    if (userJsonRaw == null) return null;
-
-    final user = json.decode(userJsonRaw);
-    if (user is! Map<String, dynamic>) return null;
-
-    return user['bearer_token'];
-  }
+  @action
+  void saveUserCredentialsInMemory(Map<String, dynamic> userData) => this.userCredentials = userData;
 
   @action
-  void saveTokenCredentialsInMemory(TokenCredentials tokenCreds) {
-    final decodedToken = JwtDecoder.decode(tokenCreds.accessToken);
-    decodedToken.addAll({
-      'expiration_date': JwtDecoder.getExpirationDate(tokenCreds.accessToken).toIso8601String(),
-      'token_time': JwtDecoder.getTokenTime(tokenCreds.accessToken).inMicroseconds,
-    });
-
-    jwtUserInfo = JwtUserInfo.fromJson(decodedToken);
-    this.tokenCreds = tokenCreds;
+  Future<void> saveUserCredentials(Map<String, dynamic> userData) {
+    saveUserCredentialsInMemory(userData);
+    return _secureStorage.write(key: 'user', value: json.encode(userData));
   }
 
-  @action
-  Future<void> saveTokenCredentials(TokenCredentials tokenCreds) {
-    saveTokenCredentialsInMemory(tokenCreds);
-    return _secureStorage.write(key: _tokenCredentialsKey, value: json.encode(tokenCreds.toJson()));
-  }
+  Future<Map<String, dynamic>?> getUserCredentials() async {
+    final inDiskCredentials = await _secureStorage.read(key: 'user');
+    if (inDiskCredentials != null) return json.decode(inDiskCredentials);
 
-  Future<bool> hasTokensSavedOnDisk() async {
-    final tokenCredsRaw = await _secureStorage.read(key: _tokenCredentialsKey);
-    return tokenCredsRaw != null;
-  }
-
-  Future<TokenCredentials?> getTokenCredentials() async {
-    final inDiskCredentials = await _secureStorage.read(key: _tokenCredentialsKey);
-    if (inDiskCredentials != null) return TokenCredentials.fromJson(json.decode(inDiskCredentials));
-
-    return tokenCreds;
-  }
-
-  Future<void> saveAppBuildFlavorOnDisk(AppBuildFlavorEnum appBuildFlavor) async {
-    try {
-      await _secureStorage.write(key: _appBuildFlavorKey, value: appBuildFlavor.name);
-    } catch (error, stack) {
-      throw AppInternalError(code: kSaveAppFlavorOnDiskErrorKey, error: error, stack: stack);
-    }
-  }
-
-  Future<AppBuildFlavorEnum> getAppBuildFlavor() async {
-    final flavorName = await _secureStorage.read(key: _appBuildFlavorKey);
-    return AppBuildFlavorEnum.values.firstWhere((el) => el.name == flavorName);
+    return userCredentials;
   }
 
   @action
   Future<void> deleteAll() async {
-    tokenCreds = null;
-    jwtUserInfo = null;
-
+    userCredentials = null;
     await _secureStorage.deleteAll();
   }
 }
