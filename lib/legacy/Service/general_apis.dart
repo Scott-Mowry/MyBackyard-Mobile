@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:backyard/boot.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
@@ -9,7 +8,6 @@ import 'package:backyard/legacy/Model/places_model.dart';
 import 'package:backyard/legacy/Model/response_model.dart';
 import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:provider/provider.dart';
 
 class GeneralAPIS {
   static Future<String?> getContent(String type) async {
@@ -33,13 +31,13 @@ class GeneralAPIS {
 
   static Future<void> getCategories() async {
     try {
-      final controller = navigatorKey.currentContext?.read<HomeController>();
+      final controller = getIt<HomeController>();
       final res = await getIt<AppNetwork>().networkRequest(RequestTypeEnum.GET.name, API.CATEGORIES_ENDPOINT);
       if (res != null) {
         final model = responseModelFromJson(res.body);
         // CustomToast().showToast(message: model.message ?? "");
         if (model.status == 1) {
-          controller?.setCategories(List<CategoryModel>.from((model.data ?? {}).map((x) => CategoryModel.fromJson(x))));
+          controller.setCategories(List<CategoryModel>.from((model.data ?? {}).map((x) => CategoryModel.fromJson(x))));
         }
       }
     } catch (e) {
@@ -49,13 +47,13 @@ class GeneralAPIS {
 
   static Future<void> getPlaces() async {
     try {
-      final controller = navigatorKey.currentContext?.read<HomeController>();
+      final controller = getIt<HomeController>();
       final res = await getIt<AppNetwork>().networkRequest(RequestTypeEnum.GET.name, API.PLACES_ENDPOINT);
       if (res != null) {
         final model = responseModelFromJson(res.body);
         // CustomToast().showToast(message: model.message ?? "");
         if (model.status == 1) {
-          controller?.setPlaces(List<PlacesModel>.from((model.data ?? {}).map((x) => PlacesModel.fromJson(x))));
+          controller.setPlaces(List<PlacesModel>.from((model.data ?? {}).map((x) => PlacesModel.fromJson(x))));
         }
       }
     } catch (e) {

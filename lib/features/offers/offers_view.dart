@@ -1,6 +1,6 @@
-import 'package:backyard/boot.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
-import 'package:backyard/features/discount_offers/discount_offers_view.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
@@ -12,8 +12,6 @@ import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/base_view.dart';
@@ -37,8 +35,9 @@ class _OffersViewState extends State<OffersView> with AutomaticKeepAliveClientMi
   List<String> trainerList = ['Assigned', 'In progress', 'Completed'],
       traineeList = ['Pending', 'Assigned', 'In progress', 'Completed'];
   String i = '';
-  final homeController = navigatorKey.currentContext?.read<HomeController>();
-  final userController = navigatorKey.currentContext?.read<UserController>();
+
+  late final homeController = context.read<HomeController>();
+  late final userController = context.read<UserController>();
 
   @override
   bool get wantKeepAlive => widget.wantKeepAlive;
@@ -54,11 +53,11 @@ class _OffersViewState extends State<OffersView> with AutomaticKeepAliveClientMi
   }
 
   void setLoading(bool val) {
-    homeController?.setLoading(val);
+    homeController.setLoading(val);
   }
 
   Future<void> getOffers() async {
-    await BusAPIS.getSavedOrOwnedOffers(isSwitch: userController?.isSwitch);
+    await BusAPIS.getSavedOrOwnedOffers(isSwitch: userController.isSwitch);
   }
 
   @override
@@ -153,380 +152,6 @@ class _OffersViewState extends State<OffersView> with AutomaticKeepAliveClientMi
     );
   }
 
-  // sessionCard({required SessionModel s}) {
-  //   return GestureDetector(
-  //     onTap: () {
-  //       HomeController.i.onTapCurrentSession(s: s);
-  //       HomeController.i.getSessionData(id: s.id);
-  //       if (i == traineeList[1] && s.isPaid == 0 && !trainer) {
-  //         paymentDialog();
-  //       } else if (i == traineeList[0] && !trainer) {
-  //         CustomToast().showToast(
-  //             'Waiting', 'Waiting for trainer to accept session', true);
-  //       } else {
-  //         AppNavigation.navigateTo( AppRouteName.START_SESSION_VIEW_ROUTE);
-  //       }
-  //     },
-  //     child: CustomCard(
-  //         padding: EdgeInsets.all(3.w),
-  //         margin: EdgeInsets.only(
-  //               bottom: 2.h,
-  //             ) +
-  //             EdgeInsets.symmetric(horizontal: 2.w),
-  //         child: Column(
-  //           children: [
-  //             Row(
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //               children: [
-  //                 Expanded(
-  //                   child: Row(
-  //                     crossAxisAlignment: CrossAxisAlignment.start,
-  //                     children: [
-  //                       Image.asset(
-  //                         ImagePath.location2,
-  //                         scale: 2,
-  //                       ),
-  //                       SizedBox(
-  //                         width: 2.w,
-  //                       ),
-  //                       Expanded(
-  //                         child: Column(
-  //                           crossAxisAlignment: CrossAxisAlignment.start,
-  //                           children: [
-  //                             MyText(
-  //                               title: 'Current Location',
-  //                               size: 16,
-  //                               fontWeight: FontWeight.w600,
-  //                             ),
-  //                             MyText(
-  //                               title: s.location?.address ?? '',
-  //                               clr: MyColors().grey,
-  //                             ),
-  //                           ],
-  //                         ),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //                 MyText(
-  //                   title: '${s.distance} km',
-  //                   fontWeight: FontWeight.w600,
-  //                 ),
-  //               ],
-  //             ),
-  //             SizedBox(
-  //               height: 2.h,
-  //             ),
-  //             Row(
-  //               children: [
-  //                 Expanded(
-  //                   child: Column(
-  //                     children: [
-  //                       Row(
-  //                         children: [
-  //                           MyText(
-  //                             title: 'Date:',
-  //                             fontWeight: FontWeight.w600,
-  //                           ),
-  //                           SizedBox(
-  //                             width: 2.w,
-  //                           ),
-  //                           MyText(
-  //                             title: s.pickDate,
-  //                             clr: MyColors().grey,
-  //                           ),
-  //                         ],
-  //                       ),
-  //                       SizedBox(
-  //                         height: 1.h,
-  //                       ),
-  //                       Row(
-  //                         children: [
-  //                           MyText(
-  //                             title: 'Cost:',
-  //                             fontWeight: FontWeight.w600,
-  //                           ),
-  //                           SizedBox(
-  //                             width: 2.w,
-  //                           ),
-  //                           MyText(
-  //                             title: '\$ ${s.cost}',
-  //                             clr: MyColors().grey,
-  //                           ),
-  //                         ],
-  //                       ),
-  //                       SizedBox(
-  //                         height: 1.h,
-  //                       ),
-  //                       Row(
-  //                         children: [
-  //                           MyText(
-  //                             title: 'Time:',
-  //                             fontWeight: FontWeight.w600,
-  //                           ),
-  //                           SizedBox(
-  //                             width: 2.w,
-  //                           ),
-  //                           MyText(
-  //                             title: s.pickTime,
-  //                             clr: MyColors().grey,
-  //                           ),
-  //                         ],
-  //                       ),
-  //                       SizedBox(
-  //                         height: 1.h,
-  //                       ),
-  //                       Row(
-  //                         children: [
-  //                           MyText(
-  //                             title: 'Duration:',
-  //                             fontWeight: FontWeight.w600,
-  //                           ),
-  //                           SizedBox(
-  //                             width: 2.w,
-  //                           ),
-  //                           MyText(
-  //                             title: '${s.duration}',
-  //                             clr: MyColors().grey,
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //                 Image.asset(
-  //                   ImagePath.scan2,
-  //                   scale: 2,
-  //                 )
-  //               ],
-  //             ),
-  //           ],
-  //         )),
-  //   );
-  // }
-
-  // sessionCard2({required SessionModel s}) {
-  //   return GestureDetector(
-  //     onTap: () {
-  //       HomeController.i.onTapCurrentSession(s: s);
-  //       AppNavigation.navigateTo( AppRouteName.SESSION_DETAIL_VIEW_ROUTE);
-  //     },
-  //     child: CustomCard(
-  //         padding: EdgeInsets.all(3.w),
-  //         margin: EdgeInsets.only(bottom: 1.h, top: 1.h) +
-  //             EdgeInsets.symmetric(horizontal: 2.w),
-  //         child: Column(
-  //           children: [
-  //             Row(
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //               children: [
-  //                 Expanded(
-  //                   child: Row(
-  //                     crossAxisAlignment: CrossAxisAlignment.start,
-  //                     children: [
-  //                       Image.asset(
-  //                         ImagePath.location2,
-  //                         scale: 2,
-  //                       ),
-  //                       SizedBox(
-  //                         width: 2.w,
-  //                       ),
-  //                       Expanded(
-  //                         child: Column(
-  //                           crossAxisAlignment: CrossAxisAlignment.start,
-  //                           children: [
-  //                             MyText(
-  //                               title: 'Current Location',
-  //                               size: 16,
-  //                               fontWeight: FontWeight.w600,
-  //                             ),
-  //                             MyText(
-  //                               title:  "",//s.location?.address ?? '',
-  //                               clr: MyColors().grey,
-  //                             ),
-  //                           ],
-  //                         ),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //                 MyText(
-  //                   title: '${s.distance} km',
-  //                   fontWeight: FontWeight.w600,
-  //                 ),
-  //               ],
-  //             ),
-  //             SizedBox(
-  //               height: 2.h,
-  //             ),
-  //             // userContainer(u: trainer ? s.trainee : s.trainer),
-  //             SizedBox(
-  //               height: 2.h,
-  //             ),
-  //             Row(
-  //               children: [
-  //                 Expanded(
-  //                   child: Row(
-  //                     children: [
-  //                       MyText(
-  //                         title: 'Date:',
-  //                         fontWeight: FontWeight.w600,
-  //                       ),
-  //                       SizedBox(
-  //                         width: 2.w,
-  //                       ),
-  //                       MyText(
-  //                         title: s.pickDate,
-  //                         clr: MyColors().grey,
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //                 Expanded(
-  //                   child: Row(
-  //                     crossAxisAlignment: CrossAxisAlignment.end,
-  //                     mainAxisAlignment: MainAxisAlignment.end,
-  //                     children: [
-  //                       MyText(
-  //                         title: 'Cost:',
-  //                         fontWeight: FontWeight.w600,
-  //                       ),
-  //                       SizedBox(
-  //                         width: 2.w,
-  //                       ),
-  //                       MyText(
-  //                         title: '\$ ${s.cost}',
-  //                         clr: MyColors().grey,
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //             SizedBox(
-  //               height: 1.h,
-  //             ),
-  //             Row(
-  //               children: [
-  //                 Expanded(
-  //                   child: Row(
-  //                     children: [
-  //                       MyText(
-  //                         title: 'Time:',
-  //                         fontWeight: FontWeight.w600,
-  //                       ),
-  //                       SizedBox(
-  //                         width: 2.w,
-  //                       ),
-  //                       MyText(
-  //                         title: s.pickTime,
-  //                         clr: MyColors().grey,
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //                 Expanded(
-  //                   child: Row(
-  //                     crossAxisAlignment: CrossAxisAlignment.end,
-  //                     mainAxisAlignment: MainAxisAlignment.end,
-  //                     children: [
-  //                       MyText(
-  //                         title: 'Duration:',
-  //                         fontWeight: FontWeight.w600,
-  //                       ),
-  //                       SizedBox(
-  //                         width: 2.w,
-  //                       ),
-  //                       MyText(
-  //                         title: '${s.duration}',
-  //                         clr: MyColors().grey,
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ],
-  //         )),
-  //   );
-  // }
-
-  // userContainer({required User? u}) {
-  //   return Container(
-  //     decoration: BoxDecoration(
-  //         color: MyColors().secondaryColor.withValues(alpha: .3),
-  //         borderRadius: BorderRadius.circular(100),
-  //         border: Border.all(
-  //           color: MyColors().secondaryColor,
-  //         )),
-  //     padding: EdgeInsets.all(2.w),
-  //     margin: EdgeInsets.only(bottom: 2.h),
-  //     child: Row(
-  //       crossAxisAlignment: CrossAxisAlignment.center,
-  //       children: [
-  //         CustomImage(
-  //           url: u?.userImage,
-  //           isProfile: true,
-  //           photoView: false,
-  //           height: 6.h,
-  //           width: 6.h,
-  //           radius: 200,
-  //           fit: BoxFit.fill,
-  //         ),
-  //         // Image.asset(ImagePath.random1,scale: 2,),
-  //         SizedBox(
-  //           width: 3.w,
-  //         ),
-  //         Expanded(
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               MyText(
-  //                 title: u?.fullName ?? '',
-  //                 size: 13,
-  //                 fontWeight: FontWeight.w600,
-  //               ),
-  //               if (!trainer)
-  //                 Row(
-  //                   children: [
-  //                     Image.asset(
-  //                       ImagePath.star,
-  //                       scale: 2,
-  //                     ),
-  //                     MyText(
-  //                       title: ' ${u?.avgRating}',
-  //                       size: 13,
-  //                       fontWeight: FontWeight.w600,
-  //                     ),
-  //                     // MyText(title: ' (${u?.totalReviews})',size: 13,fontStyle: FontStyle.italic),
-  //                   ],
-  //                 ),
-  //               if (!trainer)
-  //                 SizedBox(
-  //                   height: .5.h,
-  //                 ),
-  //               MyText(
-  //                 title: trainer ? 'Trainee' : 'Trainer',
-  //                 size: 12,
-  //                 fontWeight: FontWeight.w600,
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //         SizedBox(
-  //           width: 3.w,
-  //         ),
-  //         Image.asset(
-  //           ImagePath.scan2,
-  //           scale: 4,
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   Padding sessionButton({required String title}) {
     return Padding(
       padding: EdgeInsets.only(right: 2.w),
@@ -545,40 +170,6 @@ class _OffersViewState extends State<OffersView> with AutomaticKeepAliveClientMi
       ),
     );
   }
-
-  // Widget offerList({required RxList<SessionModel> s}) {
-  //   return Expanded(
-  //       child: s.isNotEmpty
-  //           ? CustomEmptyData(title: 'No Offers')
-  //           : ListView.builder(
-  //               // itemCount:s.length,
-  //               padding: EdgeInsets.symmetric(horizontal: 17.sp, vertical: 0.h),
-  //               physics: AlwaysScrollableScrollPhysics(
-  //                   parent: const ClampingScrollPhysics()),
-  //               shrinkWrap: true,
-  //               itemBuilder: (_, index) => OfferTile()));
-  // }
-
-  // paymentDialog() {
-  //   return showDialog(
-  //       context: context,
-  //       barrierDismissible: false,
-  //       builder: (BuildContext context) {
-  //         return BackdropFilter(
-  //           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-  //           child: AlertDialog(
-  //             backgroundColor: Colors.transparent,
-  //             contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-  //             content: PaymentDialog(
-  //               onYes: () {
-  //                 AppNavigation.navigateTo(
-  //                     context, AppRouteName.PAYMENT_METHOD_VIEW_ROUTE);
-  //               },
-  //             ),
-  //           ),
-  //         );
-  //       });
-  // }
 }
 
 class OfferTile extends StatelessWidget {
@@ -588,17 +179,13 @@ class OfferTile extends StatelessWidget {
   final bool availed;
 
   const OfferTile({super.key, this.index, this.fromSaved = false, this.model, this.availed = false});
+
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeController>(
       builder: (context, val, _) {
         return GestureDetector(
-          onTap: () {
-            AppNavigation.navigateTo(
-              AppRouteName.DISCOUNT_OFFER_VIEW_ROUTE,
-              arguments: DiscountOffersArgs(model: model, fromSaved: fromSaved),
-            );
-          },
+          onTap: () => context.pushRoute(DiscountOffersRoute(model: model, fromSaved: fromSaved)),
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),

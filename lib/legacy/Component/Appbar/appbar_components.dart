@@ -1,11 +1,10 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/helper/snackbar_helper.dart';
-import 'package:backyard/legacy/Arguments/screen_arguments.dart';
 import 'package:backyard/legacy/Component/custom_icon_container.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +13,7 @@ import 'package:sizer/sizer.dart';
 
 class MenuIcon extends StatelessWidget {
   const MenuIcon({super.key});
+
   @override
   Widget build(BuildContext context) {
     // return Padding(padding: EdgeInsets.only(top: 1.h, bottom: 1.h,left: 4.w,right: 0.h), child: Container(decoration: BoxDecoration( borderRadius: BorderRadius.circular(6),), child: IconContainer(image: ImagePath.menuIcon, onTap: (){AuthController.i.zoom.toggle?.call();},size: 6.w,padding: 1.8.w,)),);
@@ -42,13 +42,12 @@ class NotificationIcon extends StatelessWidget {
 
 class EditIcon extends StatelessWidget {
   const EditIcon({super.key});
+
   @override
   Widget build(BuildContext context) {
     return IconContainer(
       image: ImagePath.editProfile,
-      onTap: () {
-        AppNavigation.navigateTo(AppRouteName.COMPLETE_PROFILE_VIEW_ROUTE, arguments: ScreenArguments(fromEdit: true));
-      },
+      onTap: () => context.pushRoute(ProfileSetupRoute(editProfile: true)),
     );
   }
 }
@@ -61,7 +60,7 @@ class CustomBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: AppNavigation.navigatorPop,
+      onTap: context.maybePop,
       child: Icon(Icons.arrow_back, color: Colors.black),
       // Image.asset(ImagePath.back,scale: 2,)
     );

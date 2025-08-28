@@ -8,8 +8,7 @@
 // import 'package:backyard/legacy/Component/custom_text.dart';
 // import 'package:backyard/legacy/Component/custom_toast.dart';
 // import 'package:backyard/legacy/Controller/home_controller.dart';
-// import 'package:backyard/legacy/Service/navigation_service.dart';
-// import 'package:backyard/Utils/app_router_name.dart';
+// // import 'package:backyard/Utils/app_router_name.dart';
 // import 'package:backyard/Utils/image_path.dart';
 // import 'package:backyard/Utils/custom_colors.dart';
 // import 'package:backyard/legacy/View/Widget/upload_media.dart';
@@ -98,7 +97,7 @@
 //     h.temp=[];
 //     h.temp.add(FileNetwork(isNetwork: false, path: img.value.path));
 //     h.startStreamingValidation(context,onSuccess: (){
-//       AppNavigation.navigatorPop(context);
+//       context.maybePop(context);
 //       });
 //   }
 // }

@@ -1,9 +1,8 @@
-import 'package:backyard/boot.dart';
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:provider/provider.dart';
 
 class AppInAppPurchase {
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
@@ -27,10 +26,10 @@ class AppInAppPurchase {
 
   // Fetch products
   Future<void> fetchSubscriptions(List<String> ids) async {
-    navigatorKey.currentContext?.read<UserController>().setLoading(true);
-    navigatorKey.currentContext?.read<UserController>().setProductDetails([]);
+    getIt<UserController>().setLoading(true);
+    getIt<UserController>().setProductDetails([]);
     final response = await _inAppPurchase.queryProductDetails(ids.toSet());
-    navigatorKey.currentContext?.read<UserController>().setLoading(false);
+    getIt<UserController>().setLoading(false);
     if (response.error != null) {
       // Handle errors here
       CustomToast().showToast(message: 'Failed to fetch subscriptions: ${response.error!.message}');
@@ -48,7 +47,7 @@ class AppInAppPurchase {
           temp.remove(product);
         }
       }
-      navigatorKey.currentContext?.read<UserController>().setProductDetails(temp);
+      getIt<UserController>().setProductDetails(temp);
     }
     // Use response.productDetails according to your UI/logic needs
     // CustomToast().showToast(
@@ -59,7 +58,7 @@ class AppInAppPurchase {
   Future<void> buySubscription(ProductDetails productDetails) async {
     final purchaseParam = PurchaseParam(
       productDetails: productDetails,
-      applicationUserName: navigatorKey.currentContext?.read<UserController>().user?.id?.toString() ?? '',
+      applicationUserName: getIt<UserController>().user?.id?.toString() ?? '',
     );
     _inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
     final list = await purchaseStream.last;
@@ -112,6 +111,6 @@ class AppInAppPurchase {
         debugPrint('Purchase Error: ${purchaseDetails.error}');
       }
     }
-    navigatorKey.currentContext?.read<UserController>().setPurchaseLoading(false);
+    getIt<UserController>().setPurchaseLoading(false);
   }
 }

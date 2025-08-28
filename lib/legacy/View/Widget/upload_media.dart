@@ -1,8 +1,9 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -67,7 +68,7 @@ class ImageGalleryClass {
                     //         onMediaChanged: onMediaChanged, context: context)
                     //     :
                     getGalleryImage(onMediaChanged: onMediaChanged, context: context);
-                    //AppNavigation.navigatorPop();
+                    //context.maybePop();
                   },
                   child: Container(
                     color: Colors.transparent,
@@ -119,7 +120,7 @@ class ImageGalleryClass {
       if (result != null) {
         final file = result.files.first;
         onMediaChanged(file.path);
-        //AppNavigation.navigatorPop();
+        //context.maybePop();
       }
     } on PlatformException catch (e) {
       CustomToast().showToast(message: e.message ?? 'Something went wrong.');
@@ -143,9 +144,7 @@ class ImageGalleryClass {
         );
       } else {
         // Handle the case when the image capture was canceled or failed.
-        if (fromCreateFeed != null && !fromCreateFeed) {
-          AppNavigation.navigatorPop();
-        }
+        if (fromCreateFeed != null && !fromCreateFeed) unawaited(context?.maybePop());
       }
     } on PlatformException {
       // Handle any platform-specific exceptions.
@@ -167,8 +166,8 @@ class ImageGalleryClass {
           fromCreateFeed: fromCreateFeed,
         );
       } else {
-        fromCreateFeed! ? null : AppNavigation.navigatorPop();
-        // AppNavigation.navigatorPop();
+        fromCreateFeed! ? null : context?.maybePop();
+        // context.maybePop();
       }
     } on PlatformException {
       // CustomToast().showToast(
@@ -190,7 +189,7 @@ class ImageGalleryClass {
         }
       }
       onMediaChanged(multiImagesPath);
-      AppNavigation.navigatorPop();
+      context.maybePop();
     } on PlatformException {
       // CustomToast().showToast(
       //     message: e.message ?? AppStrings.SOMETHING_WENT_WRONG_ERROR);
@@ -262,7 +261,7 @@ class ImageGalleryClass {
     }
 
     if (context != null) {
-      AppNavigation.navigatorPop();
+      context.maybePop();
     }
   }
 }

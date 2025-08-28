@@ -1,5 +1,5 @@
-import 'package:auto_route/annotations.dart';
-import 'package:backyard/boot.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
@@ -15,8 +15,6 @@ import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
@@ -116,9 +114,7 @@ class _SignInViewState extends State<SignInView> {
                         children: [
                           const Spacer(),
                           GestureDetector(
-                            onTap: () {
-                              AppNavigation.navigateTo(AppRouteName.FORGET_PASSWORD_VIEW_ROUTE);
-                            },
+                            onTap: () => context.pushRoute(ForgotPasswordRoute()),
                             child: Text(
                               'Forgot Password?',
                               style: GoogleFonts.roboto(
@@ -153,25 +149,26 @@ class _SignInViewState extends State<SignInView> {
     getIt<AppNetwork>().loadingProgressIndicator();
 
     final signInSuccess = await getIt<UserAuthRepository>().signIn(email: email.text, password: password.text);
-    AppNavigation.navigatorPop();
+    context.maybePop();
 
     if (!signInSuccess) return;
-    final userController = navigatorKey.currentContext?.read<UserController>();
+    final userController = context.read<UserController>();
 
-    if (userController?.user?.isVerified == 0) {
+    if (userController.user?.isVerified == 0) {
       CustomToast().showToast(
         message: 'OTP Verification code has been sent to your email address',
         toastLength: Toast.LENGTH_LONG,
         timeInSecForIosWeb: 5,
       );
-      return AppNavigation.navigateTo(AppRouteName.ENTER_OTP_VIEW_ROUTE);
+
+      return context.pushRoute<void>(EnterOTPRoute());
     }
 
-    if (userController?.user?.isProfileCompleted == 0) {
+    if (userController.user?.isProfileCompleted == 0) {
       await GeneralAPIS.getPlaces();
-      return AppNavigation.navigateTo(AppRouteName.COMPLETE_PROFILE_VIEW_ROUTE);
+      return context.pushRoute<void>(ProfileSetupRoute(editProfile: false));
     }
 
-    return AppNavigation.navigateToRemovingAll(AppRouteName.HOME_VIEW_ROUTE);
+    return context.pushRoute<void>(HomeRoute());
   }
 }

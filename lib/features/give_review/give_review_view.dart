@@ -1,4 +1,4 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -8,7 +8,6 @@ import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
@@ -104,34 +103,15 @@ class _GiveReviewViewState extends State<GiveReviewView> {
                       rate: rate.toInt().toString(),
                       feedback: review.text,
                     );
-                    AppNavigation.navigatorPop();
+                    context.maybePop();
                     if (val) {
-                      AppNavigation.navigatorPop();
+                      context.maybePop();
                     }
                   }
-                  // if (review.text.isEmpty) {
-                  //   CustomToast()
-                  //       .showToast(message: 'Review field can\'t be empty');
-                  // } else {
-                  //   AppNavigation.navigatorPop();
-                  //   CustomToast()
-                  //       .showToast(message: 'Review posted successfully');
-                  //   // HomeController.i.rating=rate;
-                  //   // HomeController.i.review=review.text;
-                  //   // HomeController.i.giveReview(context, onSuccess: (){
-                  //   //   AppNavigation.navigatorPop(context);
-                  //   //   AppNavigation.navigatorPop(context);
-                  //   //   AppNavigation.navigateTo( AppRouteName.ALL_REVIEWS_VIEW_ROUTE);
-                  //   //   CustomToast().showToast('Success', 'Review posted successfully', false);
-                  //   // }, edit: false);
-                  // }
                 },
               ),
             ],
 
-            // SizedBox(
-            //   height: MediaQuery.viewInsetsOf(context).bottom,
-            // ),
             SizedBox(height: 2.h),
           ],
         ),

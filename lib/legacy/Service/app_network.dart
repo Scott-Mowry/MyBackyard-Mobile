@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:backyard/boot.dart';
+import 'package:backyard/core/app_router/app_router.dart';
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/repositories/connectivity_repository.dart';
@@ -9,11 +10,10 @@ import 'package:backyard/core/repositories/local_storage_repository.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/api.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
+import 'package:backyard/my-backyard-app.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';
-import 'package:provider/provider.dart';
 
 abstract class AppNetwork {
   FutureOr<Response?> networkRequest(
@@ -87,9 +87,9 @@ class AppNetworkImpl implements AppNetwork {
 
   void on401Error() {
     Timer(const Duration(seconds: 1), () {
-      navigatorKey.currentContext?.read<UserController>().clear();
-      Navigator.of(navigatorKey.currentContext!).popUntil((route) => route.isFirst);
-      Navigator.of(navigatorKey.currentContext!).pushReplacementNamed(AppRouteName.LANDING_VIEW_ROUTE);
+      getIt<UserController>().clear();
+      MyBackyardApp.appRouter.popUntil((route) => route.isFirst);
+      MyBackyardApp.appRouter.replace(LandingRoute());
     });
   }
 
@@ -107,7 +107,7 @@ class AppNetworkImpl implements AppNetwork {
           ),
         );
       },
-      context: navigatorKey.currentContext!,
+      context: MyBackyardApp.appRouter.navigatorKey.currentContext!,
     );
   }
 }

@@ -1,9 +1,7 @@
-import 'dart:developer';
-
+import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -14,11 +12,11 @@ class OfferAvailedDialog extends StatelessWidget {
   final String? title;
 
   const OfferAvailedDialog({super.key, required this.onYes, this.title});
+
   @override
-  Widget build(BuildContext c) {
+  Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
-      // height: responsive.setHeight(75),
       width: 100.w,
       child: SingleChildScrollView(
         child: Column(
@@ -38,7 +36,7 @@ class OfferAvailedDialog extends StatelessWidget {
                   MyText(title: 'Success', clr: CustomColors.whiteColor, fontWeight: FontWeight.w600, size: 18),
                   GestureDetector(
                     onTap: () {
-                      onYes(c);
+                      onYes(context);
                     },
                     child: Image.asset(ImagePath.close, scale: 2),
                   ),
@@ -62,16 +60,11 @@ class OfferAvailedDialog extends StatelessWidget {
                   textDetail(title: 'Date', description: DateFormat('dd MMMM yyyy').format(DateTime.now())),
                   SizedBox(height: 1.h),
                   textDetail(title: 'Time', description: DateFormat('hh : mm aa').format(DateTime.now())),
-                  // SizedBox(
-                  //   height: 1.h,
-                  // ),
-                  // textDetail(title: 'Coins rewards', description: '+50'),
                   SizedBox(height: 2.h),
                   MyButton(
                     onTap: () {
-                      AppNavigation.navigatorPop();
-                      log('Yaha arha h 3');
-                      onYes(c);
+                      context.maybePop();
+                      onYes(context);
                     },
                     title: 'Continue',
                   ),

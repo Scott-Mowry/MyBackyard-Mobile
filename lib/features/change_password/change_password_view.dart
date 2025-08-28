@@ -1,5 +1,4 @@
-import 'package:auto_route/annotations.dart';
-import 'package:backyard/boot.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
@@ -12,7 +11,6 @@ import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
 import 'package:flutter/material.dart';
@@ -148,12 +146,12 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
       getIt<AppNetwork>().loadingProgressIndicator();
       final user = context.read<UserController>().user;
       final val = await getIt<UserAuthRepository>().changePassword(id: user?.id ?? 0, password: password.text);
-      AppNavigation.navigatorPop();
+      context.maybePop();
       if (val) {
         if (widget.fromSettings ?? false) {
-          AppNavigation.navigatorPop();
+          context.maybePop();
         } else {
-          Navigator.popUntil(navigatorKey.currentContext!, (route) => route.isFirst);
+          Navigator.popUntil(context, (route) => route.isFirst);
         }
       }
     }

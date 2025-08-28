@@ -1,9 +1,10 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:backyard/boot.dart';
 import 'package:backyard/core/api_client/api_client.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/constants/app_constants.dart';
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/repositories/local_storage_repository.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
@@ -12,13 +13,11 @@ import 'package:backyard/legacy/Model/response_model.dart';
 import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
+import 'package:backyard/my-backyard-app.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 abstract class UserAuthService {
   Future<bool> signIn({required String email, required String password});
@@ -84,7 +83,7 @@ class UserAuthServiceImpl implements UserAuthService {
         return false;
       }
 
-      navigatorKey.currentContext?.read<UserController>().setUser(User.setUser2(respModel.data?['user']));
+      getIt<UserController>().setUser(User.setUser2(respModel.data?['user']));
       if (respModel.data?['user']['is_profile_completed'] == 1 && respModel.data?['user']['is_verified'] == 1) {
         await _localStorageRepository.deleteAll();
         await _localStorageRepository.saveUserCredentials(respModel.data?['user']);
@@ -106,7 +105,7 @@ class UserAuthServiceImpl implements UserAuthService {
         return false;
       }
 
-      navigatorKey.currentContext?.read<UserController>().setUser(User.setUser(model.data?['user']));
+      getIt<UserController>().setUser(User.setUser(model.data?['user']));
       return true;
     } catch (e) {
       return false;
@@ -130,7 +129,7 @@ class UserAuthServiceImpl implements UserAuthService {
         return false;
       }
 
-      navigatorKey.currentContext?.read<UserController>().setUser(User.setUser(model.data?['user']));
+      getIt<UserController>().setUser(User.setUser(model.data?['user']));
       return true;
     } catch (e) {
       return false;
@@ -159,7 +158,7 @@ class UserAuthServiceImpl implements UserAuthService {
         return false;
       }
 
-      navigatorKey.currentContext?.read<UserController>().setUser(User.setUser2(model.data?['user']));
+      getIt<UserController>().setUser(User.setUser2(model.data?['user']));
       if (model.data?['user']['is_profile_completed'] == 1) {
         await _localStorageRepository.deleteAll();
         await _localStorageRepository.saveUserCredentials(model.data?['user']);
@@ -235,7 +234,7 @@ class UserAuthServiceImpl implements UserAuthService {
       CustomToast().showToast(message: model.message ?? '');
       if (model.status != 1) return false;
 
-      navigatorKey.currentContext?.read<UserController>().setUser(User.setUser(model.data?['user']), isNotToken: true);
+      getIt<UserController>().setUser(User.setUser(model.data?['user']), isNotToken: true);
 
       await _localStorageRepository.deleteAll();
       await _localStorageRepository.saveUserCredentials(model.data?['user']);
@@ -273,7 +272,7 @@ class UserAuthServiceImpl implements UserAuthService {
     try {
       _appNetwork.loadingProgressIndicator();
       final res = await _appNetwork.networkRequest(RequestTypeEnum.POST.name, API.SIGN_OUT_ENDPOINT);
-      AppNavigation.navigatorPop();
+      await MyBackyardApp.appRouter.maybePop();
 
       if (res == null) return;
 
@@ -283,8 +282,9 @@ class UserAuthServiceImpl implements UserAuthService {
         return;
       }
 
-      await navigatorKey.currentContext?.read<UserController>().clear();
-      await AppNavigation.navigateToRemovingAll(AppRouteName.LANDING_VIEW_ROUTE);
+      await getIt<UserController>().clear();
+      await MyBackyardApp.appRouter.push(LandingRoute());
+
       CustomToast().showToast(message: 'Logout Successfully');
     } catch (e) {
       log(e.toString());
@@ -296,7 +296,7 @@ class UserAuthServiceImpl implements UserAuthService {
     try {
       _appNetwork.loadingProgressIndicator();
       final res = await _appNetwork.networkRequest(RequestTypeEnum.POST.name, API.DELETE_ACCOUNT_ENDPOINT);
-      AppNavigation.navigatorPop();
+      await MyBackyardApp.appRouter.maybePop();
 
       if (res == null) return;
 
@@ -306,8 +306,9 @@ class UserAuthServiceImpl implements UserAuthService {
         return;
       }
 
-      await navigatorKey.currentContext?.read<UserController>().clear();
-      await AppNavigation.navigateToRemovingAll(AppRouteName.LANDING_VIEW_ROUTE);
+      await getIt<UserController>().clear();
+      await MyBackyardApp.appRouter.push(LandingRoute());
+
       CustomToast().showToast(message: 'Account Deleted Successfully');
     } catch (e) {
       log(e.toString());

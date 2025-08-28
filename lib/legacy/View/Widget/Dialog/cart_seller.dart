@@ -1,7 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -16,7 +16,7 @@ class CartSeller extends StatefulWidget {
 
 class _CartSellerState extends State<CartSeller> {
   @override
-  Widget build(BuildContext c) {
+  Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
       // height: responsive.setHeight(75),
@@ -42,7 +42,7 @@ class _CartSellerState extends State<CartSeller> {
                     fontWeight: FontWeight.w600,
                   ),
                   GestureDetector(
-                    onTap: AppNavigation.navigatorPop,
+                    onTap: context.maybePop,
                     child: const Icon(Icons.close_outlined, color: Colors.white),
                   ),
                 ],
@@ -71,7 +71,7 @@ class _CartSellerState extends State<CartSeller> {
                       Flexible(
                         child: MyButton(
                           onTap: () {
-                            AppNavigation.navigatorPop();
+                            context.maybePop();
                           },
                           title: 'Close',
                           bgColor: CustomColors.purpleColor,
@@ -81,7 +81,7 @@ class _CartSellerState extends State<CartSeller> {
                       Flexible(
                         child: MyButton(
                           onTap: () {
-                            AppNavigation.navigatorPop();
+                            context.maybePop();
                             widget.onYes();
                           },
                           title: 'Remove items',

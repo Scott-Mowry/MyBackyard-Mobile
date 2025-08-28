@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
@@ -16,8 +17,6 @@ import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/profile_complete_dialog.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
@@ -210,13 +209,9 @@ class _BusinessCategoryViewState extends State<BusinessCategoryView> {
         days: user?.days,
         image: File(user?.profileImage ?? ''),
       );
-      AppNavigation.navigatorPop();
+      context.maybePop();
       if (result) {
-        completeDialog(
-          onTap: () {
-            AppNavigation.navigateToRemovingAll(AppRouteName.HOME_VIEW_ROUTE);
-          },
-        );
+        completeDialog(onTap: () => context.pushRoute(HomeRoute()));
       }
       // AppNavigation.navigateTo(AppRouteName.SUBSCRIPTION_VIEW_ROUTE,
       //     arguments: ScreenArguments(fromCompleteProfile: true));

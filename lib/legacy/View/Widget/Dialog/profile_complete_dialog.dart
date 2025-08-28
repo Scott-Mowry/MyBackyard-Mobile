@@ -1,9 +1,9 @@
 import 'dart:developer';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -19,7 +19,7 @@ class ProfileCompleteDialog extends StatefulWidget {
 
 class _ProfileCompleteDialogState extends State<ProfileCompleteDialog> {
   @override
-  Widget build(BuildContext c) {
+  Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
       // height: responsive.setHeight(75),
@@ -42,8 +42,8 @@ class _ProfileCompleteDialogState extends State<ProfileCompleteDialog> {
                   MyText(title: 'Successfully', clr: CustomColors.whiteColor, fontWeight: FontWeight.w600, size: 18),
                   GestureDetector(
                     onTap: () {
-                      AppNavigation.navigatorPop();
-                      widget.onYes(c);
+                      context.maybePop();
+                      widget.onYes(context);
                     },
                     child: Image.asset(ImagePath.close, scale: 2),
                   ),
@@ -64,9 +64,9 @@ class _ProfileCompleteDialogState extends State<ProfileCompleteDialog> {
                   SizedBox(height: 2.h),
                   MyButton(
                     onTap: () {
-                      AppNavigation.navigatorPop();
+                      context.maybePop();
                       log('Yaha arha h 3');
-                      widget.onYes(c);
+                      widget.onYes(context);
                     },
                     title: 'Continue',
                   ),

@@ -1,14 +1,13 @@
 import 'dart:async';
 
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/repositories/local_storage_repository.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/user_model.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Service/socket_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -44,11 +43,11 @@ class _LandingViewState extends State<LandingView> {
         context.read<UserController>().setUser(savedUsed);
 
         SocketService.instance?.userResponse();
-        await Navigator.of(context).pushReplacementNamed(AppRouteName.HOME_VIEW_ROUTE);
+        await context.replaceRoute(HomeRoute());
         return;
       }
 
-      return AppNavigation.navigateReplacementNamed(AppRouteName.LOGIN_VIEW_ROUTE);
+      return context.replaceRoute<void>(SignInRoute());
     });
   }
 

@@ -4,10 +4,10 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
-import 'package:backyard/boot.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Utils/app_strings.dart';
+import 'package:backyard/my-backyard-app.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:encrypt/encrypt.dart' as en;
 import 'package:flutter/material.dart';
@@ -78,7 +78,7 @@ class Utils {
   static String timeFormat(String val) {
     final hour = int.parse(val.split(':')[0]);
     final min = int.parse(val.split(':')[1]);
-    return TimeOfDay(hour: hour, minute: min).format(navigatorKey.currentContext!);
+    return TimeOfDay(hour: hour, minute: min).format(MyBackyardApp.appRouter.navigatorKey.currentContext!);
   }
 
   static const String mDY = 'MM-dd-yyyy';

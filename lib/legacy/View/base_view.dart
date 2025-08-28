@@ -1,6 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -82,7 +82,7 @@ class BaseView extends StatelessWidget {
                         : InkWell(
                           onTap: () {
                             FocusManager.instance.primaryFocus?.unfocus();
-                            onTapBackButton == null ? AppNavigation.navigatorPop() : onTapBackButton!();
+                            onTapBackButton == null ? context.maybePop() : onTapBackButton!();
                           },
                           splashFactory: NoSplash.splashFactory,
                           hoverColor: Colors.transparent,

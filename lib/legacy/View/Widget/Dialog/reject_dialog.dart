@@ -1,11 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_radio_tile.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -48,7 +47,7 @@ class _RejectDialogState extends State<RejectDialog> {
                   const Icon(Icons.close_outlined, color: Colors.transparent),
                   MyText(title: widget.title ?? 'Reject', clr: CustomColors.whiteColor, fontWeight: FontWeight.w600),
                   GestureDetector(
-                    onTap: AppNavigation.navigatorPop,
+                    onTap: context.maybePop,
                     child: const Icon(Icons.close_outlined, color: Colors.white),
                   ),
                 ],
@@ -137,7 +136,7 @@ class _RejectDialogState extends State<RejectDialog> {
                       } else if (other.text.isEmpty && i == 2) {
                         CustomToast().showToast(message: 'Reason field can\'t be empty');
                       } else {
-                        AppNavigation.navigatorPop();
+                        context.maybePop();
                         // HomeController.i.jumpTo(i: 1);
                         widget.onYes(reason.isNotEmpty ? reason : other.text);
                       }
@@ -153,10 +152,5 @@ class _RejectDialogState extends State<RejectDialog> {
         ),
       ),
     );
-  }
-
-  Future<bool> onWillPop(context) async {
-    AppNavigation.navigateTo(AppRouteName.HOME_VIEW_ROUTE);
-    return false;
   }
 }

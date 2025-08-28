@@ -1,9 +1,8 @@
 import 'dart:developer';
 
-import 'package:backyard/boot.dart';
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/user_model.dart';
-import 'package:provider/provider.dart';
 
 class SocketNavigationClass {
   static SocketNavigationClass? _instance;
@@ -23,7 +22,7 @@ class SocketNavigationClass {
       final responseDataJson = responseData as Map<String, dynamic>;
       if (responseDataJson['object_type'] == 'get_user') {
         try {
-          navigatorKey.currentContext?.read<UserController>().setSubId(User.setUser(responseDataJson['data'][0]));
+          getIt<UserController>().setSubId(User.setUser(responseDataJson['data'][0]));
         } catch (e) {
           log(e.toString());
         }
@@ -38,12 +37,12 @@ class SocketNavigationClass {
     if (responseData != null) {
       final responseDataJson = responseData as Map<String, dynamic>;
       if (responseDataJson['object_type'] == 'get_buses') {
-        navigatorKey.currentContext?.read<UserController>().clearMarkers();
+        getIt<UserController>().clearMarkers();
         var users = <User>[];
         users = List<User>.from((responseDataJson['data'] ?? {}).map((x) => User.setUser(x)));
-        navigatorKey.currentContext?.read<UserController>().setBusList(users);
+        getIt<UserController>().setBusList(users);
         for (var user in users) {
-          navigatorKey.currentContext?.read<UserController>().addMarker(user);
+          getIt<UserController>().addMarker(user);
         }
       }
     }

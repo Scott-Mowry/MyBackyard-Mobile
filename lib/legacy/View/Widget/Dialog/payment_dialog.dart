@@ -1,8 +1,7 @@
 // import 'package:get/get.dart';
 // import 'package:backyard/legacy/Component/custom_image.dart';
 // import 'package:backyard/legacy/Controller/home_controller.dart';
-// import 'package:backyard/legacy/Service/navigation_service.dart';
-// import 'package:backyard/Utils/app_router_name.dart';
+// // import 'package:backyard/Utils/app_router_name.dart';
 // import 'package:backyard/Utils/image_path.dart';
 // import 'package:backyard/Utils/custom_colors.dart';
 // import 'package:flutter/material.dart';
@@ -42,7 +41,7 @@
 //                       ),
 //                       MyText(title: 'Payment',clr: MyColors().whiteColor,fontWeight: FontWeight.w600,),
 //                       GestureDetector(
-//                         onTap: (){AppNavigation.navigatorPop(context);},
+//                         onTap: (){context.maybePop(context);},
 //                         child: const Icon(
 //                           Icons.close_outlined,color: Colors.white,
 //                         ),
@@ -128,7 +127,7 @@
 //                       SizedBox(height: 2.h,),
 //                       MyButton(
 //                         onTap: (){
-//                           AppNavigation.navigatorPop(context);
+//                           context.maybePop(context);
 //                           onYes();
 //                           },
 //                         title: "Continue",bgColor: MyColors().purpleColor,

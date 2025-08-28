@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import 'package:backyard/boot.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
-import 'package:backyard/legacy/Arguments/profile_screen_arguments.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
 import 'package:backyard/legacy/Component/custom_image.dart';
@@ -12,8 +12,6 @@ import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/reject_dialog.dart';
 import 'package:backyard/legacy/View/Widget/search_tile.dart';
@@ -33,7 +31,8 @@ class Customers extends StatefulWidget {
 
 class _CustomersState extends State<Customers> with AutomaticKeepAliveClientMixin {
   TextEditingController s = TextEditingController();
-  final homeController = navigatorKey.currentContext?.read<HomeController>();
+
+  late final homeController = context.read<HomeController>();
   bool searchOn = false;
 
   @override
@@ -50,7 +49,7 @@ class _CustomersState extends State<Customers> with AutomaticKeepAliveClientMixi
   }
 
   void setLoading(bool val) {
-    homeController?.setLoading(val);
+    homeController.setLoading(val);
   }
 
   Future<void> getCustomers() => BusAPIS.getCustomers();
@@ -189,18 +188,14 @@ class _CustomersState extends State<Customers> with AutomaticKeepAliveClientMixi
 
 class CustomerTile extends StatelessWidget {
   const CustomerTile({super.key, this.position, this.model});
+
   final int? position;
   final User? model;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        AppNavigation.navigateTo(
-          AppRouteName.CUSTOMER_PROFILE_VIEW_ROUTE,
-          arguments: ProfileScreenArguments(isMe: false, user: model),
-        );
-      },
+      onTap: () => context.pushRoute<void>(CustomerProfileRoute(isMe: false, user: model)),
       child: Stack(
         children: [
           Container(

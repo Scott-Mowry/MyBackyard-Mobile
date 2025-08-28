@@ -5,15 +5,15 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 
-part 'firebase_analytics_repository.g.dart';
+part 'analytics_repository.g.dart';
 
 @singleton
-class FirebaseAnalyticsRepository = _FirebaseAnalyticsRepository with _$FirebaseAnalyticsRepository;
+class AnalyticsRepository = _AnalyticsRepository with _$AnalyticsRepository;
 
-abstract class _FirebaseAnalyticsRepository with Store {
+abstract class _AnalyticsRepository with Store {
   final FirebaseAnalytics _analytics;
 
-  const _FirebaseAnalyticsRepository(this._analytics);
+  const _AnalyticsRepository(this._analytics);
 
   Future<void> logScreenViewEvent(String? screenName) async {
     if (screenName == null) return;

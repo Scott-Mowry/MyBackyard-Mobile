@@ -1,5 +1,6 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
-import 'package:backyard/features/search_results/search_results_view.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_image.dart';
 import 'package:backyard/legacy/Component/custom_refresh.dart';
@@ -7,8 +8,6 @@ import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Model/menu_model.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/base_view.dart';
@@ -148,12 +147,10 @@ class _CategoriesViewState extends State<CategoriesView> with AutomaticKeepAlive
                                 url: val.categories?[index].categoryIcon,
                               ),
                               GestureDetector(
-                                onTap: () {
-                                  AppNavigation.navigateTo(
-                                    AppRouteName.SEARCH_RESULT_VIEW_ROUTE,
-                                    arguments: SearchResultsArgs(categoryId: val.categories?[index].id?.toString()),
-                                  );
-                                },
+                                onTap:
+                                    () => context.pushRoute(
+                                      SearchResultsRoute(categoryId: val.categories?[index].id?.toString()),
+                                    ),
                                 child: Container(
                                   width: 100.w,
                                   height: 20.h,

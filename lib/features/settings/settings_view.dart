@@ -1,13 +1,11 @@
 import 'dart:ui';
 
-import 'package:auto_route/annotations.dart';
-import 'package:backyard/boot.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
-import 'package:backyard/features/change_password/change_password_view.dart';
-import 'package:backyard/legacy/Arguments/content_argument.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_switch.dart';
@@ -15,8 +13,6 @@ import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/menu_model.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/app_strings.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/delete_account.dart';
@@ -48,9 +44,9 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
   }
 
   bool get getBusinesses =>
-      (navigatorKey.currentContext?.read<UserController>().isSwitch ?? false)
+      (context.read<UserController>().isSwitch)
           ? false
-          : navigatorKey.currentContext?.read<UserController>().user?.role == UserRoleEnum.Business;
+          : context.read<UserController>().user?.role == UserRoleEnum.Business;
 
   @override
   Widget build(Build) {
@@ -98,13 +94,9 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
                               onChange: (v) {},
                               onChange2: (v) {
                                 val.setSwitch(v);
-                                // AppNavigation.navigateToRemovingAll(
-                                //     AppRouteName.HOME_VIEW_ROUTE);
-                                Navigator.popUntil(navigatorKey.currentContext!, (route) => route.isFirst);
-                                Navigator.pushReplacementNamed(
-                                  navigatorKey.currentContext!,
-                                  AppRouteName.HOME_VIEW_ROUTE,
-                                );
+
+                                Navigator.popUntil(context, (route) => route.isFirst);
+                                return context.pushRoute<void>(HomeRoute());
                               },
                             ),
                           ],
@@ -129,54 +121,33 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
     }
   }
 
-  List<MenuModel> businessList = [
+  late List<MenuModel> businessList = [
     MenuModel(name: 'Push Notification', onTap: () {}),
     MenuModel(
       name: 'Privacy Policy',
-      onTap: () {
-        AppNavigation.navigateTo(
-          AppRouteName.CONTENT_SCREEN,
-          arguments: ContentRoutingArgument(
-            title: 'Privacy Policy',
-            contentType: AppStrings.PRIVACY_POLICY_TYPE,
-            url: 'https://www.google.com/',
+      onTap:
+          () => context.pushRoute<void>(
+            ContentRoute(title: 'Privacy Policy', contentType: AppStrings.PRIVACY_POLICY_TYPE),
           ),
-        );
-      },
     ),
     MenuModel(
       name: 'About App',
-      onTap: () {
-        AppNavigation.navigateTo(
-          AppRouteName.CONTENT_SCREEN,
-          arguments: ContentRoutingArgument(
-            title: 'About App',
-            contentType: AppStrings.ABOUT_APP_TYPE,
-            url: 'https://www.google.com/',
-          ),
-        );
-      },
+      onTap: () => context.pushRoute<void>(ContentRoute(title: 'About App', contentType: AppStrings.ABOUT_APP_TYPE)),
     ),
     MenuModel(
       name: 'Terms & Conditions',
-      onTap: () {
-        AppNavigation.navigateTo(
-          AppRouteName.CONTENT_SCREEN,
-          arguments: ContentRoutingArgument(
-            title: 'Terms & Conditions',
-            contentType: AppStrings.TERMS_AND_CONDITION_TYPE,
-            url: 'https://www.google.com/',
+      onTap:
+          () => context.pushRoute<void>(
+            ContentRoute(title: 'Terms & Conditions', contentType: AppStrings.TERMS_AND_CONDITION_TYPE),
           ),
-        );
-      },
     ),
     MenuModel(
       name: 'Delete Account',
       onTap: () {
         showDialog(
-          context: navigatorKey.currentContext!,
+          context: context,
           barrierDismissible: false,
-          builder: (Build) {
+          builder: (context) {
             return BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: AlertDialog(
@@ -189,7 +160,7 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
                   onYes: () async {
                     getIt<AppNetwork>().loadingProgressIndicator();
                     await getIt<UserAuthRepository>().deleteAccount();
-                    AppNavigation.navigatorPop();
+                    context.maybePop();
                   },
                 ),
               ),
@@ -198,30 +169,13 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
         );
       },
     ),
-    MenuModel(
-      name: 'Change Password',
-      onTap: () {
-        AppNavigation.navigateTo(
-          AppRouteName.CHANGE_PASSWORD_VIEW_ROUTE,
-          arguments: const ChangePasswordViewArgs(fromSettings: true),
-        );
-      },
-    ),
+    MenuModel(name: 'Change Password', onTap: () => context.pushRoute<void>(ChangePasswordRoute(fromSettings: true))),
     MenuModel(
       name: 'Subscriptions',
-      onTap: () {
-        AppNavigation.navigateTo(
-          AppRouteName.CONTENT_SCREEN,
-          arguments: ContentRoutingArgument(
-            title: 'Subscriptions',
-            contentType: 'Subscriptions',
-            url: 'https://www.google.com/',
-          ),
-        );
-        // AppNavigation.navigateTo(AppRouteName.SUBSCRIPTION_VIEW_ROUTE);
-      },
+      onTap: () => context.pushRoute<void>(ContentRoute(title: 'Subscriptions', contentType: 'Subscriptions')),
     ),
   ];
+
   late List<MenuModel> userList = [
     MenuModel(
       name: 'Push Notification',
@@ -231,56 +185,29 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
     ),
     MenuModel(
       name: 'Privacy Policy',
-      onTap: () {
-        AppNavigation.navigateTo(
-          AppRouteName.CONTENT_SCREEN,
-          arguments: ContentRoutingArgument(
-            title: 'Privacy Policy',
-            contentType: AppStrings.PRIVACY_POLICY_TYPE,
-            url: 'https://www.google.com/',
+      onTap:
+          () => context.pushRoute<void>(
+            ContentRoute(title: 'Privacy Policy', contentType: AppStrings.PRIVACY_POLICY_TYPE),
           ),
-        );
-      },
     ),
     MenuModel(
       name: 'About App',
-      onTap: () {
-        AppNavigation.navigateTo(
-          AppRouteName.CONTENT_SCREEN,
-          arguments: ContentRoutingArgument(
-            title: 'About App',
-            contentType: AppStrings.ABOUT_APP_TYPE,
-            url: 'https://www.google.com/',
-          ),
-        );
-      },
+      onTap: () => context.pushRoute(ContentRoute(title: 'About App', contentType: AppStrings.ABOUT_APP_TYPE)),
     ),
     MenuModel(
       name: 'Terms & Conditions',
-      onTap: () {
-        AppNavigation.navigateTo(
-          AppRouteName.CONTENT_SCREEN,
-          arguments: ContentRoutingArgument(
-            title: 'Terms & Conditions',
-            contentType: AppStrings.TERMS_AND_CONDITION_TYPE,
-            url: 'https://www.google.com/',
+      onTap:
+          () => context.pushRoute(
+            ContentRoute(title: 'Terms & Conditions', contentType: AppStrings.TERMS_AND_CONDITION_TYPE),
           ),
-        );
-      },
     ),
-    // MenuModel(
-    //     name: 'Payment Details',
-    //     onTap: () {
-    //       AppNavigation.navigateTo(AppRouteName.PAYMENT_METHOD_VIEW_ROUTE,
-    //           arguments: ScreenArguments(fromSettings: true));
-    //     }),
     MenuModel(
       name: 'Delete Account',
       onTap: () {
         showDialog(
           context: context,
           barrierDismissible: false,
-          builder: (Build) {
+          builder: (context) {
             return BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: AlertDialog(
@@ -293,7 +220,7 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
                   onYes: () async {
                     getIt<AppNetwork>().loadingProgressIndicator();
                     await getIt<UserAuthRepository>().deleteAccount();
-                    AppNavigation.navigatorPop();
+                    context.maybePop();
                   },
                 ),
               ),
@@ -302,30 +229,13 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
         );
       },
     ),
-    MenuModel(
-      name: 'Change Password',
-      onTap: () {
-        AppNavigation.navigateTo(
-          AppRouteName.CHANGE_PASSWORD_VIEW_ROUTE,
-          arguments: const ChangePasswordViewArgs(fromSettings: true),
-        );
-      },
-    ),
+    MenuModel(name: 'Change Password', onTap: () => context.pushRoute(ChangePasswordRoute(fromSettings: true))),
     MenuModel(
       name: 'Subscriptions',
-      onTap: () {
-        AppNavigation.navigateTo(
-          AppRouteName.CONTENT_SCREEN,
-          arguments: ContentRoutingArgument(
-            title: 'Subscriptions',
-            contentType: 'Subscriptions',
-            url: 'https://www.google.com/',
-          ),
-        );
-        // AppNavigation.navigateTo(AppRouteName.SUBSCRIPTION_VIEW_ROUTE);
-      },
+      onTap: () => context.pushRoute(ContentRoute(title: 'Subscriptions', contentType: 'Subscriptions')),
     ),
   ];
+
   ListView showBarberList({required List<MenuModel> l}) {
     return ListView.builder(
       physics: BouncingScrollPhysics(),

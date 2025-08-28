@@ -1,6 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -48,7 +48,7 @@ class _CustomAppExitDialogState extends State<CustomMonthPickerDialog> {
                 onTap: () {
                   widget.onChanged!(MONTH_LIST[index]);
                   widget.i!(index);
-                  AppNavigation.navigatorPop();
+                  context.maybePop();
                 },
                 child: Container(
                   alignment: Alignment.center,

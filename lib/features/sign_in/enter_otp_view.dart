@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
@@ -13,8 +14,6 @@ import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -66,11 +65,11 @@ class _EnterOTPViewState extends State<EnterOTPView> {
         if (widget.verification != null) {
           getIt<AppNetwork>().loadingProgressIndicator();
           await resendCode(phoneNumber: widget.phoneNumber ?? '');
-          AppNavigation.navigatorPop();
+          context.maybePop();
         } else {
           getIt<AppNetwork>().loadingProgressIndicator();
           final value = await getIt<UserAuthRepository>().resendCode(id: userController.user?.id.toString());
-          AppNavigation.navigatorPop();
+          context.maybePop();
           if (value) {
             CustomToast().showToast(message: 'We have resend OTP verification code at your email address');
           }
@@ -262,26 +261,23 @@ class _EnterOTPViewState extends State<EnterOTPView> {
         timeout: const Duration(seconds: 60),
         verificationCompleted: (authCredential) async {},
         verificationFailed: (authException) {
-          AppNavigation.navigatorPop();
+          context.maybePop();
           CustomToast().showToast(message: 'Invalid Phone Number');
         },
         codeSent: (verificationId, forceResendingToken) {
-          AppNavigation.navigatorPop();
+          context.maybePop();
           CustomToast().showToast(
             message: 'We have resend OTP verification code at your phone number',
             toastLength: Toast.LENGTH_LONG,
             timeInSecForIosWeb: 5,
           );
-          AppNavigation.navigateTo(
-            AppRouteName.ENTER_OTP_VIEW_ROUTE,
-            arguments: EnterOTPArgs(phoneNumber: phoneNumber, verification: verificationId),
-          );
+          context.pushRoute(EnterOTPRoute(phoneNumber: phoneNumber, verification: verificationId));
         },
         codeAutoRetrievalTimeout: (verificationId) {},
       );
     } catch (error) {
       log('error');
-      AppNavigation.navigatorPop();
+      context.maybePop();
       CustomToast().showToast(message: error.toString());
     }
   }
@@ -293,7 +289,7 @@ class _EnterOTPViewState extends State<EnterOTPView> {
     if (!(widget.fromForgot ?? false)) {
       await GeneralAPIS.getPlaces();
     }
-    AppNavigation.navigatorPop();
+    context.maybePop();
     if (value) {
       CustomToast().showToast(message: 'Account validation completed. OTP verified');
       navigation();
@@ -304,12 +300,12 @@ class _EnterOTPViewState extends State<EnterOTPView> {
 
   Future<void> navigation() async {
     if (widget.fromForgot ?? false) {
-      AppNavigation.navigateReplacementNamed(AppRouteName.CHANGE_PASSWORD_VIEW_ROUTE);
+      context.replaceRoute(ChangePasswordRoute());
     } else {
       if (userController.user?.isProfileCompleted == 1) {
-        AppNavigation.navigateTo(AppRouteName.HOME_VIEW_ROUTE);
+        context.pushRoute(HomeRoute());
       } else {
-        AppNavigation.navigateTo(AppRouteName.COMPLETE_PROFILE_VIEW_ROUTE);
+        context.pushRoute(ProfileSetupRoute(editProfile: false));
       }
     }
   }

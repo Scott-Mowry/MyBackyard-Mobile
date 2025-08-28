@@ -1,6 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_year_picker_style.dart' as my;
-import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -36,7 +36,7 @@ class _CustomAppExitDialogState extends State<CustomYearPickerDialog> {
               initialDate: widget.selectedDate,
               selectedDate: widget.selectedDate,
               onChanged: (v) {
-                AppNavigation.navigatorPop();
+                context.maybePop();
                 widget.onChanged!(v);
               },
             ),

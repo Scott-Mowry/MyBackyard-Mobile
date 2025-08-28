@@ -1,5 +1,4 @@
 import 'package:auto_route/annotations.dart';
-import 'package:backyard/boot.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/features/offers/offers_view.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
@@ -30,7 +29,7 @@ class CustomerProfileView extends StatefulWidget {
 
 class _CustomerProfileViewState extends State<CustomerProfileView> {
   TextEditingController s = TextEditingController();
-  final homeController = navigatorKey.currentContext?.read<HomeController>();
+  late final homeController = context.read<HomeController>();
 
   @override
   void initState() {
@@ -42,9 +41,7 @@ class _CustomerProfileViewState extends State<CustomerProfileView> {
     super.initState();
   }
 
-  void setLoading(bool val) {
-    homeController?.setLoading(val);
-  }
+  void setLoading(bool val) => homeController.setLoading(val);
 
   Future<void> getOffers() => BusAPIS.getCustomerOffers(widget.user?.id.toString() ?? '');
 

@@ -2,13 +2,12 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:auto_route/annotations.dart';
-import 'package:backyard/boot.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
-import 'package:backyard/legacy/Arguments/screen_arguments.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -23,8 +22,6 @@ import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/profile_complete_dialog.dart';
@@ -38,9 +35,9 @@ import 'package:sizer/sizer.dart';
 
 @RoutePage()
 class ProfileSetupView extends StatefulWidget {
-  const ProfileSetupView({super.key, required this.editProfile});
-
   final bool editProfile;
+
+  const ProfileSetupView({super.key, required this.editProfile});
 
   @override
   State<ProfileSetupView> createState() => _ProfileSetupViewState();
@@ -457,12 +454,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                 borderColor: CustomColors.black,
                 bgColor: CustomColors.whiteColor,
                 textColor: CustomColors.black,
-                onTap: () {
-                  AppNavigation.navigateTo(
-                    AppRouteName.SCHEDULE_VIEW_ROUTE,
-                    arguments: ScreenArguments(fromEdit: true),
-                  );
-                },
+                onTap: () => context.pushRoute(ScheduleRoute(edit: true)),
               ),
               SizedBox(height: 2.h),
             ],
@@ -476,7 +468,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
 
   Future<void> getAddress(context) async {
     final t = await Utils().showPlacePicker(context);
-    if (isLatLongInCities(t.latLng ?? const LatLng(0, 0))) {
+    if (isLatLongInCities(context, t.latLng ?? const LatLng(0, 0))) {
       lat = t.latLng?.latitude ?? 0;
       lng = t.latLng?.longitude ?? 0;
       location.text = t.formattedAddress ?? '';
@@ -511,8 +503,8 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                   ? File(imageProfile ?? '')
                   : null,
         );
-        AppNavigation.navigatorPop();
-        AppNavigation.navigatorPop();
+        context.maybePop();
+        context.maybePop();
       } else {
         if (role == UserRoleEnum.User) {
           getIt<AppNetwork>().loadingProgressIndicator();
@@ -528,13 +520,9 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
             //     : null,
             image: imageProfile == null ? null : File(imageProfile ?? ''),
           );
-          AppNavigation.navigatorPop();
+          context.maybePop();
           if (value) {
-            await completeDialog(
-              onTap: () {
-                AppNavigation.navigateToRemovingAll(AppRouteName.HOME_VIEW_ROUTE);
-              },
-            );
+            await completeDialog(onTap: () => context.pushRoute(HomeRoute()));
           }
         } else {
           final arguments = <String, dynamic>{
@@ -550,10 +538,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
             'image': imageProfile ?? '',
           };
 
-          return AppNavigation.navigateTo(
-            AppRouteName.SCHEDULE_VIEW_ROUTE,
-            arguments: ScreenArguments(args: arguments, fromEdit: false),
-          );
+          return context.pushRoute<void>(ScheduleRoute(args: arguments, edit: false));
         }
       }
     }
@@ -586,7 +571,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
   }
 }
 
-bool isLatLongInCities(LatLng selectedLatLng) {
+bool isLatLongInCities(BuildContext context, LatLng selectedLatLng) {
   // Define bounding boxes for all cities
   // final cityBounds = {
   //   "Tonawanda": [const LatLng(43.070, -78.950), const LatLng(43.005, -78.800)],
@@ -637,7 +622,7 @@ bool isLatLongInCities(LatLng selectedLatLng) {
   //   "Hamburg": [const LatLng(42.770, -78.930), const LatLng(42.710, -78.820)],
   // };
 
-  final controller = navigatorKey.currentContext!.read<HomeController>();
+  final controller = context.read<HomeController>();
 
   // Check if the selectedLatLng is within any city's bounding box
   for (var bounds in (controller.places ?? [])) {

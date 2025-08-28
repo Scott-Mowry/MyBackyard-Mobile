@@ -1,7 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -24,7 +24,7 @@ class CustomDialog extends StatelessWidget {
     this.b2,
   });
   @override
-  Widget build(BuildContext c) {
+  Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
       // height: responsive.setHeight(75),
@@ -50,7 +50,7 @@ class CustomDialog extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     size: 18,
                   ),
-                  GestureDetector(onTap: AppNavigation.navigatorPop, child: Image.asset(ImagePath.close, scale: 2)),
+                  GestureDetector(onTap: context.maybePop, child: Image.asset(ImagePath.close, scale: 2)),
                 ],
               ),
             ),
@@ -70,8 +70,8 @@ class CustomDialog extends StatelessWidget {
                   if (b1 != null)
                     MyButton(
                       onTap: () {
-                        AppNavigation.navigatorPop();
-                        onYes(c);
+                        context.maybePop();
+                        onYes(context);
                       },
                       title: b1 ?? 'Continue',
                     ),
@@ -79,8 +79,8 @@ class CustomDialog extends StatelessWidget {
                   if (button2 != null)
                     MyButton(
                       onTap: () {
-                        AppNavigation.navigatorPop();
-                        button2!(c);
+                        context.maybePop();
+                        button2!(context);
                       },
                       title: b2 ?? 'Continue',
                     ),

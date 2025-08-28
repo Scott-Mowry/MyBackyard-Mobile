@@ -1,7 +1,6 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
-import 'package:backyard/legacy/Arguments/content_argument.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/app_strings.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -29,16 +28,10 @@ class CustomTermsCondition extends StatelessWidget {
             ),
             recognizer:
                 TapGestureRecognizer()
-                  ..onTap = () async {
-                    return AppNavigation.navigateTo(
-                      AppRouteName.CONTENT_SCREEN,
-                      arguments: ContentRoutingArgument(
-                        title: 'Terms & Conditions',
-                        url: 'https://www.google.com/',
-                        contentType: AppStrings.TERMS_AND_CONDITION_TYPE,
+                  ..onTap =
+                      () async => context.pushRoute(
+                        ContentRoute(title: 'Terms & Conditions', contentType: AppStrings.TERMS_AND_CONDITION_TYPE),
                       ),
-                    );
-                  },
           ),
           TextSpan(
             text: ' & ',
@@ -61,20 +54,10 @@ class CustomTermsCondition extends StatelessWidget {
             ),
             recognizer:
                 TapGestureRecognizer()
-                  ..onTap = () async {
-                    AppNavigation.navigateTo(
-                      AppRouteName.CONTENT_SCREEN,
-                      arguments: ContentRoutingArgument(
-                        title: 'Privacy Policy',
-                        url: 'https://www.google.com/',
-                        contentType: AppStrings.PRIVACY_POLICY_TYPE,
+                  ..onTap =
+                      () async => context.pushRoute(
+                        ContentRoute(title: 'Terms & Conditions', contentType: AppStrings.TERMS_AND_CONDITION_TYPE),
                       ),
-                    );
-
-                    // AppNavigation.navigateTo( AppRouteName.CONTENT_SCREEN, arguments: ContentRoutingArgument(
-                    //     title: AppStrings.PRIVACY_POLICY,
-                    //     contentType: AppStrings.PRIVACY_POLICY_TYPE));
-                  },
           ),
         ],
       ),

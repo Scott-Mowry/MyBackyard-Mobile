@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:auto_route/annotations.dart';
-import 'package:backyard/boot.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
-import 'package:backyard/legacy/Arguments/content_argument.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
@@ -15,8 +14,6 @@ import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/menu_model.dart';
 import 'package:backyard/legacy/Service/app_in_app_purchase.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/app_strings.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/profile_complete_dialog.dart';
 import 'package:backyard/legacy/View/base_view.dart';
@@ -79,7 +76,7 @@ class _SubscriptionViewState extends State<SubscriptionView> {
   @override
   void initState() {
     if (!widget.fromCompleteProfile) {
-      subscribed = getId(navigatorKey.currentContext?.read<UserController>().user?.subId ?? 0);
+      subscribed = getId(context.read<UserController>().user?.subId ?? 0);
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       if (user?.role == UserRoleEnum.Business) {
@@ -98,12 +95,12 @@ class _SubscriptionViewState extends State<SubscriptionView> {
         if (event.status == PurchaseStatus.purchased) {
           getIt<AppNetwork>().loadingProgressIndicator();
           final result = await getIt<UserAuthRepository>().completeProfile(subId: getId2(event.productID)?.toString());
-          AppNavigation.navigatorPop();
+          context.maybePop();
           if (result) {
             setState(() {
               subscribed = event.productID;
             });
-            AppNavigation.navigatorPop();
+            context.maybePop();
           }
         }
         // }
@@ -185,7 +182,7 @@ class _SubscriptionViewState extends State<SubscriptionView> {
   }
 
   double cardWidth(int i) {
-    final length = navigatorKey.currentContext?.read<UserController>().productDetails.length ?? 0;
+    final length = context.read<UserController>().productDetails.length;
     if (length % 2 == 0) {
       return 45.w;
     } else {
@@ -198,7 +195,7 @@ class _SubscriptionViewState extends State<SubscriptionView> {
   }
 
   double? cardHeight(int i) {
-    final length = navigatorKey.currentContext?.read<UserController>().productDetails.length ?? 0;
+    final length = context.read<UserController>().productDetails.length;
     if (length % 2 == 0) {
       return 26.h;
     } else {
@@ -291,7 +288,7 @@ class _SubscriptionViewState extends State<SubscriptionView> {
                                                       ),
                                                     ),
                                                     IconButton(
-                                                      onPressed: AppNavigation.navigatorPop,
+                                                      onPressed: context.maybePop,
                                                       padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 40),
                                                       icon: const Icon(Icons.close, size: 30, color: Colors.white),
                                                     ),
@@ -459,13 +456,8 @@ class _SubscriptionViewState extends State<SubscriptionView> {
             recognizer:
                 TapGestureRecognizer()
                   ..onTap = () async {
-                    return AppNavigation.navigateTo(
-                      AppRouteName.CONTENT_SCREEN,
-                      arguments: ContentRoutingArgument(
-                        title: 'Terms & Conditions',
-                        url: 'https://www.google.com/',
-                        contentType: AppStrings.TERMS_AND_CONDITION_TYPE,
-                      ),
+                    return context.pushRoute<void>(
+                      ContentRoute(title: 'Terms & Conditions', contentType: AppStrings.TERMS_AND_CONDITION_TYPE),
                     );
                   },
           ),
@@ -490,20 +482,10 @@ class _SubscriptionViewState extends State<SubscriptionView> {
             ),
             recognizer:
                 TapGestureRecognizer()
-                  ..onTap = () async {
-                    AppNavigation.navigateTo(
-                      AppRouteName.CONTENT_SCREEN,
-                      arguments: ContentRoutingArgument(
-                        title: 'Privacy Policy',
-                        url: 'https://www.google.com/',
-                        contentType: AppStrings.PRIVACY_POLICY_TYPE,
+                  ..onTap =
+                      () async => context.pushRoute(
+                        ContentRoute(title: 'Privacy Policy', contentType: AppStrings.PRIVACY_POLICY_TYPE),
                       ),
-                    );
-
-                    // AppNavigation.navigateTo( AppRouteName.CONTENT_SCREEN, arguments: ContentRoutingArgument(
-                    //     title: AppStrings.PRIVACY_POLICY,
-                    //     contentType: AppStrings.PRIVACY_POLICY_TYPE));
-                  },
           ),
         ],
       ),
@@ -644,7 +626,7 @@ class _SubscriptionViewState extends State<SubscriptionView> {
                     AppInAppPurchase().buySubscription(m);
                   } else {
                     AppInAppPurchase().buySubscription(m);
-                    // AppNavigation.navigatorPop();
+                    // context.maybePop();
                   }
                 } else {
                   if (subscribed == m.id) {
@@ -701,8 +683,8 @@ class _SubscriptionViewState extends State<SubscriptionView> {
     );
   }
 
-  List<MenuModel> s =
-      navigatorKey.currentContext?.read<UserController>().user?.role == UserRoleEnum.User
+  late List<MenuModel> s =
+      context.read<UserController>().user?.role == UserRoleEnum.User
           ? [
             MenuModel(
               name: 'All Access User', //'Standard Package',

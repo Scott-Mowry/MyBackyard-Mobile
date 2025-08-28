@@ -1,8 +1,8 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
-import 'package:backyard/features/sign_in/enter_otp_view.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -13,8 +13,6 @@ import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
 import 'package:flutter/material.dart';
@@ -92,7 +90,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       FocusManager.instance.primaryFocus?.unfocus();
       getIt<AppNetwork>().loadingProgressIndicator();
       final val = await getIt<UserAuthRepository>().forgotPassword(email: email.text);
-      AppNavigation.navigatorPop();
+      context.maybePop();
       if (val) {
         CustomToast().showToast(
           message: 'OTP code for Forgot Password has been sent to your email address',
@@ -100,7 +98,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           timeInSecForIosWeb: 5,
         );
 
-        return AppNavigation.navigateTo(AppRouteName.ENTER_OTP_VIEW_ROUTE, arguments: EnterOTPArgs(fromForgot: true));
+        return context.pushRoute<void>(EnterOTPRoute(fromForgot: true));
       }
     }
   }

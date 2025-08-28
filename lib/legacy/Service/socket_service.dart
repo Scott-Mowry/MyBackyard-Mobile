@@ -1,10 +1,9 @@
 import 'dart:developer';
 
-import 'package:backyard/boot.dart';
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Service/socket_navigation_class.dart';
-import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 class SocketService {
@@ -58,7 +57,7 @@ class SocketService {
 
   void userResponse() {
     socket?.on(
-      'response_${navigatorKey.currentContext?.read<UserController>().user?.id?.toString()}',
+      'response_${getIt<UserController>().user?.id?.toString()}',
       (data) => SocketNavigationClass.instance?.socketUserResponseMethod(responseData: data),
     );
   }

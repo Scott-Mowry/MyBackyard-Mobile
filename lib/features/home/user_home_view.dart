@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:auto_route/annotations.dart';
-import 'package:backyard/boot.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
@@ -74,7 +73,7 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
 
   Future<void> getBuses() async {
     try {
-      final controller = navigatorKey.currentContext?.read<UserController>();
+      final controller = context.read<UserController>();
       if (Platform.isAndroid) {
         await Permission.location.request();
       } else {
@@ -82,9 +81,9 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
       }
 
       pos = await Geolocator.getLastKnownPosition();
-      if (controller?.user?.role == UserRoleEnum.Business) {
+      if (controller.user?.role == UserRoleEnum.Business) {
         await BusAPIS.getBuses(pos?.latitude, pos?.longitude);
-        controller?.addCircles(
+        controller.addCircles(
           Circle(
             circleId: const CircleId('myLocation'),
             radius: (controller.mile * 1609.344),
@@ -97,7 +96,7 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
         );
       } else {
         await BusAPIS.getBuses(pos?.latitude, pos?.longitude);
-        controller?.addCircles(
+        controller.addCircles(
           Circle(
             circleId: const CircleId('myLocation'),
             radius: (controller.mile * 1609.344),
@@ -114,9 +113,7 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
     }
   }
 
-  void setLoading(bool val) {
-    navigatorKey.currentContext?.read<HomeController>().setLoading(val);
-  }
+  void setLoading(bool val) => context.read<HomeController>().setLoading(val);
 
   Future<void> getCategories() async {
     await GeneralAPIS.getCategories();
@@ -124,7 +121,7 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
 
   @override
   void dispose() {
-    navigatorKey.currentContext?.read<UserController>().setController(null);
+    context.read<UserController>().setController(null);
     super.dispose();
   }
 

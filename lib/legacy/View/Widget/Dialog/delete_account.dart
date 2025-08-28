@@ -1,10 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_radio_tile.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -47,7 +47,7 @@ class _DeleteDialogState extends State<DeleteDialog> {
                   const Icon(Icons.close_outlined, color: Colors.transparent),
                   MyText(title: 'Delete Account', clr: CustomColors.whiteColor, fontWeight: FontWeight.w600),
                   GestureDetector(
-                    onTap: AppNavigation.navigatorPop,
+                    onTap: context.maybePop,
                     child: const Icon(Icons.close_outlined, color: Colors.white),
                   ),
                 ],
@@ -121,7 +121,7 @@ class _DeleteDialogState extends State<DeleteDialog> {
                       } else if (other.text.isEmpty && i == 2) {
                         CustomToast().showToast(message: 'Reason field can\'t be empty');
                       } else {
-                        AppNavigation.navigatorPop();
+                        context.maybePop();
                         widget.onYes();
                       }
                     },
@@ -129,7 +129,7 @@ class _DeleteDialogState extends State<DeleteDialog> {
                   ),
                   SizedBox(height: 1.h),
                   GestureDetector(
-                    onTap: AppNavigation.navigatorPop,
+                    onTap: context.maybePop,
                     child: MyText(
                       title: 'Not Now!',
                       size: 17,

@@ -14,17 +14,17 @@ import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
 class TimeSchedulingEditArgs {
-  const TimeSchedulingEditArgs({this.val, this.multiSelect});
+  const TimeSchedulingEditArgs({this.daySchedule, this.multiSelect});
 
-  final DaySchedule? val;
+  final DaySchedule? daySchedule;
   final bool? multiSelect;
 }
 
 @RoutePage()
 class TimeScheduleEditView extends StatefulWidget {
-  const TimeScheduleEditView({super.key, this.val, this.multiSelect});
+  const TimeScheduleEditView({super.key, this.daySchedule, this.multiSelect});
 
-  final DaySchedule? val;
+  final DaySchedule? daySchedule;
   final bool? multiSelect;
 
   @override
@@ -32,7 +32,7 @@ class TimeScheduleEditView extends StatefulWidget {
 }
 
 class _TimeScheduleEditViewState extends State<TimeScheduleEditView> {
-  late DaySchedule? temp = widget.val;
+  late DaySchedule? temp = widget.daySchedule;
   late bool active = temp?.active ?? false;
   final formatter = NumberFormat('00');
   TimeOfDay? startTime;
@@ -75,8 +75,8 @@ class _TimeScheduleEditViewState extends State<TimeScheduleEditView> {
 
   @override
   void initState() {
-    startTime = widget.val?.startTime;
-    endTime = widget.val?.endTime;
+    startTime = widget.daySchedule?.startTime;
+    endTime = widget.daySchedule?.endTime;
     // TODO: implement initState
     super.initState();
   }

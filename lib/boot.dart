@@ -5,7 +5,8 @@ import 'dart:isolate';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/exception/exception_handler.dart';
 import 'package:backyard/core/firebase_options/firebase_options.dart';
-import 'package:backyard/legacy/Controller/state_management.dart';
+import 'package:backyard/legacy/Controller/home_controller.dart';
+import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/app_in_app_purchase.dart';
 import 'package:backyard/my-backyard-app.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -30,6 +31,7 @@ Future<void> boot() async {
         );
 
         injectDependencies();
+        await initDependencies();
         FlutterError.onError = (details) async {
           reportFlutterErrorDetails(details);
           return crashReportRepository.recordError(details.exception, details.stack);
@@ -49,7 +51,12 @@ Future<void> boot() async {
         await ScreenUtil.ensureScreenSize();
         HttpOverrides.global = MyHttpOverrides();
 
-        runApp(MultiProvider(providers: StateManagement.providersList, child: const MyBackyardApp()));
+        final providersList = [
+          ChangeNotifierProvider(create: (context) => getIt<UserController>()),
+          ChangeNotifierProvider(create: (context) => getIt<HomeController>()),
+        ];
+
+        runApp(MultiProvider(providers: providersList, child: MyBackyardApp()));
       }
     },
     (error, stack) async {
@@ -77,8 +84,6 @@ void configLoading() {
     ..userInteractions = false
     ..dismissOnTap = false;
 }
-
-final navigatorKey = GlobalKey<NavigatorState>();
 
 class MyHttpOverrides extends HttpOverrides {
   @override

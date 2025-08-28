@@ -1,25 +1,26 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/repositories/local_storage_repository.dart';
-import 'package:backyard/legacy/Arguments/profile_screen_arguments.dart';
 import 'package:backyard/legacy/Model/reiview_model.dart';
 import 'package:backyard/legacy/Model/user_model.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
+import 'package:backyard/my-backyard-app.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:in_app_purchase/in_app_purchase.dart' as in_app;
+import 'package:injectable/injectable.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+@singleton
 class UserController extends ChangeNotifier {
-  UserController({required this.context}) {
+  UserController() {
     Platform.isAndroid ? Permission.location.request() : Permission.locationAlways.request();
 
     locationStream = Geolocator.getPositionStream(
@@ -73,7 +74,6 @@ class UserController extends ChangeNotifier {
   late StreamSubscription<Position>? locationStream;
   bool onTap = true;
   GoogleMapController? mapController;
-  BuildContext context;
   User? _user;
 
   User? get user => _user;
@@ -178,9 +178,6 @@ class UserController extends ChangeNotifier {
   Future<void> addMarker(User user) async {
     final markerId = MarkerId(user.id?.toString() ?? '');
     final marker = Marker(
-      // onTap: () => AppNavigation.navigateTo(AppRouteName.USER_PROFILE_VIEW_ROUTE,
-      //     arguments: ProfileScreenArguments(
-      //         isBusinessProfile: true, isMe: false, isUser: false, user: user)),
       markerId: markerId,
       infoWindow: InfoWindow(
         title: user.name,
@@ -190,14 +187,8 @@ class UserController extends ChangeNotifier {
         onTap:
             () =>
                 (user.subId != 4)
-                    ? AppNavigation.navigateTo(
-                      AppRouteName.USER_PROFILE_VIEW_ROUTE,
-                      arguments: ProfileScreenArguments(
-                        isBusinessProfile: true,
-                        isMe: false,
-                        isUser: false,
-                        user: user,
-                      ),
+                    ? MyBackyardApp.appRouter.push(
+                      UserProfileRoute(isBusinessProfile: true, isMe: false, isUser: false, user: user),
                     )
                     : {},
       ),

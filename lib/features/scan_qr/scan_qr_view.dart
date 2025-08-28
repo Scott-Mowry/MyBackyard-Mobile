@@ -3,14 +3,13 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/offer_availed.dart';
 import 'package:backyard/legacy/View/base_view.dart';
@@ -56,8 +55,8 @@ class _ScanQRViewState extends State<ScanQRView> {
     if (widget.fromOffer) {
       // Timer(const Duration(seconds: 3), () {
       //   scannedDialog(onTap: () {
-      //     AppNavigation.navigatorPop();
-      //     AppNavigation.navigatorPop();
+      //     context.maybePop();
+      //     context.maybePop();
       //   });
       // });
     }
@@ -110,12 +109,12 @@ class _ScanQRViewState extends State<ScanQRView> {
                           ? () async {
                             getIt<AppNetwork>().loadingProgressIndicator();
                             final val = await BusAPIS.claimOffer(offerId: data['offer'], userId: data['user_id']);
-                            AppNavigation.navigatorPop();
+                            context.maybePop();
                             if (val) {
                               scannedDialog(
                                 title: data['title'],
                                 onTap: () async {
-                                  AppNavigation.navigatorPop();
+                                  context.maybePop();
                                   await controller?.resumeCamera();
                                   setState(() => [pause = false, result = null]);
                                 },

@@ -8,16 +8,14 @@ import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:injectable/injectable.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
+@singleton
 class HomeController extends ChangeNotifier {
-  HomeController({required this.context});
-  BuildContext context;
   GlobalKey<ScaffoldState>? drawerKey;
 
-  void setGlobalKey(GlobalKey<ScaffoldState>? key) {
-    drawerKey = key;
-  }
+  void setGlobalKey(GlobalKey<ScaffoldState>? key) => drawerKey = key;
 
   int currentIndex = 0;
   LatLng currentLocation = const LatLng(40.76317565846268, -73.99172240955043);

@@ -1,16 +1,14 @@
 import 'dart:ui';
 
-import 'package:backyard/boot.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
-import 'package:backyard/legacy/Arguments/content_argument.dart';
 import 'package:backyard/legacy/Component/custom_image.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/menu_model.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/app_strings.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
@@ -21,19 +19,12 @@ import 'package:sizer/sizer.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});
+
   @override
   State<CustomDrawer> createState() => _CustomDrawerState();
 }
 
 class _CustomDrawerState extends State<CustomDrawer> {
-  bool val = false;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -64,7 +55,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         children: [
                           Container(
                             decoration: BoxDecoration(
-                              // color: Colors.red,
                               color: CustomColors.primaryGreenColor,
                               shape: BoxShape.circle,
                               border: Border.all(color: CustomColors.whiteColor, width: 1),
@@ -89,10 +79,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             size: 18,
                             clr: CustomColors.whiteColor,
                           ),
-                          // MyText(title: AuthController.i.user.value.fullName,fontWeight: FontWeight.w600,size: 18,clr: MyColors().whiteColor),
-                          // SizedBox(
-                          //   height: 1.h,
-                          // ),
                           SizedBox(
                             width: 16.h,
                             child: MyText(
@@ -109,16 +95,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 ],
               ),
               SizedBox(height: 3.h),
-              // Padding(
-              //   padding: EdgeInsets.symmetric(horizontal: 5.w)+EdgeInsets.only(right: 2.w),
-              //   child: Column(
-              //     children: [
-              //       MyText(title: AuthController.i.user.value.fullName,size: 24,fontWeight: FontWeight.w600,),
-              //       MyText(title: AuthController.i.user.value.email,size: 18,),
-              //     ],
-              //   ),
-              // ),
-              // SizedBox(height: 5.h,),
               showList(l: business ? businessList : userList),
               SizedBox(height: 3.h),
               Align(
@@ -181,7 +157,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           top: 5.h,
           right: Utils.isTablet ? 1.w : 4.w,
           child: InkWell(
-            onTap: AppNavigation.navigatorPop,
+            onTap: context.maybePop,
             child: Container(
               height: 10.h,
               width: 18.w,
@@ -206,7 +182,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
-                AppNavigation.navigatorPop();
+                context.maybePop();
                 l[index].onTap?.call();
                 FocusManager.instance.primaryFocus?.unfocus();
               },
@@ -227,111 +203,43 @@ class _CustomDrawerState extends State<CustomDrawer> {
     );
   }
 
-  List<MenuModel> businessList = [
-    MenuModel(
-      name: 'Home',
-      image: ImagePath.home3,
-      onTap: () {
-        navigatorKey.currentContext?.read<HomeController>().jumpTo(i: 0);
-      },
-    ),
-    MenuModel(
-      name: 'Scan QR',
-      image: ImagePath.scan,
-      onTap: () {
-        AppNavigation.navigateTo(AppRouteName.SCAN_QR_VIEW_ROUTE);
-      },
-    ),
-    MenuModel(
-      name: 'Settings',
-      image: ImagePath.setting,
-      onTap: () {
-        navigatorKey.currentContext?.read<HomeController>().jumpTo(i: 2);
-      },
-    ),
+  late List<MenuModel> businessList = [
+    MenuModel(name: 'Home', image: ImagePath.home3, onTap: () => context.read<HomeController>().jumpTo(i: 0)),
+    MenuModel(name: 'Scan QR', image: ImagePath.scan, onTap: () => context.pushRoute(ScanQRRoute())),
+    MenuModel(name: 'Settings', image: ImagePath.setting, onTap: () => context.read<HomeController>().jumpTo(i: 2)),
     MenuModel(
       name: 'Terms & Conditions',
       image: ImagePath.terms,
-      onTap: () {
-        AppNavigation.navigateTo(
-          AppRouteName.CONTENT_SCREEN,
-          arguments: ContentRoutingArgument(
-            title: 'Terms & Conditions',
-            contentType: AppStrings.TERMS_AND_CONDITION_TYPE,
-            url: 'https://www.google.com/',
+      onTap:
+          () => context.pushRoute(
+            ContentRoute(title: 'Terms & Conditions', contentType: AppStrings.TERMS_AND_CONDITION_TYPE),
           ),
-        );
-      },
     ),
     MenuModel(
       name: 'Privacy Policy',
       image: ImagePath.privacy,
-      onTap: () {
-        AppNavigation.navigateTo(
-          AppRouteName.CONTENT_SCREEN,
-          arguments: ContentRoutingArgument(
-            title: 'Privacy Policy',
-            contentType: AppStrings.PRIVACY_POLICY_TYPE,
-            url: 'https://www.google.com/',
-          ),
-        );
-      },
+      onTap:
+          () => context.pushRoute(ContentRoute(title: 'Privacy Policy', contentType: AppStrings.PRIVACY_POLICY_TYPE)),
     ),
   ];
-  List<MenuModel> userList = [
-    // MenuModel(name: 'Subscription',image: ImagePath.home3,onTap: (context){AppNavigation.navigateTo( AppRouteName.SUBSCRIPTION_VIEW_ROUTE);}),
-    MenuModel(
-      name: 'Home',
-      image: ImagePath.home3,
-      onTap: () {
-        navigatorKey.currentContext?.read<HomeController>().jumpTo(i: 0);
-      },
-    ),
-    // MenuModel(
-    //     name: 'Favorites',
-    //     image: ImagePath.favorite,
-    //     onTap: () {
-    //       AppNavigation.navigateTo(AppRouteName.FAVORITE_VIEW_ROUTE);
-    //     }),
-    // MenuModel(name: 'Loyalty',image: ImagePath.loyalty,onTap: (context){AppNavigation.navigateTo( AppRouteName.LOYALTY_VIEW_ROUTE);}),
-    MenuModel(
-      name: 'Settings',
-      image: ImagePath.setting,
-      onTap: () {
-        AppNavigation.navigateTo(AppRouteName.SETTINGS_VIEW_ROUTE);
-      },
-    ),
+
+  late List<MenuModel> userList = [
+    MenuModel(name: 'Home', image: ImagePath.home3, onTap: () => context.read<HomeController>().jumpTo(i: 0)),
+    MenuModel(name: 'Settings', image: ImagePath.setting, onTap: () => context.pushRoute(SettingsRoute())),
     MenuModel(
       name: 'Terms & Conditions',
       image: ImagePath.terms,
-      onTap: () {
-        AppNavigation.navigateTo(
-          AppRouteName.CONTENT_SCREEN,
-          arguments: ContentRoutingArgument(
-            title: 'Terms & Conditions',
-            contentType: AppStrings.TERMS_AND_CONDITION_TYPE,
-            url: 'https://www.google.com/',
+      onTap:
+          () => context.pushRoute(
+            ContentRoute(title: 'Terms & Conditions', contentType: AppStrings.TERMS_AND_CONDITION_TYPE),
           ),
-        );
-      },
     ),
     MenuModel(
       name: 'Privacy Policy',
       image: ImagePath.privacy,
-      onTap: () {
-        AppNavigation.navigateTo(
-          AppRouteName.CONTENT_SCREEN,
-          arguments: ContentRoutingArgument(
-            title: 'Privacy Policy',
-            contentType: AppStrings.PRIVACY_POLICY_TYPE,
-            url: '',
-          ),
-        );
-      },
+      onTap:
+          () => context.pushRoute(ContentRoute(title: 'Privacy Policy', contentType: AppStrings.PRIVACY_POLICY_TYPE)),
     ),
-    // MenuModel(name: 'Support and Help',image: ImagePath.support,onTap: (context){
-    //   AppNavigation.navigateTo( AppRouteName.FAQ_VIEW_ROUTE);
-    // }),
   ];
 
   Future logoutAlert(context) {
@@ -352,8 +260,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
     );
   }
 
-  bool business =
-      (navigatorKey.currentContext?.read<UserController>().isSwitch ?? false)
+  late bool business =
+      (context.read<UserController>().isSwitch)
           ? false
-          : navigatorKey.currentContext?.read<UserController>().user?.role == UserRoleEnum.Business;
+          : context.read<UserController>().user?.role == UserRoleEnum.Business;
 }

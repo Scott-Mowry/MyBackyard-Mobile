@@ -3,13 +3,11 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
-import 'package:auto_route/annotations.dart';
-import 'package:backyard/boot.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
-import 'package:backyard/legacy/Arguments/content_argument.dart';
-import 'package:backyard/legacy/Arguments/screen_arguments.dart';
 import 'package:backyard/legacy/Component/custom_bottomsheet_indicator.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_image.dart';
@@ -20,8 +18,6 @@ import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/app_size.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
@@ -58,14 +54,11 @@ class DiscountOffersView extends StatefulWidget {
 class _DiscountOffersViewState extends State<DiscountOffersView> {
   late final user = context.read<UserController>().user;
   late bool business =
-      (navigatorKey.currentContext?.read<UserController>().isSwitch ?? false)
+      (context.read<UserController>().isSwitch)
           ? false
-          : navigatorKey.currentContext?.read<UserController>().user?.role == UserRoleEnum.Business;
+          : context.read<UserController>().user?.role == UserRoleEnum.Business;
 
-  String get data =>
-  // encryption(
-  //     "{'offer': ${widget.model?.id?.toString()},'user_id': ${user?.id?.toString()}},")
-  json.encode({
+  String get data => json.encode({
     'title': widget.model?.title ?? '',
     'offer': (widget.fromSaved ?? false) ? widget.model?.offerId?.toString() : widget.model?.id?.toString(),
     'user_id': user?.id?.toString(),
@@ -273,7 +266,7 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                             } else {
                               getIt<AppNetwork>().loadingProgressIndicator();
                               final val = await BusAPIS.availOffer(offerId: widget.model?.id?.toString());
-                              AppNavigation.navigatorPop();
+                              context.maybePop();
                               if (val) {
                                 setState(() {
                                   widget.model?.isAvailed = 1;
@@ -283,24 +276,9 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                               }
                             }
                           } else {
-                            // AppNavigation.navigateTo(
-                            //     AppRouteName.SUBSCRIPTION_VIEW_ROUTE);
-                            AppNavigation.navigateTo(
-                              AppRouteName.CONTENT_SCREEN,
-                              arguments: ContentRoutingArgument(
-                                title: 'Subscriptions',
-                                contentType: 'Subscriptions',
-                                url: 'https://www.google.com/',
-                              ),
-                            );
                             CustomToast().showToast(message: 'You Need to Subscribe to Avail an Offer.');
+                            await context.pushRoute(ContentRoute(title: 'Subscriptions', contentType: 'Subscriptions'));
                           }
-                          // if (business) {
-                          //   AppNavigation.navigateTo(AppRouteName.SCAN_QR_VIEW_ROUTE,
-                          //       arguments: ScreenArguments(fromOffer: true));
-                          // } else {
-
-                          // }
                         },
                         bgColor: CustomColors.whiteColor,
                         textColor: CustomColors.black,
@@ -313,9 +291,9 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                     opacity: context.watch<UserController>().user?.subId == null ? .5 : 1,
                     child: MyButton(
                       title: 'Share with Friends',
-                      onTap: () {
+                      onTap: () async {
                         if (context.read<UserController>().user?.subId != null) {
-                          SharePlus.instance.share(
+                          await SharePlus.instance.share(
                             ShareParams(
                               text:
                                   "Share App with Friends,\n\n Link:${Platform.isAndroid ? "https://play.google.com/store/apps/details?id=com.app.mybackyardusa1" : "https://apps.apple.com/us/app/mb-my-backyard/id6736581907"}",
@@ -323,8 +301,8 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                             ),
                           );
                         } else {
-                          AppNavigation.navigateTo(AppRouteName.SUBSCRIPTION_VIEW_ROUTE);
                           CustomToast().showToast(message: 'You Need to Subscribe to Share an Offer.');
+                          await context.pushRoute(SubscriptionRoute());
                         }
                       },
                     ),
@@ -373,12 +351,9 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                   BottomSheetIndicator(),
                   SizedBox(height: 2.h),
                   GestureDetector(
-                    onTap: () {
-                      AppNavigation.navigatorPop();
-                      AppNavigation.navigateTo(
-                        AppRouteName.CREATE_OFFER_VIEW_ROUTE,
-                        arguments: ScreenArguments(fromEdit: true, args: {'offer': widget.model}),
-                      );
+                    onTap: () async {
+                      await context.maybePop();
+                      return context.pushRoute<void>(CreateOfferRoute(edit: true, model: widget.model));
                     },
                     child: Row(
                       children: [
@@ -391,7 +366,7 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                   SizedBox(height: 2.h),
                   GestureDetector(
                     onTap: () {
-                      AppNavigation.navigatorPop();
+                      context.maybePop();
                       deleteDialog(context, widget.model);
                     },
                     child: Row(
@@ -433,9 +408,9 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
               onYes: (v) async {
                 getIt<AppNetwork>().loadingProgressIndicator();
                 final val = await BusAPIS.deleteOffer(offerId: widget.model?.id?.toString() ?? '');
-                AppNavigation.navigatorPop();
+                context.maybePop();
                 if (val) {
-                  AppNavigation.navigatorPop();
+                  context.maybePop();
                 }
               },
               button2: (v) {},

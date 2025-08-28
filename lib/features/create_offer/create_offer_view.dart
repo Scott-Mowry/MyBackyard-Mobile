@@ -1,8 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:auto_route/annotations.dart';
-import 'package:backyard/boot.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
@@ -22,7 +21,6 @@ import 'package:backyard/legacy/Model/offer_model.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/custom_dialog.dart';
 import 'package:backyard/legacy/View/Widget/upload_media.dart';
@@ -62,8 +60,8 @@ class _CreateOfferViewState extends State<CreateOfferView> {
       setLoading(false);
       if (widget.edit) {
         selected =
-            navigatorKey.currentContext
-                ?.read<HomeController>()
+            context
+                .read<HomeController>()
                 .categories
                 ?.where((element) => element.id == widget.model?.category?.id)
                 .firstOrNull;
@@ -88,9 +86,7 @@ class _CreateOfferViewState extends State<CreateOfferView> {
     await GeneralAPIS.getCategories();
   }
 
-  void setLoading(bool val) {
-    navigatorKey.currentContext?.read<HomeController>().setLoading(val);
-  }
+  void setLoading(bool val) => context.read<HomeController>().setLoading(val);
 
   List<Category> categories = [
     Category(id: 'Category 1', categoryName: 'Category 1'),
@@ -462,10 +458,10 @@ class _CreateOfferViewState extends State<CreateOfferView> {
                                             desc: descriptionController.text,
                                             image: permit,
                                           );
-                                          AppNavigation.navigatorPop();
+                                          context.maybePop();
                                           if (val) {
-                                            AppNavigation.navigatorPop();
-                                            AppNavigation.navigatorPop();
+                                            context.maybePop();
+                                            context.maybePop();
                                           }
                                         } else {
                                           getIt<AppNetwork>().loadingProgressIndicator();
@@ -479,7 +475,7 @@ class _CreateOfferViewState extends State<CreateOfferView> {
                                             desc: descriptionController.text,
                                             image: permit,
                                           );
-                                          AppNavigation.navigatorPop();
+                                          context.maybePop();
                                           if (val) {
                                             titleController.text = widget.model?.title ?? '';
                                             discountController.clear();
@@ -556,50 +552,13 @@ class _CreateOfferViewState extends State<CreateOfferView> {
             ),
           ),
           SizedBox(height: 2.h),
-          // Wrap(children: List.generate(imagePath.length, (index) => Padding(
-          //   padding:  EdgeInsets.symmetric(horizontal:2.w,vertical: 2.w),
-          //   child: Container(
-          //       width: 25.w,
-          //       height: 25.w,
-          //       // alignment: Alignment.center,
-          //       decoration: BoxDecoration(
-          //           color: MyColors().whiteColor,
-          //           borderRadius: BorderRadius.circular(3),
-          //           border: Border.all(color: MyColors().primaryColor),
-          //           image: index < imagePath.length
-          //               ? DecorationImage(
-          //               image:( imagePath[index].isNetwork?NetworkImage(
-          //                   APIEndpoints.baseImageURL+imagePath[index].path
-          //               ): FileImage(
-          //                 File(imagePath[index].path),
-          //               )) as ImageProvider,
-          //               fit: BoxFit.cover)
-          //               : null),
-          //       child: index < imagePath.length
-          //           ? Align(
-          //           alignment: Alignment.topRight,
-          //           child: GestureDetector(
-          //               onTap: () {
-          //                 if(onTapRemove!=null)
-          //                 {
-          //                   onTapRemove!();
-          //                 }
-          //                 imagePath.removeAt(index);
-          //               },
-          //               child: Icon(
-          //                 Icons.cancel,
-          //                 color: MyColors().primaryColor,
-          //                 size: 20,
-          //               )))
-          //           : const SizedBox()),
-          // )),)
         ],
       ),
     );
   }
 
   Future completeDialog() {
-    navigatorKey.currentContext?.read<HomeController>().setIndex(0);
+    context.read<HomeController>().setIndex(0);
     return showDialog(
       context: context,
       barrierDismissible: false,
@@ -618,7 +577,7 @@ class _CreateOfferViewState extends State<CreateOfferView> {
               b1: 'Continue',
               // b2: 'Download QR Code',
               onYes: (v) {
-                AppNavigation.navigatorPop();
+                context.maybePop();
               },
               // button2: (v) {
               //   downloadDialog();
@@ -647,7 +606,7 @@ class _CreateOfferViewState extends State<CreateOfferView> {
               description: 'Are you sure you want to download qr code?',
               b1: 'Continue',
               onYes: (v) {
-                AppNavigation.navigatorPop();
+                context.maybePop();
                 CustomToast().showToast(message: 'QR Code downloaded successfully');
               },
             ),

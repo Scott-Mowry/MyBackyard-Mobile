@@ -1,8 +1,7 @@
-import 'package:auto_route/annotations.dart';
-import 'package:backyard/boot.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
-import 'package:backyard/features/give_review/give_review_view.dart';
 import 'package:backyard/features/offers/offers_view.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -17,8 +16,6 @@ import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/file_network.dart';
 import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/base_view.dart';
@@ -52,9 +49,9 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
   TextEditingController s = TextEditingController();
   late final user = context.read<UserController>().user;
   late bool business =
-      (navigatorKey.currentContext?.read<UserController>().isSwitch ?? false)
+      (context.read<UserController>().isSwitch)
           ? false
-          : navigatorKey.currentContext?.read<UserController>().user?.role == UserRoleEnum.Business;
+          : context.read<UserController>().user?.role == UserRoleEnum.Business;
   List<String> items = ['Offers', 'About', 'Reviews'];
   String i = 'Offers';
 
@@ -470,7 +467,6 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
                                                           ),
                                                           RatingBar(
                                                             initialRating: double.parse(val.reviews[i].rate ?? ''),
-                                                            // initialRating:d.endUser.value.avgRating,
                                                             direction: Axis.horizontal,
                                                             allowHalfRating: false,
                                                             itemCount: 5,
@@ -487,11 +483,7 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
                                                             itemSize: 3.w,
                                                           ),
                                                           SizedBox(height: 1.h),
-                                                          MyText(
-                                                            title: val.reviews[i].feedback ?? '',
-                                                            // 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.',
-                                                            size: 14,
-                                                          ),
+                                                          MyText(title: val.reviews[i].feedback ?? '', size: 14),
                                                         ],
                                                       ),
                                                     ),
@@ -501,15 +493,6 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
                                             SizedBox(height: 4.h),
                                           ],
                                         ),
-
-                                        // SizedBox(height: 2.h,),
-                                        // ListView.builder(
-                                        //     itemCount:10,
-                                        //     padding: EdgeInsets.symmetric(horizontal: 3.w,vertical: 0.h),
-                                        //     physics: NeverScrollableScrollPhysics(),
-                                        //     shrinkWrap: true,
-                                        //     itemBuilder: (_, index) =>OfferTile()
-                                        // )
                                       ] else ...[
                                         const Center(child: MyText(title: 'No Reviews Found', size: 18)),
                                         SizedBox(height: 34.h),
@@ -517,12 +500,10 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
                                     if (widget.user?.id != val.user?.id && !widget.isMe) ...[
                                       MyButton(
                                         title: 'Write a Review',
-                                        onTap: () {
-                                          AppNavigation.navigateTo(
-                                            AppRouteName.GIVE_REVIEW_VIEW_ROUTE,
-                                            arguments: GiveReviewArgs(busId: widget.user?.id?.toString() ?? ''),
-                                          );
-                                        },
+                                        onTap:
+                                            () => context.pushRoute(
+                                              GiveReviewRoute(busId: widget.user?.id?.toString() ?? ''),
+                                            ),
                                       ),
                                     ],
                                   ],

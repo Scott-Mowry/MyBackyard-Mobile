@@ -1,9 +1,8 @@
-import 'package:auto_route/annotations.dart';
-import 'package:backyard/boot.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
-import 'package:backyard/features/time_schedule/time_schedule_edit_view.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
@@ -14,8 +13,6 @@ import 'package:backyard/legacy/Model/day_schedule.dart';
 import 'package:backyard/legacy/Model/menu_model.dart';
 import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -47,7 +44,7 @@ class _ScheduleViewState extends State<ScheduleView> {
   String openTime = 'Open Time';
   String closeTime = 'Close Time';
   final _form = GlobalKey<FormState>();
-  final userController = navigatorKey.currentContext?.read<UserController>();
+  late final userController = context.read<UserController>();
 
   TimeOfDay? timeFormat(String? val) {
     if (val != null) {
@@ -62,8 +59,8 @@ class _ScheduleViewState extends State<ScheduleView> {
   @override
   void initState() {
     if (widget.edit) {
-      if ((userController?.user?.days ?? []).isNotEmpty) {
-        for (var temp in userController?.user?.days ?? []) {
+      if ((userController.user?.days ?? []).isNotEmpty) {
+        for (var temp in userController.user?.days ?? []) {
           daySchedules.add(
             DaySchedule(
               day: daysOfWeek.values.byName(temp.day ?? ''),
@@ -111,30 +108,21 @@ class _ScheduleViewState extends State<ScheduleView> {
       trailingAppBar: IconButton(
         icon: Icon(Icons.select_all_outlined, size: 24.sp, color: CustomColors.black),
         onPressed: () async {
-          await Navigator.pushNamed(
-            context,
-            AppRouteName.TIME_SCHEDULE_EDIT_VIEW_ROUTE,
-            arguments: TimeSchedulingEditArgs(multiSelect: true),
-          ).then((value) {
-            if (value != null) {
-              final list = value as List<DaySchedule>?;
-              for (var j = 0; j < (list?.length ?? 0); j++) {
-                final temp = list?[j];
-                if (temp != null) {
-                  int? index;
-                  for (var i = 0; i < daySchedules.length; i++) {
-                    if (daySchedules[i].day == temp.day) {
-                      index = i;
-                    }
-                  }
-                  if (index != null) {
-                    daySchedules[index] = temp;
-                  }
-                }
-              }
-              setState(() {});
+          final schedules = await context.pushRoute(TimeScheduleEditRoute(multiSelect: true));
+          if (schedules == null || schedules is! List<DaySchedule?>) return;
+
+          for (var j = 0; j < (schedules.length); j++) {
+            final temp = schedules[j];
+            if (temp == null) continue;
+
+            int? index;
+            for (var i = 0; i < daySchedules.length; i++) {
+              if (daySchedules[i].day == temp.day) index = i;
             }
-          });
+
+            if (index != null) daySchedules[index] = temp;
+          }
+          setState(() {});
         },
       ),
       child: CustomPadding(
@@ -208,12 +196,7 @@ class _ScheduleViewState extends State<ScheduleView> {
                   for (DaySchedule val in daySchedules)
                     Padding(padding: EdgeInsets.only(bottom: 2.h), child: timeField(val)),
                   Spacer(),
-                  MyButton(
-                    title: widget.edit ? 'Update' : 'Next',
-                    onTap: () {
-                      onSubmit(context);
-                    },
-                  ),
+                  MyButton(title: widget.edit ? 'Update' : 'Next', onTap: () => onSubmit(context)),
                   SizedBox(height: 3.h),
                 ],
               ),
@@ -224,26 +207,17 @@ class _ScheduleViewState extends State<ScheduleView> {
     );
   }
 
-  Future<void> onTapField(DaySchedule val) async {
-    await Navigator.pushNamed(
-      context,
-      AppRouteName.TIME_SCHEDULE_EDIT_VIEW_ROUTE,
-      arguments: TimeSchedulingEditArgs(val: val),
-    ).then((value) {
-      final temp = value as DaySchedule?;
-      if (temp != null) {
-        int? index;
-        for (var i = 0; i < daySchedules.length; i++) {
-          if (daySchedules[i].day == temp.day) {
-            index = i;
-          }
-        }
-        if (index != null) {
-          daySchedules[index] = temp;
-        }
-      }
-      setState(() {});
-    });
+  Future<void> onTapField(DaySchedule daySchedule) async {
+    final newDaySchedule = await context.pushRoute(TimeScheduleEditRoute(daySchedule: daySchedule));
+    if (newDaySchedule == null || newDaySchedule is! DaySchedule) return;
+
+    int? index;
+    for (var i = 0; i < daySchedules.length; i++) {
+      if (daySchedules[i].day == newDaySchedule.day) index = i;
+    }
+
+    if (index != null) daySchedules[index] = newDaySchedule;
+    setState(() {});
   }
 
   Widget timeField(DaySchedule val) {
@@ -278,7 +252,7 @@ class _ScheduleViewState extends State<ScheduleView> {
     return value;
   }
 
-  Future<void> onSubmit(context) async {
+  Future<void> onSubmit(BuildContext context) async {
     FocusManager.instance.primaryFocus?.unfocus();
     if ((_form.currentState?.validate() ?? false)) {
       var temp = <BussinessScheduling>[];
@@ -296,13 +270,13 @@ class _ScheduleViewState extends State<ScheduleView> {
       if (widget.edit) {
         getIt<AppNetwork>().loadingProgressIndicator();
         final value = await getIt<UserAuthRepository>().completeProfile(days: temp);
-        AppNavigation.navigatorPop();
+        context.maybePop();
         if (value) {
-          AppNavigation.navigatorPop();
+          context.maybePop();
         }
       } else {
         final user =
-            userController?.user
+            userController.user
               ?..name = widget.args?['name']
               ..description = widget.args?['description']
               ..isPushNotify = widget.args?['isPushNotify']
@@ -316,8 +290,9 @@ class _ScheduleViewState extends State<ScheduleView> {
         // ..zipCode = widget.args?["zipCode"]
         ;
 
-        userController?.setUser(user!);
-        AppNavigation.navigateTo(AppRouteName.CATEGORY_VIEW_ROUTE);
+        userController.setUser(user!);
+
+        return context.pushRoute<void>(BusinessCategoryRoute());
       }
     }
   }

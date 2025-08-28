@@ -1,8 +1,7 @@
-import 'package:auto_route/annotations.dart';
-import 'package:backyard/boot.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/features/offers/offers_view.dart';
-import 'package:backyard/legacy/Arguments/profile_screen_arguments.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
 import 'package:backyard/legacy/Component/custom_height.dart';
 import 'package:backyard/legacy/Component/custom_image.dart';
@@ -12,9 +11,7 @@ import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
-import 'package:backyard/legacy/Service/navigation_service.dart';
 // import 'package:backyard/legacy/Model/session_model.dart';
-import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/View/Widget/search_tile.dart';
 import 'package:backyard/legacy/View/base_view.dart';
@@ -24,12 +21,14 @@ import 'package:sizer/sizer.dart';
 
 class SearchResultsArgs {
   const SearchResultsArgs({this.categoryId});
+
   final String? categoryId;
 }
 
 @RoutePage()
 class SearchResultsView extends StatefulWidget {
   const SearchResultsView({super.key, this.categoryId});
+
   final String? categoryId;
 
   @override
@@ -46,7 +45,8 @@ class _SearchResultsViewState extends State<SearchResultsView> {
     ImagePath.random3,
     ImagePath.random1,
   ];
-  late final homeController = navigatorKey.currentContext?.read<HomeController>();
+
+  late final homeController = context.read<HomeController>();
 
   @override
   void initState() {
@@ -64,7 +64,7 @@ class _SearchResultsViewState extends State<SearchResultsView> {
   }
 
   void setLoading(bool val) {
-    homeController?.setLoading(val);
+    homeController.setLoading(val);
   }
 
   @override
@@ -155,13 +155,8 @@ class _SearchResultsViewState extends State<SearchResultsView> {
     return Padding(
       padding: EdgeInsets.only(right: 3.w),
       child: GestureDetector(
-        onTap: () {
-          // HomeController.i.endUser.value=u??User();
-          AppNavigation.navigateTo(
-            AppRouteName.USER_PROFILE_VIEW_ROUTE,
-            arguments: ProfileScreenArguments(isBusinessProfile: true, isMe: false, isUser: false, user: user),
-          );
-        },
+        onTap:
+            () => context.pushRoute(UserProfileRoute(isBusinessProfile: true, isMe: false, isUser: false, user: user)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
