@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import 'package:auto_route/annotations.dart';
 import 'package:backyard/boot.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
@@ -36,24 +37,25 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 
-class DiscountOffersArguments {
-  const DiscountOffersArguments({this.model, this.fromSaved});
+class DiscountOffersArgs {
+  const DiscountOffersArgs({this.model, this.fromSaved});
 
   final Offer? model;
   final bool? fromSaved;
 }
 
-class DiscountOffers extends StatefulWidget {
-  const DiscountOffers({super.key, this.model, this.fromSaved});
+@RoutePage()
+class DiscountOffersView extends StatefulWidget {
+  const DiscountOffersView({super.key, this.model, this.fromSaved});
 
   final Offer? model;
   final bool? fromSaved;
 
   @override
-  State<DiscountOffers> createState() => _DiscountOffersState();
+  State<DiscountOffersView> createState() => _DiscountOffersViewState();
 }
 
-class _DiscountOffersState extends State<DiscountOffers> {
+class _DiscountOffersViewState extends State<DiscountOffersView> {
   late final user = context.read<UserController>().user;
   late bool business =
       (navigatorKey.currentContext?.read<UserController>().isSwitch ?? false)

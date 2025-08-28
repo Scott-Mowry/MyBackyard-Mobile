@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:auto_route/annotations.dart';
 import 'package:backyard/boot.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
@@ -24,6 +25,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+@RoutePage()
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
 

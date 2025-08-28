@@ -20,7 +20,6 @@ import 'package:backyard/legacy/View/User/category.dart';
 import 'package:backyard/legacy/View/User/offers.dart';
 import 'package:backyard/legacy/View/User/user_home.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
@@ -36,6 +35,7 @@ class _HomeViewState extends State<HomeView> {
   final key = GlobalKey<ScaffoldState>();
   int inActiveColor = 0XFFD2D2D2;
   int activeColor = 0XFF57BA00;
+
   late final business =
       (navigatorKey.currentContext?.read<UserController>().isSwitch ?? false)
           ? false
@@ -56,32 +56,21 @@ class _HomeViewState extends State<HomeView> {
         eventParamaters: {'id': context.read<UserController>().user?.id?.toString()},
       );
     });
-    // TODO: implement initState
+
     super.initState();
   }
 
-  /// Controller to handle bottom nav bar and also handles initial page
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        return onWillPop(context);
-      },
+    return PopScope(
+      canPop: false,
       child: Consumer2<HomeController, UserController>(
         builder: (context, val, val2, _) {
           return Scaffold(
             key: key,
             backgroundColor: Colors.white,
             resizeToAvoidBottomInset: false,
-            // extendBodyBehindAppBar: true,
             drawer: CustomDrawer(),
-
-            // body: GetBuilder<HomeController>(
-            //     builder: (context) {
-            //       return business? (businessPages[h.currentval.currentIndex.value]):userPages[h.currentval.currentIndex.value];
-            //     }
-            // ),
-            // bottomNavigationBar: CustomBottomBar(),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
             floatingActionButton:
                 (!business)
@@ -91,8 +80,6 @@ class _HomeViewState extends State<HomeView> {
                         if (val2.user?.subId != null && val2.user?.subId != 4) {
                           AppNavigation.navigateTo(AppRouteName.CREATE_OFFER_VIEW_ROUTE);
                         } else {
-                          // AppNavigation.navigateTo(
-                          //     AppRouteName.SUBSCRIPTION_VIEW_ROUTE);
                           AppNavigation.navigateTo(
                             AppRouteName.CONTENT_SCREEN,
                             arguments: ContentRoutingArgument(
@@ -162,38 +149,6 @@ class _HomeViewState extends State<HomeView> {
               ),
             ),
             body: (business) ? businessPages[val.currentIndex] : userPages[val.currentIndex],
-
-            // :
-            // PersistentTabView(
-            //     context,
-            //     controller: val.homeBottom,
-            //     screens: businessPages,
-            //     // (trainer? (trainerPages[h.currentval.currentIndex.value]):traineePages[h.currentval.currentIndex.value]),
-            //     items: businessTab,
-            //     confineToSafeArea: false,
-            //     navBarHeight: 65,
-            //     stateManagement: false,
-            //     backgroundColor:
-            //         Colors.white, // Customize the background color
-            //     handleAndroidBackButtonPress: true,
-            //     resizeToAvoidBottomInset: false,
-            //     decoration: NavBarDecoration(
-            //       borderRadius: BorderRadius.circular(0.0),
-            //       colorBehindNavBar: Colors.white,
-            //       boxShadow: [
-            //         BoxShadow(
-            //           color: Colors.black.withValues(alpha: 0.2), // Shadow color
-            //           blurRadius: 10, // Spread of the shadow
-            //           spreadRadius: 5, // Size of the shadow
-            //           offset: const Offset(0, 4), // Position of the shadow
-            //         ),
-            //       ],
-            //     ),
-            //     bottomScreenMargin: 75,
-            //     padding: EdgeInsets.only(top: 0, bottom: 10),
-            //     // margin: const EdgeInsets.symmetric(vertical: 50), // Adjust the margin if needed
-            //     navBarStyle: NavBarStyle.style15, // Set the style to style15
-            //   ),
             extendBody: false,
           );
         },
@@ -201,94 +156,26 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  List<Widget> userPages = <Widget>[
-    UserHome(),
-    const Category(),
-    // ScanQR(),
-    const Offers(),
-    UserProfileView(),
-  ];
+  List<Widget> userPages = <Widget>[UserHome(), const Category(), const Offers(), UserProfileView()];
+
   List<Widget> businessPages = <Widget>[
     const BusinessHome(),
     const Customers(),
-    // CreateOffer(),
     const SettingsView(),
     UserProfileView(isUser: true, isMe: true),
   ];
 
-  // List<PersistentBottomNavBarItem> userTab = <PersistentBottomNavBarItem>[
-  //   PersistentBottomNavBarItem(
-  //       icon: Image.asset(ImagePath.home2, scale: 1),
-  //       inactiveIcon: Image.asset(ImagePath.home, scale: 1),
-  //       title: 'Home',
-  //       activeColorPrimary: MyColors().primaryColor,
-  //       activeColorSecondary: MyColors().primaryColor),
-  //   PersistentBottomNavBarItem(
-  //       icon: Image.asset(ImagePath.offer2, scale: 1),
-  //       inactiveIcon: Image.asset(ImagePath.offers, scale: 1),
-  //       title: 'Offers',
-  //       activeColorPrimary: MyColors().primaryColor,
-  //       activeColorSecondary: MyColors().primaryColor),
-  //   // PersistentBottomNavBarItem(icon: Image.asset(ImagePath.scan,scale: 1), title: '',activeColorSecondary: MyColors().primaryColor,activeColorPrimary: MyColors().whiteColor,contentPadding: 50,iconSize: 40),
-  //   PersistentBottomNavBarItem(
-  //       icon: Image.asset(ImagePath.category2, scale: 1),
-  //       inactiveIcon: Image.asset(ImagePath.savedOffersIcon, scale: 1),
-  //       title: 'Saved',
-  //       activeColorPrimary: MyColors().primaryColor,
-  //       activeColorSecondary: MyColors().primaryColor),
-  //   PersistentBottomNavBarItem(
-  //       icon: Image.asset(ImagePath.profile2, scale: 1),
-  //       inactiveIcon: Image.asset(ImagePath.profile, scale: 1),
-  //       title: 'Profile',
-  //       activeColorPrimary: MyColors().primaryColor,
-  //       activeColorSecondary: MyColors().primaryColor),
-  // ];
   List<Map<String, String>> userTabs = [
     {'title': 'Home', 'icon': ImagePath.homeAltered},
     {'title': 'Offers', 'icon': ImagePath.offerAltered},
     {'title': 'Saved', 'icon': ImagePath.savedOffersIcon},
     {'title': 'Profile', 'icon': ImagePath.profile},
   ];
+
   List<Map<String, String>> businessTab = [
     {'title': 'Home', 'icon': ImagePath.home5},
     {'title': 'Customers', 'icon': ImagePath.customers2},
     {'title': 'Settings', 'icon': ImagePath.setting2},
     {'title': 'Profile', 'icon': ImagePath.profile},
   ];
-  // List<PersistentBottomNavBarItem> businessTab = <PersistentBottomNavBarItem>[
-  //   PersistentBottomNavBarItem(
-  //       icon: Image.asset(ImagePath.home5, scale: 1),
-  //       inactiveIcon: Image.asset(ImagePath.home4, scale: 1),
-  //       title: 'Home',
-  //       activeColorPrimary: MyColors().primaryColor,
-  //       activeColorSecondary: MyColors().primaryColor),
-  //   PersistentBottomNavBarItem(
-  //       icon: Image.asset(ImagePath.customers2, scale: 1),
-  //       inactiveIcon: Image.asset(ImagePath.customers, scale: 1),
-  //       title: 'Customers',
-  //       activeColorPrimary: MyColors().primaryColor,
-  //       activeColorSecondary: MyColors().primaryColor),
-  //   PersistentBottomNavBarItem(
-  //       icon: Image.asset(ImagePath.add, scale: 2),
-  //       title: '',
-  //       activeColorSecondary: MyColors().primaryColor,
-  //       activeColorPrimary: MyColors().whiteColor),
-  //   PersistentBottomNavBarItem(
-  //       icon: Image.asset(ImagePath.setting2, scale: 1),
-  //       inactiveIcon: Image.asset(ImagePath.settings, scale: 1),
-  //       title: 'Settings',
-  //       activeColorPrimary: MyColors().primaryColor,
-  //       activeColorSecondary: MyColors().primaryColor),
-  //   PersistentBottomNavBarItem(
-  //       icon: Image.asset(ImagePath.profile2, scale: 1),
-  //       inactiveIcon: Image.asset(ImagePath.profile, scale: 1),
-  //       title: 'Profile',
-  //       activeColorPrimary: MyColors().primaryColor,
-  //       activeColorSecondary: MyColors().primaryColor),
-  // ];
-
-  Future<bool> onWillPop(context) async {
-    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-    return false;
-  }
 }

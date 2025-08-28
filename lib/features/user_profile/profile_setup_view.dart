@@ -37,16 +37,16 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 @RoutePage()
-class ProfileSetup extends StatefulWidget {
-  const ProfileSetup({super.key, required this.editProfile});
+class ProfileSetupView extends StatefulWidget {
+  const ProfileSetupView({super.key, required this.editProfile});
 
   final bool editProfile;
 
   @override
-  State<ProfileSetup> createState() => _ProfileSetupState();
+  State<ProfileSetupView> createState() => _ProfileSetupViewState();
 }
 
-class _ProfileSetupState extends State<ProfileSetup> {
+class _ProfileSetupViewState extends State<ProfileSetupView> {
   late UserRoleEnum? role = context.read<UserController>().user?.role;
   late bool business = role == UserRoleEnum.Business;
   String? imageProfile;

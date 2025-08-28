@@ -56,15 +56,15 @@ Route onGenerateRoute(RouteSettings routeSettings) {
 
         case AppRouteName.COMPLETE_PROFILE_VIEW_ROUTE:
           final arg = routeSettings.arguments as ScreenArguments?;
-          return ProfileSetup(editProfile: arg?.fromEdit ?? false);
+          return ProfileSetupView(editProfile: arg?.fromEdit ?? false);
         case AppRouteName.HOME_VIEW_ROUTE:
           return HomeView();
         case AppRouteName.SCAN_QR_VIEW_ROUTE:
           final arg = routeSettings.arguments as ScreenArguments?;
           return ScanQRView(fromOffer: arg?.fromOffer ?? false);
         case AppRouteName.DISCOUNT_OFFER_VIEW_ROUTE:
-          final arg = routeSettings.arguments as DiscountOffersArguments?;
-          return DiscountOffers(model: arg?.model, fromSaved: arg?.fromSaved);
+          final arg = routeSettings.arguments as DiscountOffersArgs?;
+          return DiscountOffersView(model: arg?.model, fromSaved: arg?.fromSaved);
         case AppRouteName.SEARCH_RESULT_VIEW_ROUTE:
           final arg = routeSettings.arguments as SearchResultsArgs?;
           return SearchResultsView(categoryId: arg?.categoryId);

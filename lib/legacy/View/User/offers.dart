@@ -589,7 +589,7 @@ class OfferTile extends StatelessWidget {
           onTap: () {
             AppNavigation.navigateTo(
               AppRouteName.DISCOUNT_OFFER_VIEW_ROUTE,
-              arguments: DiscountOffersArguments(model: model, fromSaved: fromSaved),
+              arguments: DiscountOffersArgs(model: model, fromSaved: fromSaved),
             );
           },
           child: Container(
