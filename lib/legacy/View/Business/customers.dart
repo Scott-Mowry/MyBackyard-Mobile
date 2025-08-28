@@ -41,7 +41,6 @@ class _CustomersState extends State<Customers> {
       await getCustomers();
       setLoading(false);
     });
-    // TODO: implement initState
     super.initState();
   }
 
@@ -53,11 +52,8 @@ class _CustomersState extends State<Customers> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        return Future(() => true);
-        // return Utils().onWillPop(context, currentBackPressTime: currentBackPressTime);
-      },
+    return PopScope(
+      canPop: true,
       child: BaseView(
         bgImage: '',
         bottomSafeArea: false,

@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:backyard/boot.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Arguments/profile_screen_arguments.dart';
@@ -21,20 +22,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class SearchResultArguments {
-  const SearchResultArguments({this.categoryId});
+class SearchResultsArgs {
+  const SearchResultsArgs({this.categoryId});
   final String? categoryId;
 }
 
-class SearchResult extends StatefulWidget {
-  const SearchResult({super.key, this.categoryId});
+@RoutePage()
+class SearchResultsView extends StatefulWidget {
+  const SearchResultsView({super.key, this.categoryId});
   final String? categoryId;
 
   @override
-  State<SearchResult> createState() => _SearchResultState();
+  State<SearchResultsView> createState() => _SearchResultsViewState();
 }
 
-class _SearchResultState extends State<SearchResult> {
+class _SearchResultsViewState extends State<SearchResultsView> {
   List<String> i = [
     ImagePath.random1,
     ImagePath.random2,

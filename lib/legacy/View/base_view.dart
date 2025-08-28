@@ -66,11 +66,6 @@ class BaseView extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor ?? CustomColors.whiteColor,
       resizeToAvoidBottomInset: resizeBottomInset ?? true,
-      // key: showDrawer == true ? _scaffoldKey : null,
-      // drawer:showDrawer == true ? Container(
-      //   width: 400,
-      //   color: Colors.red,
-      // ):null,
       appBar:
           showAppBar == true
               ? AppBar(
@@ -84,8 +79,6 @@ class BaseView extends StatelessWidget {
                             child: leadingAppBar,
                           ),
                         )
-                        // Padding(padding: EdgeInsets.only(top: .6.h, bottom: .6.h,left: 2.w,right: 0.h), child: Container(decoration: BoxDecoration( borderRadius: BorderRadius.circular(6),), child: leadingAppBar),)
-                        // Padding(padding: EdgeInsets.only(top: 7, bottom: 7,left: 10,right: 0), child: Container(decoration: BoxDecoration( borderRadius: BorderRadius.circular(6),), child: leadingAppBar),)
                         : InkWell(
                           onTap: () {
                             FocusManager.instance.primaryFocus?.unfocus();

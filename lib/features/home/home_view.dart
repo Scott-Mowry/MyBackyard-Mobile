@@ -1,6 +1,9 @@
+import 'package:auto_route/annotations.dart';
 import 'package:backyard/boot.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
+import 'package:backyard/features/settings/settings_view.dart';
+import 'package:backyard/features/user_profile/user_profile_view.dart';
 import 'package:backyard/legacy/Arguments/content_argument.dart';
 import 'package:backyard/legacy/Component/custom_drawer.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
@@ -13,8 +16,6 @@ import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Business/business_home.dart';
 import 'package:backyard/legacy/View/Business/customers.dart';
-import 'package:backyard/legacy/View/Common/Settings/settings.dart';
-import 'package:backyard/legacy/View/Common/user_profile.dart';
 import 'package:backyard/legacy/View/User/category.dart';
 import 'package:backyard/legacy/View/User/offers.dart';
 import 'package:backyard/legacy/View/User/user_home.dart';
@@ -23,6 +24,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+@RoutePage()
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -204,14 +206,14 @@ class _HomeViewState extends State<HomeView> {
     const Category(),
     // ScanQR(),
     const Offers(),
-    UserProfile(),
+    UserProfileView(),
   ];
   List<Widget> businessPages = <Widget>[
     const BusinessHome(),
     const Customers(),
     // CreateOffer(),
-    const Settings(),
-    UserProfile(isUser: true, isMe: true),
+    const SettingsView(),
+    UserProfileView(isUser: true, isMe: true),
   ];
 
   // List<PersistentBottomNavBarItem> userTab = <PersistentBottomNavBarItem>[

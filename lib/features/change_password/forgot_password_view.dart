@@ -2,6 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/services/auth_service.dart';
+import 'package:backyard/features/sign_in/enter_otp_view.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -15,7 +16,6 @@ import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/View/Authentication/enter_otp.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -99,7 +99,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           toastLength: Toast.LENGTH_LONG,
           timeInSecForIosWeb: 5,
         );
-        AppNavigation.navigateTo(AppRouteName.ENTER_OTP_VIEW_ROUTE, arguments: EnterOTPArguements(fromForgot: true));
+
+        return AppNavigation.navigateTo(AppRouteName.ENTER_OTP_VIEW_ROUTE, arguments: EnterOTPArgs(fromForgot: true));
       }
     }
   }

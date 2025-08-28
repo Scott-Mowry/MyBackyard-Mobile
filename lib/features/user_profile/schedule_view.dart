@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:backyard/boot.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
@@ -20,17 +21,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class Schedule extends StatefulWidget {
+@RoutePage()
+class ScheduleView extends StatefulWidget {
   final bool edit;
   final Map<String, dynamic>? args;
 
-  const Schedule({super.key, this.edit = false, this.args});
+  const ScheduleView({super.key, this.edit = false, this.args});
 
   @override
-  State<Schedule> createState() => _ScheduleState();
+  State<ScheduleView> createState() => _ScheduleViewState();
 }
 
-class _ScheduleState extends State<Schedule> {
+class _ScheduleViewState extends State<ScheduleView> {
   List<MenuModel> hours = [
     MenuModel(name: 'Mon', val: false),
     MenuModel(name: 'Tue', val: false),

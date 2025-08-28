@@ -1,5 +1,6 @@
 import 'package:backyard/boot.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/features/discount_offers/discount_offers_view.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
@@ -12,13 +13,9 @@ import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
 import 'package:backyard/legacy/Service/navigation_service.dart';
-// import 'package:backyard/legacy/Model/session_model.dart';
-// import 'package:backyard/legacy/Model/shop_model.dart';
-// import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
-import 'package:backyard/legacy/View/User/discount_offers.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -47,7 +44,6 @@ class _OffersState extends State<Offers> {
       await getOffers();
       setLoading(false);
     });
-    // TODO: implement initState
     super.initState();
   }
 
@@ -61,11 +57,8 @@ class _OffersState extends State<Offers> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        return Future(() => true);
-        // return Utils().onWillPop(context, currentBackPressTime: currentBackPressTime);
-      },
+    return PopScope(
+      canPop: true,
       child: BaseView(
         bgImage: '',
         topSafeArea: false,
@@ -103,30 +96,10 @@ class _OffersState extends State<Offers> {
                             trailing: NotificationIcon(),
                             bottom: 2.h,
                           ),
-                          // SearchTile(
-                          //   showFilter: false,
-                          //   // search: location,
-                          //   // readOnly: true,
-                          //   onTap: ()async{
-                          //     // await getAddress(context);
-                          //   },
-                          //   onChange: (v) async{
-                          //     // await getAddress(context);
-                          //   },
-                          // ),
                           SizedBox(height: 2.h),
                         ],
                       ),
                     ),
-                    // Padding(
-                    //   padding:
-                    //       EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.w),
-                    //   child: MyText(
-                    //     title: 'Trending Offers',
-                    //     size: 16,
-                    //     fontWeight: FontWeight.w600,
-                    //   ),
-                    // ),
                     if (val.loading)
                       Column(
                         children: [

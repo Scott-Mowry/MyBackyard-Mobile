@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -14,22 +15,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:sizer/sizer.dart';
 
-class GiveReviewArguments {
-  GiveReviewArguments({this.busId});
+class GiveReviewArgs {
+  GiveReviewArgs({this.busId});
+
   final String? busId;
 }
 
-class GiveReview extends StatefulWidget {
-  const GiveReview({super.key, this.busId});
+@RoutePage()
+class GiveReviewView extends StatefulWidget {
+  const GiveReviewView({super.key, this.busId});
+
   final String? busId;
+
   @override
-  State<GiveReview> createState() => _GiveReviewState();
+  State<GiveReviewView> createState() => _GiveReviewViewState();
 }
 
-class _GiveReviewState extends State<GiveReview> {
+class _GiveReviewViewState extends State<GiveReviewView> {
   TextEditingController review = TextEditingController();
   double rate = 1;
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return BaseView(
@@ -37,12 +43,6 @@ class _GiveReviewState extends State<GiveReview> {
       bgImage: '',
       showAppBar: true,
       showBackButton: true,
-      // trailingAppBar: Image.asset(
-      //   ImagePath.favorite,
-      //   color: MyColors().redColor,
-      //   scale: 2,
-      // ),
-      // backgroundColor: Colors.white,
       child: CustomPadding(
         horizontalPadding: 4.w,
         topPadding: 0,

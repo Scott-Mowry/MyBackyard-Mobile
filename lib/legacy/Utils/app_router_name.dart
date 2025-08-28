@@ -21,8 +21,5 @@ class AppRouteName {
   static const TIME_SCHEDULE_EDIT_VIEW_ROUTE = '/timeSchedulingEditScreenRoute';
 
   static const SETTINGS_VIEW_ROUTE = '/settings';
-  static const ADD_CARD_VIEW_ROUTE = '/add-card';
-  static const NOTIFICATION_VIEW_ROUTE = '/notification-screen';
-  static const CHAT_VIEW_ROUTE = '/chat-screen';
   static const CONTENT_SCREEN = '/content-screen';
 }

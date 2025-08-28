@@ -1,29 +1,27 @@
 import 'package:backyard/features/change_password/change_password_view.dart';
 import 'package:backyard/features/change_password/forgot_password_view.dart';
+import 'package:backyard/features/content/content_view.dart';
+import 'package:backyard/features/create_offer/create_offer_view.dart';
+import 'package:backyard/features/discount_offers/discount_offers_view.dart';
+import 'package:backyard/features/give_review/give_review_view.dart';
+import 'package:backyard/features/home/home_view.dart';
 import 'package:backyard/features/landing/landing_view.dart';
-import 'package:backyard/features/notifications/notifications_view.dart';
+import 'package:backyard/features/scan_qr/scan_qr_view.dart';
+import 'package:backyard/features/search_results/search_results_view.dart';
+import 'package:backyard/features/settings/settings_view.dart';
+import 'package:backyard/features/sign_in/enter_otp_view.dart';
 import 'package:backyard/features/sign_in/sign_in_view.dart';
+import 'package:backyard/features/subscription/subscription_view.dart';
 import 'package:backyard/features/time_schedule/time_schedule_edit_view.dart';
+import 'package:backyard/features/user_profile/business_category_view.dart';
+import 'package:backyard/features/user_profile/customer_profile_view.dart';
+import 'package:backyard/features/user_profile/profile_setup_view.dart';
+import 'package:backyard/features/user_profile/schedule_view.dart';
+import 'package:backyard/features/user_profile/user_profile_view.dart';
 import 'package:backyard/legacy/Arguments/content_argument.dart';
 import 'package:backyard/legacy/Arguments/profile_screen_arguments.dart';
 import 'package:backyard/legacy/Arguments/screen_arguments.dart';
-import 'package:backyard/legacy/Service/url_launcher.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
-import 'package:backyard/legacy/View/Authentication/business_category.dart';
-import 'package:backyard/legacy/View/Authentication/enter_otp.dart';
-import 'package:backyard/legacy/View/Authentication/profile_setup.dart';
-import 'package:backyard/legacy/View/Authentication/schedule.dart';
-import 'package:backyard/legacy/View/Business/create_offer.dart';
-import 'package:backyard/legacy/View/Common/Settings/settings.dart';
-import 'package:backyard/legacy/View/Common/customer_profile.dart';
-import 'package:backyard/legacy/View/Common/subscription.dart';
-import 'package:backyard/legacy/View/Common/user_profile.dart';
-import 'package:backyard/legacy/View/Payment/add_card.dart';
-import 'package:backyard/legacy/View/User/discount_offers.dart';
-import 'package:backyard/legacy/View/User/give_review.dart';
-import 'package:backyard/legacy/View/User/scan_qr.dart';
-import 'package:backyard/legacy/View/User/search_result.dart';
-import 'package:backyard/legacy/View/home_view.dart';
 import 'package:flutter/material.dart';
 
 Route onGenerateRoute(RouteSettings routeSettings) {
@@ -44,17 +42,17 @@ Route onGenerateRoute(RouteSettings routeSettings) {
         case AppRouteName.FORGET_PASSWORD_VIEW_ROUTE:
           return const ForgotPasswordView();
         case AppRouteName.ENTER_OTP_VIEW_ROUTE:
-          final arg = routeSettings.arguments as EnterOTPArguements?;
-          return EnterOTP(
+          final arg = routeSettings.arguments as EnterOTPArgs?;
+          return EnterOTPView(
             phoneNumber: arg?.phoneNumber ?? '',
             verification: arg?.verification,
             fromForgot: arg?.fromForgot,
           );
         case AppRouteName.SCHEDULE_VIEW_ROUTE:
           final arg = routeSettings.arguments as ScreenArguments?;
-          return Schedule(edit: arg?.fromEdit ?? false, args: arg?.args);
+          return ScheduleView(edit: arg?.fromEdit ?? false, args: arg?.args);
         case AppRouteName.CATEGORY_VIEW_ROUTE:
-          return Category();
+          return BusinessCategoryView();
 
         case AppRouteName.COMPLETE_PROFILE_VIEW_ROUTE:
           final arg = routeSettings.arguments as ScreenArguments?;
@@ -63,29 +61,24 @@ Route onGenerateRoute(RouteSettings routeSettings) {
           return HomeView();
         case AppRouteName.SCAN_QR_VIEW_ROUTE:
           final arg = routeSettings.arguments as ScreenArguments?;
-          return ScanQR(fromOffer: arg?.fromOffer ?? false);
+          return ScanQRView(fromOffer: arg?.fromOffer ?? false);
         case AppRouteName.DISCOUNT_OFFER_VIEW_ROUTE:
           final arg = routeSettings.arguments as DiscountOffersArguments?;
           return DiscountOffers(model: arg?.model, fromSaved: arg?.fromSaved);
         case AppRouteName.SEARCH_RESULT_VIEW_ROUTE:
-          final arg = routeSettings.arguments as SearchResultArguments?;
-          return SearchResult(categoryId: arg?.categoryId);
+          final arg = routeSettings.arguments as SearchResultsArgs?;
+          return SearchResultsView(categoryId: arg?.categoryId);
         case AppRouteName.GIVE_REVIEW_VIEW_ROUTE:
-          final arg = routeSettings.arguments as GiveReviewArguments?;
-          return GiveReview(busId: arg?.busId);
+          final arg = routeSettings.arguments as GiveReviewArgs?;
+          return GiveReviewView(busId: arg?.busId);
         case AppRouteName.CREATE_OFFER_VIEW_ROUTE:
           final arg = routeSettings.arguments as ScreenArguments?;
-          return CreateOffer(edit: arg?.fromEdit ?? false, model: arg?.args?['offer']);
+          return CreateOfferView(edit: arg?.fromEdit ?? false, model: arg?.args?['offer']);
         case AppRouteName.SUBSCRIPTION_VIEW_ROUTE:
           final arg = routeSettings.arguments as ScreenArguments?;
           return SubscriptionView(fromCompleteProfile: arg?.fromCompleteProfile ?? false);
         case AppRouteName.SETTINGS_VIEW_ROUTE:
-          return Settings();
-        case AppRouteName.ADD_CARD_VIEW_ROUTE:
-          final ScreenArguments? arg = routeSettings.arguments as ScreenArguments;
-          return AddCard(test: arg?.args);
-        case AppRouteName.NOTIFICATION_VIEW_ROUTE:
-          return NotificationsView();
+          return SettingsView();
         case AppRouteName.CONTENT_SCREEN:
           final contentRoutingArgument = routeSettings.arguments as ContentRoutingArgument?;
           return ContentView(
@@ -95,7 +88,7 @@ Route onGenerateRoute(RouteSettings routeSettings) {
           );
         case AppRouteName.USER_PROFILE_VIEW_ROUTE:
           final arg = routeSettings.arguments as ProfileScreenArguments?;
-          return UserProfile(
+          return UserProfileView(
             isBusinessProfile: arg?.isBusinessProfile ?? false,
             user: arg?.user,
             isMe: arg?.isMe ?? false,
@@ -103,7 +96,7 @@ Route onGenerateRoute(RouteSettings routeSettings) {
           );
         case AppRouteName.CUSTOMER_PROFILE_VIEW_ROUTE:
           final arg = routeSettings.arguments as ProfileScreenArguments?;
-          return CustomerProfile(isMe: arg?.isMe ?? false, user: arg?.user);
+          return CustomerProfileView(isMe: arg?.isMe ?? false, user: arg?.user);
         default:
           return Container();
       }

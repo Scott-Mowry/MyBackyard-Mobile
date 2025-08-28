@@ -1,4 +1,5 @@
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/features/search_results/search_results_view.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_image.dart';
 import 'package:backyard/legacy/Component/custom_refresh.dart';
@@ -10,7 +11,6 @@ import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
-import 'package:backyard/legacy/View/User/search_result.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -48,7 +48,6 @@ class _CategoryState extends State<Category> {
       await getCategories();
       setLoading(false);
     });
-    // TODO: implement initState
     super.initState();
   }
 
@@ -147,7 +146,7 @@ class _CategoryState extends State<Category> {
                                 onTap: () {
                                   AppNavigation.navigateTo(
                                     AppRouteName.SEARCH_RESULT_VIEW_ROUTE,
-                                    arguments: SearchResultArguments(categoryId: val.categories?[index].id?.toString()),
+                                    arguments: SearchResultsArgs(categoryId: val.categories?[index].id?.toString()),
                                   );
                                 },
                                 child: Container(

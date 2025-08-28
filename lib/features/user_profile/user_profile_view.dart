@@ -1,6 +1,8 @@
+import 'package:auto_route/annotations.dart';
 import 'package:backyard/boot.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
+import 'package:backyard/features/give_review/give_review_view.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
@@ -18,7 +20,6 @@ import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
-import 'package:backyard/legacy/View/User/give_review.dart';
 import 'package:backyard/legacy/View/User/offers.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
@@ -26,19 +27,20 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class UserProfile extends StatefulWidget {
+@RoutePage()
+class UserProfileView extends StatefulWidget {
   final bool isMe;
   final bool isUser;
   final bool isBusinessProfile;
   final User? user;
 
-  const UserProfile({super.key, this.isMe = true, this.isBusinessProfile = false, this.user, this.isUser = true});
+  const UserProfileView({super.key, this.isMe = true, this.isBusinessProfile = false, this.user, this.isUser = true});
 
   @override
-  State<UserProfile> createState() => _UserProfileState();
+  State<UserProfileView> createState() => _UserProfileViewState();
 }
 
-class _UserProfileState extends State<UserProfile> {
+class _UserProfileViewState extends State<UserProfileView> {
   TextEditingController s = TextEditingController();
   late final user = context.read<UserController>().user;
   late bool business =
@@ -508,7 +510,7 @@ class _UserProfileState extends State<UserProfile> {
                                         onTap: () {
                                           AppNavigation.navigateTo(
                                             AppRouteName.GIVE_REVIEW_VIEW_ROUTE,
-                                            arguments: GiveReviewArguments(busId: widget.user?.id?.toString() ?? ''),
+                                            arguments: GiveReviewArgs(busId: widget.user?.id?.toString() ?? ''),
                                           );
                                         },
                                       ),

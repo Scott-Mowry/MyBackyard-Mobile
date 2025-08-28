@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:backyard/boot.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
@@ -16,20 +17,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-/// TO BE DELETED
-/// Made separate profile for business as in ALfa there needs to be much handling
-
-class CustomerProfile extends StatefulWidget {
+@RoutePage()
+class CustomerProfileView extends StatefulWidget {
   final bool isMe;
   final User? user;
 
-  const CustomerProfile({super.key, this.isMe = true, this.user});
+  const CustomerProfileView({super.key, this.isMe = true, this.user});
 
   @override
-  State<CustomerProfile> createState() => _CustomerProfileState();
+  State<CustomerProfileView> createState() => _CustomerProfileViewState();
 }
 
-class _CustomerProfileState extends State<CustomerProfile> {
+class _CustomerProfileViewState extends State<CustomerProfileView> {
   TextEditingController s = TextEditingController();
   final homeController = navigatorKey.currentContext?.read<HomeController>();
 
@@ -40,7 +39,6 @@ class _CustomerProfileState extends State<CustomerProfile> {
       await getOffers();
       setLoading(false);
     });
-    // TODO: implement initState
     super.initState();
   }
 
@@ -53,14 +51,12 @@ class _CustomerProfileState extends State<CustomerProfile> {
   List<String> items = ['Contact Details', 'Offers & Discounts'];
   String i = 'Contact Details';
   List<FileNetwork> images = List<FileNetwork>.empty();
-  bool business = true; //GlobalController.values.userRole.value == UserRole.business;
+  bool business = true;
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        return true;
-      },
+    return PopScope(
+      canPop: true,
       child: BaseView(
         bgImage: '',
         child: CustomPadding(
@@ -68,12 +64,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
           horizontalPadding: 3.w,
           child: Column(
             children: [
-              CustomAppBar(
-                screenTitle: widget.user?.name ?? '',
-                leading: BackButton(),
-                // trailing: business?null: Image.asset(ImagePath.favorite,scale: 2,color: MyColors().redColor,),
-                bottom: 2.h,
-              ),
+              CustomAppBar(screenTitle: widget.user?.name ?? '', leading: BackButton(), bottom: 2.h),
               profileCard(),
             ],
           ),

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:auto_route/annotations.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -18,16 +19,17 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sizer/sizer.dart';
 
-class ScanQR extends StatefulWidget {
+@RoutePage()
+class ScanQRView extends StatefulWidget {
   final bool fromOffer;
 
-  const ScanQR({super.key, this.fromOffer = false});
+  const ScanQRView({super.key, this.fromOffer = false});
 
   @override
-  State<ScanQR> createState() => _ScanQRState();
+  State<ScanQRView> createState() => _ScanQRViewState();
 }
 
-class _ScanQRState extends State<ScanQR> {
+class _ScanQRViewState extends State<ScanQRView> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   QRViewController? controller;
@@ -35,12 +37,6 @@ class _ScanQRState extends State<ScanQR> {
   bool pause = false;
 
   Map<String, dynamic> get data => json.decode(result?.code ?? '') as Map<String, dynamic>;
-  // decryption(result?.code ?? "")
-
-  // String decryption(String val) {
-  //   return Encrypter(AES(Utils.key, padding: null))
-  //       .decrypt64(val, iv: Utils.iv);
-  // }
 
   @override
   void reassemble() {

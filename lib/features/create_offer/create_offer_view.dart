@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:auto_route/annotations.dart';
 import 'package:backyard/boot.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
@@ -31,17 +32,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class CreateOffer extends StatefulWidget {
+@RoutePage()
+class CreateOfferView extends StatefulWidget {
   final bool edit;
   final Offer? model;
 
-  const CreateOffer({super.key, this.edit = false, this.model});
+  const CreateOfferView({super.key, this.edit = false, this.model});
 
   @override
-  State<CreateOffer> createState() => _CreateOfferState();
+  State<CreateOfferView> createState() => _CreateOfferViewState();
 }
 
-class _CreateOfferState extends State<CreateOffer> {
+class _CreateOfferViewState extends State<CreateOfferView> {
   File permit = File('');
   final form = GlobalKey<FormState>();
   bool error = false;
@@ -99,11 +101,8 @@ class _CreateOfferState extends State<CreateOffer> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        return Future(() => true);
-        // return Utils().onWillPop(context, currentBackPressTime: currentBackPressTime);
-      },
+    return PopScope(
+      canPop: true,
       child: BaseView(
         bgImage: '',
         bottomSafeArea: false,

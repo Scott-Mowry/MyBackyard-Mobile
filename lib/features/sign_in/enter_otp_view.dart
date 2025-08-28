@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:auto_route/annotations.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/services/auth_service.dart';
@@ -25,28 +26,28 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
-// import 'package:timer_builder/timer_builder.dart';
 
-class EnterOTPArguements {
+class EnterOTPArgs {
   final String? verification;
   final String? phoneNumber;
   final bool? fromForgot;
 
-  const EnterOTPArguements({this.phoneNumber, this.verification, this.fromForgot});
+  const EnterOTPArgs({this.phoneNumber, this.verification, this.fromForgot});
 }
 
-class EnterOTP extends StatefulWidget {
+@RoutePage()
+class EnterOTPView extends StatefulWidget {
   final String? phoneNumber;
   final bool? fromForgot;
   final String? verification;
 
-  const EnterOTP({super.key, this.phoneNumber, this.verification, this.fromForgot});
+  const EnterOTPView({super.key, this.phoneNumber, this.verification, this.fromForgot});
 
   @override
-  State<EnterOTP> createState() => _EnterOTPState();
+  State<EnterOTPView> createState() => _EnterOTPViewState();
 }
 
-class _EnterOTPState extends State<EnterOTP> {
+class _EnterOTPViewState extends State<EnterOTPView> {
   TextEditingController otp = TextEditingController(text: '');
 
   /// #Timer
@@ -273,7 +274,7 @@ class _EnterOTPState extends State<EnterOTP> {
           );
           AppNavigation.navigateTo(
             AppRouteName.ENTER_OTP_VIEW_ROUTE,
-            arguments: EnterOTPArguements(phoneNumber: phoneNumber, verification: verificationId),
+            arguments: EnterOTPArgs(phoneNumber: phoneNumber, verification: verificationId),
           );
         },
         codeAutoRetrievalTimeout: (verificationId) {},

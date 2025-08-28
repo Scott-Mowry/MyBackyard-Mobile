@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:auto_route/annotations.dart';
 import 'package:backyard/boot.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
@@ -26,6 +27,7 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+@RoutePage()
 class SubscriptionView extends StatefulWidget {
   final bool fromCompleteProfile;
 
@@ -94,43 +96,6 @@ class _SubscriptionViewState extends State<SubscriptionView> {
       AppInAppPurchase().handlePurchaseUpdates(events);
       for (var event in events) {
         if (event.status == PurchaseStatus.purchased) {
-          // if (user?.role == Role.Business) {
-          // if (widget.fromCompleteProfile) {
-          //   AppNetwork.loadingProgressIndicator();
-          //   final result = await AuthAPIS.completeProfile(
-          //     firstName: user?.name,
-          //     lastName: user?.lastName,
-          //     description: user?.description,
-          //     address: user?.address,
-          //     lat: user?.latitude,
-          //     long: user?.longitude,
-          //     email: user?.email,
-          //     role: Role.Business.name,
-          //     // phone: user?.phone,
-          //     days: user?.days,
-          //     subId: getId2(event.productID)?.toString(),
-          //     image: File(user?.profileImage ?? ""),
-          //   );
-          //   AppNavigation.navigatorPop();
-          //   if (result) {
-          //     completeDialog(onTap: () {
-          //       AppNavigation.navigateToRemovingAll(
-          //           AppRouteName.HOME_VIEW_ROUTE);
-          //     });
-          //   }
-          // } else {
-          // AppNetwork.loadingProgressIndicator();
-          // final result = await AuthAPIS.completeProfile(
-          //     days: user?.days, subId: getId2(event.productID)?.toString());
-          // AppNavigation.navigatorPop();
-          // if (result) {
-          //   setState(() {
-          //     subscribed = event.productID;
-          //   });
-          //   AppNavigation.navigatorPop();
-          // }
-          // }
-          // } else {
           getIt<AppNetwork>().loadingProgressIndicator();
           final result = await getIt<AuthService>().completeProfile(subId: getId2(event.productID)?.toString());
           AppNavigation.navigatorPop();
@@ -716,10 +681,8 @@ class _SubscriptionViewState extends State<SubscriptionView> {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return WillPopScope(
-          onWillPop: () async {
-            return false;
-          },
+        return PopScope(
+          canPop: false,
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: AlertDialog(

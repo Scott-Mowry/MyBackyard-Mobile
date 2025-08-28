@@ -93,9 +93,6 @@ class _UserHomeState extends State<UserHome> {
         );
       } else {
         await BusAPIS.getBuses(pos?.latitude, pos?.longitude);
-        // controller?.moveMap(CameraUpdate.newCameraPosition(CameraPosition(
-        //     target: LatLng(pos?.latitude ?? 0, pos?.longitude ?? 0),
-        //     zoom: 13.4746)));
         controller?.addCircles(
           Circle(
             circleId: const CircleId('myLocation'),
@@ -131,35 +128,10 @@ class _UserHomeState extends State<UserHome> {
   Widget build(BuildContext context) {
     return Consumer<HomeController>(
       builder: (context, value, child) {
-        return
-        // GetBuilder<MapsController>(builder: (d) { return
-        value.loading
+        return value.loading
             ? Center(child: CircularProgressIndicator(color: CustomColors.primaryGreenColor))
             : Stack(
               children: [
-                // GlobalController.values.location.isFalse?
-                // GestureDetector(
-                //   onTap: () async{
-                //   },
-                //   child: Padding(
-                //     padding: EdgeInsets.symmetric(horizontal: 5.w),
-                //     child: Column(
-                //       crossAxisAlignment: CrossAxisAlignment.center,
-                //       mainAxisAlignment: MainAxisAlignment.center,
-                //       children: [
-                //         MyButton(
-                //           title: 'Enable Location',onTap: () async{
-                //           setState(() {});
-                //           await Utils().requestLocation(openSettings: true);
-                //           GlobalController.values.isLocationServiceEnabled();
-                //           HomeController.i.setLocation();
-                //           GlobalController.values.update();
-                //           setState(() {});
-                //         },),
-                //       ],
-                //     ),
-                //   ),
-                // ):
                 Consumer<UserController>(
                   builder: (context, val, _) {
                     return Stack(

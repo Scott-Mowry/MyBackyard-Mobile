@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:auto_route/annotations.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
@@ -23,14 +24,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class Category extends StatefulWidget {
-  const Category({super.key});
+@RoutePage()
+class BusinessCategoryView extends StatefulWidget {
+  const BusinessCategoryView({super.key});
 
   @override
-  State<Category> createState() => _CategoryState();
+  State<BusinessCategoryView> createState() => _BusinessCategoryViewState();
 }
 
-class _CategoryState extends State<Category> {
+class _BusinessCategoryViewState extends State<BusinessCategoryView> {
   // List<MenuModel> categories = [
   int i = 999;
 

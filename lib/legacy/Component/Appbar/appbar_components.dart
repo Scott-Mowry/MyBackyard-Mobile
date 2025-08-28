@@ -1,4 +1,5 @@
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/helper/snackbar_helper.dart';
 import 'package:backyard/legacy/Arguments/screen_arguments.dart';
 import 'package:backyard/legacy/Component/custom_icon_container.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
@@ -35,14 +36,7 @@ class NotificationIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Padding(padding: EdgeInsets.only(top: 7, bottom: 7,left: 7,right: 10), child: Container(decoration: BoxDecoration( borderRadius: BorderRadius.circular(6),), child: IconContainer(image: ImagePath.notificationIcon, onTap: (){},size: 7.w,padding: 2.2.w,)),);
-    // return Padding(padding: EdgeInsets.only(top: .6.h, bottom: .6.h,left: 4.w,right: 4.w), child: Container(decoration: BoxDecoration( borderRadius: BorderRadius.circular(6),), child: IconContainer(image: ImagePath.notificationIcon, onTap: (){},size: 7.w,padding: 2.2.w,)),);
-    return IconContainer(
-      image: ImagePath.notificationIcon,
-      onTap: () {
-        AppNavigation.navigateTo(AppRouteName.NOTIFICATION_VIEW_ROUTE);
-      },
-    );
+    return IconContainer(image: ImagePath.notificationIcon, onTap: () => showCurrentlyDisabledSnackbar(context));
   }
 }
 
@@ -54,26 +48,6 @@ class EditIcon extends StatelessWidget {
       image: ImagePath.editProfile,
       onTap: () {
         AppNavigation.navigateTo(AppRouteName.COMPLETE_PROFILE_VIEW_ROUTE, arguments: ScreenArguments(fromEdit: true));
-      },
-    );
-  }
-}
-
-class ChatIcon extends StatelessWidget {
-  final Function? onTap;
-
-  const ChatIcon({super.key, this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return IconContainer(
-      image: ImagePath.chatIcon,
-      onTap: () {
-        if (onTap != null) {
-          onTap?.call();
-        } else {
-          AppNavigation.navigateTo(AppRouteName.CHAT_VIEW_ROUTE);
-        }
       },
     );
   }
