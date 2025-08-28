@@ -156,7 +156,7 @@ class _RejectDialogState extends State<RejectDialog> {
   }
 
   Future<bool> onWillPop(context) async {
-    AppNavigation.navigateTo(AppRouteName.HOME_SCREEN_ROUTE);
+    AppNavigation.navigateTo(AppRouteName.HOME_VIEW_ROUTE);
     return false;
   }
 }

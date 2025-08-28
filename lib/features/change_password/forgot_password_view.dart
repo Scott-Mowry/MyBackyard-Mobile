@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/services/auth_service.dart';
@@ -20,14 +21,15 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({super.key});
+@RoutePage()
+class ForgotPasswordView extends StatefulWidget {
+  const ForgotPasswordView({super.key});
 
   @override
-  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+  State<ForgotPasswordView> createState() => _ForgotPasswordViewState();
 }
 
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   TextEditingController email = TextEditingController();
   bool show = true;
 
@@ -97,7 +99,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           toastLength: Toast.LENGTH_LONG,
           timeInSecForIosWeb: 5,
         );
-        AppNavigation.navigateTo(AppRouteName.ENTER_OTP_SCREEN_ROUTE, arguments: EnterOTPArguements(fromForgot: true));
+        AppNavigation.navigateTo(AppRouteName.ENTER_OTP_VIEW_ROUTE, arguments: EnterOTPArguements(fromForgot: true));
       }
     }
   }

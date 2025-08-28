@@ -507,7 +507,7 @@ class _UserProfileState extends State<UserProfile> {
                                         title: 'Write a Review',
                                         onTap: () {
                                           AppNavigation.navigateTo(
-                                            AppRouteName.GIVE_REVIEW_ROUTE,
+                                            AppRouteName.GIVE_REVIEW_VIEW_ROUTE,
                                             arguments: GiveReviewArguments(busId: widget.user?.id?.toString() ?? ''),
                                           );
                                         },

@@ -156,7 +156,7 @@ class _SearchResultState extends State<SearchResult> {
         onTap: () {
           // HomeController.i.endUser.value=u??User();
           AppNavigation.navigateTo(
-            AppRouteName.USER_PROFILE_ROUTE,
+            AppRouteName.USER_PROFILE_VIEW_ROUTE,
             arguments: ProfileScreenArguments(isBusinessProfile: true, isMe: false, isUser: false, user: user),
           );
         },

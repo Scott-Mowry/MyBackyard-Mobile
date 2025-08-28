@@ -457,7 +457,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
                 textColor: CustomColors.black,
                 onTap: () {
                   AppNavigation.navigateTo(
-                    AppRouteName.SCHEDULE_SCREEN_ROUTE,
+                    AppRouteName.SCHEDULE_VIEW_ROUTE,
                     arguments: ScreenArguments(fromEdit: true),
                   );
                 },
@@ -530,7 +530,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
           if (value) {
             await completeDialog(
               onTap: () {
-                AppNavigation.navigateToRemovingAll(AppRouteName.HOME_SCREEN_ROUTE);
+                AppNavigation.navigateToRemovingAll(AppRouteName.HOME_VIEW_ROUTE);
               },
             );
           }
@@ -549,7 +549,7 @@ class _ProfileSetupState extends State<ProfileSetup> {
           };
 
           return AppNavigation.navigateTo(
-            AppRouteName.SCHEDULE_SCREEN_ROUTE,
+            AppRouteName.SCHEDULE_VIEW_ROUTE,
             arguments: ScreenArguments(args: arguments, fromEdit: false),
           );
         }

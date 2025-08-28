@@ -44,7 +44,7 @@ class _LandingViewState extends State<LandingView> {
         context.read<UserController>().setUser(savedUsed);
 
         SocketService.instance?.userResponse();
-        await Navigator.of(context).pushReplacementNamed(AppRouteName.HOME_SCREEN_ROUTE);
+        await Navigator.of(context).pushReplacementNamed(AppRouteName.HOME_VIEW_ROUTE);
         return;
       }
 

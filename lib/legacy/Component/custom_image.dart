@@ -40,9 +40,7 @@ class CustomImage extends StatelessWidget {
         : photoView == true
         ? GestureDetector(
           onTap: () {
-            Navigator.of(
-              context,
-            ).push(MaterialPageRoute(builder: (context) => PhotoViewScreen(path: API.public_url + url!)));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => PhotoView(path: API.public_url + url!)));
           },
           child: networkImage(),
         )

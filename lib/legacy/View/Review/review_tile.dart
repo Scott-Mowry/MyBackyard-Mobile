@@ -41,7 +41,7 @@
 //           onTap: () async {
 //             if(r.userId!.id!=AuthController.i.user.value.id){
 //               await HomeController.i.getUserDetail(context: context,id: r.userId!.id);
-//               AppNavigation.navigateTo( AppRouteName.USER_PROFILE_ROUTE);
+//               AppNavigation.navigateTo( AppRouteName.USER_PROFILE_VIEW_ROUTE);
 //             }
 //           },
 //           child: Row(

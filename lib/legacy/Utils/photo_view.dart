@@ -3,12 +3,12 @@ import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view.dart' as photo_view;
 
-class PhotoViewScreen extends StatelessWidget {
+class PhotoView extends StatelessWidget {
   final String? path;
 
-  const PhotoViewScreen({super.key, this.path});
+  const PhotoView({super.key, this.path});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class PhotoViewScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: PhotoView(imageProvider: NetworkImage(path.toString())),
+      body: photo_view.PhotoView(imageProvider: NetworkImage(path.toString())),
     );
   }
 }

@@ -272,7 +272,7 @@ class _EnterOTPState extends State<EnterOTP> {
             timeInSecForIosWeb: 5,
           );
           AppNavigation.navigateTo(
-            AppRouteName.ENTER_OTP_SCREEN_ROUTE,
+            AppRouteName.ENTER_OTP_VIEW_ROUTE,
             arguments: EnterOTPArguements(phoneNumber: phoneNumber, verification: verificationId),
           );
         },
@@ -307,11 +307,11 @@ class _EnterOTPState extends State<EnterOTP> {
         );
         AppNavigation.navigatorPop();
         if (value) {
-          AppNavigation.navigateTo(AppRouteName.HOME_SCREEN_ROUTE);
+          AppNavigation.navigateTo(AppRouteName.HOME_VIEW_ROUTE);
         } else {
           if (userController.user?.isProfileCompleted != null) {
             if ((userController.user?.isProfileCompleted ?? 0) == 0) {
-              AppNavigation.navigateTo(AppRouteName.COMPLETE_PROFILE_SCREEN_ROUTE);
+              AppNavigation.navigateTo(AppRouteName.COMPLETE_PROFILE_VIEW_ROUTE);
             }
           }
         }
@@ -349,12 +349,12 @@ class _EnterOTPState extends State<EnterOTP> {
 
   Future<void> navigation() async {
     if (widget.fromForgot ?? false) {
-      AppNavigation.navigateReplacementNamed(AppRouteName.CHANGE_PASSWORD_ROUTE);
+      AppNavigation.navigateReplacementNamed(AppRouteName.CHANGE_PASSWORD_VIEW_ROUTE);
     } else {
       if (userController.user?.isProfileCompleted == 1) {
-        AppNavigation.navigateTo(AppRouteName.HOME_SCREEN_ROUTE);
+        AppNavigation.navigateTo(AppRouteName.HOME_VIEW_ROUTE);
       } else {
-        AppNavigation.navigateTo(AppRouteName.COMPLETE_PROFILE_SCREEN_ROUTE);
+        AppNavigation.navigateTo(AppRouteName.COMPLETE_PROFILE_VIEW_ROUTE);
       }
     }
   }

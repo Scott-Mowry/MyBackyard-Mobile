@@ -146,7 +146,7 @@ class _CategoryState extends State<Category> {
                               GestureDetector(
                                 onTap: () {
                                   AppNavigation.navigateTo(
-                                    AppRouteName.SEARCH_RESULT_ROUTE,
+                                    AppRouteName.SEARCH_RESULT_VIEW_ROUTE,
                                     arguments: SearchResultArguments(categoryId: val.categories?[index].id?.toString()),
                                   );
                                 },
@@ -212,7 +212,7 @@ class _CategoryState extends State<Category> {
                   //             GestureDetector(
                   //               onTap: () {
                   //                 AppNavigation.navigateTo(
-                  //                     AppRouteName.SEARCH_RESULT_ROUTE);
+                  //                     AppRouteName.SEARCH_RESULT_VIEW_ROUTE);
                   //               },
                   //               child: Container(
                   //                 width: 100.w,

@@ -111,7 +111,7 @@ class _ScheduleState extends State<Schedule> {
         onPressed: () async {
           await Navigator.pushNamed(
             context,
-            AppRouteName.TIME_SCHEDULING_EDIT_SCREEN_ROUTE,
+            AppRouteName.TIME_SCHEDULE_EDIT_VIEW_ROUTE,
             arguments: TimeSchedulingEditArgs(multiSelect: true),
           ).then((value) {
             if (value != null) {
@@ -225,7 +225,7 @@ class _ScheduleState extends State<Schedule> {
   Future<void> onTapField(DaySchedule val) async {
     await Navigator.pushNamed(
       context,
-      AppRouteName.TIME_SCHEDULING_EDIT_SCREEN_ROUTE,
+      AppRouteName.TIME_SCHEDULE_EDIT_VIEW_ROUTE,
       arguments: TimeSchedulingEditArgs(val: val),
     ).then((value) {
       final temp = value as DaySchedule?;
@@ -315,7 +315,7 @@ class _ScheduleState extends State<Schedule> {
         ;
 
         userController?.setUser(user!);
-        AppNavigation.navigateTo(AppRouteName.CATEGORY_SCREEN_ROUTE);
+        AppNavigation.navigateTo(AppRouteName.CATEGORY_VIEW_ROUTE);
       }
     }
   }

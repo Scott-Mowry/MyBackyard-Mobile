@@ -193,7 +193,7 @@ class _AddCardState extends State<AddCard> {
         if (result) {
           completeDialog(
             onTap: () {
-              AppNavigation.navigateToRemovingAll(AppRouteName.HOME_SCREEN_ROUTE);
+              AppNavigation.navigateToRemovingAll(AppRouteName.HOME_VIEW_ROUTE);
             },
           );
         }

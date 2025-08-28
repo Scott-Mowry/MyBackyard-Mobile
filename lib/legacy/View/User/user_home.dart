@@ -780,7 +780,7 @@ class _UserHomeState extends State<UserHome> {
   //             content: PaymentDialog(
   //               onYes: () {
   //                 AppNavigation.navigateTo(
-  //                     context, AppRouteName.PAYMENT_METHOD_ROUTE);
+  //                     context, AppRouteName.PAYMENT_METHOD_VIEW_ROUTE);
   //               },
   //             ),
   //           ),

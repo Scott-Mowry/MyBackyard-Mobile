@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:backyard/boot.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
@@ -18,22 +19,23 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class ChangePasswordArguments {
-  const ChangePasswordArguments({this.fromSettings});
+class ChangePasswordViewArgs {
+  const ChangePasswordViewArgs({this.fromSettings});
 
   final bool? fromSettings;
 }
 
-class ChangePassword extends StatefulWidget {
-  const ChangePassword({super.key, this.fromSettings});
+@RoutePage()
+class ChangePasswordView extends StatefulWidget {
+  const ChangePasswordView({super.key, this.fromSettings});
 
   final bool? fromSettings;
 
   @override
-  State<ChangePassword> createState() => _ChangePasswordState();
+  State<ChangePasswordView> createState() => _ChangePasswordViewState();
 }
 
-class _ChangePasswordState extends State<ChangePassword> {
+class _ChangePasswordViewState extends State<ChangePasswordView> {
   TextEditingController confPassword = TextEditingController();
   TextEditingController password = TextEditingController();
   bool show = true;

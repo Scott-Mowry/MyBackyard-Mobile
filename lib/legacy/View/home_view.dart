@@ -87,10 +87,10 @@ class _HomeViewState extends State<HomeView> {
                     : GestureDetector(
                       onTap: () {
                         if (val2.user?.subId != null && val2.user?.subId != 4) {
-                          AppNavigation.navigateTo(AppRouteName.CREATE_OFFER_ROUTE);
+                          AppNavigation.navigateTo(AppRouteName.CREATE_OFFER_VIEW_ROUTE);
                         } else {
                           // AppNavigation.navigateTo(
-                          //     AppRouteName.SUBSCRIPTION_SCREEN_ROUTE);
+                          //     AppRouteName.SUBSCRIPTION_VIEW_ROUTE);
                           AppNavigation.navigateTo(
                             AppRouteName.CONTENT_SCREEN,
                             arguments: ContentRoutingArgument(

@@ -18,7 +18,7 @@
 // import '../Widget/appLogo.dart';
 // import '../base_view.dart';
 //
-// class SignupScreen extends StatelessWidget {
+// class SignupView extendsStatelessWidget {
 //   SignupScreen({super.key});
 //   TextEditingController fullName = TextEditingController(),firstName = TextEditingController(),lastName = TextEditingController(),email = TextEditingController(),password = TextEditingController(), confirmPassword = TextEditingController(),phone = TextEditingController(),dob = TextEditingController();
 //   // Rx<bool> isVisible = false.obs, isVisibleConfirm = false.obs, rememberMeLogin = false.obs;

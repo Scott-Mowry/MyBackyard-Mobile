@@ -56,7 +56,7 @@ class SuccessPaymentDialog extends StatelessWidget {
                       AppNavigation.navigatorPop();
                       AppNavigation.navigatorPop();
                       // HomeController.i.jumpTo(i: 1);
-                      // AppNavigation.navigateTo( AppRouteName.SHOP_LOCATION_ROUTE);
+                      // AppNavigation.navigateTo( AppRouteName.SHOP_LOCATION_VIEW_ROUTE);
                     },
                     title: 'Continue',
                   ),
@@ -71,7 +71,7 @@ class SuccessPaymentDialog extends StatelessWidget {
   }
 
   Future<bool> onWillPop(context) async {
-    AppNavigation.navigateTo(AppRouteName.HOME_SCREEN_ROUTE);
+    AppNavigation.navigateTo(AppRouteName.HOME_VIEW_ROUTE);
     return false;
   }
 }

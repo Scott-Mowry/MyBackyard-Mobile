@@ -40,7 +40,7 @@ class NotificationIcon extends StatelessWidget {
     return IconContainer(
       image: ImagePath.notificationIcon,
       onTap: () {
-        AppNavigation.navigateTo(AppRouteName.NOTIFICATION_SCREEN_ROUTE);
+        AppNavigation.navigateTo(AppRouteName.NOTIFICATION_VIEW_ROUTE);
       },
     );
   }
@@ -53,10 +53,7 @@ class EditIcon extends StatelessWidget {
     return IconContainer(
       image: ImagePath.editProfile,
       onTap: () {
-        AppNavigation.navigateTo(
-          AppRouteName.COMPLETE_PROFILE_SCREEN_ROUTE,
-          arguments: ScreenArguments(fromEdit: true),
-        );
+        AppNavigation.navigateTo(AppRouteName.COMPLETE_PROFILE_VIEW_ROUTE, arguments: ScreenArguments(fromEdit: true));
       },
     );
   }
@@ -75,7 +72,7 @@ class ChatIcon extends StatelessWidget {
         if (onTap != null) {
           onTap?.call();
         } else {
-          AppNavigation.navigateTo(AppRouteName.CHAT_SCREEN_ROUTE);
+          AppNavigation.navigateTo(AppRouteName.CHAT_VIEW_ROUTE);
         }
       },
     );

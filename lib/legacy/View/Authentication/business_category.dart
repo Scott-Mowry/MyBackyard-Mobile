@@ -212,13 +212,13 @@ class _CategoryState extends State<Category> {
       if (result) {
         completeDialog(
           onTap: () {
-            AppNavigation.navigateToRemovingAll(AppRouteName.HOME_SCREEN_ROUTE);
+            AppNavigation.navigateToRemovingAll(AppRouteName.HOME_VIEW_ROUTE);
           },
         );
       }
-      // AppNavigation.navigateTo(AppRouteName.SUBSCRIPTION_SCREEN_ROUTE,
+      // AppNavigation.navigateTo(AppRouteName.SUBSCRIPTION_VIEW_ROUTE,
       //     arguments: ScreenArguments(fromCompleteProfile: true));
-      // AppNavigation.navigateToRemovingAll(context, AppRouteName.HOME_SCREEN_ROUTE,);
+      // AppNavigation.navigateToRemovingAll(context, AppRouteName.HOME_VIEW_ROUTE,);
     }
   }
 

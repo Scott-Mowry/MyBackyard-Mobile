@@ -282,7 +282,7 @@ class _DiscountOffersState extends State<DiscountOffers> {
                             }
                           } else {
                             // AppNavigation.navigateTo(
-                            //     AppRouteName.SUBSCRIPTION_SCREEN_ROUTE);
+                            //     AppRouteName.SUBSCRIPTION_VIEW_ROUTE);
                             AppNavigation.navigateTo(
                               AppRouteName.CONTENT_SCREEN,
                               arguments: ContentRoutingArgument(
@@ -294,7 +294,7 @@ class _DiscountOffersState extends State<DiscountOffers> {
                             CustomToast().showToast(message: 'You Need to Subscribe to Avail an Offer.');
                           }
                           // if (business) {
-                          //   AppNavigation.navigateTo(AppRouteName.SCAN_QR_ROUTE,
+                          //   AppNavigation.navigateTo(AppRouteName.SCAN_QR_VIEW_ROUTE,
                           //       arguments: ScreenArguments(fromOffer: true));
                           // } else {
 
@@ -321,7 +321,7 @@ class _DiscountOffersState extends State<DiscountOffers> {
                             ),
                           );
                         } else {
-                          AppNavigation.navigateTo(AppRouteName.SUBSCRIPTION_SCREEN_ROUTE);
+                          AppNavigation.navigateTo(AppRouteName.SUBSCRIPTION_VIEW_ROUTE);
                           CustomToast().showToast(message: 'You Need to Subscribe to Share an Offer.');
                         }
                       },
@@ -374,7 +374,7 @@ class _DiscountOffersState extends State<DiscountOffers> {
                     onTap: () {
                       AppNavigation.navigatorPop();
                       AppNavigation.navigateTo(
-                        AppRouteName.CREATE_OFFER_ROUTE,
+                        AppRouteName.CREATE_OFFER_VIEW_ROUTE,
                         arguments: ScreenArguments(fromEdit: true, args: {'offer': widget.model}),
                       );
                     },

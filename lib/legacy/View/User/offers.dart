@@ -184,7 +184,7 @@ class _OffersState extends State<Offers> {
   //         CustomToast().showToast(
   //             'Waiting', 'Waiting for trainer to accept session', true);
   //       } else {
-  //         AppNavigation.navigateTo( AppRouteName.START_SESSION_ROUTE);
+  //         AppNavigation.navigateTo( AppRouteName.START_SESSION_VIEW_ROUTE);
   //       }
   //     },
   //     child: CustomCard(
@@ -330,7 +330,7 @@ class _OffersState extends State<Offers> {
   //   return GestureDetector(
   //     onTap: () {
   //       HomeController.i.onTapCurrentSession(s: s);
-  //       AppNavigation.navigateTo( AppRouteName.SESSION_DETAIL_ROUTE);
+  //       AppNavigation.navigateTo( AppRouteName.SESSION_DETAIL_VIEW_ROUTE);
   //     },
   //     child: CustomCard(
   //         padding: EdgeInsets.all(3.w),
@@ -592,7 +592,7 @@ class _OffersState extends State<Offers> {
   //             content: PaymentDialog(
   //               onYes: () {
   //                 AppNavigation.navigateTo(
-  //                     context, AppRouteName.PAYMENT_METHOD_ROUTE);
+  //                     context, AppRouteName.PAYMENT_METHOD_VIEW_ROUTE);
   //               },
   //             ),
   //           ),
@@ -615,7 +615,7 @@ class OfferTile extends StatelessWidget {
         return GestureDetector(
           onTap: () {
             AppNavigation.navigateTo(
-              AppRouteName.DISCOUNT_OFFER_ROUTE,
+              AppRouteName.DISCOUNT_OFFER_VIEW_ROUTE,
               arguments: DiscountOffersArguments(model: model, fromSaved: fromSaved),
             );
           },

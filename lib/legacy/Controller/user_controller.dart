@@ -178,7 +178,7 @@ class UserController extends ChangeNotifier {
   Future<void> addMarker(User user) async {
     final markerId = MarkerId(user.id?.toString() ?? '');
     final marker = Marker(
-      // onTap: () => AppNavigation.navigateTo(AppRouteName.USER_PROFILE_ROUTE,
+      // onTap: () => AppNavigation.navigateTo(AppRouteName.USER_PROFILE_VIEW_ROUTE,
       //     arguments: ProfileScreenArguments(
       //         isBusinessProfile: true, isMe: false, isUser: false, user: user)),
       markerId: markerId,
@@ -191,7 +191,7 @@ class UserController extends ChangeNotifier {
             () =>
                 (user.subId != 4)
                     ? AppNavigation.navigateTo(
-                      AppRouteName.USER_PROFILE_ROUTE,
+                      AppRouteName.USER_PROFILE_VIEW_ROUTE,
                       arguments: ProfileScreenArguments(
                         isBusinessProfile: true,
                         isMe: false,

@@ -121,7 +121,7 @@ class _GiveReviewState extends State<GiveReview> {
                   //   // HomeController.i.giveReview(context, onSuccess: (){
                   //   //   AppNavigation.navigatorPop(context);
                   //   //   AppNavigation.navigatorPop(context);
-                  //   //   AppNavigation.navigateTo( AppRouteName.ALL_REVIEWS_ROUTE);
+                  //   //   AppNavigation.navigateTo( AppRouteName.ALL_REVIEWS_VIEW_ROUTE);
                   //   //   CustomToast().showToast('Success', 'Review posted successfully', false);
                   //   // }, edit: false);
                   // }

@@ -9,17 +9,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({super.key});
+class NotificationsView extends StatefulWidget {
+  const NotificationsView({super.key});
 
   @override
-  State<NotificationScreen> createState() => _NotificationScreenState();
+  State<NotificationsView> createState() => _NotificationsViewState();
 }
 
-class _NotificationScreenState extends State<NotificationScreen> {
+class _NotificationsViewState extends State<NotificationsView> {
   @override
   void initState() {
-    // TODO: implement initState
     getData();
     super.initState();
   }
@@ -112,7 +111,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   itemBuilder:
                       (_, index) => GestureDetector(
                         onTap: () {
-                          // AppNavigation.navigateTo( AppRouteName.CHAT_SCREEN_ROUTE,arguments: ScreenArguments(u: User(id: 'ds',fullName: 'John Smith')));
+                          // AppNavigation.navigateTo( AppRouteName.CHAT_VIEW_ROUTE,arguments: ScreenArguments(u: User(id: 'ds',fullName: 'John Smith')));
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -162,7 +161,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               ),
               // GestureDetector(
               //   onTap: () {
-              //     // AppNavigation.navigateTo( AppRouteName.CHAT_SCREEN_ROUTE,arguments: ScreenArguments(u: User(id: 'ds',fullName: 'John Smith')));
+              //     // AppNavigation.navigateTo( AppRouteName.CHAT_VIEW_ROUTE,arguments: ScreenArguments(u: User(id: 'ds',fullName: 'John Smith')));
               //   },
               //   child: Container(
               //     decoration: BoxDecoration(
@@ -207,7 +206,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               //                   GestureDetector(
               //                     onTap: () {
               //                       AppNavigation.navigateTo(
-              //                           AppRouteName.USER_PROFILE_ROUTE);
+              //                           AppRouteName.USER_PROFILE_VIEW_ROUTE);
               //                     },
               //                     child: CircleAvatar(
               //                       radius: 20,

@@ -195,7 +195,7 @@ class CustomerTile extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         AppNavigation.navigateTo(
-          AppRouteName.CustomerProfile,
+          AppRouteName.CUSTOMER_PROFILE_VIEW_ROUTE,
           arguments: ProfileScreenArguments(isMe: false, user: model),
         );
       },

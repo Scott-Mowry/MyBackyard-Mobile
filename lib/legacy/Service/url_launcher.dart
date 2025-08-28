@@ -9,17 +9,17 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class ContentScreen extends StatefulWidget {
+class ContentView extends StatefulWidget {
   final String? title, contentType;
   final Function(bool)? isMerchantSetupDone;
 
-  const ContentScreen({super.key, this.title, this.contentType, this.isMerchantSetupDone});
+  const ContentView({super.key, this.title, this.contentType, this.isMerchantSetupDone});
 
   @override
-  State<ContentScreen> createState() => _ContentScreenState();
+  State<ContentView> createState() => _ContentViewState();
 }
 
-class _ContentScreenState extends State<ContentScreen> {
+class _ContentViewState extends State<ContentView> {
   bool _isLoading = true;
   double? _opacity = 0;
   String url = '';

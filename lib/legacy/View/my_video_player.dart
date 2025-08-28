@@ -174,9 +174,9 @@
 //                       GestureDetector(
 //                         onTap: (){
 //                           // if(!seller){
-//                           //   AppNavigation.navigateTo( AppRouteName.SELLER_PROFILE_ROUTE,);
+//                           //   AppNavigation.navigateTo( AppRouteName.SELLER_PROFILE_VIEW_ROUTE,);
 //                           // } else{
-//                           //   AppNavigation.navigateTo( AppRouteName.HOME_SCREEN_ROUTE,arguments: ScreenArguments(index: 3));
+//                           //   AppNavigation.navigateTo( AppRouteName.HOME_VIEW_ROUTE,arguments: ScreenArguments(index: 3));
 //                           // }
 //                         },
 //                         child: CircleAvatar(
@@ -206,7 +206,7 @@
 //                           GestureDetector(
 //                               onTap: (){
 //                                 // if(!seller){
-//                                 //   AppNavigation.navigateTo( AppRouteName.SELLER_PROFILE_ROUTE,);
+//                                 //   AppNavigation.navigateTo( AppRouteName.SELLER_PROFILE_VIEW_ROUTE,);
 //                                 // }
 //                               },child: MyText(title: '${d.sellerUser.value.firstName} ${d.sellerUser.value.lastName}',clr: MyColors().whiteColor,size: 15,fontWeight: FontWeight.w600,)),
 //                           Row(
@@ -215,7 +215,7 @@
 //                                 GestureDetector(
 //                                     onTap: (){
 //                                       // if(!seller){
-//                                       //   AppNavigation.navigateTo( AppRouteName.SELLER_PROFILE_ROUTE,);
+//                                       //   AppNavigation.navigateTo( AppRouteName.SELLER_PROFILE_VIEW_ROUTE,);
 //                                       // }
 //                                     },child: MyText(title:'${d.influencerUser.value.firstName} ${d.influencerUser.value.lastName}  ',clr: MyColors().whiteColor,size: 12,fontWeight: FontWeight.w600)),
 //                               // if(!influencer)
@@ -268,13 +268,13 @@
 //               //                   children: [
 //               //                     GestureDetector(
 //               //                         onTap: (){
-//               //                           AppNavigation.navigateTo( AppRouteName.SELLER_PROFILE_ROUTE,);
+//               //                           AppNavigation.navigateTo( AppRouteName.SELLER_PROFILE_VIEW_ROUTE,);
 //               //                         },child: MyText(title: "John Smith",clr: MyColors().whiteColor,)),
 //               //                     Row(
 //               //                       children: [
 //               //                         GestureDetector(
 //               //                             onTap: (){
-//               //                               AppNavigation.navigateTo( AppRouteName.SELLER_PROFILE_ROUTE,);
+//               //                               AppNavigation.navigateTo( AppRouteName.SELLER_PROFILE_VIEW_ROUTE,);
 //               //                             },child: MyText(title: "
 //               //                             Jacob Smith",clr: MyColors().whiteColor,size: 13,)),
 //               //                         BorderedContainer(child:MyText(title: 'CLOTHS',clr: MyColors().purpleColor,size: 10,)),
@@ -433,7 +433,7 @@
 //           //         getSellerProducts(loading: true);
 //           //         showProducts(context);
 //           //       } else{
-//           //         AppNavigation.navigateTo( AppRouteName.PRODUCT_CATALOG_SCREEN_ROUTE);
+//           //         AppNavigation.navigateTo( AppRouteName.PRODUCT_CATALOG_VIEW_ROUTE);
 //           //       }
 //           //     },
 //           //     child: Stack(

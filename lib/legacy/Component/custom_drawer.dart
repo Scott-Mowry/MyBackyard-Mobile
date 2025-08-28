@@ -239,7 +239,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
       name: 'Scan QR',
       image: ImagePath.scan,
       onTap: () {
-        AppNavigation.navigateTo(AppRouteName.SCAN_QR_ROUTE);
+        AppNavigation.navigateTo(AppRouteName.SCAN_QR_VIEW_ROUTE);
       },
     ),
     MenuModel(
@@ -279,7 +279,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     ),
   ];
   List<MenuModel> userList = [
-    // MenuModel(name: 'Subscription',image: ImagePath.home3,onTap: (context){AppNavigation.navigateTo( AppRouteName.SUBSCRIPTION_SCREEN_ROUTE);}),
+    // MenuModel(name: 'Subscription',image: ImagePath.home3,onTap: (context){AppNavigation.navigateTo( AppRouteName.SUBSCRIPTION_VIEW_ROUTE);}),
     MenuModel(
       name: 'Home',
       image: ImagePath.home3,
@@ -291,14 +291,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
     //     name: 'Favorites',
     //     image: ImagePath.favorite,
     //     onTap: () {
-    //       AppNavigation.navigateTo(AppRouteName.FAVORITE_ROUTE);
+    //       AppNavigation.navigateTo(AppRouteName.FAVORITE_VIEW_ROUTE);
     //     }),
-    // MenuModel(name: 'Loyalty',image: ImagePath.loyalty,onTap: (context){AppNavigation.navigateTo( AppRouteName.LOYALTY_ROUTE);}),
+    // MenuModel(name: 'Loyalty',image: ImagePath.loyalty,onTap: (context){AppNavigation.navigateTo( AppRouteName.LOYALTY_VIEW_ROUTE);}),
     MenuModel(
       name: 'Settings',
       image: ImagePath.setting,
       onTap: () {
-        AppNavigation.navigateTo(AppRouteName.SETTINGS_ROUTE);
+        AppNavigation.navigateTo(AppRouteName.SETTINGS_VIEW_ROUTE);
       },
     ),
     MenuModel(
@@ -330,7 +330,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
       },
     ),
     // MenuModel(name: 'Support and Help',image: ImagePath.support,onTap: (context){
-    //   AppNavigation.navigateTo( AppRouteName.FAQ_SCREEN_ROUTE);
+    //   AppNavigation.navigateTo( AppRouteName.FAQ_VIEW_ROUTE);
     // }),
   ];
 

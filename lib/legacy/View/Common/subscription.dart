@@ -26,16 +26,16 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class SubscriptionScreen extends StatefulWidget {
+class SubscriptionView extends StatefulWidget {
   final bool fromCompleteProfile;
 
-  const SubscriptionScreen({super.key, this.fromCompleteProfile = false});
+  const SubscriptionView({super.key, this.fromCompleteProfile = false});
 
   @override
-  State<SubscriptionScreen> createState() => _SubscriptionScreenState();
+  State<SubscriptionView> createState() => _SubscriptionViewState();
 }
 
-class _SubscriptionScreenState extends State<SubscriptionScreen> {
+class _SubscriptionViewState extends State<SubscriptionView> {
   late final user = context.read<UserController>().user;
   StreamSubscription<List<PurchaseDetails>>? purchaseStream;
   int index = 0;
@@ -115,7 +115,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
           //   if (result) {
           //     completeDialog(onTap: () {
           //       AppNavigation.navigateToRemovingAll(
-          //           AppRouteName.HOME_SCREEN_ROUTE);
+          //           AppRouteName.HOME_VIEW_ROUTE);
           //     });
           //   }
           // } else {
@@ -669,7 +669,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               onTap: () async {
                 if (context.read<UserController>().user?.subId == null) {
                   if (widget.fromCompleteProfile) {
-                    // AppNavigation.navigateTo(AppRouteName.ADD_CARD_ROUTE,
+                    // AppNavigation.navigateTo(AppRouteName.ADD_CARD_VIEW_ROUTE,
                     //     arguments:
                     //         ScreenArguments(args: {"price": m.price}));
                     // CustomToast().showToast(

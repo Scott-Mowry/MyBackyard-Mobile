@@ -117,7 +117,7 @@ class _SignInViewState extends State<SignInView> {
                           const Spacer(),
                           GestureDetector(
                             onTap: () {
-                              AppNavigation.navigateTo(AppRouteName.FORGET_PASSWORD_ROUTE);
+                              AppNavigation.navigateTo(AppRouteName.FORGET_PASSWORD_VIEW_ROUTE);
                             },
                             child: Text(
                               'Forgot Password?',
@@ -164,14 +164,14 @@ class _SignInViewState extends State<SignInView> {
         toastLength: Toast.LENGTH_LONG,
         timeInSecForIosWeb: 5,
       );
-      return AppNavigation.navigateTo(AppRouteName.ENTER_OTP_SCREEN_ROUTE);
+      return AppNavigation.navigateTo(AppRouteName.ENTER_OTP_VIEW_ROUTE);
     }
 
     if (userController?.user?.isProfileCompleted == 0) {
       await GeneralAPIS.getPlaces();
-      return AppNavigation.navigateTo(AppRouteName.COMPLETE_PROFILE_SCREEN_ROUTE);
+      return AppNavigation.navigateTo(AppRouteName.COMPLETE_PROFILE_VIEW_ROUTE);
     }
 
-    return AppNavigation.navigateToRemovingAll(AppRouteName.HOME_SCREEN_ROUTE);
+    return AppNavigation.navigateToRemovingAll(AppRouteName.HOME_VIEW_ROUTE);
   }
 }

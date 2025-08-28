@@ -5,6 +5,7 @@ import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/services/auth_service.dart';
+import 'package:backyard/features/change_password/change_password_view.dart';
 import 'package:backyard/legacy/Arguments/content_argument.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -17,7 +18,6 @@ import 'package:backyard/legacy/Service/navigation_service.dart';
 import 'package:backyard/legacy/Utils/app_router_name.dart';
 import 'package:backyard/legacy/Utils/app_strings.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
-import 'package:backyard/legacy/View/Authentication/change_password.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/delete_account.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
@@ -91,11 +91,11 @@ class _SettingsState extends State<Settings> {
                               onChange2: (v) {
                                 val.setSwitch(v);
                                 // AppNavigation.navigateToRemovingAll(
-                                //     AppRouteName.HOME_SCREEN_ROUTE);
+                                //     AppRouteName.HOME_VIEW_ROUTE);
                                 Navigator.popUntil(navigatorKey.currentContext!, (route) => route.isFirst);
                                 Navigator.pushReplacementNamed(
                                   navigatorKey.currentContext!,
-                                  AppRouteName.HOME_SCREEN_ROUTE,
+                                  AppRouteName.HOME_VIEW_ROUTE,
                                 );
                               },
                             ),
@@ -194,8 +194,8 @@ class _SettingsState extends State<Settings> {
       name: 'Change Password',
       onTap: () {
         AppNavigation.navigateTo(
-          AppRouteName.CHANGE_PASSWORD_ROUTE,
-          arguments: const ChangePasswordArguments(fromSettings: true),
+          AppRouteName.CHANGE_PASSWORD_VIEW_ROUTE,
+          arguments: const ChangePasswordViewArgs(fromSettings: true),
         );
       },
     ),
@@ -210,7 +210,7 @@ class _SettingsState extends State<Settings> {
             url: 'https://www.google.com/',
           ),
         );
-        // AppNavigation.navigateTo(AppRouteName.SUBSCRIPTION_SCREEN_ROUTE);
+        // AppNavigation.navigateTo(AppRouteName.SUBSCRIPTION_VIEW_ROUTE);
       },
     ),
   ];
@@ -263,7 +263,7 @@ class _SettingsState extends State<Settings> {
     // MenuModel(
     //     name: 'Payment Details',
     //     onTap: () {
-    //       AppNavigation.navigateTo(AppRouteName.PAYMENT_METHOD_ROUTE,
+    //       AppNavigation.navigateTo(AppRouteName.PAYMENT_METHOD_VIEW_ROUTE,
     //           arguments: ScreenArguments(fromSettings: true));
     //     }),
     MenuModel(
@@ -298,8 +298,8 @@ class _SettingsState extends State<Settings> {
       name: 'Change Password',
       onTap: () {
         AppNavigation.navigateTo(
-          AppRouteName.CHANGE_PASSWORD_ROUTE,
-          arguments: const ChangePasswordArguments(fromSettings: true),
+          AppRouteName.CHANGE_PASSWORD_VIEW_ROUTE,
+          arguments: const ChangePasswordViewArgs(fromSettings: true),
         );
       },
     ),
@@ -314,7 +314,7 @@ class _SettingsState extends State<Settings> {
             url: 'https://www.google.com/',
           ),
         );
-        // AppNavigation.navigateTo(AppRouteName.SUBSCRIPTION_SCREEN_ROUTE);
+        // AppNavigation.navigateTo(AppRouteName.SUBSCRIPTION_VIEW_ROUTE);
       },
     ),
   ];
