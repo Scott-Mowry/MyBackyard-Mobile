@@ -195,8 +195,7 @@ class _BusinessCategoryViewState extends State<BusinessCategoryView> {
       final user = userController.user;
       getIt<AppNetwork>().loadingProgressIndicator();
       final result = await getIt<UserAuthRepository>().completeProfile(
-        firstName: user?.name,
-        lastName: user?.lastName,
+        fullName: user?.name,
         description: user?.description,
         // zipCode: user?.zipCode,
         address: user?.address,

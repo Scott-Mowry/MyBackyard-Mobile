@@ -12,7 +12,6 @@ class UserProfileModel extends Equatable {
   final int? id;
   final UserRoleEnum? role;
   final String? name;
-  final String? lastName;
   final String? profileImage;
   final String? zipCode;
   final String? address;
@@ -61,7 +60,6 @@ class UserProfileModel extends Equatable {
     this.id,
     this.role,
     this.name,
-    this.lastName,
     this.profileImage,
     this.bearerToken,
     this.zipCode,
@@ -134,7 +132,6 @@ class UserProfileModel extends Equatable {
     id,
     role,
     name,
-    lastName,
     profileImage,
     zipCode,
     address,

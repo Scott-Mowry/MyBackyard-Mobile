@@ -219,7 +219,8 @@ class UserController extends ChangeNotifier {
   }
 
   void setUser(UserProfileModel user) {
-    _user = user;
+    final bearerToken = user.bearerToken == null || user.bearerToken!.isEmpty ? _user?.bearerToken : user.bearerToken;
+    _user = user.copyWith(bearerToken: bearerToken);
     notifyListeners();
   }
 

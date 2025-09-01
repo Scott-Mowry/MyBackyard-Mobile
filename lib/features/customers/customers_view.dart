@@ -243,7 +243,7 @@ class CustomerTile extends StatelessWidget {
                       SizedBox(
                         width: 80.w,
                         child: MyText(
-                          title: "${model?.name ?? ""} ${model?.lastName ?? ""}",
+                          title: "${model?.name ?? ""}",
                           fontWeight: FontWeight.w600,
                           size: 14,
                           toverflow: TextOverflow.ellipsis,

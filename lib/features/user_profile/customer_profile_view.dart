@@ -100,7 +100,7 @@ class _CustomerProfileViewState extends State<CustomerProfileView> {
                 SizedBox(
                   width: 90.w,
                   child: MyText(
-                    title: '${widget.user?.name ?? ""} ${widget.user?.lastName ?? ""}',
+                    title: '${widget.user?.name ?? ""}',
                     fontWeight: FontWeight.w500,
                     size: 18,
                     align: TextAlign.center,

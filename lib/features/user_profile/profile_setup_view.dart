@@ -48,11 +48,10 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
   late bool business = role == UserRoleEnum.Business;
   String? imageProfile;
   bool isMerchantSetupActive = false;
-  TextEditingController firstName = TextEditingController();
+  TextEditingController fullName = TextEditingController();
   final _form = GlobalKey<FormState>();
   String title = 'Complete Profile';
   String buttonTitle = 'Continue';
-  TextEditingController lastName = TextEditingController();
   TextEditingController emailC = TextEditingController();
   TextEditingController location = TextEditingController();
   TextEditingController description = TextEditingController();
@@ -79,8 +78,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
 
   @override
   void initState() {
-    firstName.text = userController.user?.name ?? '';
-    lastName.text = userController.user?.lastName ?? '';
+    fullName.text = userController.user?.name ?? '';
     emailC.text = userController.user?.email ?? '';
 
     if (widget.editProfile) {
@@ -115,6 +113,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
   }
 
   Form body() {
+    final rolesToChoose = [UserRoleEnum.User, UserRoleEnum.Business];
     return Form(
       key: _form,
       child: Column(
@@ -208,27 +207,14 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                       ),
                     SizedBox(height: 3.h),
                     if (!widget.editProfile) ...[
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: MyText(
-                          title: 'Role Selection:',
-                          center: true,
-                          line: 2,
-                          size: 18,
-                          toverflow: TextOverflow.ellipsis,
-                          fontWeight: FontWeight.w600,
-                          clr: CustomColors.black,
-                        ),
-                      ),
-                      SizedBox(height: 1.8.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          for (int i = 0; i < UserRoleEnum.values.length; i++)
+                          for (int i = 0; i < rolesToChoose.length; i++)
                             GestureDetector(
                               onTap: () {
-                                role = UserRoleEnum.values[i];
-                                userController.setRole(UserRoleEnum.values[i]);
+                                role = rolesToChoose[i];
+                                userController.setRole(rolesToChoose[i]);
                                 business = role == UserRoleEnum.Business;
                                 _form.currentState?.reset();
                                 setState(() {});
@@ -242,18 +228,17 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color:
-                                          (role ?? UserRoleEnum.User) == UserRoleEnum.values[i] ? Colors.black : null,
+                                      color: (role ?? UserRoleEnum.User) == rolesToChoose[i] ? Colors.black : null,
                                       border: Border.all(
                                         width: 2,
                                         color:
-                                            (role ?? UserRoleEnum.User) == UserRoleEnum.values[i]
+                                            (role ?? UserRoleEnum.User) == rolesToChoose[i]
                                                 ? Colors.transparent
                                                 : Colors.black,
                                       ),
                                     ),
                                     child:
-                                        (role ?? UserRoleEnum.User) == UserRoleEnum.values[i]
+                                        (role ?? UserRoleEnum.User) == rolesToChoose[i]
                                             ? Icon(
                                               Icons.check,
                                               size: Utils.isTablet ? 16 : 14,
@@ -267,7 +252,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
-                                        UserRoleEnum.values[i].name,
+                                        rolesToChoose[i].name,
                                         style: TextStyle(
                                           fontSize: Utils.isTablet ? 19 : 16,
                                           fontWeight: FontWeight.bold,
@@ -296,8 +281,8 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomTextFormField(
-                          controller: firstName,
-                          hintText: business ? 'Business Name' : 'First Name',
+                          controller: fullName,
+                          hintText: business ? 'Business Name' : 'Full Name',
                           maxLength: 30,
                           prefixWidget: Image.asset(
                             ImagePath.person,
@@ -308,22 +293,6 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                           validation: (p0) => p0?.validateEmpty(business ? 'Business Name' : 'First Name'),
                         ),
                         SizedBox(height: 1.5.h),
-                        if (!business) ...[
-                          CustomTextFormField(
-                            controller: lastName,
-                            hintText: 'Last Name',
-                            maxLength: 30,
-                            prefixWidget: Image.asset(
-                              ImagePath.person,
-                              scale: 2,
-                              color:
-                                  widget.editProfile ? CustomColors.primaryGreenColor : CustomColors.primaryGreenColor,
-                            ),
-                            backgroundColor: !widget.editProfile ? null : CustomColors.container,
-                            validation: (p0) => p0?.validateEmpty('Last Name'),
-                          ),
-                          SizedBox(height: 1.5.h),
-                        ],
                         if (userController.user?.socialType == null || userController.user?.socialType == 'phone') ...[
                           CustomTextFormField(
                             hintText: 'Email Address',
@@ -484,8 +453,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
       if (widget.editProfile) {
         getIt<AppNetwork>().loadingProgressIndicator();
         await getIt<UserAuthRepository>().completeProfile(
-          firstName: firstName.text,
-          lastName: role == UserRoleEnum.Business ? lastName.text : null,
+          fullName: fullName.text,
           categoryId: role == UserRoleEnum.Business ? userController.user?.categoryId : null,
           description: role == UserRoleEnum.Business ? description.text : null,
           isPushNotify: '1',
@@ -509,8 +477,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
         if (role == UserRoleEnum.User) {
           getIt<AppNetwork>().loadingProgressIndicator();
           final value = await getIt<UserAuthRepository>().completeProfile(
-            firstName: firstName.text,
-            lastName: lastName.text,
+            fullName: fullName.text,
             isPushNotify: '1',
             email: emailC.text != userController.user?.email && emailC.text.isNotEmpty ? emailC.text : null,
             role: UserRoleEnum.User.name,
@@ -526,7 +493,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
           }
         } else {
           final arguments = <String, dynamic>{
-            'name': firstName.text,
+            'name': fullName.text,
             'description': description.text,
             'isPushNotify': 1,
             'address': location.text,

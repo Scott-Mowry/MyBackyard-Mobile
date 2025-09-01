@@ -68,8 +68,15 @@ abstract class _LocalStorageRepository with Store {
 
   @action
   Future<void> saveUserCredentials(UserProfileModel userProfile) {
-    saveUserCredentialsInMemory(userProfile);
-    return _secureStorage.write(key: _userCredentialsKey, value: json.encode(userProfile.toJson()));
+    final bearerToken =
+        userProfile.bearerToken != null && userProfile.bearerToken!.isNotEmpty
+            ? userProfile.bearerToken
+            : this.userProfile?.bearerToken;
+
+    final userToSave = userProfile.copyWith(bearerToken: bearerToken);
+
+    saveUserCredentialsInMemory(userToSave);
+    return _secureStorage.write(key: _userCredentialsKey, value: json.encode(userToSave.toJson()));
   }
 
   Future<UserProfileModel?> getUserCredentials() async {

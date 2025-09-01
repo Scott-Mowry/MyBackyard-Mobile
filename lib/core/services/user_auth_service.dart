@@ -29,7 +29,7 @@ abstract class UserAuthService {
   Future<bool> verifyAccount({required String otpCode, required int id});
 
   Future<bool> completeProfile({
-    String? firstName,
+    String? fullName,
     String? isPushNotify,
     String? lastName,
     String? zipCode,
@@ -85,7 +85,7 @@ class UserAuthServiceImpl implements UserAuthService {
 
       final user = UserProfileModel.fromJson(respModel.data?['user']);
       getIt<UserController>().setUser(user);
-      if (user.isProfileCompleted && user.isVerified) {
+      if (user.isVerified) {
         await _localStorageRepository.deleteAll();
         await _localStorageRepository.saveUserCredentials(user);
       }
@@ -175,7 +175,7 @@ class UserAuthServiceImpl implements UserAuthService {
 
   @override
   Future<bool> completeProfile({
-    String? firstName,
+    String? fullName,
     String? isPushNotify,
     String? lastName,
     String? zipCode,
@@ -194,7 +194,7 @@ class UserAuthServiceImpl implements UserAuthService {
     try {
       final bodyPayload = <String, dynamic>{};
       if (role != null) bodyPayload['role'] = role;
-      if (firstName != null) bodyPayload['name'] = firstName;
+      if (fullName != null) bodyPayload['name'] = fullName;
       if (lastName != null) bodyPayload['last_name'] = lastName;
       if (subId != null) bodyPayload['sub_id'] = subId;
       if (categoryId != null) bodyPayload['category_id'] = categoryId.toString();
@@ -324,7 +324,7 @@ class UserAuthServiceImpl implements UserAuthService {
     final minute = int.parse(val.split(':').last.split(' ').first);
 
     if (val.split(':').last.split(' ').last == 'AM' && hour == 12) hour = 0;
-    if (val.split(':').last.split(' ').last == 'PM' && hour != 12) hour + 12;
+    if (val.split(':').last.split(' ').last == 'PM' && hour != 12) hour += 12;
 
     return TimeOfDay(hour: hour, minute: minute);
   }
