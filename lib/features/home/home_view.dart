@@ -13,7 +13,6 @@ import 'package:backyard/legacy/Component/custom_drawer.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
-import 'package:backyard/legacy/Service/socket_service.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -74,13 +73,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     context.read<HomeController>().setGlobalKey(key);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<HomeController>().setIndex(0);
-      SocketService.instance?.socketEmitMethod(
-        eventName: 'get_user',
-        eventParamaters: {'id': context.read<UserController>().user?.id?.toString()},
-      );
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) => context.read<HomeController>().setIndex(0));
 
     super.initState();
   }

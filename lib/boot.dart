@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:backyard/core/dependencies/dependency_injector.dart';
+import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/exception/exception_handler.dart';
 import 'package:backyard/core/firebase_options/firebase_options.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
@@ -71,16 +72,14 @@ void configLoading() {
   EasyLoading.instance
     ..indicatorType = EasyLoadingIndicatorType.ring
     ..backgroundColor = Colors.transparent
-    ..indicatorColor = const Color(0xffB4B4B4)
+    ..indicatorColor = CustomColors.primaryGreenColor
     ..textColor = Colors.transparent
     ..boxShadow = [const BoxShadow(color: Colors.transparent)]
     ..maskType = EasyLoadingMaskType.custom
     ..loadingStyle = EasyLoadingStyle.custom
     ..indicatorSize = 35.0
     ..radius = 10.0
-    ..maskColor =
-        Colors
-            .transparent //.withValues(alpha: 0.6)
+    ..maskColor = CustomColors.grey.withValues(alpha: 0.5)
     ..userInteractions = false
     ..dismissOnTap = false;
 }

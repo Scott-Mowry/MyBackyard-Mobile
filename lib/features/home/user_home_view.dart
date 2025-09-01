@@ -19,7 +19,6 @@ import 'package:backyard/legacy/Model/category_model.dart';
 import 'package:backyard/legacy/Model/category_product_model.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
-import 'package:backyard/legacy/Service/socket_service.dart';
 import 'package:backyard/legacy/Utils/app_size.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
@@ -130,174 +129,160 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
     super.build(context);
     return Consumer<HomeController>(
       builder: (context, value, child) {
-        return value.loading
-            ? Center(child: CircularProgressIndicator(color: CustomColors.primaryGreenColor))
-            : Stack(
-              children: [
-                Consumer<UserController>(
-                  builder: (context, val, _) {
-                    return Stack(
-                      children: [
-                        GoogleMap(
-                          padding: Utils.isTablet ? EdgeInsets.only(top: 11.h, right: 2.w) : EdgeInsets.zero,
-                          mapType: MapType.normal,
-                          initialCameraPosition: CameraPosition(
-                            target: LatLng(val.user?.latitude ?? 0, val.user?.longitude ?? 0),
-                            zoom: 14.4746,
-                          ),
-                          myLocationButtonEnabled: Utils.isTablet == false, //true
-                          circles: val.circles,
-                          myLocationEnabled: true,
-                          onMapCreated: (controller) async {
-                            await controller.setMapStyle(
-                              '[{"elementType":"geometry","stylers":[{"color":"#f5f5f5"}]},{"elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"elementType":"labels.text.fill","stylers":[{"color":"#616161"}]},{"elementType":"labels.text.stroke","stylers":[{"color":"#f5f5f5"}]},{"featureType":"administrative.land_parcel","elementType":"labels.text.fill","stylers":[{"color":"#bdbdbd"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#eeeeee"}]},{"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#757575"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#e5e5e5"}]},{"featureType":"poi.park","elementType":"labels.text.fill","stylers":[{"color":"#9e9e9e"}]},{"featureType":"road","elementType":"geometry","stylers":[{"color":"#ffffff"}]},{"featureType":"road.arterial","elementType":"labels.text.fill","stylers":[{"color":"#757575"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#dadada"}]},{"featureType":"road.highway","elementType":"labels.text.fill","stylers":[{"color":"#616161"}]},{"featureType":"road.local","elementType":"labels.text.fill","stylers":[{"color":"#9e9e9e"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"color":"#e5e5e5"}]},{"featureType":"transit.station","elementType":"geometry","stylers":[{"color":"#eeeeee"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#c9c9c9"}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"color":"#9e9e9e"}]}]',
-                            );
-                            val.setController(controller);
-                            final pos = await Geolocator.getLastKnownPosition();
-                            val.moveMap(
-                              CameraUpdate.newCameraPosition(
-                                CameraPosition(target: LatLng(pos?.latitude ?? 0, pos?.longitude ?? 0), zoom: 13.4746),
-                              ),
-                            );
-                          },
-                          markers: context.watch<UserController>().markers,
-                        ),
-                      ],
-                    );
-                  },
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Utils.isTablet ? null : CustomColors.whiteColor,
-                    borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
-                    boxShadow:
-                        Utils.isTablet
-                            ? null
-                            : [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.2), // Shadow color
-                                blurRadius: 10, // Spread of the shadow
-                                spreadRadius: 5, // Size of the shadow
-                                offset: const Offset(0, 4), // Position of the shadow
-                              ),
-                            ],
-                  ),
-                  padding: EdgeInsets.only(top: 7.h) + EdgeInsets.symmetric(horizontal: 4.w),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 2.h),
-                        child: CustomAppBar(
-                          screenTitle: 'Home',
-                          leading:
-                              Utils.isTablet
-                                  ? Opacity(
-                                    opacity: .8,
-                                    child: Container(
-                                      padding: EdgeInsets.all(12),
-                                      decoration: BoxDecoration(
-                                        color: CustomColors.whiteColor,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: MenuIcon(),
-                                    ),
-                                  )
-                                  : MenuIcon(),
-                          trailing: Row(
-                            children: [
-                              Utils.isTablet
-                                  ? Opacity(
-                                    opacity: .8,
-                                    child: Container(
-                                      padding: EdgeInsets.all(12),
-                                      decoration: BoxDecoration(
-                                        color: CustomColors.whiteColor,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child:
-                                          onTap
-                                              ? FilterIcon(
-                                                onTap:
-                                                    () => [
-                                                      FocusManager.instance.primaryFocus?.unfocus(),
-                                                      setState(() => filter = !filter),
-                                                    ],
-                                              )
-                                              : CircularProgressIndicator(color: CustomColors.greenColor),
-                                    ),
-                                  )
-                                  : FilterIcon(
-                                    onTap:
-                                        () => [
-                                          FocusManager.instance.primaryFocus?.unfocus(),
-                                          setState(() => filter = !filter),
-                                        ],
-                                  ),
-                              SizedBox(width: 4.w),
-                              Utils.isTablet
-                                  ? Opacity(
-                                    opacity: .8,
-                                    child: Container(
-                                      padding: EdgeInsets.all(12),
-                                      decoration: BoxDecoration(
-                                        color: CustomColors.whiteColor,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: NotificationIcon(),
-                                    ),
-                                  )
-                                  : NotificationIcon(),
-                            ],
-                          ),
-                          bottom: 2.h,
-                        ),
+        return Stack(
+          children: [
+            Consumer<UserController>(
+              builder: (context, val, _) {
+                return Stack(
+                  children: [
+                    GoogleMap(
+                      padding: Utils.isTablet ? EdgeInsets.only(top: 11.h, right: 2.w) : EdgeInsets.zero,
+                      mapType: MapType.normal,
+                      initialCameraPosition: CameraPosition(
+                        target: LatLng(val.user?.latitude ?? 0, val.user?.longitude ?? 0),
+                        zoom: 14.4746,
                       ),
-
-                      if (filter) ...[
-                        Consumer<UserController>(
-                          builder: (context, val, _) {
-                            return Padding(
-                              padding: EdgeInsets.only(bottom: 2.h),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Slider(
-                                      min: 5,
-                                      max: 50, //25
-                                      divisions: 10,
-                                      value: val.mile.toDouble(),
-                                      onChangeEnd:
-                                          (v) => SocketService.instance?.socketEmitMethod(
-                                            eventName: 'get_buses',
-                                            eventParamaters: {
-                                              'lat': pos?.latitude,
-                                              'long': pos?.longitude,
-                                              'radius': val.mile,
-                                            },
-                                          ),
-                                      onChanged: (v) => val.setMile(v.toInt()),
-                                    ),
+                      myLocationButtonEnabled: Utils.isTablet == false, //true
+                      circles: val.circles,
+                      myLocationEnabled: true,
+                      onMapCreated: (controller) async {
+                        await controller.setMapStyle(
+                          '[{"elementType":"geometry","stylers":[{"color":"#f5f5f5"}]},{"elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"elementType":"labels.text.fill","stylers":[{"color":"#616161"}]},{"elementType":"labels.text.stroke","stylers":[{"color":"#f5f5f5"}]},{"featureType":"administrative.land_parcel","elementType":"labels.text.fill","stylers":[{"color":"#bdbdbd"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#eeeeee"}]},{"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#757575"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#e5e5e5"}]},{"featureType":"poi.park","elementType":"labels.text.fill","stylers":[{"color":"#9e9e9e"}]},{"featureType":"road","elementType":"geometry","stylers":[{"color":"#ffffff"}]},{"featureType":"road.arterial","elementType":"labels.text.fill","stylers":[{"color":"#757575"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#dadada"}]},{"featureType":"road.highway","elementType":"labels.text.fill","stylers":[{"color":"#616161"}]},{"featureType":"road.local","elementType":"labels.text.fill","stylers":[{"color":"#9e9e9e"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"color":"#e5e5e5"}]},{"featureType":"transit.station","elementType":"geometry","stylers":[{"color":"#eeeeee"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#c9c9c9"}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"color":"#9e9e9e"}]}]',
+                        );
+                        val.setController(controller);
+                        final pos = await Geolocator.getLastKnownPosition();
+                        val.moveMap(
+                          CameraUpdate.newCameraPosition(
+                            CameraPosition(target: LatLng(pos?.latitude ?? 0, pos?.longitude ?? 0), zoom: 13.4746),
+                          ),
+                        );
+                      },
+                      markers: context.watch<UserController>().markers,
+                    ),
+                  ],
+                );
+              },
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: Utils.isTablet ? null : CustomColors.whiteColor,
+                borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
+                boxShadow:
+                    Utils.isTablet
+                        ? null
+                        : [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.2), // Shadow color
+                            blurRadius: 10, // Spread of the shadow
+                            spreadRadius: 5, // Size of the shadow
+                            offset: const Offset(0, 4), // Position of the shadow
+                          ),
+                        ],
+              ),
+              padding: EdgeInsets.only(top: 7.h) + EdgeInsets.symmetric(horizontal: 4.w),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 2.h),
+                    child: CustomAppBar(
+                      screenTitle: 'Home',
+                      leading:
+                          Utils.isTablet
+                              ? Opacity(
+                                opacity: .8,
+                                child: Container(
+                                  padding: EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: CustomColors.whiteColor,
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                  Text(
-                                    "${val.mile} Mile${val.mile > 1 ? "s" : ""}",
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  child: MenuIcon(),
+                                ),
+                              )
+                              : MenuIcon(),
+                      trailing: Row(
+                        children: [
+                          Utils.isTablet
+                              ? Opacity(
+                                opacity: .8,
+                                child: Container(
+                                  padding: EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: CustomColors.whiteColor,
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                ],
+                                  child:
+                                      onTap
+                                          ? FilterIcon(
+                                            onTap:
+                                                () => [
+                                                  FocusManager.instance.primaryFocus?.unfocus(),
+                                                  setState(() => filter = !filter),
+                                                ],
+                                          )
+                                          : CircularProgressIndicator(color: CustomColors.greenColor),
+                                ),
+                              )
+                              : FilterIcon(
+                                onTap:
+                                    () => [
+                                      FocusManager.instance.primaryFocus?.unfocus(),
+                                      setState(() => filter = !filter),
+                                    ],
                               ),
-                            );
-                          },
-                        ),
-                      ],
-                    ],
+                          SizedBox(width: 4.w),
+                          Utils.isTablet
+                              ? Opacity(
+                                opacity: .8,
+                                child: Container(
+                                  padding: EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: CustomColors.whiteColor,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: NotificationIcon(),
+                                ),
+                              )
+                              : NotificationIcon(),
+                        ],
+                      ),
+                      bottom: 2.h,
+                    ),
                   ),
-                ),
-              ],
-            );
+
+                  if (filter) ...[
+                    Consumer<UserController>(
+                      builder: (context, val, _) {
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 2.h),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Slider(
+                                  min: 5,
+                                  max: 50, //25
+                                  divisions: 10,
+                                  value: val.mile.toDouble(),
+                                  onChangeEnd: (v) => BusAPIS.getBuses(pos?.latitude, pos?.longitude),
+                                  onChanged: (v) => val.setMile(v.toInt()),
+                                ),
+                              ),
+                              Text(
+                                "${val.mile} Mile${val.mile > 1 ? "s" : ""}",
+                                style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        );
       },
     );
   }

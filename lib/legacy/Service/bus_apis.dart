@@ -13,11 +13,13 @@ import 'package:backyard/legacy/Model/response_model.dart';
 import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 
 class BusAPIS {
   static Future<void> getBuses(double? lat, double? long) async {
     try {
+      await EasyLoading.show();
       final controller = getIt<UserController>();
       final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.GET.name,
@@ -42,6 +44,8 @@ class BusAPIS {
       }
     } catch (e) {
       log('GET BUSES ENDPOINT: ${e.toString()}');
+    } finally {
+      await EasyLoading.dismiss();
     }
   }
 
