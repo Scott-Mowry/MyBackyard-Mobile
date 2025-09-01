@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
@@ -58,7 +57,7 @@ class AppNetworkImpl implements AppNetwork {
       request.headers.addAll({'Accept': 'application/json'});
 
       final userCredentials = await _localStorageRepository.getUserCredentials();
-      final bearerToken = userCredentials?['bearer_token'];
+      final bearerToken = userCredentials?.bearerToken;
       if (bearerToken != null && bearerToken.isNotEmpty) {
         request.headers.addAll({'Authorization': 'Bearer $bearerToken'});
       }
@@ -77,7 +76,6 @@ class AppNetworkImpl implements AppNetwork {
       }
 
       final res = await Response.fromStream(response);
-      log('RESPONSE: ${res.body}');
       return res;
     } catch (e) {
       CustomToast().showToast(message: e.toString());

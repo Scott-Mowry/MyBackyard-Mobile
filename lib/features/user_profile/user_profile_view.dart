@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
+import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/features/offers/offers_view.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -14,7 +15,6 @@ import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/file_network.dart';
-import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
@@ -29,7 +29,7 @@ class UserProfileView extends StatefulWidget {
   final bool isMe;
   final bool isUser;
   final bool isBusinessProfile;
-  final User? user;
+  final UserProfileModel? user;
   final bool wantKeepAlive;
 
   const UserProfileView({

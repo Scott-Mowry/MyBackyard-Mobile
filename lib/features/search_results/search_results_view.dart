@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/features/offers/offers_view.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
 import 'package:backyard/legacy/Component/custom_height.dart';
@@ -9,7 +10,6 @@ import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
-import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
 // import 'package:backyard/legacy/Model/session_model.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
@@ -151,7 +151,7 @@ class _SearchResultsViewState extends State<SearchResultsView> {
     );
   }
 
-  Padding businessTile({User? user, required BuildContext context}) {
+  Padding businessTile({UserProfileModel? user, required BuildContext context}) {
     return Padding(
       padding: EdgeInsets.only(right: 3.w),
       child: GestureDetector(

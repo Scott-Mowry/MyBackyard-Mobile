@@ -62,7 +62,7 @@
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // import 'package:get/get.dart';
 //
-// import '../Model/user_model.dart';
+// import '../Model/user_profile_model.dart';
 // import '../Utils/local_shared_preferences.dart';
 // import '../Utils/utils.dart';
 // import '../View/Authentication/role_selection.dart';

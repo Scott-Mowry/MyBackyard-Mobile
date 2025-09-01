@@ -1,10 +1,10 @@
 import 'dart:ui' as ui;
 
+import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/legacy/Model/card_model.dart';
 import 'package:backyard/legacy/Model/category_model.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
 import 'package:backyard/legacy/Model/places_model.dart';
-import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -24,10 +24,10 @@ class HomeController extends ChangeNotifier {
 
   bool loading = true;
 
-  List<User> _customers = [];
-  List<User> get customers => _customers;
+  List<UserProfileModel> _customers = [];
+  List<UserProfileModel> get customers => _customers;
 
-  void setCustomers(List<User> val) {
+  void setCustomers(List<UserProfileModel> val) {
     _customers = val;
     notifyListeners();
   }
@@ -109,10 +109,10 @@ class HomeController extends ChangeNotifier {
   }
 
   //Customers
-  List<User> _customersList = [];
-  List<User> get customersList => _customersList;
+  List<UserProfileModel> _customersList = [];
+  List<UserProfileModel> get customersList => _customersList;
 
-  void setCustomersList(List<User> model) {
+  void setCustomersList(List<UserProfileModel> model) {
     _customersList = model;
     notifyListeners();
   }

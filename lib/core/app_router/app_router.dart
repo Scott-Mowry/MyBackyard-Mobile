@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/features/change_password/change_password_view.dart';
 import 'package:backyard/features/change_password/forgot_password_view.dart';
 import 'package:backyard/features/content/content_view.dart';
@@ -23,7 +24,6 @@ import 'package:backyard/features/user_profile/schedule_view.dart';
 import 'package:backyard/features/user_profile/user_profile_view.dart';
 import 'package:backyard/legacy/Model/day_schedule.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
-import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:flutter/material.dart';
 
 part 'app_router.gr.dart';

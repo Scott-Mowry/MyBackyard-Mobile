@@ -64,11 +64,6 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
     'user_id': user?.id?.toString(),
   });
 
-  // String encryption(String val) {
-  //   final encrypter = Encrypter(AES(Utils.key, padding: null));
-  //   return encrypter.encrypt(val, iv: Utils.iv).base64;
-  // }
-
   @override
   Widget build(BuildContext context) {
     return BaseView(
@@ -85,12 +80,6 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                 icon: const Icon(Icons.more_horiz_rounded, size: 35, color: Colors.black),
               )
               : null,
-      //     : Image.asset(
-      //         ImagePath.favorite,
-      //         color: MyColors().redColor,
-      //         scale: 2,
-      //       ),
-      // backgroundColor: Colors.white,
       child: CustomPadding(
         horizontalPadding: 4.w,
         topPadding: 0,
@@ -100,11 +89,6 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
               Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
-                  // Image.asset(
-                  //   ImagePath.random4,
-                  //   scale: 1,
-                  //   fit: BoxFit.cover,
-                  // ),
                   Stack(
                     alignment: Alignment.bottomCenter,
                     children: [
@@ -158,27 +142,6 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                       ),
                       SizedBox(height: 3.h),
                       SizedBox(height: 1.h),
-                      // Container(
-                      //   decoration: BoxDecoration(
-                      //       color: MyColors().black,
-                      //       borderRadius: BorderRadius.circular(30)),
-                      //   padding: EdgeInsets.all(12) +
-                      //       EdgeInsets.symmetric(horizontal: 20),
-                      //   child: Row(
-                      //     mainAxisSize: MainAxisSize.min,
-                      //     children: [
-                      //       Image.asset(
-                      //         ImagePath.coins,
-                      //         scale: 2,
-                      //       ),
-                      //       MyText(
-                      //           title: '   +500',
-                      //           fontWeight: FontWeight.w600,
-                      //           size: 16,
-                      //           clr: MyColors().whiteColor),
-                      //     ],
-                      //   ),
-                      // ),
                       SizedBox(height: 2.h),
                     ],
                   ),
@@ -235,22 +198,6 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                 description: widget.model?.description ?? '',
                 // 'Classic checkerboard slip ons with office white under tone and reinforced waffle cup soles is a tone and reinforced waffle cup soles.CIassic ka checkerboard slip ons with office white hnan dunder tone and reinforced.'
               ),
-              // textDetail(
-              //     title: 'Terms And Conditions ',
-              //     description:
-              //         'Tell your friends about MY BACKYARD Provider Club and register them on the app.'),
-              // textDetail(
-              //     title: 'Step 2:',
-              //     description:
-              //         'Complete all the steps of registration including payment for registration.'),
-              // textDetail(
-              //     title: 'Step 3:',
-              //     description:
-              //         'Go to the Manage Account Section in Settings page and enter your registered phone number and validate there.'),
-              // textDetail(
-              //     title: 'Step 4:',
-              //     description:
-              //         'Go to the Manage Account Section in Settings page and enter your registered phone number and validate there.'),
               SizedBox(height: 2.h),
               if (!business) ...[
                 if (widget.model?.ownerId != context.watch<UserController>().user?.id)

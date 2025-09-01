@@ -116,7 +116,7 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
   late bool business = context.read<UserController>().user?.role == UserRoleEnum.Business;
 
   void getData() {
-    if (context.read<UserController>().user?.isPushNotify == 1) {
+    if (context.read<UserController>().user?.isPushNotify ?? false) {
       val = true;
     }
   }

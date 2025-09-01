@@ -302,7 +302,7 @@ class _EnterOTPViewState extends State<EnterOTPView> {
     if (widget.fromForgot ?? false) {
       context.replaceRoute(ChangePasswordRoute());
     } else {
-      if (userController.user?.isProfileCompleted == 1) {
+      if (userController.user?.isProfileCompleted ?? false) {
         context.pushRoute(HomeRoute());
       } else {
         context.pushRoute(ProfileSetupRoute(editProfile: false));

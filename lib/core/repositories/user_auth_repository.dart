@@ -1,9 +1,9 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/core/repositories/local_storage_repository.dart';
 import 'package:backyard/core/services/user_auth_service.dart';
-import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 
@@ -19,7 +19,7 @@ abstract class _UserAuthRepository with Store {
   _UserAuthRepository(this._localStorageRepository, this._userAuthService);
 
   @computed
-  bool get isAuthenticated => _localStorageRepository.userCredentials != null;
+  bool get isAuthenticated => _localStorageRepository.userProfile != null;
 
   @action
   Future<bool> signIn({required String email, required String password}) async {
@@ -76,7 +76,7 @@ abstract class _UserAuthRepository with Store {
     double? long,
     String? role,
     int? categoryId,
-    List<BussinessScheduling>? days,
+    List<BusinessSchedulingModel>? days,
     File? image,
   }) async {
     try {

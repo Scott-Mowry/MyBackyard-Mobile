@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:backyard/core/exception/app_exception_codes.dart';
 import 'package:backyard/core/exception/app_internal_error.dart';
+import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
@@ -21,9 +22,8 @@ class LocalStorageRepository extends _LocalStorageRepository with _$LocalStorage
 }
 
 abstract class _LocalStorageRepository with Store {
-  static const _appFirstUsed = 'appFirstUsed';
-
-  static const String _tokenCredentialsKey = 'token-credentials';
+  static const _appFirstUsedKey = 'appFirstUsed';
+  static const _userCredentialsKey = 'user-credentials';
 
   final _secureStorage = const FlutterSecureStorage(
     aOptions: AndroidOptions(encryptedSharedPreferences: true, resetOnError: true),
@@ -32,54 +32,56 @@ abstract class _LocalStorageRepository with Store {
   @observable
   bool isFirstAppUse = false;
 
-  Map<String, dynamic>? userCredentials = <String, dynamic>{};
+  UserProfileModel? userProfile = null;
 
   @action
   Future<void> init() async {
     try {
       // Deletes all values from FlutterSecureStorage if it's the app first use after install
       final sharedPrefs = await SharedPreferences.getInstance();
-      if (!sharedPrefs.containsKey(_appFirstUsed)) {
+      if (!sharedPrefs.containsKey(_appFirstUsedKey)) {
         isFirstAppUse = true;
-        await sharedPrefs.setBool(_appFirstUsed, true);
+        await sharedPrefs.setBool(_appFirstUsedKey, true);
         await _secureStorage.deleteAll();
         return;
       }
 
-      if (await _secureStorage.containsKey(key: _tokenCredentialsKey)) {
-        final tokenCreds = await getUserCredentials();
-        saveUserCredentialsInMemory(tokenCreds!);
+      if (await _secureStorage.containsKey(key: _userCredentialsKey)) {
+        final userCredentials = await getUserCredentials();
+        saveUserCredentialsInMemory(userCredentials!);
       }
     } catch (error, stack) {
       throw AppInternalError(code: kLocalStorageInitErrorKey, error: error, stack: stack);
     }
   }
 
-  Future<Map<String, dynamic>?> getUser() async {
-    final userJsonRaw = await _secureStorage.read(key: 'user');
+  Future<UserProfileModel?> getUser() async {
+    final userJsonRaw = await _secureStorage.read(key: _userCredentialsKey);
     if (userJsonRaw == null) return null;
-    return json.decode(userJsonRaw);
+
+    final userJson = json.decode(userJsonRaw);
+    return UserProfileModel.fromJson(userJson);
   }
 
   @action
-  void saveUserCredentialsInMemory(Map<String, dynamic> userData) => this.userCredentials = userData;
+  void saveUserCredentialsInMemory(UserProfileModel userProfile) => this.userProfile = userProfile;
 
   @action
-  Future<void> saveUserCredentials(Map<String, dynamic> userData) {
-    saveUserCredentialsInMemory(userData);
-    return _secureStorage.write(key: 'user', value: json.encode(userData));
+  Future<void> saveUserCredentials(UserProfileModel userProfile) {
+    saveUserCredentialsInMemory(userProfile);
+    return _secureStorage.write(key: _userCredentialsKey, value: json.encode(userProfile.toJson()));
   }
 
-  Future<Map<String, dynamic>?> getUserCredentials() async {
-    final inDiskCredentials = await _secureStorage.read(key: 'user');
-    if (inDiskCredentials != null) return json.decode(inDiskCredentials);
+  Future<UserProfileModel?> getUserCredentials() async {
+    final inDiskCredentials = await _secureStorage.read(key: _userCredentialsKey);
+    if (inDiskCredentials != null) return UserProfileModel.fromJson(json.decode(inDiskCredentials));
 
-    return userCredentials;
+    return userProfile;
   }
 
   @action
   Future<void> deleteAll() async {
-    userCredentials = null;
+    userProfile = null;
     await _secureStorage.deleteAll();
   }
 }

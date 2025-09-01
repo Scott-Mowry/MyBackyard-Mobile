@@ -1,4 +1,4 @@
-import 'package:backyard/legacy/Model/user_model.dart';
+import 'package:backyard/core/model/user_profile_model.dart';
 
 class NotificationModel {
   String id = '';
@@ -8,7 +8,7 @@ class NotificationModel {
   String createdAt = '';
   String sessionId = '';
   String date = '';
-  User? user;
+  UserProfileModel? user;
 
   NotificationModel({
     this.id = '',
@@ -31,7 +31,7 @@ class NotificationModel {
     sessionId = json['session_id'] ?? '';
     user =
         (json['sender_id'] as Map<String, dynamic>?) != null
-            ? User.setUser(json['sender_id'] as Map<String, dynamic>)
+            ? UserProfileModel.fromJson(json['sender_id'] as Map<String, dynamic>)
             : null;
   }
 }

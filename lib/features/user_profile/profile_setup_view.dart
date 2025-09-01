@@ -201,8 +201,8 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                         child: Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: Text(
-                            "Image can't be empty",
-                            style: TextStyle(color: widget.editProfile ? Colors.red : Colors.white, fontSize: 12.sp),
+                            "Missing profile picture",
+                            style: TextStyle(color: CustomColors.redColor, fontSize: 16.sp),
                           ),
                         ),
                       ),

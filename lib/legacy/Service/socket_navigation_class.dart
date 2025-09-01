@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:backyard/core/dependencies/dependency_injector.dart';
+import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
-import 'package:backyard/legacy/Model/user_model.dart';
 
 class SocketNavigationClass {
   static SocketNavigationClass? _instance;
@@ -22,7 +22,7 @@ class SocketNavigationClass {
       final responseDataJson = responseData as Map<String, dynamic>;
       if (responseDataJson['object_type'] == 'get_user') {
         try {
-          getIt<UserController>().setSubId(User.setUser(responseDataJson['data'][0]));
+          getIt<UserController>().setSubId(UserProfileModel.fromJson(responseDataJson['data'][0]));
         } catch (e) {
           log(e.toString());
         }
@@ -38,8 +38,8 @@ class SocketNavigationClass {
       final responseDataJson = responseData as Map<String, dynamic>;
       if (responseDataJson['object_type'] == 'get_buses') {
         getIt<UserController>().clearMarkers();
-        var users = <User>[];
-        users = List<User>.from((responseDataJson['data'] ?? {}).map((x) => User.setUser(x)));
+        var users = <UserProfileModel>[];
+        users = List<UserProfileModel>.from((responseDataJson['data'] ?? {}).map((x) => UserProfileModel.fromJson(x)));
         getIt<UserController>().setBusList(users);
         for (var user in users) {
           getIt<UserController>().addMarker(user);

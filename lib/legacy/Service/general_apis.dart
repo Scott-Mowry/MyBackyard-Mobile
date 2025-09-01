@@ -19,7 +19,7 @@ class GeneralAPIS {
       );
       if (res != null) {
         final model = responseModelFromJson(res.body);
-        if (model.status == 1) {
+        if (model.status) {
           return model.data.toString();
         }
       }
@@ -36,7 +36,7 @@ class GeneralAPIS {
       if (res != null) {
         final model = responseModelFromJson(res.body);
         // CustomToast().showToast(message: model.message ?? "");
-        if (model.status == 1) {
+        if (model.status) {
           controller.setCategories(List<CategoryModel>.from((model.data ?? {}).map((x) => CategoryModel.fromJson(x))));
         }
       }
@@ -52,7 +52,7 @@ class GeneralAPIS {
       if (res != null) {
         final model = responseModelFromJson(res.body);
         // CustomToast().showToast(message: model.message ?? "");
-        if (model.status == 1) {
+        if (model.status) {
           controller.setPlaces(List<PlacesModel>.from((model.data ?? {}).map((x) => PlacesModel.fromJson(x))));
         }
       }

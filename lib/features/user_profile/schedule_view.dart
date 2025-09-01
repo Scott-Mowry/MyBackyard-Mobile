@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -11,7 +14,6 @@ import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/day_schedule.dart';
 import 'package:backyard/legacy/Model/menu_model.dart';
-import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
@@ -255,12 +257,12 @@ class _ScheduleViewState extends State<ScheduleView> {
   Future<void> onSubmit(BuildContext context) async {
     FocusManager.instance.primaryFocus?.unfocus();
     if ((_form.currentState?.validate() ?? false)) {
-      var temp = <BussinessScheduling>[];
+      var temp = <BusinessSchedulingModel>[];
       final temp2 = daySchedules.where((element) => element.startTime != null && element.endTime != null).toList();
       temp =
           temp2
               .map(
-                (e) => BussinessScheduling(
+                (e) => BusinessSchedulingModel(
                   day: e.day.name,
                   startTime: e.startTime?.format(context),
                   endTime: e.endTime?.format(context),
@@ -270,25 +272,22 @@ class _ScheduleViewState extends State<ScheduleView> {
       if (widget.edit) {
         getIt<AppNetwork>().loadingProgressIndicator();
         final value = await getIt<UserAuthRepository>().completeProfile(days: temp);
-        context.maybePop();
-        if (value) {
-          context.maybePop();
-        }
+        unawaited(context.maybePop());
+        if (value) unawaited(context.maybePop());
       } else {
-        final user =
-            userController.user
-              ?..name = widget.args?['name']
-              ..description = widget.args?['description']
-              ..isPushNotify = widget.args?['isPushNotify']
-              ..address = widget.args?['address']
-              ..latitude = widget.args?['lat']
-              ..longitude = widget.args?['lng']
-              ..phone = widget.args?['phone']
-              ..email = widget.args?['email']
-              ..days = temp
-              ..profileImage = widget.args?['image']
-        // ..zipCode = widget.args?["zipCode"]
-        ;
+        final user = userController.user?.copyWith(
+          name: widget.args?['name'],
+          description: widget.args?['description'],
+          isPushNotify: widget.args?['isPushNotify'],
+          address: widget.args?['address'],
+          latitude: widget.args?['lat'],
+          longitude: widget.args?['lng'],
+          phone: widget.args?['phone'],
+          email: widget.args?['email'],
+          days: temp,
+          profileImage: widget.args?['image'],
+          // zipCode: widget.args?["zipCode"],
+        );
 
         userController.setUser(user!);
 

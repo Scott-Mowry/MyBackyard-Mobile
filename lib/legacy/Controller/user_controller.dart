@@ -5,9 +5,9 @@ import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
+import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/core/repositories/local_storage_repository.dart';
 import 'package:backyard/legacy/Model/reiview_model.dart';
-import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/my-backyard-app.dart';
 import 'package:flutter/material.dart';
@@ -26,22 +26,21 @@ class UserController extends ChangeNotifier {
     locationStream = Geolocator.getPositionStream(
       locationSettings: const LocationSettings(accuracy: LocationAccuracy.best),
     ).listen((event) async {
-      if ((geo ?? false) && (_user?.token != null)) {
+      if ((geo ?? false) && (_user?.bearerToken != null)) {
         if (onTap && mapController != null) {
           if (user?.role == UserRoleEnum.User) {
-            _user?.latitude = event.latitude;
-            _user?.longitude = event.longitude;
+            _user = user!.copyWith(latitude: event.latitude, longitude: event.longitude);
           } else {
             lat = event.latitude;
             lng = event.longitude;
           }
           final placemarks = await placemarkFromCoordinates(event.latitude, event.longitude);
           if (user?.role == UserRoleEnum.User) {
-            _user?.address = placemarks[0].locality ?? '';
+            _user = user!.copyWith(address: placemarks[0].locality ?? '');
           } else {
             address = placemarks[0].locality ?? '';
           }
-          if (mapController != null && _user?.token != null && _user!.token!.isNotEmpty) {
+          if (mapController != null && _user?.bearerToken != null && _user!.bearerToken!.isNotEmpty) {
             await mapController?.moveCamera(
               CameraUpdate.newCameraPosition(
                 CameraPosition(target: LatLng(event.latitude, event.longitude), zoom: 13.4746),
@@ -74,9 +73,9 @@ class UserController extends ChangeNotifier {
   late StreamSubscription<Position>? locationStream;
   bool onTap = true;
   GoogleMapController? mapController;
-  User? _user;
+  UserProfileModel? _user;
 
-  User? get user => _user;
+  UserProfileModel? get user => _user;
   bool? geo = true;
   Set<Circle> circles = {};
   Set<Marker> markers = {};
@@ -85,7 +84,7 @@ class UserController extends ChangeNotifier {
   List<in_app.ProductDetails> productDetails = [];
   bool loading = false;
   bool purchaseLoading = false;
-  List<User> busList = [];
+  List<UserProfileModel> busList = [];
   double lat = 0;
   double lng = 0;
   String address = '';
@@ -133,7 +132,7 @@ class UserController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setBusList(List<User> val) {
+  void setBusList(List<UserProfileModel> val) {
     busList = val;
     notifyListeners();
   }
@@ -175,7 +174,7 @@ class UserController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addMarker(User user) async {
+  Future<void> addMarker(UserProfileModel user) async {
     final markerId = MarkerId(user.id?.toString() ?? '');
     final marker = Marker(
       markerId: markerId,
@@ -215,39 +214,27 @@ class UserController extends ChangeNotifier {
   }
 
   void setCategory(int? id) {
-    _user?.categoryId = id;
+    _user = _user?.copyWith(categoryId: id);
     notifyListeners();
   }
 
-  void setUser(User user, {bool isNotToken = false}) {
-    String? token;
-    if (isNotToken) {
-      token = _user?.token;
-      _user = user;
-      _user?.token = token;
-    } else {
-      _user = user;
-    }
-
+  void setUser(UserProfileModel user) {
+    _user = user;
     notifyListeners();
   }
 
-  void setSubId(User user) {
-    _user?.subId = user.subId;
+  void setSubId(UserProfileModel user) {
+    _user = _user?.copyWith(subId: user.subId);
     notifyListeners();
   }
 
-  void updateDays(List<BussinessScheduling> days) {
-    _user?.days = days;
+  void updateDays(List<BusinessSchedulingModel> days) {
+    _user = _user?.copyWith(days: days);
     notifyListeners();
   }
 
   void setRole(UserRoleEnum val) {
-    if (_user == null) {
-      _user = User(role: val);
-    } else {
-      _user?.setRole = val;
-    }
+    _user = _user == null ? UserProfileModel(role: val) : _user!.copyWith(role: val);
     notifyListeners();
   }
 

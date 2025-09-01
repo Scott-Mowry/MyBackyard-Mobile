@@ -19,7 +19,7 @@ class AuthInterceptor extends Interceptor {
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     // 1.1 For protected routes, accessToken shouldn't be null. If it is, logout.
     final userCredentials = await _localStorageRepository.getUserCredentials();
-    final accessToken = userCredentials?['bearer_token'];
+    final accessToken = userCredentials?.bearerToken;
 
     // 1.0 Don't add authorization header on urls that don't need authorization
     if (accessToken == null) return super.onRequest(options, handler);

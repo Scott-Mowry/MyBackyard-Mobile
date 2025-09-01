@@ -149,12 +149,11 @@ class _SignInViewState extends State<SignInView> {
     getIt<AppNetwork>().loadingProgressIndicator();
 
     final signInSuccess = await getIt<UserAuthRepository>().signIn(email: email.text, password: password.text);
-    context.maybePop();
-
     if (!signInSuccess) return;
     final userController = context.read<UserController>();
+    await context.maybePop();
 
-    if (userController.user?.isVerified == 0) {
+    if (!(userController.user?.isVerified ?? false)) {
       CustomToast().showToast(
         message: 'OTP Verification code has been sent to your email address',
         toastLength: Toast.LENGTH_LONG,
@@ -164,7 +163,7 @@ class _SignInViewState extends State<SignInView> {
       return context.pushRoute<void>(EnterOTPRoute());
     }
 
-    if (userController.user?.isProfileCompleted == 0) {
+    if (!(userController.user?.isProfileCompleted ?? false)) {
       await GeneralAPIS.getPlaces();
       return context.pushRoute<void>(ProfileSetupRoute(editProfile: false));
     }

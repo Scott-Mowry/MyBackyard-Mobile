@@ -3,13 +3,13 @@ import 'dart:io';
 
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/enum/enum.dart';
+import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
 import 'package:backyard/legacy/Model/reiview_model.dart';
 import 'package:backyard/legacy/Model/response_model.dart';
-import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:extended_image/extended_image.dart';
@@ -26,10 +26,12 @@ class BusAPIS {
       if (res != null) {
         final model = responseModelFromJson(res.body);
 
-        if (model.status == 1) {
+        if (model.status) {
           controller.clearMarkers();
-          var users = <User>[];
-          users = List<User>.from((model.data?['businesses'] ?? {}).map((x) => User.setUser(x)));
+          var users = <UserProfileModel>[];
+          users = List<UserProfileModel>.from(
+            (model.data?['businesses'] ?? {}).map((x) => UserProfileModel.fromJson(x)),
+          );
           controller.setBusList(users);
           for (var user in users) {
             controller.addMarker(user);
@@ -59,7 +61,7 @@ class BusAPIS {
 
       if (res != null) {
         final model = responseModelFromJson(res.body);
-        if (model.status == 1) {
+        if (model.status) {
           controller.availOffer(offerId ?? '');
           return true;
         } else {
@@ -85,7 +87,7 @@ class BusAPIS {
       );
       if (res != null) {
         final model = responseModelFromJson(res.body);
-        if (model.status == 1) {
+        if (model.status) {
           controller.addReview(Review.fromJson(model.data?['review']));
           CustomToast().showToast(message: 'Thank you for your review!');
           return true;
@@ -114,7 +116,7 @@ class BusAPIS {
 
       if (res != null) {
         final model = responseModelFromJson(res.body);
-        if (model.status == 1) {
+        if (model.status) {
           return true;
         } else {
           CustomToast().showToast(message: model.message ?? '');
@@ -160,7 +162,7 @@ class BusAPIS {
       if (res != null) {
         final model = responseModelFromJson(res.body);
 
-        if (model.status == 1) {
+        if (model.status) {
           final offer = Offer.fromJson(model.data?['offer']);
           controller.addOffers(offer);
           return true;
@@ -226,7 +228,7 @@ class BusAPIS {
       if (res != null) {
         final model = responseModelFromJson(res.body);
 
-        if (model.status == 1) {
+        if (model.status) {
           final offer = Offer.fromJson(model.data?['offer']);
           controller.editOffers(offer);
           return true;
@@ -258,7 +260,7 @@ class BusAPIS {
       if (res != null) {
         final model = responseModelFromJson(res.body);
 
-        if (model.status == 1) {
+        if (model.status) {
           controller.deleteOffers(offerId ?? '');
           return true;
         } else {
@@ -282,7 +284,7 @@ class BusAPIS {
       if (res != null) {
         final model = responseModelFromJson(res.body);
 
-        if (model.status == 1) {
+        if (model.status) {
           controller.setOffers(List<Offer>.from((model.data?['offers'] ?? {}).map((x) => Offer.fromJson(x))));
         } else {
           CustomToast().showToast(message: model.message ?? '');
@@ -304,7 +306,7 @@ class BusAPIS {
       if (res != null) {
         final model = responseModelFromJson(res.body);
 
-        if (model.status == 1) {
+        if (model.status) {
           controller.setOffers(List<Offer>.from((model.data?['offers'] ?? {}).map((x) => Offer.fromJson(x))));
         } else {
           CustomToast().showToast(message: model.message ?? '');
@@ -327,7 +329,7 @@ class BusAPIS {
       if (res != null) {
         final model = responseModelFromJson(res.body);
 
-        if (model.status == 1) {
+        if (model.status) {
           controller.setOffers(List<Offer>.from((model.data?['offers'] ?? {}).map((x) => Offer.fromJson(x))));
         } else {
           CustomToast().showToast(message: model.message ?? '');
@@ -349,7 +351,7 @@ class BusAPIS {
       if (res != null) {
         final model = responseModelFromJson(res.body);
 
-        if (model.status == 1) {
+        if (model.status) {
           controller.setOffers(List<Offer>.from((model.data?['offers'] ?? {}).map((x) => Offer.fromJson(x))));
         } else {
           CustomToast().showToast(message: model.message ?? '');
@@ -370,7 +372,7 @@ class BusAPIS {
       );
       if (res != null) {
         final model = responseModelFromJson(res.body);
-        if (model.status == 1) {
+        if (model.status) {
           controller.setCustomerOffers(List<Offer>.from((model.data?['offers'] ?? {}).map((x) => Offer.fromJson(x))));
         } else {
           CustomToast().showToast(message: model.message ?? '');
@@ -389,8 +391,10 @@ class BusAPIS {
       if (res != null) {
         final model = responseModelFromJson(res.body);
 
-        if (model.status == 1) {
-          controller.setCustomersList(List<User>.from((model.data ?? {}).map((x) => User.setUser(x))));
+        if (model.status) {
+          controller.setCustomersList(
+            List<UserProfileModel>.from((model.data ?? {}).map((x) => UserProfileModel.fromJson(x))),
+          );
         } else {
           CustomToast().showToast(message: model.message ?? '');
         }
@@ -411,7 +415,7 @@ class BusAPIS {
       if (res != null) {
         final model = responseModelFromJson(res.body);
 
-        if (model.status == 1) {
+        if (model.status) {
           controller.setRating(double.parse(model.data?['ratings']?.toString() ?? '0'));
           controller.setReviews(List<Review>.from((model.data?['reviews'] ?? {}).map((x) => Review.fromJson(x))));
         } else {

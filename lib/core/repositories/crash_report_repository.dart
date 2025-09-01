@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:backyard/core/exception/app_exception_codes.dart';
 import 'package:backyard/core/exception/app_internal_error.dart';
-import 'package:backyard/legacy/Model/user_model.dart';
+import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -42,7 +42,7 @@ abstract class _CrashReportRepository with Store {
     return _crashlytics.setCrashlyticsCollectionEnabled(enabled);
   }
 
-  Future<void> setUserInfoProperties(User user) async {
+  Future<void> setUserInfoProperties(UserProfileModel user) async {
     if (kIsWeb) return;
     if (user.id != null) await _crashlytics.setUserIdentifier(user.id!.toString());
     await _setCustomKey(key: 'role', value: user.role?.name.toLowerCase());

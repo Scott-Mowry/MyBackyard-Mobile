@@ -6,7 +6,6 @@ import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/repositories/local_storage_repository.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
-import 'package:backyard/legacy/Model/user_model.dart';
 import 'package:backyard/legacy/Service/socket_service.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
@@ -29,18 +28,17 @@ class _LandingViewState extends State<LandingView> {
   @override
   void initState() {
     super.initState();
-    timer = Timer(const Duration(seconds: 1), () async {
+    timer = Timer(const Duration(milliseconds: 500), () async {
       final socket = SocketService.instance;
       socket?.initializeSocket();
       socket?.connectSocket();
       socket?.socketResponseMethod();
 
       final localStorageRepository = getIt<LocalStorageRepository>();
-      final user = await localStorageRepository.getUser();
-      final bearerToken = user?['bearer_token'] as String?;
-      if (user != null && bearerToken != null && bearerToken.isNotEmpty) {
-        final savedUsed = User.setUser2(user, token: bearerToken);
-        context.read<UserController>().setUser(savedUsed);
+      final savedUser = await localStorageRepository.getUser();
+      final bearerToken = savedUser?.bearerToken;
+      if (savedUser != null && bearerToken != null && bearerToken.isNotEmpty) {
+        context.read<UserController>().setUser(savedUser);
 
         SocketService.instance?.userResponse();
         await context.replaceRoute(HomeRoute());
