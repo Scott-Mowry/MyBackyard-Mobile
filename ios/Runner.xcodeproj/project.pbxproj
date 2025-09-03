@@ -18,14 +18,14 @@
 		58334327E55C0B6DB42C1426 /* stgRelease.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 2C58CEB2CA3C5BDAAAD35646 /* stgRelease.xcconfig */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		883FAD1BE8663FFFDD4E2CB3 /* stgProfile.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 15C970782533896BBA40EFC6 /* stgProfile.xcconfig */; };
-		8AE66B379FEAE2D601FDEB44 /* stgLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39025864C9C54E693F65BCD7 /* stgLaunchScreen.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
+		9A2C91D32E68DD5A0021F52A /* LaunchScreenStg 2.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A2C91D02E68DD5A0021F52A /* LaunchScreenStg 2.storyboard */; };
+		9A2C91D42E68DD5A0021F52A /* LaunchScreenProd 2.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A2C91CF2E68DD5A0021F52A /* LaunchScreenProd 2.storyboard */; };
 		9D1D902A582F4280F032449C /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09763BE7C98F94F50E6A79B0 /* Pods_Runner.framework */; };
 		A1F1B7182DF4062900DDC776 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1F1B7172DF4062900DDC776 /* Main.storyboard */; };
 		A1F1B71A2DF4066300DDC776 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1F1B7192DF4066300DDC776 /* LaunchScreen.storyboard */; };
 		A596CBB2191EA19D15F1F48E /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D637D0A93619A37A8B5C973 /* Pods_RunnerTests.framework */; };
 		D6EAD6CC576C80B4A6E3758A /* stgDebug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B53460650EB724A1CD0B0373 /* stgDebug.xcconfig */; };
-		D741754C317946E2BF414FD5 /* prodLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC97F2F0B2873064D7388DD2 /* prodLaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,7 +66,6 @@
 		331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		344FE3272CC1D280007065C4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Runner/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		34C615F22CDC3DBF00969572 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		39025864C9C54E693F65BCD7 /* stgLaunchScreen.storyboard */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.storyboard; name = stgLaunchScreen.storyboard; path = Runner/stgLaunchScreen.storyboard; sourceTree = "<group>"; };
 		3A09528CD769D0B7F7EFB63D /* Pods-Runner.release-prod.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-prod.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-prod.xcconfig"; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		3CFA697AC7435D990AB49E04 /* Pods-Runner.profile-stg.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-stg.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-stg.xcconfig"; sourceTree = "<group>"; };
@@ -83,10 +82,11 @@
 		97C146EE1CF9000F007C117D /* Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9A2C91D12E68DD5A0021F52A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/LaunchScreenProd 2.storyboard"; sourceTree = "<group>"; };
+		9A2C91D22E68DD5A0021F52A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/LaunchScreenStg 2.storyboard"; sourceTree = "<group>"; };
 		A14592B72DF3CD2800BB5746 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		A1F1B7172DF4062900DDC776 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		A1F1B7192DF4066300DDC776 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		AC97F2F0B2873064D7388DD2 /* prodLaunchScreen.storyboard */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.storyboard; name = prodLaunchScreen.storyboard; path = Runner/prodLaunchScreen.storyboard; sourceTree = "<group>"; };
 		B2781E38794CF3D5D23158FE /* prodProfile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = prodProfile.xcconfig; path = Flutter/prodProfile.xcconfig; sourceTree = "<group>"; };
 		B53460650EB724A1CD0B0373 /* stgDebug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = stgDebug.xcconfig; path = Flutter/stgDebug.xcconfig; sourceTree = "<group>"; };
 		CBDEACE5B7567079B1546B53 /* Pods-Runner.release-stg.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-stg.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-stg.xcconfig"; sourceTree = "<group>"; };
@@ -165,8 +165,6 @@
 				331C8082294A63A400263BE5 /* RunnerTests */,
 				0698992335A0B95F5DB5B352 /* Pods */,
 				FB09749202ADAF66BBD20DDC /* Frameworks */,
-				39025864C9C54E693F65BCD7 /* stgLaunchScreen.storyboard */,
-				AC97F2F0B2873064D7388DD2 /* prodLaunchScreen.storyboard */,
 			);
 			sourceTree = "<group>";
 		};
@@ -191,6 +189,8 @@
 				A14592B72DF3CD2800BB5746 /* Runner.entitlements */,
 				A1F1B7172DF4062900DDC776 /* Main.storyboard */,
 				A1F1B7192DF4066300DDC776 /* LaunchScreen.storyboard */,
+				9A2C91CF2E68DD5A0021F52A /* LaunchScreenProd 2.storyboard */,
+				9A2C91D02E68DD5A0021F52A /* LaunchScreenStg 2.storyboard */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -306,6 +306,8 @@
 				344FE3282CC1D280007065C4 /* GoogleService-Info.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				A1F1B71A2DF4066300DDC776 /* LaunchScreen.storyboard in Resources */,
+				9A2C91D32E68DD5A0021F52A /* LaunchScreenStg 2.storyboard in Resources */,
+				9A2C91D42E68DD5A0021F52A /* LaunchScreenProd 2.storyboard in Resources */,
 				A1F1B7182DF4062900DDC776 /* Main.storyboard in Resources */,
 				D6EAD6CC576C80B4A6E3758A /* stgDebug.xcconfig in Resources */,
 				883FAD1BE8663FFFDD4E2CB3 /* stgProfile.xcconfig in Resources */,
@@ -313,8 +315,6 @@
 				1DE50D90914B5E638D25B770 /* prodDebug.xcconfig in Resources */,
 				33A280B50AA9314431682921 /* prodProfile.xcconfig in Resources */,
 				2ED5C4E83A4FCD3DD355F619 /* prodRelease.xcconfig in Resources */,
-				8AE66B379FEAE2D601FDEB44 /* stgLaunchScreen.storyboard in Resources */,
-				D741754C317946E2BF414FD5 /* prodLaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -479,6 +479,25 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		9A2C91CF2E68DD5A0021F52A /* LaunchScreenProd 2.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9A2C91D12E68DD5A0021F52A /* Base */,
+			);
+			name = "LaunchScreenProd 2.storyboard";
+			sourceTree = "<group>";
+		};
+		9A2C91D02E68DD5A0021F52A /* LaunchScreenStg 2.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9A2C91D22E68DD5A0021F52A /* Base */,
+			);
+			name = "LaunchScreenStg 2.storyboard";
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		13DB6FDB8EF3F57855E0DAB8 /* Debug-prod */ = {
 			isa = XCBuildConfiguration;
@@ -487,6 +506,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y9W9JN6KRK;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenProd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -641,6 +661,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = Y9W9JN6KRK;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenStg;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "My Backyard STG ios_app_store";
@@ -655,6 +676,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = Y9W9JN6KRK;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenProd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "My Backyard PROD ios_app_store";
@@ -716,6 +738,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y9W9JN6KRK;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenProd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -801,6 +824,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y9W9JN6KRK;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenStg;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -813,6 +837,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y9W9JN6KRK;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenStg;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
