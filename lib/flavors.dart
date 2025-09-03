@@ -1,20 +1,20 @@
-enum AppBuildFlavorEnum {
-  STG('[Stg]Backyard', 'com.app.mybackyardusa.stg', 'com.celect.mybackyardapp.stg', '-', '-'),
-  PROD('Backyard', 'com.app.mybackyardusa', 'com.celect.mybackyardapp', '-', '-');
-
-  const AppBuildFlavorEnum(
-    this.appTitle,
-    this.androidBundleName,
-    this.iOSBundleName,
-    this.webDomainUrl,
-    this.googleSignInClientId,
-  );
-
-  final String appTitle;
-  final String androidBundleName;
-  final String iOSBundleName;
-  final String webDomainUrl;
-  final String googleSignInClientId;
+enum Flavor {
+  stg,
+  prod,
 }
 
-late final AppBuildFlavorEnum appBuildFlavor;
+class F {
+  static late final Flavor appFlavor;
+
+  static String get name => appFlavor.name;
+
+  static String get title {
+    switch (appFlavor) {
+      case Flavor.stg:
+        return '[Stg]Backyard';
+      case Flavor.prod:
+        return 'Backyard';
+    }
+  }
+
+}
