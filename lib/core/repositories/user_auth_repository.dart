@@ -171,8 +171,8 @@ abstract class _UserAuthRepository with Store {
       await _userAuthService.signOut();
       await _userController.clear();
 
-      MyBackyardApp.appRouter.popUntil((route) => route.isFirst);
-      return MyBackyardApp.appRouter.push<void>(SignInRoute());
+      MyBackyardApp.appRouter.popUntilRoot();
+      return MyBackyardApp.appRouter.replace<void>(LandingRoute());
     } catch (e) {
       log(e.toString());
     } finally {
@@ -188,8 +188,8 @@ abstract class _UserAuthRepository with Store {
 
       CustomToast().showToast(message: 'Account Deleted Successfully');
 
-      MyBackyardApp.appRouter.popUntil((route) => route.isFirst);
-      return MyBackyardApp.appRouter.push<void>(SignInRoute());
+      MyBackyardApp.appRouter.popUntilRoot();
+      return MyBackyardApp.appRouter.replace<void>(LandingRoute());
     } catch (e) {
       log(e.toString());
     } finally {

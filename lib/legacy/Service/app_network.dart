@@ -86,7 +86,7 @@ class AppNetworkImpl implements AppNetwork {
   void on401Error() {
     Timer(const Duration(seconds: 1), () {
       getIt<UserController>().clear();
-      MyBackyardApp.appRouter.popUntil((route) => route.isFirst);
+      MyBackyardApp.appRouter.popUntilRoot();
       MyBackyardApp.appRouter.replace(LandingRoute());
     });
   }

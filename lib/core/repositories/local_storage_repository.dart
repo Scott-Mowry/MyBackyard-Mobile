@@ -59,7 +59,7 @@ abstract class _LocalStorageRepository with Store {
     final userJsonRaw = await _secureStorage.read(key: _userCredentialsKey);
     if (userJsonRaw == null) return null;
 
-    final userJson = json.decode(userJsonRaw);
+    final userJson = jsonDecode(userJsonRaw);
     return UserProfileModel.fromJson(userJson);
   }
 
@@ -76,12 +76,12 @@ abstract class _LocalStorageRepository with Store {
     final userToSave = userProfile.copyWith(bearerToken: bearerToken);
 
     saveUserCredentialsInMemory(userToSave);
-    return _secureStorage.write(key: _userCredentialsKey, value: json.encode(userToSave.toJson()));
+    return _secureStorage.write(key: _userCredentialsKey, value: jsonEncode(userToSave.toJson()));
   }
 
   Future<UserProfileModel?> getUserCredentials() async {
     final inDiskCredentials = await _secureStorage.read(key: _userCredentialsKey);
-    if (inDiskCredentials != null) return UserProfileModel.fromJson(json.decode(inDiskCredentials));
+    if (inDiskCredentials != null) return UserProfileModel.fromJson(jsonDecode(inDiskCredentials));
 
     return userProfile;
   }

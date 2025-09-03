@@ -17,6 +17,7 @@ import 'package:backyard/legacy/Utils/app_strings.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/delete_account.dart';
 import 'package:backyard/legacy/View/base_view.dart';
+import 'package:backyard/my-backyard-app.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -95,7 +96,7 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
                               onChange2: (v) {
                                 val.setSwitch(v);
 
-                                Navigator.popUntil(context, (route) => route.isFirst);
+                                MyBackyardApp.appRouter.popUntilRoot();
                                 return context.pushRoute<void>(HomeRoute());
                               },
                             ),

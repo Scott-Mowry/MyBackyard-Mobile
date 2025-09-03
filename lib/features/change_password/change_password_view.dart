@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
@@ -11,6 +12,7 @@ import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
+import 'package:backyard/my-backyard-app.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -139,6 +141,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
       return;
     }
 
-    return context.router.popUntil((route) => route.isFirst);
+    MyBackyardApp.appRouter.popUntilRoot();
+    return MyBackyardApp.appRouter.replace<void>(LandingRoute());
   }
 }

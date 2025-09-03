@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:backyard/core/api_client/api_client.dart';
@@ -76,7 +75,7 @@ class UserAuthServiceImpl implements UserAuthService {
     };
 
     final resp = await _apiClient.post(API.VERIFY_ACCOUNT_ENDPOINT, data: bodyPayload);
-    final respModel = ResponseModel.fromJson(json.decode(resp.data));
+    final respModel = ResponseModel.fromJson(resp.data);
     final user = UserProfileModel.fromJson(respModel.data?['user']);
     return user;
   }
@@ -145,11 +144,6 @@ class UserAuthServiceImpl implements UserAuthService {
   }
 
   @override
-  Future<void> resendCode(String userId) {
-    return _apiClient.post(API.RESEND_OTP_ENDPOINT, data: {'user_id': userId});
-  }
-
-  @override
   Future<UserProfileModel?> forgotPassword({required String email}) async {
     final resp = await _apiClient.post(API.FORGOT_PASSWORD_ENDPOINT, data: {'email': email});
     final respModel = ResponseModel.fromJson(resp.data);
@@ -164,6 +158,11 @@ class UserAuthServiceImpl implements UserAuthService {
     final respModel = ResponseModel.fromJson(resp.data);
     final user = UserProfileModel.fromJson(respModel.data?['user']);
     return user;
+  }
+
+  @override
+  Future<void> resendCode(String userId) {
+    return _apiClient.post(API.RESEND_OTP_ENDPOINT, data: {'user_id': userId});
   }
 
   @override
