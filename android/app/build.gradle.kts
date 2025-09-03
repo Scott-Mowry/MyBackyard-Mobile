@@ -22,11 +22,11 @@ val flutterVersionName = localProperties.getProperty("flutter.versionName") ?: "
 
 android {
     namespace = "com.app.mybackyardusa"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 35
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
         isCoreLibraryDesugaringEnabled = true
     }
 
@@ -36,7 +36,7 @@ android {
 
     defaultConfig {
         applicationId = "com.app.mybackyardusa"
-        minSdk = 23
+        minSdk = 29
         targetSdk = 35
         compileSdk = 35
         versionCode = flutter.versionCode
