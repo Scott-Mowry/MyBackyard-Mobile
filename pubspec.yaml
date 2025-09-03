@@ -104,7 +104,7 @@ dev_dependencies:
     sdk: flutter
 
   # Env
-  flutter_flavorizr: ^2.2.1
+  flutter_flavorizr: ^2.4.1
 
   # Lint
   flutter_lints: ^5.0.0
