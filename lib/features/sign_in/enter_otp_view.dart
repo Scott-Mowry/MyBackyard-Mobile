@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
@@ -11,98 +10,37 @@ import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
-import 'package:backyard/legacy/Controller/user_controller.dart';
-import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:provider/provider.dart';
-
-class EnterOTPArgs {
-  final String? verification;
-  final String? phoneNumber;
-  final bool? fromForgot;
-
-  const EnterOTPArgs({this.phoneNumber, this.verification, this.fromForgot});
-}
 
 @RoutePage()
 class EnterOTPView extends StatefulWidget {
-  final String? phoneNumber;
-  final bool? fromForgot;
-  final String? verification;
+  final int userId;
+  final bool fromForgot;
 
-  const EnterOTPView({super.key, this.phoneNumber, this.verification, this.fromForgot});
+  const EnterOTPView({super.key, required this.userId, this.fromForgot = false});
 
   @override
   State<EnterOTPView> createState() => _EnterOTPViewState();
 }
 
 class _EnterOTPViewState extends State<EnterOTPView> {
-  TextEditingController otp = TextEditingController(text: '');
-
-  /// #Timer
-  Timer? timer;
-  int resend = 0;
-  String pinCode = '0';
   final form = GlobalKey<FormState>();
-  late final userController = context.read<UserController>();
 
-  Future<void> startTimer({bool val = true}) async {
-    if (resend == 0) {
-      setState(() {
-        resend = 59;
-      });
-      if (val) {
-        if (widget.verification != null) {
-          getIt<AppNetwork>().loadingProgressIndicator();
-          await resendCode(phoneNumber: widget.phoneNumber ?? '');
-          context.maybePop();
-        } else {
-          getIt<AppNetwork>().loadingProgressIndicator();
-          final value = await getIt<UserAuthRepository>().resendCode(id: userController.user?.id.toString());
-          context.maybePop();
-          if (value) {
-            CustomToast().showToast(message: 'We have resend OTP verification code at your email address');
-          }
-        }
-      }
-      timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        if (resend == 0) {
-          timer.cancel();
-        } else {
-          setState(() {
-            resend--;
-          });
-        }
-      });
-    } else {
-      CustomToast().showToast(message: 'Please wait...');
-    }
-  }
-
-  @override
-  void dispose() {
-    timer?.cancel();
-    // TODO: implement dispose
-    super.dispose();
-  }
+  int resendOn = 0;
+  Timer? resendTimer;
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      startTimer(val: false);
-    });
-    // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => startTimer());
   }
 
   @override
@@ -125,9 +63,16 @@ class _EnterOTPViewState extends State<EnterOTPView> {
                       SizedBox(height: Utils.isTablet ? 15.h : 4.h),
                       const MyText(title: 'OTP Verification', size: 20, fontWeight: FontWeight.w600),
                       20.verticalSpace,
-                      label(
-                        label:
-                            'We have sent you an email containing 6 digits verification code. Please enter the code to verify your identity.',
+                      Text(
+                        'We have sent you an email containing 6 digits verification code. Please enter the code to verify your identity.',
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
+                        style: GoogleFonts.poppins(
+                          fontSize: Utils.isTablet ? 8.sp : 14.sp,
+                          height: Utils.isTablet ? null : 1.1.sp,
+                          fontWeight: FontWeight.w400,
+                          color: CustomColors.black,
+                        ),
                       ),
                       Utils.isTablet ? 30.verticalSpace : 10.verticalSpace,
                       Padding(
@@ -135,11 +80,7 @@ class _EnterOTPViewState extends State<EnterOTPView> {
                         child: PinCodeTextField(
                           appContext: context,
                           length: 6,
-                          controller: otp,
-                          onCompleted: (v) {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            _onCompleteNavigation();
-                          },
+                          onCompleted: verifyAccount,
                           autoDismissKeyboard: true,
                           pinTheme: PinTheme(
                             shape: PinCodeFieldShape.circle,
@@ -185,10 +126,10 @@ class _EnterOTPViewState extends State<EnterOTPView> {
                           style: GoogleFonts.roboto(
                             decoration: TextDecoration.underline,
                             fontWeight: FontWeight.w600,
-                            color: resend == 0 ? CustomColors.black : CustomColors.hintColor,
+                            color: resendOn == 0 ? CustomColors.black : CustomColors.hintColor,
                             fontSize: Utils.isTablet ? 18 : 16,
                           ),
-                          recognizer: TapGestureRecognizer()..onTap = startTimer,
+                          recognizer: resendOn == 0 ? (TapGestureRecognizer()..onTap = resendCode) : null,
                         ),
                       ],
                     ),
@@ -198,20 +139,6 @@ class _EnterOTPViewState extends State<EnterOTPView> {
             20.verticalSpace,
           ],
         ),
-      ),
-    );
-  }
-
-  Widget label({required String label}) {
-    return Text(
-      label,
-      textAlign: TextAlign.center,
-      overflow: TextOverflow.visible,
-      style: GoogleFonts.poppins(
-        fontSize: Utils.isTablet ? 8.sp : 14.sp,
-        height: Utils.isTablet ? null : 1.1.sp,
-        fontWeight: FontWeight.w400,
-        color: CustomColors.black,
       ),
     );
   }
@@ -230,7 +157,7 @@ class _EnterOTPViewState extends State<EnterOTPView> {
             alignment: Alignment.center,
             decoration: BoxDecoration(color: CustomColors.black, shape: BoxShape.circle),
             child: Text(
-              "00:${resend < 10 ? "0$resend" : resend}",
+              "00:${resendOn < 10 ? "0$resendOn" : resendOn}",
               style: TextStyle(
                 fontSize: Utils.isTablet ? 11.sp : 16.sp,
                 fontWeight: FontWeight.w600,
@@ -242,7 +169,7 @@ class _EnterOTPViewState extends State<EnterOTPView> {
             width: Utils.isTablet ? 97.r : 107.r,
             height: Utils.isTablet ? 97.r : 107.r,
             child: CircularProgressIndicator(
-              value: resend / 59,
+              value: resendOn / 59,
               color: CustomColors.whiteColor,
               backgroundColor: Colors.transparent,
             ),
@@ -252,63 +179,46 @@ class _EnterOTPViewState extends State<EnterOTPView> {
     );
   }
 
-  Future<void> resendCode({required String phoneNumber}) async {
-    try {
-      getIt<AppNetwork>().loadingProgressIndicator();
-
-      await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: '+1$phoneNumber',
-        timeout: const Duration(seconds: 60),
-        verificationCompleted: (authCredential) async {},
-        verificationFailed: (authException) {
-          context.maybePop();
-          CustomToast().showToast(message: 'Invalid Phone Number');
-        },
-        codeSent: (verificationId, forceResendingToken) {
-          context.maybePop();
-          CustomToast().showToast(
-            message: 'We have resend OTP verification code at your phone number',
-            toastLength: Toast.LENGTH_LONG,
-            timeInSecForIosWeb: 5,
-          );
-          context.pushRoute(EnterOTPRoute(phoneNumber: phoneNumber, verification: verificationId));
-        },
-        codeAutoRetrievalTimeout: (verificationId) {},
-      );
-    } catch (error) {
-      log('error');
-      context.maybePop();
-      CustomToast().showToast(message: error.toString());
-    }
-  }
-
-  Future<void> _onCompleteNavigation() async {
+  Future<void> verifyAccount(String otpCode) async {
     FocusManager.instance.primaryFocus?.unfocus();
-    getIt<AppNetwork>().loadingProgressIndicator();
-    final value = await getIt<UserAuthRepository>().verifyAccount(otpCode: otp.text, id: userController.user?.id ?? 0);
-    if (!(widget.fromForgot ?? false)) {
-      await GeneralAPIS.getPlaces();
-    }
-    context.maybePop();
-    if (value) {
-      CustomToast().showToast(message: 'Account validation completed. OTP verified');
-      navigation();
-    } else {
-      otp.clear();
-    }
+
+    final userProfile = await getIt<UserAuthRepository>().verifyAccount(otpCode: otpCode, id: widget.userId);
+
+    if (userProfile == null) return CustomToast().showToast(message: 'OTP validation failed.');
+    if (!widget.fromForgot) await GeneralAPIS.getPlaces();
+
+    CustomToast().showToast(message: 'Account validation completed. OTP verified');
+
+    if (widget.fromForgot) return context.replaceRoute<void>(ChangePasswordRoute());
+    if (userProfile.isProfileCompleted) return context.pushRoute<void>(HomeRoute());
+
+    return context.pushRoute<void>(ProfileSetupRoute(editProfile: false));
   }
 
-  Future<void> navigation() async {
-    if (widget.fromForgot ?? false) {
-      context.replaceRoute(ChangePasswordRoute());
-    } else {
-      if (userController.user?.isProfileCompleted ?? false) {
-        context.pushRoute(HomeRoute());
-      } else {
-        context.pushRoute(ProfileSetupRoute(editProfile: false));
-      }
-    }
+  Future<void> resendCode() async {
+    if (resendOn > 0) return;
+
+    final resent = await getIt<UserAuthRepository>().resendCode(widget.userId.toString());
+    if (!resent) return CustomToast().showToast(message: 'We could not resend the OTP verification code');
+
+    startTimer();
+    CustomToast().showToast(message: 'We have resend OTP verification code at your email address');
   }
 
-  /// #Timer
+  void startTimer() {
+    if (resendOn != 0) return CustomToast().showToast(message: 'Please wait...');
+    setState(() => resendOn = 59);
+
+    resendTimer?.cancel();
+    resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (resendOn == 0) return timer.cancel();
+      setState(() => resendOn--);
+    });
+  }
+
+  @override
+  void dispose() {
+    resendTimer?.cancel();
+    super.dispose();
+  }
 }

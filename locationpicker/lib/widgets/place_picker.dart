@@ -241,15 +241,15 @@ class PlacePickerState extends State<PlacePicker> {
         width: size?.width,
         child: Material(
           elevation: 1,
-          // color:  const Color(0xffF3F1F2),
           child: Container(
-            // color:  const Color(0xffF3F1F2),
             padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
             child: Row(
               children: <Widget>[
                 SizedBox(height: 24, width: 24, child: CircularProgressIndicator(strokeWidth: 3)),
                 SizedBox(width: 24),
-                Expanded(child: Text(widget.localizationItem!.findingPlace, style: TextStyle(fontSize: 16)))
+                Expanded(
+                    child: Text(widget.localizationItem?.findingPlace ?? 'Finding place...',
+                        style: TextStyle(fontSize: 16)))
               ],
             ),
           ),

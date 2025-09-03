@@ -20,7 +20,6 @@ import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/api.dart';
-import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
@@ -297,7 +296,6 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                           CustomTextFormField(
                             hintText: 'Email Address',
                             controller: emailC,
-                            maxLength: 35,
                             onChanged: (v) {},
                             readOnly:
                                 widget.editProfile
@@ -451,7 +449,6 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
     setState(() => errorText = (imageProfile ?? '').isEmpty);
     if ((_form.currentState?.validate() ?? false) && !(errorText)) {
       if (widget.editProfile) {
-        getIt<AppNetwork>().loadingProgressIndicator();
         await getIt<UserAuthRepository>().completeProfile(
           fullName: fullName.text,
           categoryId: role == UserRoleEnum.Business ? userController.user?.categoryId : null,
@@ -471,26 +468,18 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                   ? File(imageProfile ?? '')
                   : null,
         );
-        context.maybePop();
-        context.maybePop();
       } else {
         if (role == UserRoleEnum.User) {
-          getIt<AppNetwork>().loadingProgressIndicator();
-          final value = await getIt<UserAuthRepository>().completeProfile(
+          final userProfile = await getIt<UserAuthRepository>().completeProfile(
             fullName: fullName.text,
             isPushNotify: '1',
             email: emailC.text != userController.user?.email && emailC.text.isNotEmpty ? emailC.text : null,
             role: UserRoleEnum.User.name,
             zipCode: zipCode.text,
-            // phone: phone.text != (userController.user?.phone ?? "")
-            //     ? phone.text
-            //     : null,
             image: imageProfile == null ? null : File(imageProfile ?? ''),
           );
-          context.maybePop();
-          if (value) {
-            await completeDialog(onTap: () => context.pushRoute(HomeRoute()));
-          }
+
+          if (userProfile != null) await completeDialog(onTap: () => context.pushRoute(HomeRoute()));
         } else {
           final arguments = <String, dynamic>{
             'name': fullName.text,

@@ -9,25 +9,16 @@ import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/validations.dart';
-import 'package:backyard/legacy/Controller/user_controller.dart';
-import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-
-class ChangePasswordViewArgs {
-  const ChangePasswordViewArgs({this.fromSettings});
-
-  final bool? fromSettings;
-}
 
 @RoutePage()
 class ChangePasswordView extends StatefulWidget {
-  const ChangePasswordView({super.key, this.fromSettings});
+  final bool fromSettings;
 
-  final bool? fromSettings;
+  const ChangePasswordView({super.key, this.fromSettings = false});
 
   @override
   State<ChangePasswordView> createState() => _ChangePasswordViewState();
@@ -54,8 +45,8 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   @override
   Widget build(BuildContext context) {
     return CustomBackgroundImage(
-      image: (widget.fromSettings ?? false) ? '' : null,
-      color: (widget.fromSettings ?? false) ? CustomColors.whiteColor : null,
+      image: (widget.fromSettings) ? '' : null,
+      color: (widget.fromSettings) ? CustomColors.whiteColor : null,
       child: CustomPadding(
         topPadding: 6.h,
         child: Column(
@@ -78,7 +69,6 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                           CustomTextFormField(
                             hintText: 'Password',
                             controller: password,
-                            maxLength: 35,
                             inputType: TextInputType.emailAddress,
                             prefixWidget: Icon(Icons.lock, color: CustomColors.primaryGreenColor),
                             obscureText: show,
@@ -96,7 +86,6 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                           CustomTextFormField(
                             hintText: 'Confirm Password',
                             controller: confPassword,
-                            maxLength: 35,
                             inputType: TextInputType.emailAddress,
                             prefixWidget: Icon(Icons.lock, color: CustomColors.primaryGreenColor),
                             obscureText: show2,
@@ -141,19 +130,15 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   }
 
   Future<void> onSubmit() async {
-    if (_form.currentState?.validate() ?? false) {
-      FocusManager.instance.primaryFocus?.unfocus();
-      getIt<AppNetwork>().loadingProgressIndicator();
-      final user = context.read<UserController>().user;
-      final val = await getIt<UserAuthRepository>().changePassword(id: user?.id ?? 0, password: password.text);
-      context.maybePop();
-      if (val) {
-        if (widget.fromSettings ?? false) {
-          context.maybePop();
-        } else {
-          Navigator.popUntil(context, (route) => route.isFirst);
-        }
-      }
+    if (!_form.currentState!.validate()) return;
+    FocusManager.instance.primaryFocus?.unfocus();
+    final userProfile = await getIt<UserAuthRepository>().changePassword(password: password.text);
+    if (userProfile == null) return;
+    if (widget.fromSettings) {
+      await context.maybePop();
+      return;
     }
+
+    return context.router.popUntil((route) => route.isFirst);
   }
 }

@@ -271,9 +271,10 @@ class _ScheduleViewState extends State<ScheduleView> {
               .toList();
       if (widget.edit) {
         getIt<AppNetwork>().loadingProgressIndicator();
-        final value = await getIt<UserAuthRepository>().completeProfile(days: temp);
+        final userProfile = await getIt<UserAuthRepository>().completeProfile(days: temp);
+
         unawaited(context.maybePop());
-        if (value) unawaited(context.maybePop());
+        if (userProfile != null) unawaited(context.maybePop());
       } else {
         final user = userController.user?.copyWith(
           name: widget.args?['name'],

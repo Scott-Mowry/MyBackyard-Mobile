@@ -12,7 +12,6 @@ import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Component/validations.dart';
-import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +60,6 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       child: CustomTextFormField(
                         hintText: 'Email',
                         controller: email,
-                        maxLength: 35,
                         inputType: TextInputType.emailAddress,
                         prefixWidget: Image.asset(ImagePath.email, scale: 2, color: CustomColors.primaryGreenColor),
                         validation: (p0) => p0?.validateEmail,
@@ -86,20 +84,18 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   }
 
   Future<void> onSubmit() async {
-    if (_form.currentState?.validate() ?? false) {
-      FocusManager.instance.primaryFocus?.unfocus();
-      getIt<AppNetwork>().loadingProgressIndicator();
-      final val = await getIt<UserAuthRepository>().forgotPassword(email: email.text);
-      context.maybePop();
-      if (val) {
-        CustomToast().showToast(
-          message: 'OTP code for Forgot Password has been sent to your email address',
-          toastLength: Toast.LENGTH_LONG,
-          timeInSecForIosWeb: 5,
-        );
+    if (!_form.currentState!.validate()) return;
 
-        return context.pushRoute<void>(EnterOTPRoute(fromForgot: true));
-      }
-    }
+    FocusManager.instance.primaryFocus?.unfocus();
+    final userProfile = await getIt<UserAuthRepository>().forgotPassword(email: email.text);
+    if (userProfile == null) return;
+
+    CustomToast().showToast(
+      message: 'OTP code for Forgot Password has been sent to your email address',
+      toastLength: Toast.LENGTH_LONG,
+      timeInSecForIosWeb: 5,
+    );
+
+    return context.pushRoute<void>(EnterOTPRoute(userId: userProfile.id!, fromForgot: true));
   }
 }

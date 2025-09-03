@@ -160,7 +160,6 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
                   onYes: () async {
                     getIt<AppNetwork>().loadingProgressIndicator();
                     await getIt<UserAuthRepository>().deleteAccount();
-                    context.maybePop();
                   },
                 ),
               ),
@@ -220,7 +219,6 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
                   onYes: () async {
                     getIt<AppNetwork>().loadingProgressIndicator();
                     await getIt<UserAuthRepository>().deleteAccount();
-                    context.maybePop();
                   },
                 ),
               ),

@@ -14,12 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:sizer/sizer.dart';
 
-class GiveReviewArgs {
-  GiveReviewArgs({this.busId});
-
-  final String? busId;
-}
-
 @RoutePage()
 class GiveReviewView extends StatefulWidget {
   const GiveReviewView({super.key, this.busId});

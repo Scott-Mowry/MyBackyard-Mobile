@@ -12,8 +12,6 @@ import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Component/validations.dart';
-import 'package:backyard/legacy/Controller/user_controller.dart';
-import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
@@ -21,7 +19,6 @@ import 'package:backyard/legacy/View/Widget/appLogo.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 @RoutePage()
@@ -79,7 +76,6 @@ class _SignInViewState extends State<SignInView> {
                             CustomTextFormField(
                               hintText: 'Email',
                               controller: email,
-                              maxLength: 35,
                               inputType: TextInputType.emailAddress,
                               prefixWidget: Image.asset(
                                 ImagePath.email,
@@ -92,7 +88,6 @@ class _SignInViewState extends State<SignInView> {
                             CustomTextFormField(
                               hintText: 'Password',
                               controller: password,
-                              maxLength: 35,
                               inputType: TextInputType.emailAddress,
                               prefixWidget: Icon(Icons.lock, color: CustomColors.primaryGreenColor),
                               obscureText: show,
@@ -144,26 +139,23 @@ class _SignInViewState extends State<SignInView> {
 
   Future<void> onSubmit() async {
     if (!_form.currentState!.validate()) return;
-
     FocusManager.instance.primaryFocus?.unfocus();
-    getIt<AppNetwork>().loadingProgressIndicator();
 
-    final signInSuccess = await getIt<UserAuthRepository>().signIn(email: email.text, password: password.text);
-    if (!signInSuccess) return;
-    final userController = context.read<UserController>();
-    await context.maybePop();
+    final userAuthRepository = getIt<UserAuthRepository>();
+    final userProfile = await userAuthRepository.signIn(email: email.text, password: password.text);
+    if (userProfile == null) return;
 
-    if (!(userController.user?.isVerified ?? false)) {
+    if (!userProfile.isVerified) {
       CustomToast().showToast(
         message: 'OTP Verification code has been sent to your email address',
         toastLength: Toast.LENGTH_LONG,
         timeInSecForIosWeb: 5,
       );
 
-      return context.pushRoute<void>(EnterOTPRoute());
+      return context.pushRoute<void>(EnterOTPRoute(userId: userProfile.id!));
     }
 
-    if (!(userController.user?.isProfileCompleted ?? false)) {
+    if (!userProfile.isProfileCompleted) {
       await GeneralAPIS.getPlaces();
       return context.pushRoute<void>(ProfileSetupRoute(editProfile: false));
     }

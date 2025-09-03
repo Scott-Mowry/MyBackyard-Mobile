@@ -4,7 +4,6 @@ import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
-import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -54,7 +53,6 @@ class _LogoutAlertState extends State<LogoutAlert> {
                   SizedBox(height: 3.h),
                   MyButton(
                     onTap: () async {
-                      getIt<AppNetwork>().loadingProgressIndicator();
                       await getIt<UserAuthRepository>().signOut();
                     },
                     title: 'Logout',

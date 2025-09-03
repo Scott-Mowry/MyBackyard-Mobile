@@ -194,7 +194,8 @@ class _BusinessCategoryViewState extends State<BusinessCategoryView> {
       userController.setCategory(val.categories?[selected.first].id);
       final user = userController.user;
       getIt<AppNetwork>().loadingProgressIndicator();
-      final result = await getIt<UserAuthRepository>().completeProfile(
+
+      final userProfile = await getIt<UserAuthRepository>().completeProfile(
         fullName: user?.name,
         description: user?.description,
         // zipCode: user?.zipCode,
@@ -208,10 +209,8 @@ class _BusinessCategoryViewState extends State<BusinessCategoryView> {
         days: user?.days,
         image: File(user?.profileImage ?? ''),
       );
-      context.maybePop();
-      if (result) {
-        completeDialog(onTap: () => context.pushRoute(HomeRoute()));
-      }
+
+      if (userProfile != null) completeDialog(onTap: () => context.pushRoute(HomeRoute()));
       // AppNavigation.navigateTo(AppRouteName.SUBSCRIPTION_VIEW_ROUTE,
       //     arguments: ScreenArguments(fromCompleteProfile: true));
       // AppNavigation.navigateToRemovingAll(context, AppRouteName.HOME_VIEW_ROUTE,);
