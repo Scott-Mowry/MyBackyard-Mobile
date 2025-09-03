@@ -52,14 +52,6 @@ build-ipa-prod:
 build-aab-prod:
 	fvm flutter build aab --release --flavor prod -t lib/main_prod.dart --build-number=${PROJECT_BUILD_NUMBER} --obfuscate --split-debug-info=debug-info-android/ --no-tree-shake-icons
 
-upload-stg-ipa-test-flight:
-	xcrun altool --validate-app --type ios --file build/ios/ipa/[STG]Backyard.ipa --apiKey YRP6KY7LKY --apiIssuer 61ffa2c0-3efd-4a32-b837-fa15b8ed918a --show-progress
-	xcrun altool --upload-app --type ios --file build/ios/ipa/[STG]Backyard.ipa --apiKey YRP6KY7LKY --apiIssuer 61ffa2c0-3efd-4a32-b837-fa15b8ed918a --show-progress
-
-upload-prod-ipa-test-flight:
-	xcrun altool --validate-app --type ios --file build/ios/ipa/Backyard.ipa --apiKey YRP6KY7LKY --apiIssuer 61ffa2c0-3efd-4a32-b837-fa15b8ed918a --show-progress
-	xcrun altool --upload-app --type ios --file build/ios/ipa/Backyard.ipa --apiKey YRP6KY7LKY --apiIssuer 61ffa2c0-3efd-4a32-b837-fa15b8ed918a --show-progress
-
 ########################################
 ########## LESS USED COMMANDS ##########
 ########################################

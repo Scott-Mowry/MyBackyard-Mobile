@@ -132,10 +132,10 @@ flutter:
     - assets/icons/
     - assets/random/
 
-    - assets_new/icons/
-    - assets_new/images/
-    - assets_new/fonts/
-    - assets_new/launcher/
+    - assets_v2/icons/
+    - assets_v2/images/
+    - assets_v2/fonts/
+    - assets_v2/launcher/
 
 flavorizr:
   ide: idea
