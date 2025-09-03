@@ -28,6 +28,7 @@ class AppInAppPurchase {
   Future<void> fetchSubscriptions(List<String> ids) async {
     getIt<UserController>().setLoading(true);
     getIt<UserController>().setProductDetails([]);
+
     final response = await _inAppPurchase.queryProductDetails(ids.toSet());
     getIt<UserController>().setLoading(false);
     if (response.error != null) {
@@ -49,9 +50,6 @@ class AppInAppPurchase {
       }
       getIt<UserController>().setProductDetails(temp);
     }
-    // Use response.productDetails according to your UI/logic needs
-    // CustomToast().showToast(
-    //     message: "Subscriptions Fetched: ${response.productDetails.length}");
   }
 
   // Buy a subscription
@@ -60,7 +58,7 @@ class AppInAppPurchase {
       productDetails: productDetails,
       applicationUserName: getIt<UserController>().user?.id?.toString() ?? '',
     );
-    _inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
+    await _inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
     final list = await purchaseStream.last;
     for (var val in list) {
       if (val.status == PurchaseStatus.purchased || val.status == PurchaseStatus.canceled) {
@@ -87,19 +85,11 @@ class AppInAppPurchase {
   }
 
   // Complete a purchase
-  void completePurchase(PurchaseDetails purchaseDetails) {
-    // if (purchaseDetails.status == PurchaseStatus.purchased) {
-    _inAppPurchase.completePurchase(purchaseDetails);
-    // }
-  }
+  void completePurchase(PurchaseDetails purchaseDetails) => _inAppPurchase.completePurchase(purchaseDetails);
 
-  void listenToPurchaseUpdates() {
-    purchaseStream.listen(handlePurchaseUpdates);
-  }
+  void listenToPurchaseUpdates() => purchaseStream.listen(handlePurchaseUpdates);
 
-  Future<void> restorePurchase() async {
-    _inAppPurchase.restorePurchases();
-  }
+  Future<void> restorePurchase() => _inAppPurchase.restorePurchases();
 
   // Handle purchase updates
   void handlePurchaseUpdates(List<PurchaseDetails> purchaseDetailsList) {

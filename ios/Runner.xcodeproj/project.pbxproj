@@ -484,8 +484,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4A79CEB336AB257B7B36E9EF /* prodDebug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y9W9JN6KRK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = "Debug-prod";
 		};
@@ -634,10 +637,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2C58CEB2CA3C5BDAAAD35646 /* stgRelease.xcconfig */;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = Y9W9JN6KRK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "My Backyard STG ios_app_store";
 			};
 			name = "Release-stg";
 		};
@@ -645,10 +651,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 51777C1455FC26919AD862FC /* prodRelease.xcconfig */;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = Y9W9JN6KRK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "My Backyard PROD ios_app_store";
 			};
 			name = "Release-prod";
 		};
@@ -704,8 +713,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B2781E38794CF3D5D23158FE /* prodProfile.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y9W9JN6KRK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = "Profile-prod";
 		};
@@ -786,8 +798,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 15C970782533896BBA40EFC6 /* stgProfile.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y9W9JN6KRK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = "Profile-stg";
 		};
@@ -795,8 +810,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B53460650EB724A1CD0B0373 /* stgDebug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y9W9JN6KRK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = "Debug-stg";
 		};
@@ -1022,7 +1040,7 @@
 				9A3244752E68861C00B646B7 /* Release-prod */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = "Release-stg";
 		};
 		97C146E91CF9000F007C117D /* Build configuration list for PBXProject "Runner" */ = {
 			isa = XCConfigurationList;
@@ -1035,7 +1053,7 @@
 				FE968CC28BBDF55A29BA0AE1 /* Release-prod */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Debug-stg";
+			defaultConfigurationName = "Release-stg";
 		};
 		97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */ = {
 			isa = XCConfigurationList;
@@ -1048,7 +1066,7 @@
 				711F53FBD9FC5FF7351B1BE5 /* Release-prod */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = "Release-stg";
 		};
 /* End XCConfigurationList section */
 	};

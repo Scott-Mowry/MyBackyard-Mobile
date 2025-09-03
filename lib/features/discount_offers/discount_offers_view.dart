@@ -239,7 +239,13 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                     child: MyButton(
                       title: 'Share with Friends',
                       onTap: () async {
-                        await SharePlus.instance.share(
+                        final subId = context.read<UserController>().user?.subId;
+                        if (subId == null) {
+                          CustomToast().showToast(message: 'You Need to Subscribe to Share an Offer.');
+                          return context.pushRoute(SubscriptionRoute());
+                        }
+
+                        return SharePlus.instance.share(
                           ShareParams(
                             text:
                                 "Share App with Friends,\n\n Link:${Platform.isAndroid ? "https://play.google.com/store/apps/details?id=com.app.mybackyardusa1" : "https://apps.apple.com/us/app/mb-my-backyard/id6736581907"}",
