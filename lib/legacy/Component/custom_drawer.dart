@@ -2,14 +2,15 @@ import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
+import 'package:backyard/core/constants/app_constants.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/design_system/widgets/custom_web_view.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Component/custom_image.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/menu_model.dart';
-import 'package:backyard/legacy/Utils/app_strings.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/logout.dart';
@@ -210,16 +211,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
     MenuModel(
       name: 'Terms & Conditions',
       image: ImagePath.terms,
-      onTap:
-          () => context.pushRoute(
-            ContentRoute(title: 'Terms & Conditions', contentType: AppStrings.TERMS_AND_CONDITION_TYPE),
-          ),
+      onTap: () => showWebViewBottomSheet(url: termsOfUseUrl, context: context),
     ),
     MenuModel(
       name: 'Privacy Policy',
       image: ImagePath.privacy,
-      onTap:
-          () => context.pushRoute(ContentRoute(title: 'Privacy Policy', contentType: AppStrings.PRIVACY_POLICY_TYPE)),
+      onTap: () => showWebViewBottomSheet(url: privacyPolicyUrl, context: context),
     ),
   ];
 
@@ -229,16 +226,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
     MenuModel(
       name: 'Terms & Conditions',
       image: ImagePath.terms,
-      onTap:
-          () => context.pushRoute(
-            ContentRoute(title: 'Terms & Conditions', contentType: AppStrings.TERMS_AND_CONDITION_TYPE),
-          ),
+      onTap: () => showWebViewBottomSheet(url: termsOfUseUrl, context: context),
     ),
     MenuModel(
       name: 'Privacy Policy',
       image: ImagePath.privacy,
-      onTap:
-          () => context.pushRoute(ContentRoute(title: 'Privacy Policy', contentType: AppStrings.PRIVACY_POLICY_TYPE)),
+      onTap: () => showWebViewBottomSheet(url: privacyPolicyUrl, context: context),
     ),
   ];
 

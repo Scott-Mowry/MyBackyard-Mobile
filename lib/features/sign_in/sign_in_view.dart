@@ -1,13 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
+import 'package:backyard/core/constants/app_constants.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/design_system/theme/custom_spacer.dart';
+import 'package:backyard/core/design_system/widgets/custom_web_view.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
-import 'package:backyard/legacy/Component/custom_terms_condition.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
@@ -16,6 +18,7 @@ import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -130,7 +133,56 @@ class _SignInViewState extends State<SignInView> {
                 ),
               ),
             ),
-            if (MediaQuery.viewInsetsOf(context).bottom == 0) ...[const CustomTermsCondition(), SizedBox(height: 4.h)],
+            if (MediaQuery.viewInsetsOf(context).bottom == 0)
+              Padding(
+                padding: CustomSpacer.bottom.xlg,
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    text: 'By sign-in, you agree to our ',
+                    style: GoogleFonts.roboto(fontWeight: FontWeight.w400, fontSize: 13, color: CustomColors.black),
+                    children: [
+                      TextSpan(
+                        text: '\nTerms & Conditions',
+                        style: GoogleFonts.roboto(
+                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          decorationThickness: 2,
+                          color: CustomColors.black,
+                        ),
+                        recognizer:
+                            TapGestureRecognizer()
+                              ..onTap = () => showWebViewBottomSheet(url: termsOfUseUrl, context: context),
+                      ),
+                      TextSpan(
+                        text: ' & ',
+                        style: GoogleFonts.roboto(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          decorationThickness: 2,
+                          color: CustomColors.black,
+                        ),
+                        recognizer: TapGestureRecognizer()..onTap = () {},
+                      ),
+                      TextSpan(
+                        text: 'Privacy Policy',
+                        style: GoogleFonts.roboto(
+                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          decorationThickness: 2,
+                          color: CustomColors.black,
+                        ),
+                        recognizer:
+                            TapGestureRecognizer()
+                              ..onTap = () => showWebViewBottomSheet(url: privacyPolicyUrl, context: context),
+                      ),
+                    ],
+                  ),
+                  textScaler: TextScaler.linear(1.03),
+                ),
+              ),
           ],
         ),
       ),

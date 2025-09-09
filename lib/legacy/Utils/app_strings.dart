@@ -31,10 +31,6 @@ class AppStrings {
   static const String INVALID_PHONE_NUMBER_MESSAGE = 'Invalid Phone number Message.';
   static const String RESEND_CODE_PHONE_NUMBER = 'We have resend OTP verification code at your phone number.';
 
-  static const PRIVACY_POLICY_TYPE = 'pp';
-  static const TERMS_AND_CONDITION_TYPE = 'tc';
-  static const ABOUT_APP_TYPE = 'au';
-
   static const String MONTH_DATE_YEAR_HOUR_MIN = 'yyyy-MM-dd hh:mm a';
 
   static const String GET_ALL_MESSAGES = 'get_messages';

@@ -224,7 +224,7 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                             }
                           } else {
                             CustomToast().showToast(message: 'You Need to Subscribe to Avail an Offer.');
-                            await context.pushRoute(ContentRoute(title: 'Subscriptions', contentType: 'Subscriptions'));
+                            await context.pushRoute<void>(SubscriptionRoute());
                           }
                         },
                         bgColor: CustomColors.whiteColor,

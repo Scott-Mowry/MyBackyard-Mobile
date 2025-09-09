@@ -1,7 +1,7 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:backyard/core/app_router/app_router.dart';
+import 'package:backyard/core/exception/app_internal_error.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/core/repositories/local_storage_repository.dart';
 import 'package:backyard/core/services/user_auth_service.dart';
@@ -39,7 +39,7 @@ abstract class _UserAuthRepository with Store {
 
       return userProfile;
     } catch (e) {
-      return null;
+      throw AppInternalError(code: 'SIGN_IN_ERROR', error: e, stack: StackTrace.current);
     } finally {
       await EasyLoading.dismiss();
     }
@@ -57,7 +57,7 @@ abstract class _UserAuthRepository with Store {
 
       return userProfile;
     } catch (e) {
-      return null;
+      throw AppInternalError(code: 'VERIFY_ACCOUNT_ERROR', error: e, stack: StackTrace.current);
     } finally {
       await EasyLoading.dismiss();
     }
@@ -106,7 +106,7 @@ abstract class _UserAuthRepository with Store {
 
       return userProfile;
     } catch (e) {
-      return null;
+      throw AppInternalError(code: 'COMPLETE_PROFILE_ERROR', error: e, stack: StackTrace.current);
     } finally {
       await EasyLoading.dismiss();
     }
@@ -120,7 +120,7 @@ abstract class _UserAuthRepository with Store {
 
       return true;
     } catch (e) {
-      return false;
+      throw AppInternalError(code: 'RESEND_CODE_ERROR', error: e, stack: StackTrace.current);
     } finally {
       await EasyLoading.dismiss();
     }
@@ -138,7 +138,7 @@ abstract class _UserAuthRepository with Store {
 
       return userProfile;
     } catch (e) {
-      return null;
+      throw AppInternalError(code: 'FORGOT_PASSWORD_ERROR', error: e, stack: StackTrace.current);
     } finally {
       await EasyLoading.dismiss();
     }
@@ -158,7 +158,7 @@ abstract class _UserAuthRepository with Store {
 
       return newUserProfile;
     } catch (e) {
-      return null;
+      throw AppInternalError(code: 'CHANGE_PASSWORD_ERROR', error: e, stack: StackTrace.current);
     } finally {
       await EasyLoading.dismiss();
     }
@@ -174,7 +174,7 @@ abstract class _UserAuthRepository with Store {
       MyBackyardApp.appRouter.popUntilRoot();
       return MyBackyardApp.appRouter.replace<void>(LandingRoute());
     } catch (e) {
-      log(e.toString());
+      throw AppInternalError(code: 'SIGN_OUT_ERROR', error: e, stack: StackTrace.current);
     } finally {
       await EasyLoading.dismiss();
     }
@@ -191,7 +191,7 @@ abstract class _UserAuthRepository with Store {
       MyBackyardApp.appRouter.popUntilRoot();
       return MyBackyardApp.appRouter.replace<void>(LandingRoute());
     } catch (e) {
-      log(e.toString());
+      throw AppInternalError(code: 'DELETE_ACCOUNT_ERROR', error: e, stack: StackTrace.current);
     } finally {
       await EasyLoading.dismiss();
     }

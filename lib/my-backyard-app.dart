@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
+import 'package:backyard/core/dependencies/error_handler_context_locator.dart';
 import 'package:backyard/core/design_system/theme/theme_data.dart';
 import 'package:backyard/core/helper/custom_navigator_observer.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
@@ -47,6 +48,7 @@ class MyBackyardApp extends StatelessWidget {
           locale: const Locale('en', 'US'),
           builder: EasyLoading.init(
             builder: (context, child) {
+              registerGlobalErrorHandlerContext(context);
               final mediaQueryData = MediaQuery.of(context);
               final scale = mediaQueryData.textScaler.clamp(
                 minScaleFactor: 1.0,

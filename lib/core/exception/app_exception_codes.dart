@@ -11,3 +11,14 @@ const kLocationPermissionsDeniedErrorKey = 'LOCATION_PERMISSIONS_DENIED_ERROR';
 const kSaveAppFlavorOnDiskErrorKey = 'SAVE_FLAVOR_ON_DISK_ERROR';
 const kPushNotificationsInitErrorKey = 'PUSH_NOTIFICATIONS_INIT_ERROR';
 const kSubscribeToFcmTopicErrorKey = 'SUBSCRIBE_TO_FCM_TOPIC_ERROR';
+const kShowBottomSheetWebViewErrorKey = 'SHOW_BOTTOM_SHEET_WEB_VIEW_ERROR';
+
+// User authentication errors
+const kSignInErrorKey = 'SIGN_IN_ERROR';
+const kVerifyAccountErrorKey = 'VERIFY_ACCOUNT_ERROR';
+const kCompleteProfileErrorKey = 'COMPLETE_PROFILE_ERROR';
+const kResendCodeErrorKey = 'RESEND_CODE_ERROR';
+const kForgotPasswordErrorKey = 'FORGOT_PASSWORD_ERROR';
+const kChangePasswordErrorKey = 'CHANGE_PASSWORD_ERROR';
+const kSignOutErrorKey = 'SIGN_OUT_ERROR';
+const kDeleteAccountErrorKey = 'DELETE_ACCOUNT_ERROR';

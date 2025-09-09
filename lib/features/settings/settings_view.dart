@@ -2,8 +2,10 @@ import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
+import 'package:backyard/core/constants/app_constants.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/design_system/widgets/custom_web_view.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
@@ -13,7 +15,6 @@ import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/menu_model.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:backyard/legacy/Utils/app_strings.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/delete_account.dart';
 import 'package:backyard/legacy/View/base_view.dart';
@@ -124,24 +125,11 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
 
   late List<MenuModel> businessList = [
     MenuModel(name: 'Push Notification', onTap: () {}),
-    MenuModel(
-      name: 'Privacy Policy',
-      onTap:
-          () => context.pushRoute<void>(
-            ContentRoute(title: 'Privacy Policy', contentType: AppStrings.PRIVACY_POLICY_TYPE),
-          ),
-    ),
-    MenuModel(
-      name: 'About App',
-      onTap: () => context.pushRoute<void>(ContentRoute(title: 'About App', contentType: AppStrings.ABOUT_APP_TYPE)),
-    ),
-    MenuModel(
-      name: 'Terms & Conditions',
-      onTap:
-          () => context.pushRoute<void>(
-            ContentRoute(title: 'Terms & Conditions', contentType: AppStrings.TERMS_AND_CONDITION_TYPE),
-          ),
-    ),
+    MenuModel(name: 'Privacy Policy', onTap: () => showWebViewBottomSheet(url: privacyPolicyUrl, context: context)),
+    MenuModel(name: 'About App', onTap: () => showWebViewBottomSheet(url: aboutUsUrl, context: context)),
+    MenuModel(name: 'Terms & Conditions', onTap: () => showWebViewBottomSheet(url: termsOfUseUrl, context: context)),
+    MenuModel(name: 'Change Password', onTap: () => context.pushRoute<void>(ChangePasswordRoute(fromSettings: true))),
+    MenuModel(name: 'Subscriptions', onTap: () => context.pushRoute(SubscriptionRoute())),
     MenuModel(
       name: 'Delete Account',
       onTap: () {
@@ -168,11 +156,6 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
           },
         );
       },
-    ),
-    MenuModel(name: 'Change Password', onTap: () => context.pushRoute<void>(ChangePasswordRoute(fromSettings: true))),
-    MenuModel(
-      name: 'Subscriptions',
-      onTap: () => context.pushRoute<void>(ContentRoute(title: 'Subscriptions', contentType: 'Subscriptions')),
     ),
   ];
 
@@ -183,24 +166,11 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
         val = !val;
       },
     ),
-    MenuModel(
-      name: 'Privacy Policy',
-      onTap:
-          () => context.pushRoute<void>(
-            ContentRoute(title: 'Privacy Policy', contentType: AppStrings.PRIVACY_POLICY_TYPE),
-          ),
-    ),
-    MenuModel(
-      name: 'About App',
-      onTap: () => context.pushRoute(ContentRoute(title: 'About App', contentType: AppStrings.ABOUT_APP_TYPE)),
-    ),
-    MenuModel(
-      name: 'Terms & Conditions',
-      onTap:
-          () => context.pushRoute(
-            ContentRoute(title: 'Terms & Conditions', contentType: AppStrings.TERMS_AND_CONDITION_TYPE),
-          ),
-    ),
+    MenuModel(name: 'Privacy Policy', onTap: () => showWebViewBottomSheet(url: privacyPolicyUrl, context: context)),
+    MenuModel(name: 'About App', onTap: () => showWebViewBottomSheet(url: aboutUsUrl, context: context)),
+    MenuModel(name: 'Terms & Conditions', onTap: () => showWebViewBottomSheet(url: termsOfUseUrl, context: context)),
+    MenuModel(name: 'Change Password', onTap: () => context.pushRoute(ChangePasswordRoute(fromSettings: true))),
+    MenuModel(name: 'Subscriptions', onTap: () => context.pushRoute(SubscriptionRoute())),
     MenuModel(
       name: 'Delete Account',
       onTap: () {
@@ -227,11 +197,6 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
           },
         );
       },
-    ),
-    MenuModel(name: 'Change Password', onTap: () => context.pushRoute(ChangePasswordRoute(fromSettings: true))),
-    MenuModel(
-      name: 'Subscriptions',
-      onTap: () => context.pushRoute(ContentRoute(title: 'Subscriptions', contentType: 'Subscriptions')),
     ),
   ];
 

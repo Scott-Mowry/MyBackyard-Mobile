@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/features/change_password/change_password_view.dart';
 import 'package:backyard/features/change_password/forgot_password_view.dart';
-import 'package:backyard/features/content/content_view.dart';
 import 'package:backyard/features/create_offer/create_offer_view.dart';
 import 'package:backyard/features/discount_offers/discount_offers_view.dart';
 import 'package:backyard/features/give_review/give_review_view.dart';
@@ -48,7 +47,6 @@ class AppRouter extends RootStackRouter {
     AutoRoute(path: '/create-offer', page: CreateOfferRoute.page),
     AutoRoute(path: '/subscription-screen', page: SubscriptionRoute.page),
     AutoRoute(path: '/settings', page: SettingsRoute.page),
-    AutoRoute(path: '/content-screen', page: ContentRoute.page),
     AutoRoute(path: '/user-profile', page: UserProfileRoute.page),
     AutoRoute(path: '/customer-profile', page: CustomerProfileRoute.page),
     AutoRoute(path: '/timeSchedulingEditScreenRoute', page: TimeScheduleEditRoute.page),

@@ -100,9 +100,7 @@ class _HomeViewState extends State<HomeView> {
                         }
 
                         CustomToast().showToast(message: 'You Need to Subscribe to Create an Offer.');
-                        return context.pushRoute<void>(
-                          ContentRoute(title: 'Subscriptions', contentType: 'Subscriptions'),
-                        );
+                        return context.pushRoute<void>(SubscriptionRoute());
                       },
                       child: Container(
                         height: 50.h,
