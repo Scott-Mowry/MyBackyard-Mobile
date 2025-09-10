@@ -83,7 +83,6 @@ class UserController extends ChangeNotifier {
   double rating = 0;
   List<in_app.ProductDetails> productDetails = [];
   bool loading = false;
-  bool purchaseLoading = false;
   List<UserProfileModel> busList = [];
   double lat = 0;
   double lng = 0;
@@ -134,11 +133,6 @@ class UserController extends ChangeNotifier {
 
   void setBusList(List<UserProfileModel> val) {
     busList = val;
-    notifyListeners();
-  }
-
-  void setPurchaseLoading(bool val) {
-    purchaseLoading = val;
     notifyListeners();
   }
 

@@ -1,16 +1,22 @@
 import 'package:backyard/core/dependencies/dependency_injector.dart';
-import 'package:backyard/legacy/Component/custom_toast.dart';
+import 'package:backyard/core/exception/app_exception_codes.dart';
+import 'package:backyard/core/exception/app_internal_error.dart';
+import 'package:backyard/core/repositories/crash_report_repository.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 class AppInAppPurchase {
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
+
   Stream<List<PurchaseDetails>> get purchaseStream => _inAppPurchase.purchaseStream;
 
   // Initialize a singleton instance
   static final AppInAppPurchase _instance = AppInAppPurchase._internal();
+
   factory AppInAppPurchase() => _instance;
+
   AppInAppPurchase._internal();
 
   // Connect to the store
@@ -21,49 +27,51 @@ class AppInAppPurchase {
       debugPrint('The store is not available');
       return;
     }
-    // Load or refresh subscriptions here if needed
   }
 
-  // Fetch products
   Future<void> fetchSubscriptions(List<String> ids) async {
-    getIt<UserController>().setLoading(true);
-    getIt<UserController>().setProductDetails([]);
-
     final response = await _inAppPurchase.queryProductDetails(ids.toSet());
-    getIt<UserController>().setLoading(false);
     if (response.error != null) {
-      // Handle errors here
-      CustomToast().showToast(message: 'Failed to fetch subscriptions: ${response.error!.message}');
-      debugPrint('Failed to fetch subscriptions: ${response.error!.message}');
+      final crashlyticsRepository = getIt<CrashReportRepository>();
+      await crashlyticsRepository.recordError(response.error, null);
+      if (kDebugMode) debugPrint('Failed to fetch subscriptions: ${response.error}');
+
       return;
     }
 
-    if (response.productDetails.isEmpty) {
-      CustomToast().showToast(message: 'No products found.');
-    } else {
-      final temp = response.productDetails;
-      // Now you can safely access product details
-      for (var product in response.productDetails) {
-        if (product.id.isEmpty) {
-          temp.remove(product);
-        }
-      }
-      getIt<UserController>().setProductDetails(temp);
+    if (response.productDetails.isEmpty) return;
+
+    final temp = response.productDetails;
+    for (var product in response.productDetails) {
+      if (product.id.isEmpty) temp.remove(product);
     }
+
+    getIt<UserController>().setProductDetails(temp);
   }
 
-  // Buy a subscription
   Future<void> buySubscription(ProductDetails productDetails) async {
-    final purchaseParam = PurchaseParam(
-      productDetails: productDetails,
-      applicationUserName: getIt<UserController>().user?.id?.toString() ?? '',
-    );
-    await _inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
-    final list = await purchaseStream.last;
-    for (var val in list) {
-      if (val.status == PurchaseStatus.purchased || val.status == PurchaseStatus.canceled) {
-        completePurchase(val);
+    try {
+      await EasyLoading.show();
+      final purchaseParam = PurchaseParam(
+        productDetails: productDetails,
+        applicationUserName: getIt<UserController>().user?.id?.toString() ?? '',
+      );
+
+      await _inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
+      final list = await purchaseStream.last;
+      for (var val in list) {
+        if (val.status == PurchaseStatus.purchased || val.status == PurchaseStatus.canceled) {
+          completePurchase(val);
+        }
       }
+    } catch (error, stackTrace) {
+      throw AppInternalError(
+        code: kBuySubscriptionErrorKey,
+        error: error,
+        stack: stackTrace,
+      );
+    } finally {
+      await EasyLoading.dismiss();
     }
   }
 
@@ -92,15 +100,16 @@ class AppInAppPurchase {
   Future<void> restorePurchase() => _inAppPurchase.restorePurchases();
 
   // Handle purchase updates
-  void handlePurchaseUpdates(List<PurchaseDetails> purchaseDetailsList) {
+  Future<void> handlePurchaseUpdates(List<PurchaseDetails> purchaseDetailsList) async {
     for (var purchaseDetails in purchaseDetailsList) {
       if (purchaseDetails.status == PurchaseStatus.purchased || purchaseDetails.status == PurchaseStatus.canceled) {
         completePurchase(purchaseDetails);
         // TODO: Unlock features or content here
       } else if (purchaseDetails.status == PurchaseStatus.error) {
-        debugPrint('Purchase Error: ${purchaseDetails.error}');
+        final crashlyticsRepository = getIt<CrashReportRepository>();
+        await crashlyticsRepository.recordError(purchaseDetails.error, null);
+        if (kDebugMode) debugPrint('Purchase Error: ${purchaseDetails.error}');
       }
     }
-    getIt<UserController>().setPurchaseLoading(false);
   }
 }

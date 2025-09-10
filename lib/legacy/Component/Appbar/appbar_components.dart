@@ -16,14 +16,13 @@ class MenuIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Padding(padding: EdgeInsets.only(top: 1.h, bottom: 1.h,left: 4.w,right: 0.h), child: Container(decoration: BoxDecoration( borderRadius: BorderRadius.circular(6),), child: IconContainer(image: ImagePath.menuIcon, onTap: (){AuthController.i.zoom.toggle?.call();},size: 6.w,padding: 1.8.w,)),);
     return Consumer<HomeController>(
       builder: (context, val, _) {
         return IconContainer(
           image: ImagePath.menuIcon,
           onTap: () {
             FocusManager.instance.primaryFocus?.unfocus();
-            val.drawerKey?.currentState?.openDrawer();
+            context.pushRoute(SettingsRoute());
           },
         );
       },

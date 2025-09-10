@@ -22,3 +22,6 @@ const kForgotPasswordErrorKey = 'FORGOT_PASSWORD_ERROR';
 const kChangePasswordErrorKey = 'CHANGE_PASSWORD_ERROR';
 const kSignOutErrorKey = 'SIGN_OUT_ERROR';
 const kDeleteAccountErrorKey = 'DELETE_ACCOUNT_ERROR';
+
+// In-app purchase errors
+const kBuySubscriptionErrorKey = 'BUY_SUBSCRIPTION_ERROR';

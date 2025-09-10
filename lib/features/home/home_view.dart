@@ -9,7 +9,6 @@ import 'package:backyard/features/home/user_home_view.dart';
 import 'package:backyard/features/offers/offers_view.dart';
 import 'package:backyard/features/settings/settings_view.dart';
 import 'package:backyard/features/user_profile/user_profile_view.dart';
-import 'package:backyard/legacy/Component/custom_drawer.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
@@ -72,10 +71,8 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void initState() {
-    context.read<HomeController>().setGlobalKey(key);
-    WidgetsBinding.instance.addPostFrameCallback((_) => context.read<HomeController>().setIndex(0));
-
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => context.read<HomeController>().setIndex(0));
   }
 
   @override
@@ -88,7 +85,6 @@ class _HomeViewState extends State<HomeView> {
             key: key,
             backgroundColor: Colors.white,
             resizeToAvoidBottomInset: false,
-            drawer: CustomDrawer(),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
             floatingActionButton:
                 (!isBusiness)

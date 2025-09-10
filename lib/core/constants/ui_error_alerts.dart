@@ -19,4 +19,7 @@ final uiErrorAlertsMap = {
   kChangePasswordErrorKey: 'We couldn\'t update your password. Please try again.',
   kSignOutErrorKey: 'We couldn\'t sign you out properly. Please try again.',
   kDeleteAccountErrorKey: 'We couldn\'t delete your account. Please try again later.',
+
+  // In-app purchase errors
+  kBuySubscriptionErrorKey: 'We couldn\'t complete your purchase. Please try again or contact support if the issue persists.',
 };

@@ -57,6 +57,7 @@ dependencies:
   equatable: ^2.0.5
   json_annotation: ^4.8.1
   image: ^4.5.4
+  collection: ^1.18.0
 
   # UI
   google_fonts: ^6.2.1

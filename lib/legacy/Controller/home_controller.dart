@@ -13,10 +13,6 @@ import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 @singleton
 class HomeController extends ChangeNotifier {
-  GlobalKey<ScaffoldState>? drawerKey;
-
-  void setGlobalKey(GlobalKey<ScaffoldState>? key) => drawerKey = key;
-
   int currentIndex = 0;
   LatLng currentLocation = const LatLng(40.76317565846268, -73.99172240955043);
 
