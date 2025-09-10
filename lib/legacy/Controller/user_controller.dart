@@ -8,6 +8,7 @@ import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/core/repositories/local_storage_repository.dart';
 import 'package:backyard/legacy/Model/reiview_model.dart';
+import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/my-backyard-app.dart';
 import 'package:flutter/material.dart';
@@ -164,32 +165,36 @@ class UserController extends ChangeNotifier {
 
   Future<void> zoomOutFitBusinesses() async {
     if (businessesList.isEmpty || mapController == null) return;
-    final coordinates =
-        businessesList
-            .where((business) => business.latitude != null && business.longitude != null)
-            .map((business) => LatLng(business.latitude!, business.longitude!))
-            .toList();
 
-    if (coordinates.isEmpty) return;
-    var minLat = coordinates.first.latitude;
-    var maxLat = coordinates.first.latitude;
-    var minLng = coordinates.first.longitude;
-    var maxLng = coordinates.first.longitude;
+    final position = await Geolocator.getLastKnownPosition();
+    if (position == null) return;
+    final radiusInDegrees = (mile * 1609.344) / 111320;
+    final bounds = LatLngBounds(
+      southwest: LatLng(position.latitude - radiusInDegrees, position.longitude - radiusInDegrees),
+      northeast: LatLng(position.latitude + radiusInDegrees, position.longitude + radiusInDegrees),
+    );
 
-    for (final coord in coordinates) {
-      minLat = coord.latitude < minLat ? coord.latitude : minLat;
-      maxLat = coord.latitude > maxLat ? coord.latitude : maxLat;
-      minLng = coord.longitude < minLng ? coord.longitude : minLng;
-      maxLng = coord.longitude > maxLng ? coord.longitude : maxLng;
-    }
-
-    final bounds = LatLngBounds(southwest: LatLng(minLat, minLng), northeast: LatLng(maxLat, maxLng));
     await mapController!.animateCamera(CameraUpdate.newLatLngBounds(bounds, 25.0));
   }
 
   Future<void> addMarker(UserProfileModel user) async {
     try {
       final markerId = MarkerId(user.id?.toString() ?? '');
+      final username = user.name?.toUpperCase() ?? '';
+      final textBitmapDescriptor =
+          username.isNotEmpty
+              ? await Utils.createBitmapDescriptorWithText(
+                username.length < 2 ? username : username.substring(0, 2),
+                smaller: user.subId == 4,
+              )
+              : null;
+
+      final profileImage = user.profileImage ?? '';
+      final imageBitmapDescriptor =
+          textBitmapDescriptor == null && profileImage.isNotEmpty
+              ? await Utils.getNetworkImageMarker("${API.public_url}${user.profileImage ?? ""}")
+              : null;
+
       final marker = Marker(
         markerId: markerId,
         infoWindow: InfoWindow(
@@ -207,10 +212,10 @@ class UserController extends ChangeNotifier {
                       )
                       : {},
         ),
-        icon: await Utils.createBitmapDescriptorWithText(
-          (user.name ?? '').toUpperCase().characters.firstOrNull ?? '',
-          smaller: user.subId == 4,
-        ),
+        icon:
+            textBitmapDescriptor ??
+            imageBitmapDescriptor ??
+            BitmapDescriptor.defaultMarkerWithHue(HSVColor.fromColor(CustomColors.primaryGreenColor).hue),
         position: LatLng(user.latitude ?? 0.0, user.longitude ?? 0.0),
       );
 

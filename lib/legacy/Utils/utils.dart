@@ -1,23 +1,21 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/helper/target_platform_helper.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Utils/app_strings.dart';
 import 'package:backyard/my-backyard-app.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:encrypt/encrypt.dart' as en;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart' as picker;
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:image/image.dart' as img;
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -28,6 +26,7 @@ class Utils {
   static bool isTablet = false;
   static final key = en.Key.fromUtf8('3Df7G9uWq8s2BxM4Tz1pV5cK7nL0yQ6h');
   static final iv = en.IV.fromLength(16);
+
   static String getDuration(DateTime? val) {
     final duration = DateTime.now().difference(val ?? DateTime.now());
     var min = duration.inMinutes;
@@ -104,12 +103,10 @@ class Utils {
       }
     }
     if (permission == LocationPermission.deniedForever) {
-      if (openSettings) {
-        await openAppSettings();
-      }
-      // CustomToast().showToast('Error', 'Location permissions are permanently denied, we cannot request permissions.', true);
+      if (openSettings) await openAppSettings();
       return false;
     }
+
     return true;
   }
 
@@ -121,7 +118,7 @@ class Utils {
       );
       return position;
     } else {
-      return null; // Permission not granted
+      return null;
     }
   }
 
@@ -171,28 +168,7 @@ class Utils {
     return byteData?.buffer.asUint8List();
   }
 
-  static Future<BitmapDescriptor> getNetworkImageMarker3() async {
-    const size = 50.0; // Size of the circle
-    final recorder = ui.PictureRecorder();
-    final canvas = Canvas(recorder, Rect.fromPoints(const Offset(0, 0), const Offset(size, size)));
-
-    final paint =
-        Paint()
-          ..color = CustomColors.primaryGreenColor
-          ..style = PaintingStyle.fill;
-
-    canvas.drawCircle(const Offset(size / 2, size / 2), size / 2, paint);
-
-    final picture = recorder.endRecording();
-    final img = await picture.toImage(size.toInt(), size.toInt());
-
-    final byteData = await img.toByteData(format: ui.ImageByteFormat.png);
-    final pngBytes = byteData!.buffer.asUint8List();
-
-    return BitmapDescriptor.fromBytes(pngBytes);
-  }
-
-  static Future<BitmapDescriptor> getNetworkImageMarker2(String imageUrl) async {
+  static Future<BitmapDescriptor> getNetworkImageMarker(String imageUrl) async {
     final image = await loadNetWorkImage(imageUrl);
     final markerImageCodec = await ui.instantiateImageCodec(
       image!.buffer.asUint8List(),
@@ -201,23 +177,19 @@ class Utils {
     );
     final frameInfo = await markerImageCodec.getNextFrame();
     final byteData = await getCircularImageByteData(frameInfo.image);
-    // await frameInfo.image.toByteData(format: ui.ImageByteFormat.png);
     await frameInfo.image.toByteData(format: ui.ImageByteFormat.png);
     final resizedImageMarker = byteData.buffer.asUint8List();
     return BitmapDescriptor.fromBytes(resizedImageMarker);
   }
 
-  static Future<BitmapDescriptor> createBitmapDescriptorWithText(String text, {bool? smaller}) async {
-    final random = Random();
+  static Future<BitmapDescriptor> createBitmapDescriptorWithText(String text, {bool smaller = false}) async {
+    final random = Random(text.hashCode);
     final color = Color.fromARGB(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
 
     final recorder = ui.PictureRecorder();
     final canvas = Canvas(
       recorder,
-      Rect.fromPoints(
-        const Offset(0, 0),
-        smaller ?? false ? const Offset(50, 50) : const Offset(100, 100),
-      ), // 100x100 size for the circle
+      Rect.fromPoints(const Offset(0, 0), smaller ? const Offset(50, 50) : const Offset(100, 100)),
     );
 
     // Paint for the circle
@@ -227,17 +199,13 @@ class Utils {
           ..style = PaintingStyle.fill;
 
     // Draw the circle
-    canvas.drawCircle(
-      smaller ?? false ? const Offset(25, 25) : const Offset(50, 50),
-      50,
-      paint,
-    ); // Circle at the center
+    canvas.drawCircle(smaller ? const Offset(25, 25) : const Offset(50, 50), 50, paint);
 
     // Paint for the text
     final textPainter = TextPainter(
       text: TextSpan(
         text: text,
-        style: TextStyle(color: Colors.white, fontSize: smaller ?? false ? 30 : 40, fontWeight: FontWeight.bold),
+        style: TextStyle(color: Colors.white, fontSize: smaller ? 30 : 40, fontWeight: FontWeight.bold),
       ),
       textAlign: TextAlign.center,
       textDirection: ui.TextDirection.ltr,
@@ -246,87 +214,27 @@ class Utils {
     textPainter.layout();
     textPainter.paint(
       canvas,
-      smaller ?? false
+      smaller
           ? Offset(25 - textPainter.width / 2, 25 - textPainter.height / 2)
           : Offset(50 - textPainter.width / 2, 50 - textPainter.height / 2),
     );
 
     // Convert the canvas to image bytes
     final picture = recorder.endRecording();
-    final img =
-        smaller ?? false
-            ? await picture.toImage(50, 50)
-            : await picture.toImage(100, 100); // Correct image size (100x100)
+    final img = smaller ? await picture.toImage(50, 50) : await picture.toImage(100, 100);
     final byteData = await img.toByteData(format: ui.ImageByteFormat.png);
     final bytes = byteData!.buffer.asUint8List();
 
     return BitmapDescriptor.fromBytes(bytes); // Return the bitmap descriptor
   }
 
-  static Future<BitmapDescriptor> getNetworkImageMarker(String imageUrl) async {
-    final size = .18.sw.toInt();
-    final response = await HttpClient().getUrl(Uri.parse(imageUrl));
-    final bytes = await response.close().then(
-      (response) =>
-          response.fold<Uint8List>(Uint8List(0), (previous, current) => Uint8List.fromList(previous + current)),
-    );
-    // Decode the image from bytes
-    final image = img.decodeImage(bytes);
-
-    if (image == null) {
-      throw Exception('Failed to decode image');
-    }
-
-    // Resize the image
-    final resizedImage = img.copyResize(image, width: size, height: size);
-
-    // Create a circular mask (cutting out the circle)
-    final circularImage = img.Image(width: size, height: size, backgroundColor: img.ColorRgba8(0, 0, 0, 0));
-
-    // Draw a circle mask over the image
-    for (var y = 0; y < size; y++) {
-      for (var x = 0; x < size; x++) {
-        final dx = x - size ~/ 2;
-        final dy = y - size ~/ 2;
-        // Check if the pixel lies within a circle (distance from the center)
-        if (dx * dx + dy * dy <= (size / 2) * (size / 2)) {
-          circularImage.setPixel(x, y, resizedImage.getPixel(x, y));
-        } else {
-          // // Set transparent color for outside circle
-          // circularImage.setPixel(
-          //     x, y, img.ColorRgba8(0, 0, 0, 0)); // Transparent
-        }
-      }
-    }
-
-    // Convert the image back to bytes
-    final circleBytes = Uint8List.fromList(img.encodePng(circularImage));
-
-    // Return the BitmapDescriptor created from the circular image
-    return BitmapDescriptor.fromBytes(circleBytes);
-  }
-
   Future<LocationResult> showPlacePicker(context) async {
-    // Permission.locationAlways.request();
-    if (Platform.isAndroid) {
-      Permission.location.request();
-    } else {
-      Permission.locationAlways.request();
-    }
+    defaultTargetPlatform.isAndroid ? await Permission.location.request() : await Permission.locationAlways.request();
     final LocationResult result = await Navigator.of(
       context,
     ).push(MaterialPageRoute(builder: (context) => PlacePicker(AppStrings.GOOGLE_API_KEY)));
     return result;
   }
-
-  // saveFCMToken()async{
-  //   var t = SharedPreference().getFcmToken();
-  //   log("getFcmToken ${t}");
-  //   if(t==null){
-  //     log("getFcmToken k andar");
-  //     SharedPreference().setFcmToken(token: await FirebaseMessagingService().getToken()??'');
-  //   }
-  // }
 
   Future<Object?>? selectDate(
     BuildContext context, {

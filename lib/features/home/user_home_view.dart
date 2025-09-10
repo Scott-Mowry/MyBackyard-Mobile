@@ -266,11 +266,6 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
     );
   }
 
-  Future<void> getAddress(context) async {
-    final t = await Utils().showPlacePicker(context);
-    location.text = t.formattedAddress ?? '';
-  }
-
   Column filterSheet(List<CategoryModel> list) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
