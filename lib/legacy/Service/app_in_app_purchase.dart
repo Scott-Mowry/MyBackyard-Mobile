@@ -65,11 +65,7 @@ class AppInAppPurchase {
         }
       }
     } catch (error, stackTrace) {
-      throw AppInternalError(
-        code: kBuySubscriptionErrorKey,
-        error: error,
-        stack: stackTrace,
-      );
+      throw AppInternalError(code: kBuySubscriptionErrorKey, error: error, stack: stackTrace);
     } finally {
       await EasyLoading.dismiss();
     }

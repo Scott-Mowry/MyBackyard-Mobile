@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:auto_route/annotations.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_bottomsheet_indicator.dart';
@@ -142,7 +143,8 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
                         target: LatLng(val.user?.latitude ?? 0, val.user?.longitude ?? 0),
                         zoom: 14.4746,
                       ),
-                      myLocationButtonEnabled: Utils.isTablet == false, //true
+                      myLocationButtonEnabled: Utils.isTablet == false,
+                      //true
                       circles: val.circles,
                       myLocationEnabled: true,
                       onMapCreated: (controller) async {
@@ -159,98 +161,37 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
                       },
                       markers: context.watch<UserController>().markers,
                     ),
+                    Positioned(
+                      right: CustomSpacer.right.xs.right,
+                      bottom: 82,
+                      child: Material(
+                        elevation: 4,
+                        shape: const CircleBorder(),
+                        child: InkWell(
+                          onTap: () => Navigator.pop(context),
+                          child: Container(
+                            padding: CustomSpacer.all.md,
+                            decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                            child: FilterIcon(
+                              onTap:
+                                  () => [
+                                    FocusManager.instance.primaryFocus?.unfocus(),
+                                    setState(() => filter = !filter),
+                                  ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 );
               },
             ),
             Container(
-              decoration: BoxDecoration(
-                color: Utils.isTablet ? null : CustomColors.whiteColor,
-                borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
-                boxShadow:
-                    Utils.isTablet
-                        ? null
-                        : [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.2), // Shadow color
-                            blurRadius: 10, // Spread of the shadow
-                            spreadRadius: 5, // Size of the shadow
-                            offset: const Offset(0, 4), // Position of the shadow
-                          ),
-                        ],
-              ),
               padding: EdgeInsets.only(top: 7.h) + EdgeInsets.symmetric(horizontal: 4.w),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 2.h),
-                    child: CustomAppBar(
-                      screenTitle: 'Home',
-                      leading:
-                          Utils.isTablet
-                              ? Opacity(
-                                opacity: .8,
-                                child: Container(
-                                  padding: EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                    color: CustomColors.whiteColor,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: MenuIcon(),
-                                ),
-                              )
-                              : MenuIcon(),
-                      trailing: Row(
-                        children: [
-                          Utils.isTablet
-                              ? Opacity(
-                                opacity: .8,
-                                child: Container(
-                                  padding: EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                    color: CustomColors.whiteColor,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child:
-                                      onTap
-                                          ? FilterIcon(
-                                            onTap:
-                                                () => [
-                                                  FocusManager.instance.primaryFocus?.unfocus(),
-                                                  setState(() => filter = !filter),
-                                                ],
-                                          )
-                                          : CircularProgressIndicator(color: CustomColors.greenColor),
-                                ),
-                              )
-                              : FilterIcon(
-                                onTap:
-                                    () => [
-                                      FocusManager.instance.primaryFocus?.unfocus(),
-                                      setState(() => filter = !filter),
-                                    ],
-                              ),
-                          SizedBox(width: 4.w),
-                          Utils.isTablet
-                              ? Opacity(
-                                opacity: .8,
-                                child: Container(
-                                  padding: EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                    color: CustomColors.whiteColor,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: NotificationIcon(),
-                                ),
-                              )
-                              : NotificationIcon(),
-                        ],
-                      ),
-                      bottom: 2.h,
-                    ),
-                  ),
-
                   if (filter) ...[
                     Consumer<UserController>(
                       builder: (context, val, _) {
@@ -261,7 +202,8 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
                               Expanded(
                                 child: Slider(
                                   min: 5,
-                                  max: 50, //25
+                                  max: 50,
+                                  //25
                                   divisions: 10,
                                   value: val.mile.toDouble(),
                                   onChangeEnd: (v) => BusAPIS.getBuses(pos?.latitude, pos?.longitude),

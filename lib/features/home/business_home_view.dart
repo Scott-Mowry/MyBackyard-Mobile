@@ -1,17 +1,18 @@
-import 'dart:ui';
-
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/features/offers/offers_view.dart';
+import 'package:backyard/features/subscription/enum/subscription_type_enum.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_refresh.dart';
+import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
-import 'package:backyard/legacy/View/Widget/Dialog/reject_dialog.dart';
+import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/View/Widget/search_tile.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
@@ -38,21 +39,8 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      setLoading(true);
-      await getOffers();
-      setLoading(false);
-    });
-    // TODO: implement initState
     super.initState();
-  }
-
-  void setLoading(bool val) {
-    homeController.setLoading(val);
-  }
-
-  Future<void> getOffers() async {
-    await BusAPIS.getSavedOrOwnedOffers();
+    WidgetsBinding.instance.addPostFrameCallback((_) => BusAPIS.getSavedOrOwnedOffers());
   }
 
   @override
@@ -65,7 +53,7 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
         bottomSafeArea: false,
         topSafeArea: false,
         child: CustomRefresh(
-          onRefresh: getOffers,
+          onRefresh: BusAPIS.getSavedOrOwnedOffers,
           child: Consumer2<UserController, HomeController>(
             builder: (context, val, val2, _) {
               return CustomPadding(
@@ -94,15 +82,24 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
                           CustomAppBar(
                             screenTitle: 'Home',
                             leading: MenuIcon(),
-                            trailing: NotificationIcon(),
+                            trailing: GestureDetector(
+                              onTap: onCreateOffer,
+                              child: Container(
+                                height: 32,
+                                width: 32,
+                                decoration: BoxDecoration(color: CustomColors.whiteColor, shape: BoxShape.circle),
+                                child: Image.asset(
+                                  ImagePath.add,
+                                  fit: BoxFit.fitHeight,
+                                  color: CustomColors.primaryGreenColor,
+                                  scale: 3.0,
+                                ),
+                              ),
+                            ),
                             bottom: 2.h,
                           ),
                           SearchTile(
                             showFilter: false,
-                            // search: location,
-                            onTap: () async {
-                              // await getAddress(context);
-                            },
                             onChange: (v) {
                               search = v;
                               val2.searchOffer(v);
@@ -113,14 +110,7 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
                       ),
                     ),
                     SizedBox(height: 2.h),
-                    if (val2.loading)
-                      Column(
-                        children: [
-                          SizedBox(height: 20.h),
-                          Center(child: CircularProgressIndicator(color: CustomColors.greenColor)),
-                        ],
-                      )
-                    else if ((val2.offers ?? []).isEmpty)
+                    if ((val2.offers ?? []).isEmpty)
                       Expanded(
                         child: SingleChildScrollView(
                           physics: const AlwaysScrollableScrollPhysics(),
@@ -134,15 +124,6 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
                       )
                     else
                       (search.isNotEmpty ? offerList(val2.searchOffers ?? []) : offerList(val2.offers ?? [])),
-                    // Expanded(
-                    //     child: ListView.builder(
-                    //         // itemCount:s.length,
-                    //         padding: EdgeInsets.symmetric(
-                    //             horizontal: 3.w, vertical: 0.h),
-                    //         physics: AlwaysScrollableScrollPhysics(
-                    //             parent: const ClampingScrollPhysics()),
-                    //         shrinkWrap: true,
-                    //         itemBuilder: (_, index) => OfferTile()))
                   ],
                 ),
               );
@@ -167,25 +148,14 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
     );
   }
 
-  Future rejectDialog({required Function onTap}) {
-    return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: AlertDialog(
-            backgroundColor: Colors.transparent,
-            contentPadding: const EdgeInsets.all(0),
-            insetPadding: EdgeInsets.symmetric(horizontal: 4.w),
-            content: RejectDialog(
-              onYes: (v) {
-                onTap();
-              },
-            ),
-          ),
-        );
-      },
-    );
+  Future<void> onCreateOffer() async {
+    final userController = context.read<UserController>();
+    final subscriptionPlan = getSubscriptionTypeFromSubId(userController.user?.subId);
+    if (subscriptionPlan == null || subscriptionPlan.isBusinessSubBasic || subscriptionPlan.isUserSub) {
+      CustomToast().showToast(message: 'You need to subscribe to monthly or yearly plans to create an offer.');
+      return context.pushRoute<void>(SubscriptionRoute());
+    }
+
+    return context.pushRoute<void>(CreateOfferRoute());
   }
 }

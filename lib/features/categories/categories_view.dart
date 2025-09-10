@@ -133,7 +133,6 @@ class _CategoriesViewState extends State<CategoriesView> with AutomaticKeepAlive
                           crossAxisSpacing: 3.w,
                           mainAxisSpacing: 3.w,
                         ),
-                        // gridDelegate: _monthPickerGridDelegate,
                         itemCount: val.categories?.length,
                         shrinkWrap: true,
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -181,69 +180,6 @@ class _CategoriesViewState extends State<CategoriesView> with AutomaticKeepAlive
                         },
                       ),
                     ),
-                  // Expanded(
-                  //   child: GridView.builder(
-                  //       physics: BouncingScrollPhysics(),
-                  //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  //         crossAxisCount: 2,
-                  //         childAspectRatio: 1.0,
-                  //         crossAxisSpacing: 3.w,
-                  //         mainAxisSpacing: 3.w,
-                  //       ),
-                  //       // gridDelegate: _monthPickerGridDelegate,
-                  //       itemCount: categories.length,
-                  //       shrinkWrap: true,
-                  //       padding: const EdgeInsets.symmetric(
-                  //           horizontal: 16, vertical: 20),
-                  //       itemBuilder: (BuildContext ctx, index) {
-                  //         return Stack(
-                  //           children: [
-                  //             Container(
-                  //               width: 100.w,
-                  //               height: 20.h,
-                  //               alignment: Alignment.center,
-                  //               decoration: BoxDecoration(
-                  //                   borderRadius: BorderRadius.circular(10),
-                  //                   image: DecorationImage(
-                  //                       image: AssetImage(
-                  //                         categories[index].image!,
-                  //                       ),
-                  //                       fit: BoxFit.cover)),
-                  //             ),
-                  //             GestureDetector(
-                  //               onTap: () {
-                  //                 AppNavigation.navigateTo(
-                  //                     AppRouteName.SEARCH_RESULT_VIEW_ROUTE);
-                  //               },
-                  //               child: Container(
-                  //                 width: 100.w,
-                  //                 height: 20.h,
-                  //                 decoration: BoxDecoration(
-                  //                   borderRadius: BorderRadius.circular(10),
-                  //                   boxShadow: [
-                  //                     BoxShadow(
-                  //                       color: Color(0xFF183400).withValues(alpha: .8),
-                  //                       spreadRadius: 0,
-                  //                       blurRadius: 0,
-                  //                       offset: Offset(
-                  //                           0, 0), // changes position of shadow
-                  //                     ),
-                  //                   ],
-                  //                 ),
-                  //                 alignment: Alignment.center,
-                  //                 child: MyText(
-                  //                   title: categories[index].name!,
-                  //                   clr: Colors.white,
-                  //                   fontWeight: FontWeight.w600,
-                  //                   size: 16,
-                  //                   center: true,
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         );
-                  //       }),
-                  // ),
                 ],
               );
             },

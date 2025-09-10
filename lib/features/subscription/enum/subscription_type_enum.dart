@@ -13,6 +13,14 @@ enum SubscriptionTypeEnum {
 }
 
 extension SubscriptionTypeEnumExtension on SubscriptionTypeEnum {
+  bool get isUserSub => this == SubscriptionTypeEnum.user_sub;
+
+  bool get isBusinessSubMonthly => this == SubscriptionTypeEnum.bus_sub_monthly;
+
+  bool get isBusinessSubYearly => this == SubscriptionTypeEnum.bus_sub_annually;
+
+  bool get isBusinessSubBasic => this == SubscriptionTypeEnum.bus_basic;
+
   String getPrice(String price) => switch (this) {
     SubscriptionTypeEnum.user_sub || SubscriptionTypeEnum.bus_sub_annually => '$price Annually',
     SubscriptionTypeEnum.bus_sub_monthly => '$price Monthy',

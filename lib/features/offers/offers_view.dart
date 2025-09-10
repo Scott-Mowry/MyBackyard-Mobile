@@ -96,12 +96,7 @@ class _OffersViewState extends State<OffersView> with AutomaticKeepAliveClientMi
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          CustomAppBar(
-                            screenTitle: 'Saved',
-                            leading: MenuIcon(),
-                            trailing: NotificationIcon(),
-                            bottom: 2.h,
-                          ),
+                          CustomAppBar(screenTitle: 'Saved', leading: MenuIcon(), bottom: 2.h),
                           SizedBox(height: 2.h),
                         ],
                       ),

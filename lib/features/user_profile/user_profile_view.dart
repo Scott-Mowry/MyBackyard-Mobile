@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/features/offers/offers_view.dart';
@@ -110,8 +111,8 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
       child: BaseView(
         bgImage: '',
         child: CustomPadding(
-          topPadding: widget.isMe ? 2.h : 0,
-          horizontalPadding: widget.isMe ? 20.sp : 10.sp,
+          topPadding: 0,
+          horizontalPadding: CustomSpacer.horizontal.xs.horizontal,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

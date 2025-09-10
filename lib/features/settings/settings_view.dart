@@ -11,7 +11,6 @@ import 'package:backyard/core/design_system/widgets/custom_web_view.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
-import 'package:backyard/legacy/Component/custom_image.dart';
 import 'package:backyard/legacy/Component/custom_switch.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
@@ -104,48 +103,15 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
       ),
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
-        padding: CustomSpacer.horizontal.xs + CustomSpacer.top.md,
+        padding: CustomSpacer.horizontal.xs + CustomSpacer.top.xl,
         child: Column(
           children: [
             Consumer<UserController>(
               builder: (context, userController, _) {
                 final userProfile = userController.user;
-                if (userProfile == null) return SizedBox.shrink();
-
                 return Column(
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: CustomColors.primaryGreenColor,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: CustomColors.whiteColor, width: 1),
-                      ),
-                      padding: CustomSpacer.all.xxs,
-                      height: Utils.isTablet ? 12.h : 16.h,
-                      width: Utils.isTablet ? 12.h : 16.h,
-                      alignment: Alignment.center,
-                      child: CustomImage(
-                        height: Utils.isTablet ? 11.h : 15.h,
-                        width: Utils.isTablet ? 11.h : 15.h,
-                        isProfile: true,
-                        photoView: false,
-                        url: userProfile.profileImage,
-                        radius: 100,
-                      ),
-                    ),
-                    SizedBox(height: 2.h),
-                    Text(
-                      userProfile.name ?? 'Unknown name',
-                      style: CustomTextStyle.labelLarge.copyWith(color: CustomColors.black),
-                    ),
-                    Padding(
-                      padding: CustomSpacer.bottom.md,
-                      child: Text(
-                        userProfile.email ?? 'Unknown email',
-                        style: CustomTextStyle.labelSmall.copyWith(color: CustomColors.black),
-                      ),
-                    ),
-                    if (userProfile.role == UserRoleEnum.Business)
+                    if (userProfile?.role == UserRoleEnum.Business)
                       Padding(
                         padding: CustomSpacer.horizontal.xxs,
                         child: Container(
@@ -257,7 +223,6 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
 
   late List<MenuModel> optionsList = [
     MenuModel(name: 'Push Notification', onTap: () {}),
-    MenuModel(name: 'Edit Profile', onTap: () => context.pushRoute<void>(ProfileSetupRoute(editProfile: true))),
     MenuModel(name: 'Change Password', onTap: () => context.pushRoute<void>(ChangePasswordRoute(fromSettings: true))),
     MenuModel(name: 'Subscriptions', onTap: () => context.pushRoute(SubscriptionRoute())),
     MenuModel(name: 'Privacy Policy', onTap: () => showWebViewBottomSheet(url: privacyPolicyUrl, context: context)),

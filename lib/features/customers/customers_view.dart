@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
@@ -13,7 +11,6 @@ import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
-import 'package:backyard/legacy/View/Widget/Dialog/reject_dialog.dart';
 import 'package:backyard/legacy/View/Widget/search_tile.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
@@ -90,12 +87,7 @@ class _CustomersState extends State<Customers> with AutomaticKeepAliveClientMixi
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          CustomAppBar(
-                            screenTitle: 'Customers',
-                            leading: MenuIcon(),
-                            trailing: NotificationIcon(),
-                            bottom: 2.h,
-                          ),
+                          CustomAppBar(screenTitle: 'Customers', leading: MenuIcon(), bottom: 3.h),
                           SearchTile(
                             disabled: val.loading,
                             showFilter: false,
@@ -112,20 +104,6 @@ class _CustomersState extends State<Customers> with AutomaticKeepAliveClientMixi
                       ),
                     ),
                     SizedBox(height: 2.h),
-                    // Expanded(
-                    //     child: ListView.builder(
-                    //         itemCount: 0,
-                    //         //s.length,
-                    //         padding: EdgeInsets.symmetric(
-                    //             horizontal: 3.w, vertical: 0.h),
-                    //         physics: AlwaysScrollableScrollPhysics(
-                    //             parent: const ClampingScrollPhysics()),
-                    //         shrinkWrap: true,
-                    //         itemBuilder: (_, i) => CustomerTile(
-                    //               position: (i + 1) >= 1 && (i + 1) <= 3
-                    //                   ? (i + 1)
-                    //                   : null,
-                    //             ))),
                     val.loading
                         ? Center(child: CircularProgressIndicator(color: CustomColors.primaryGreenColor))
                         : Expanded(
@@ -160,28 +138,6 @@ class _CustomersState extends State<Customers> with AutomaticKeepAliveClientMixi
           ),
         ),
       ),
-    );
-  }
-
-  Future rejectDialog({required Function onTap}) {
-    return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: AlertDialog(
-            backgroundColor: Colors.transparent,
-            contentPadding: const EdgeInsets.all(0),
-            insetPadding: EdgeInsets.symmetric(horizontal: 4.w),
-            content: RejectDialog(
-              onYes: (v) {
-                onTap();
-              },
-            ),
-          ),
-        );
-      },
     );
   }
 }

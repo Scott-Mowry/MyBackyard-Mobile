@@ -323,6 +323,7 @@ class BusAPIS {
 
   static Future<void> getSavedOrOwnedOffers({bool? isSwitch}) async {
     try {
+      await EasyLoading.show();
       final controller = getIt<HomeController>();
       controller.setOffers([]);
       var endpoint = API.GET_OFFERS_ENDPOINT;
@@ -341,6 +342,8 @@ class BusAPIS {
       }
     } catch (e) {
       log('GET OFFERS ENDPOINT: ${e.toString()}');
+    } finally {
+      await EasyLoading.dismiss();
     }
   }
 

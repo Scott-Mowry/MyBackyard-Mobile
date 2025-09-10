@@ -21,5 +21,6 @@ final uiErrorAlertsMap = {
   kDeleteAccountErrorKey: 'We couldn\'t delete your account. Please try again later.',
 
   // In-app purchase errors
-  kBuySubscriptionErrorKey: 'We couldn\'t complete your purchase. Please try again or contact support if the issue persists.',
+  kBuySubscriptionErrorKey:
+      'We couldn\'t complete your purchase. Please try again or contact support if the issue persists.',
 };

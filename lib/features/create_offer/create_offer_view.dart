@@ -12,7 +12,6 @@ import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_refresh.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_text_form_field.dart';
-import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Model/category_model.dart';
@@ -34,14 +33,15 @@ import 'package:sizer/sizer.dart';
 class CreateOfferView extends StatefulWidget {
   final bool edit;
   final Offer? model;
+  final bool wantKeepAlive;
 
-  const CreateOfferView({super.key, this.edit = false, this.model});
+  const CreateOfferView({super.key, this.edit = false, this.model, this.wantKeepAlive = false});
 
   @override
   State<CreateOfferView> createState() => _CreateOfferViewState();
 }
 
-class _CreateOfferViewState extends State<CreateOfferView> {
+class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAliveClientMixin {
   File permit = File('');
   final form = GlobalKey<FormState>();
   bool error = false;
@@ -51,6 +51,9 @@ class _CreateOfferViewState extends State<CreateOfferView> {
   final shortDetailController = TextEditingController();
   final descriptionController = TextEditingController();
   final actualPriceController = TextEditingController();
+
+  @override
+  bool get wantKeepAlive => widget.wantKeepAlive;
 
   @override
   void initState() {
@@ -97,6 +100,7 @@ class _CreateOfferViewState extends State<CreateOfferView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return PopScope(
       canPop: true,
       child: BaseView(
@@ -117,9 +121,7 @@ class _CreateOfferViewState extends State<CreateOfferView> {
                       children: [
                         CustomAppBar(
                           screenTitle: widget.edit ? 'Edit Offer' : 'Create Offer',
-                          // leading: widget.edit ? BackButton() : MenuIcon(),
-                          leading: BackButton(),
-                          trailing: widget.edit ? null : NotificationIcon(),
+                          leading: MenuIcon(),
                           bottom: 2.h,
                         ),
                         // Wrap(children: List.generate(, (index) => )),
@@ -582,33 +584,6 @@ class _CreateOfferViewState extends State<CreateOfferView> {
               // button2: (v) {
               //   downloadDialog();
               // },
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Future downloadDialog() {
-    return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: AlertDialog(
-            backgroundColor: Colors.transparent,
-            contentPadding: const EdgeInsets.all(0),
-            insetPadding: EdgeInsets.symmetric(horizontal: 4.w),
-            content: CustomDialog(
-              title: 'Download',
-              image: ImagePath.download,
-              description: 'Are you sure you want to download qr code?',
-              b1: 'Continue',
-              onYes: (v) {
-                context.maybePop();
-                CustomToast().showToast(message: 'QR Code downloaded successfully');
-              },
             ),
           ),
         );
