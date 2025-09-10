@@ -36,10 +36,10 @@ class BusAPIS {
           users = List<UserProfileModel>.from(
             (model.data?['businesses'] ?? {}).map((x) => UserProfileModel.fromJson(x)),
           );
+
           controller.setBusList(users);
-          for (var user in users) {
-            controller.addMarker(user);
-          }
+          await Future.wait(users.map(controller.addMarker));
+          await controller.zoomOutFitBusinesses();
         } else {
           CustomToast().showToast(message: model.message ?? '');
         }

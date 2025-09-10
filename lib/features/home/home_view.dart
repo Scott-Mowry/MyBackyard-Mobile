@@ -126,7 +126,11 @@ class _HomeViewState extends State<HomeView> {
                 ],
               ),
             ),
-            body: PageView(controller: _pageController, children: isBusiness ? businessPages : userPages),
+            body: PageView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: _pageController,
+              children: isBusiness ? businessPages : userPages,
+            ),
             extendBody: false,
           );
         },

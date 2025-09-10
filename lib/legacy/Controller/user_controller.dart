@@ -141,7 +141,7 @@ class UserController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setController(GoogleMapController? controller) {
+  void setMapController(GoogleMapController? controller) {
     mapController = controller;
     notifyListeners();
   }
@@ -162,34 +162,61 @@ class UserController extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> zoomOutFitBusinesses() async {
+    if (businessesList.isEmpty || mapController == null) return;
+    final coordinates =
+        businessesList
+            .where((business) => business.latitude != null && business.longitude != null)
+            .map((business) => LatLng(business.latitude!, business.longitude!))
+            .toList();
+
+    if (coordinates.isEmpty) return;
+    var minLat = coordinates.first.latitude;
+    var maxLat = coordinates.first.latitude;
+    var minLng = coordinates.first.longitude;
+    var maxLng = coordinates.first.longitude;
+
+    for (final coord in coordinates) {
+      minLat = coord.latitude < minLat ? coord.latitude : minLat;
+      maxLat = coord.latitude > maxLat ? coord.latitude : maxLat;
+      minLng = coord.longitude < minLng ? coord.longitude : minLng;
+      maxLng = coord.longitude > maxLng ? coord.longitude : maxLng;
+    }
+
+    final bounds = LatLngBounds(southwest: LatLng(minLat, minLng), northeast: LatLng(maxLat, maxLng));
+    await mapController!.animateCamera(CameraUpdate.newLatLngBounds(bounds, 25.0));
+  }
+
   Future<void> addMarker(UserProfileModel user) async {
-    final markerId = MarkerId(user.id?.toString() ?? '');
-    final marker = Marker(
-      markerId: markerId,
-      infoWindow: InfoWindow(
-        title: user.name,
-        snippet:
-            (user.subId != 4) ? user.description : '${user.description}\n\nPhone Number:${user.phone}\n${user.address}',
-        anchor: const Offset(0, 1),
-        onTap:
-            () =>
-                (user.subId != 4)
-                    ? MyBackyardApp.appRouter.push(
-                      UserProfileRoute(isBusinessProfile: true, isMe: false, isUser: false, user: user),
-                    )
-                    : {},
-      ),
-      icon: await Utils.createBitmapDescriptorWithText(
-        (user.name ?? '').toUpperCase().characters.firstOrNull ?? '',
-        smaller: user.subId == 4,
-      ),
-      // Utils.getNetworkImageMarker2(
-      //     API.public_url + (user.profileImage ?? ""))
-      position: LatLng(user.latitude ?? 0.0, user.longitude ?? 0.0),
-    );
-    markers.add(marker);
-    // markers.refresh();
-    notifyListeners();
+    try {
+      final markerId = MarkerId(user.id?.toString() ?? '');
+      final marker = Marker(
+        markerId: markerId,
+        infoWindow: InfoWindow(
+          title: user.name,
+          snippet:
+              (user.subId != 4)
+                  ? user.description
+                  : '${user.description}\n\nPhone Number:${user.phone}\n${user.address}',
+          anchor: const Offset(0, 1),
+          onTap:
+              () =>
+                  (user.subId != 4)
+                      ? MyBackyardApp.appRouter.push(
+                        UserProfileRoute(isBusinessProfile: true, isMe: false, isUser: false, user: user),
+                      )
+                      : {},
+        ),
+        icon: await Utils.createBitmapDescriptorWithText(
+          (user.name ?? '').toUpperCase().characters.firstOrNull ?? '',
+          smaller: user.subId == 4,
+        ),
+        position: LatLng(user.latitude ?? 0.0, user.longitude ?? 0.0),
+      );
+
+      markers.add(marker);
+      notifyListeners();
+    } catch (_) {}
   }
 
   void clearMarkers() {
