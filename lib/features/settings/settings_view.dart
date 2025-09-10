@@ -7,10 +7,10 @@ import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/design_system/theme/custom_text_style.dart';
+import 'package:backyard/core/design_system/widgets/app_bar_back_button.dart';
 import 'package:backyard/core/design_system/widgets/custom_web_view.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
-import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_switch.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
@@ -58,7 +58,7 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
     return Scaffold(
       backgroundColor: CustomColors.white,
       appBar: AppBar(
-        leading: CustomBackButton(),
+        leading: AppBarBackButton(),
         title: Text('Settings', style: CustomTextStyle.labelLarge.copyWith(color: CustomColors.black)),
         backgroundColor: CustomColors.white,
         elevation: 0,

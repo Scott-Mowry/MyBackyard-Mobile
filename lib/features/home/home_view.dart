@@ -23,7 +23,9 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  final _pageController = PageController();
   final key = GlobalKey<ScaffoldState>();
+
   int inActiveColor = 0XFFD2D2D2;
   int activeColor = 0XFF57BA00;
 
@@ -32,8 +34,9 @@ class _HomeViewState extends State<HomeView> {
           ? false
           : context.read<UserController>().user?.role == UserRoleEnum.Business;
 
-  void setIndex(int val) {
-    context.read<HomeController>().setIndex(val);
+  void setIndex(int index) {
+    _pageController.jumpToPage(index);
+    context.read<HomeController>().setIndex(index);
     setState(() {});
   }
 
@@ -123,7 +126,7 @@ class _HomeViewState extends State<HomeView> {
                 ],
               ),
             ),
-            body: IndexedStack(index: val.currentIndex, children: isBusiness ? businessPages : userPages),
+            body: PageView(controller: _pageController, children: isBusiness ? businessPages : userPages),
             extendBody: false,
           );
         },

@@ -11,7 +11,6 @@ import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
-import 'package:backyard/legacy/View/Widget/search_tile.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,19 +36,9 @@ class _CustomersState extends State<Customers> with AutomaticKeepAliveClientMixi
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      setLoading(true);
-      await getCustomers();
-      setLoading(false);
-    });
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => BusAPIS.getCustomers());
   }
-
-  void setLoading(bool val) {
-    homeController.setLoading(val);
-  }
-
-  Future<void> getCustomers() => BusAPIS.getCustomers();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +50,7 @@ class _CustomersState extends State<Customers> with AutomaticKeepAliveClientMixi
         bottomSafeArea: false,
         topSafeArea: false,
         child: CustomRefresh(
-          onRefresh: getCustomers,
+          onRefresh: BusAPIS.getCustomers,
           child: Consumer<HomeController>(
             builder: (context, val, _) {
               return CustomPadding(
@@ -88,49 +77,36 @@ class _CustomersState extends State<Customers> with AutomaticKeepAliveClientMixi
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           CustomAppBar(screenTitle: 'Customers', leading: MenuIcon(), bottom: 3.h),
-                          SearchTile(
-                            disabled: val.loading,
-                            showFilter: false,
-                            // search: location,
-                            onTap: () async {
-                              // await getAddress(context);
-                            },
-                            onChange: (v) async {
-                              // await getAddress(context);
-                            },
-                          ),
                           SizedBox(height: 2.h),
                         ],
                       ),
                     ),
                     SizedBox(height: 2.h),
-                    val.loading
-                        ? Center(child: CircularProgressIndicator(color: CustomColors.primaryGreenColor))
-                        : Expanded(
-                          child: SingleChildScrollView(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            child:
-                                (val.customersList.isEmpty)
-                                    ? Column(
-                                      children: [
-                                        SizedBox(height: 20.h),
-                                        Center(child: CustomEmptyData(title: 'No Customers Found', hasLoader: false)),
-                                      ],
-                                    )
-                                    : ListView(
-                                      padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.h),
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      children: [
-                                        for (int i = 0; i < val.customersList.length; i++)
-                                          CustomerTile(
-                                            model: val.customersList[i],
-                                            position: (i + 1) >= 1 && (i + 1) <= 3 ? (i + 1) : null,
-                                          ),
-                                      ],
-                                    ),
-                          ),
-                        ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        child:
+                            (val.customersList.isEmpty)
+                                ? Column(
+                                  children: [
+                                    SizedBox(height: 20.h),
+                                    Center(child: CustomEmptyData(title: 'No Customers Found', hasLoader: false)),
+                                  ],
+                                )
+                                : ListView(
+                                  padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.h),
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  children: [
+                                    for (int i = 0; i < val.customersList.length; i++)
+                                      CustomerTile(
+                                        model: val.customersList[i],
+                                        position: (i + 1) >= 1 && (i + 1) <= 3 ? (i + 1) : null,
+                                      ),
+                                  ],
+                                ),
+                      ),
+                    ),
                   ],
                 ),
               );

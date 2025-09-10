@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/helper/snackbar_helper.dart';
 import 'package:backyard/features/offers/offers_view.dart';
 import 'package:backyard/features/subscription/enum/subscription_type_enum.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_refresh.dart';
-import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
@@ -152,7 +152,7 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
     final userController = context.read<UserController>();
     final subscriptionPlan = getSubscriptionTypeFromSubId(userController.user?.subId);
     if (subscriptionPlan == null || subscriptionPlan.isBusinessSubBasic || subscriptionPlan.isUserSub) {
-      CustomToast().showToast(message: 'You need to subscribe to monthly or yearly plans to create an offer.');
+      showSnackbar(context: context, content: 'You need to subscribe to monthly or yearly plans to create an offer.');
       return context.pushRoute<void>(SubscriptionRoute());
     }
 

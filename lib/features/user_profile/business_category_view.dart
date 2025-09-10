@@ -39,21 +39,8 @@ class _BusinessCategoryViewState extends State<BusinessCategoryView> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      setLoading(true);
-      await getCategories();
-      setLoading(false);
-    });
-    // TODO: implement initState
     super.initState();
-  }
-
-  Future<void> getCategories() async {
-    await GeneralAPIS.getCategories();
-  }
-
-  void setLoading(bool val) {
-    context.read<HomeController>().setLoading(val);
+    WidgetsBinding.instance.addPostFrameCallback((_) => GeneralAPIS.getCategories());
   }
 
   @override
@@ -64,119 +51,107 @@ class _BusinessCategoryViewState extends State<BusinessCategoryView> {
       showAppBar: true,
       showBackButton: true,
       child: CustomRefresh(
-        onRefresh: () async {
-          await getCategories();
-        },
+        onRefresh: GeneralAPIS.getCategories,
         child: CustomPadding(
           horizontalPadding: 4.w,
           topPadding: 0,
           child: Consumer<HomeController>(
             builder: (context, val, _) {
-              return val.loading
-                  ? Center(child: CircularProgressIndicator(color: CustomColors.primaryGreenColor))
-                  : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: GridView.builder(
-                          physics: BouncingScrollPhysics(),
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 1.0,
-                            crossAxisSpacing: 3.w,
-                            mainAxisSpacing: 3.w,
-                          ),
-                          // gridDelegate: _monthPickerGridDelegate,
-                          itemCount: val.categories?.length,
-                          shrinkWrap: true,
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          itemBuilder: (ctx, index) {
-                            return Stack(
-                              children: [
-                                CustomImage(
-                                  width: 100.w,
-                                  height: 20.h,
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: GridView.builder(
+                      physics: BouncingScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 1.0,
+                        crossAxisSpacing: 3.w,
+                        mainAxisSpacing: 3.w,
+                      ),
+                      itemCount: val.categories?.length,
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      itemBuilder: (ctx, index) {
+                        return Stack(
+                          children: [
+                            CustomImage(
+                              width: 100.w,
+                              height: 20.h,
+                              borderRadius: BorderRadius.circular(10),
+                              url: val.categories?[index].categoryIcon,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                if (selected.contains(index)) {
+                                  selected.remove(index);
+                                  // i = 999;
+                                } else {
+                                  selected.add(index);
+                                }
+                                setState(() {});
+                              },
+                              child: Container(
+                                width: 100.w,
+                                height: 20.h,
+                                decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  url: val.categories?[index].categoryIcon,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    if (selected.contains(index)) {
-                                      selected.remove(index);
-                                      // i = 999;
-                                    } else {
-                                      selected.add(index);
-                                    }
-                                    setState(() {});
-                                  },
-                                  child: Container(
-                                    width: 100.w,
-                                    height: 20.h,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Color(0xFF183400).withValues(alpha: .8),
-                                          spreadRadius: 0,
-                                          blurRadius: 0,
-                                          offset: Offset(0, 0), // changes position of shadow
-                                        ),
-                                      ],
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Color(0xFF183400).withValues(alpha: .8),
+                                      spreadRadius: 0,
+                                      blurRadius: 0,
+                                      offset: Offset(0, 0), // changes position of shadow
                                     ),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Icon(
-                                              selected.contains(index)
-                                                  ? Icons.check_circle_rounded
-                                                  : Icons.circle_outlined,
-                                              color:
-                                                  i == index ? CustomColors.primaryGreenColor : CustomColors.whiteColor,
-                                              size: 25,
-                                            ),
-                                          ),
-                                        ),
-                                        MyText(
-                                          title: val.categories?[index].categoryName ?? '',
-                                          clr: Colors.white,
-                                          fontWeight: FontWeight.w600,
-                                          size: 16,
-                                          center: true,
-                                        ),
-                                        const Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Icon(
-                                              Icons.check_circle_rounded,
-                                              color: Colors.transparent,
-                                              size: 25,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                  ],
                                 ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
-                      SizedBox(height: 2.h),
-                      MyButton(
-                        title: 'Next',
-                        onTap: () {
-                          onSubmit(val);
-                        },
-                      ),
-                      SizedBox(height: 2.h),
-                    ],
-                  );
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(
+                                          selected.contains(index) ? Icons.check_circle_rounded : Icons.circle_outlined,
+                                          color: i == index ? CustomColors.primaryGreenColor : CustomColors.whiteColor,
+                                          size: 25,
+                                        ),
+                                      ),
+                                    ),
+                                    MyText(
+                                      title: val.categories?[index].categoryName ?? '',
+                                      clr: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      size: 16,
+                                      center: true,
+                                    ),
+                                    const Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Icon(Icons.check_circle_rounded, color: Colors.transparent, size: 25),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
+                  MyButton(
+                    title: 'Next',
+                    onTap: () {
+                      onSubmit(val);
+                    },
+                  ),
+                  SizedBox(height: 2.h),
+                ],
+              );
             },
           ),
         ),

@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
-import 'package:backyard/core/helper/snackbar_helper.dart';
 import 'package:backyard/legacy/Component/custom_icon_container.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
@@ -30,15 +29,6 @@ class MenuIcon extends StatelessWidget {
   }
 }
 
-class NotificationIcon extends StatelessWidget {
-  const NotificationIcon({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return IconContainer(image: ImagePath.notificationIcon, onTap: () => showCurrentlyDisabledSnackbar(context));
-  }
-}
-
 class EditIcon extends StatelessWidget {
   const EditIcon({super.key});
 
@@ -47,21 +37,6 @@ class EditIcon extends StatelessWidget {
     return IconContainer(
       image: ImagePath.editProfile,
       onTap: () => context.pushRoute(ProfileSetupRoute(editProfile: true)),
-    );
-  }
-}
-
-class CustomBackButton extends StatelessWidget {
-  final Color? color;
-
-  const CustomBackButton({super.key, this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: context.maybePop,
-      child: Icon(Icons.arrow_back, color: Colors.black),
-      // Image.asset(ImagePath.back,scale: 2,)
     );
   }
 }

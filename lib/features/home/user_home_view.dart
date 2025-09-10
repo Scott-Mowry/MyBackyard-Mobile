@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:auto_route/annotations.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
-import 'package:backyard/core/enum/enum.dart';
+import 'package:backyard/core/helper/target_platform_helper.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_bottomsheet_indicator.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -17,12 +16,12 @@ import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/category_model.dart';
-import 'package:backyard/legacy/Model/category_product_model.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Utils/app_size.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:geolocator/geolocator.dart';
@@ -42,20 +41,11 @@ class UserHomeView extends StatefulWidget {
 }
 
 class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClientMixin {
-  TextEditingController date = TextEditingController(),
-      time = TextEditingController(),
-      location = TextEditingController(),
-      duration = TextEditingController();
-  TimeOfDay t = TimeOfDay.now();
-  List<Category> categories = [
-    Category(id: 'Category 1', categoryName: 'Category 1'),
-    Category(id: 'Category 2', categoryName: 'Category 2'),
-    Category(id: 'Category 3', categoryName: 'Category 3'),
-  ];
+  final location = TextEditingController();
+
   CategoryModel? selected;
   int i = 99;
   bool filter = false;
-  bool onTap = true;
   Position? pos;
 
   @override
@@ -64,65 +54,30 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      setLoading(true);
-      await Future.wait([getCategories(), getBuses()]);
-      setLoading(false);
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) => Future.wait([GeneralAPIS.getCategories(), getBuses()]));
   }
 
   Future<void> getBuses() async {
     try {
       final controller = context.read<UserController>();
-      if (Platform.isAndroid) {
-        await Permission.location.request();
-      } else {
-        await Permission.locationAlways.request();
-      }
+      defaultTargetPlatform.isAndroid ? await Permission.location.request() : await Permission.locationAlways.request();
 
       pos = await Geolocator.getLastKnownPosition();
-      if (controller.user?.role == UserRoleEnum.Business) {
-        await BusAPIS.getBuses(pos?.latitude, pos?.longitude);
-        controller.addCircles(
-          Circle(
-            circleId: const CircleId('myLocation'),
-            radius: (controller.mile * 1609.344),
-            strokeWidth: 1,
-            zIndex: 0,
-            center: LatLng(pos?.latitude ?? 0, pos?.longitude ?? 0),
-            fillColor: CustomColors.primaryGreenColor.withValues(alpha: .15),
-            strokeColor: CustomColors.primaryGreenColor,
-          ),
-        );
-      } else {
-        await BusAPIS.getBuses(pos?.latitude, pos?.longitude);
-        controller.addCircles(
-          Circle(
-            circleId: const CircleId('myLocation'),
-            radius: (controller.mile * 1609.344),
-            strokeWidth: 1,
-            zIndex: 0,
-            center: LatLng(pos?.latitude ?? 0, pos?.longitude ?? 0),
-            fillColor: CustomColors.primaryGreenColor.withValues(alpha: .15),
-            strokeColor: CustomColors.primaryGreenColor,
-          ),
-        );
-      }
+      await BusAPIS.getBuses(pos?.latitude, pos?.longitude);
+      controller.addCircles(
+        Circle(
+          circleId: const CircleId('myLocation'),
+          radius: (controller.mile * 1609.344),
+          strokeWidth: 1,
+          zIndex: 0,
+          center: LatLng(pos?.latitude ?? 0, pos?.longitude ?? 0),
+          fillColor: CustomColors.primaryGreenColor.withValues(alpha: .15),
+          strokeColor: CustomColors.primaryGreenColor,
+        ),
+      );
     } catch (e) {
       log('GET BUSES FUNCTION ERROR: $e');
     }
-  }
-
-  void setLoading(bool val) => context.read<HomeController>().setLoading(val);
-
-  Future<void> getCategories() async {
-    await GeneralAPIS.getCategories();
-  }
-
-  @override
-  void dispose() {
-    context.read<UserController>().setController(null);
-    super.dispose();
   }
 
   @override

@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
-import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
 import 'package:backyard/legacy/Component/custom_image.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -30,12 +29,6 @@ class OffersView extends StatefulWidget {
 }
 
 class _OffersViewState extends State<OffersView> with AutomaticKeepAliveClientMixin {
-  TextEditingController s = TextEditingController();
-  bool searchOn = false;
-  List<String> trainerList = ['Assigned', 'In progress', 'Completed'],
-      traineeList = ['Pending', 'Assigned', 'In progress', 'Completed'];
-  String i = '';
-
   late final homeController = context.read<HomeController>();
   late final userController = context.read<UserController>();
 
@@ -44,20 +37,10 @@ class _OffersViewState extends State<OffersView> with AutomaticKeepAliveClientMi
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      setLoading(true);
-      await getOffers();
-      setLoading(false);
-    });
     super.initState();
-  }
-
-  void setLoading(bool val) {
-    homeController.setLoading(val);
-  }
-
-  Future<void> getOffers() async {
-    await BusAPIS.getSavedOrOwnedOffers(isSwitch: userController.isSwitch);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => BusAPIS.getSavedOrOwnedOffers(isSwitch: userController.isSwitch),
+    );
   }
 
   @override
@@ -101,14 +84,7 @@ class _OffersViewState extends State<OffersView> with AutomaticKeepAliveClientMi
                         ],
                       ),
                     ),
-                    if (val.loading)
-                      Column(
-                        children: [
-                          SizedBox(height: 20.h),
-                          Center(child: CircularProgressIndicator(color: CustomColors.greenColor)),
-                        ],
-                      )
-                    else if ((val.offers ?? []).isEmpty)
+                    if (val.offers == null || val.offers!.isEmpty)
                       Expanded(
                         child: SingleChildScrollView(
                           physics: const AlwaysScrollableScrollPhysics(),
@@ -143,25 +119,6 @@ class _OffersViewState extends State<OffersView> with AutomaticKeepAliveClientMi
           for (int index = 0; index < val.length; index++) OfferTile(model: val[index], fromSaved: true),
           SizedBox(height: 5.h),
         ],
-      ),
-    );
-  }
-
-  Padding sessionButton({required String title}) {
-    return Padding(
-      padding: EdgeInsets.only(right: 2.w),
-      child: MyButton(
-        title: title,
-        onTap: () {
-          i = title;
-          setState(() {});
-        },
-        gradient: false,
-        bgColor: i == title ? CustomColors.secondaryColor : CustomColors.whiteColor,
-        borderColor: CustomColors.secondaryColor,
-        textColor: i == title ? null : CustomColors.secondaryColor,
-        height: 5.2.h,
-        width: 30.w,
       ),
     );
   }
@@ -304,25 +261,6 @@ class OfferTile extends StatelessWidget {
                               ),
                             ],
                           ),
-                          // Expanded(
-                          //   child: Row(
-                          //     children: [
-                          //       Image.asset(
-                          //         ImagePath.man,
-                          //         color: MyColors().primaryColor,
-                          //         scale: 1,
-                          //       ),
-                          //       SizedBox(
-                          //         width: 2.w,
-                          //       ),
-                          //       Expanded(
-                          //           child: MyText(
-                          //         title: '150 meters',
-                          //         size: 11,
-                          //       ))
-                          //     ],
-                          //   ),
-                          // ),
                         ],
                       ),
                       SizedBox(height: .5.h),

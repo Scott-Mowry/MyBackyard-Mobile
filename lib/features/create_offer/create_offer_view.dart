@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/design_system/widgets/app_bar_back_button.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_dropdown.dart';
@@ -15,7 +16,6 @@ import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Model/category_model.dart';
-import 'package:backyard/legacy/Model/category_product_model.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
@@ -45,22 +45,23 @@ class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAli
   File permit = File('');
   final form = GlobalKey<FormState>();
   bool error = false;
-  final titleController = TextEditingController();
-  final discountController = TextEditingController();
-  final rewardPointsController = TextEditingController();
-  final shortDetailController = TextEditingController();
-  final descriptionController = TextEditingController();
-  final actualPriceController = TextEditingController();
+
+  late final titleController = TextEditingController(text: widget.model?.title ?? '');
+  late final discountController = TextEditingController(text: widget.model?.discountPrice?.toString() ?? '');
+  late final rewardPointsController = TextEditingController(text: widget.model?.rewardPoints?.toString() ?? '');
+  late final shortDetailController = TextEditingController(text: widget.model?.shortDetail ?? '');
+  late final descriptionController = TextEditingController(text: widget.model?.description ?? '');
+  late final actualPriceController = TextEditingController(text: widget.model?.actualPrice?.toString() ?? '');
 
   @override
   bool get wantKeepAlive => widget.wantKeepAlive;
 
   @override
   void initState() {
+    super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      setLoading(true);
-      await getCategories();
-      setLoading(false);
+      await GeneralAPIS.getCategories();
       if (widget.edit) {
         selected =
             context
@@ -71,31 +72,8 @@ class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAli
         setState(() {});
       }
     });
-    if (widget.edit) {
-      titleController.text = widget.model?.title ?? '';
-      discountController.text = widget.model?.discountPrice?.toString() ?? '';
-      rewardPointsController.text = widget.model?.rewardPoints?.toString() ?? '';
-      shortDetailController.text = widget.model?.shortDetail ?? '';
-      descriptionController.text = widget.model?.description ?? '';
-      actualPriceController.text = widget.model?.actualPrice?.toString() ?? '';
-    }
-    // TODO: implement initState
-    super.initState();
-
-    // getData();
   }
 
-  Future<void> getCategories() async {
-    await GeneralAPIS.getCategories();
-  }
-
-  void setLoading(bool val) => context.read<HomeController>().setLoading(val);
-
-  List<Category> categories = [
-    Category(id: 'Category 1', categoryName: 'Category 1'),
-    Category(id: 'Category 2', categoryName: 'Category 2'),
-    Category(id: 'Category 3', categoryName: 'Category 3'),
-  ];
   CategoryModel? selected;
 
   @override
@@ -107,401 +85,252 @@ class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAli
         bgImage: '',
         bottomSafeArea: false,
         child: CustomRefresh(
-          onRefresh: () async {
-            await getCategories();
-          },
+          onRefresh: GeneralAPIS.getCategories,
           child: CustomPadding(
             topPadding: 0.h,
             horizontalPadding: 3.w,
             child: Consumer<HomeController>(
               builder: (context, val, _) {
-                return val.loading
-                    ? Center(child: CircularProgressIndicator(color: CustomColors.primaryGreenColor))
-                    : Column(
-                      children: [
-                        CustomAppBar(
-                          screenTitle: widget.edit ? 'Edit Offer' : 'Create Offer',
-                          leading: MenuIcon(),
-                          bottom: 2.h,
-                        ),
-                        // Wrap(children: List.generate(, (index) => )),
-                        SizedBox(height: 2.h),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Form(
-                              key: form,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  permit.path != ''
-                                      ? GestureDetector(
+                return Column(
+                  children: [
+                    CustomAppBar(
+                      screenTitle: widget.edit ? 'Edit Offer' : 'Create Offer',
+                      leading: AppBarBackButton(),
+                      bottom: 2.h,
+                    ),
+                    SizedBox(height: 2.h),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Form(
+                          key: form,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              permit.path != ''
+                                  ? GestureDetector(
+                                    onTap: () {
+                                      FocusManager.instance.primaryFocus?.unfocus();
+                                      ImageGalleryClass().imageGalleryBottomSheet(
+                                        context: context,
+                                        onMediaChanged: (val) {
+                                          if (val != null) {
+                                            permit = File(val);
+                                          }
+                                        },
+                                      );
+                                    },
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: DottedBorder(
+                                        options: RectDottedBorderOptions(
+                                          color: CustomColors.secondaryColor,
+                                          padding: EdgeInsets.all(6),
+                                          strokeWidth: 2,
+                                          dashPattern: [6, 6, 6, 6],
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                                          child: Container(
+                                            width: 100.w,
+                                            height: 12.h,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image:
+                                                    (permit.path == ''
+                                                            ? const AssetImage(ImagePath.noUserImage)
+                                                            : FileImage(permit))
+                                                        as ImageProvider,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                  : widget.model?.image != null
+                                  ? Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: CustomImage(width: 100.w, height: 12.h, url: widget.model?.image),
+                                      ),
+                                      GestureDetector(
                                         onTap: () {
                                           FocusManager.instance.primaryFocus?.unfocus();
-
                                           ImageGalleryClass().imageGalleryBottomSheet(
                                             context: context,
                                             onMediaChanged: (val) {
                                               if (val != null) {
                                                 permit = File(val);
+                                                setState(() {});
                                               }
                                             },
                                           );
                                         },
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(12),
-                                          child: DottedBorder(
-                                            // borderType: BorderType.RRect,
-                                            // color:
-                                            //     MyColors().secondaryColor,
-                                            // dashPattern: [6, 6, 6, 6],
-                                            // strokeWidth: 2,
-                                            // radius: Radius.circular(12),
-                                            // padding: EdgeInsets.all(6),
-                                            options: RectDottedBorderOptions(
-                                              color: CustomColors.secondaryColor,
-                                              padding: EdgeInsets.all(6),
-                                              strokeWidth: 2,
-                                              dashPattern: [6, 6, 6, 6],
-                                            ),
-                                            child: ClipRRect(
-                                              borderRadius: BorderRadius.all(Radius.circular(12)),
-                                              child: Container(
-                                                width: 100.w,
-                                                height: 12.h,
-                                                decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                    fit: BoxFit.cover,
-                                                    image:
-                                                        (permit.path == ''
-                                                                ?
-                                                                // AuthController.i.user.value.permit!=''?
-                                                                // NetworkImage(APIEndpoints.baseImageURL+AuthController.i.user.value.permit) :
-                                                                const AssetImage(ImagePath.noUserImage)
-                                                                : FileImage(permit))
-                                                            as ImageProvider,
-                                                  ),
-                                                  //   color: MyColors().secondaryColor.withValues(alpha: .26),
-                                                  // border: Border.all(
-                                                  //   color: MyColors().secondaryColor
-                                                  // )
-                                                ),
-                                              ),
-                                            ),
+                                        child: Opacity(
+                                          opacity: .7,
+                                          child: CircleAvatar(
+                                            backgroundColor: CustomColors.primaryGreenColor.withValues(alpha: 0.5),
+                                            child: const Icon(Icons.edit_outlined, color: Colors.white),
                                           ),
                                         ),
-                                      )
-                                      // DottedBorder(
-                                      //   options: RectDottedBorderOptions(
-                                      //     color: MyColors().secondaryColor,
-                                      //     padding: EdgeInsets.all(6),
-                                      //     strokeWidth: 2,
-                                      //     dashPattern: [6, 6, 6, 6],
-                                      //   ),
-                                      //   child: ClipRRect(
-                                      //     borderRadius: BorderRadius.all(
-                                      //       Radius.circular(12),
-                                      //     ),
-                                      //     child: Container(
-                                      //       width: 100.w,
-                                      //       height: 12.h,
-                                      //       decoration: BoxDecoration(
-                                      //         image: DecorationImage(
-                                      //           fit: BoxFit.cover,
-                                      //           image:
-                                      //               (permit.path == ""
-                                      //                       ?
-                                      //                       // AuthController.i.user.value.permit!=''?
-                                      //                       // NetworkImage(APIEndpoints.baseImageURL+AuthController.i.user.value.permit) :
-                                      //                       const AssetImage(
-                                      //                         ImagePath
-                                      //                             .noUserImage,
-                                      //                       )
-                                      //                       : FileImage(
-                                      //                         permit,
-                                      //                       ))
-                                      //                   as ImageProvider,
-                                      //         ),
-                                      //         //   color: MyColors().secondaryColor.withValues(alpha: .26),
-                                      //         // border: Border.all(
-                                      //         //   color: MyColors().secondaryColor
-                                      //         // )
-                                      //       ),
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                      // ),
-                                      // )
-                                      :
-                                      // AuthController.i.user.value.permit!=''?
-                                      // GestureDetector(
-                                      //   onTap: () {
-                                      //     FocusManager.instance.primaryFocus?.unfocus();
-                                      //     Get.bottomSheet(
-                                      //       UploadMedia(
-                                      //         file: (val) {
-                                      //           permit.value = val!;
-                                      //         },
-                                      //         singlePick: true,
-                                      //       ),
-                                      //       isScrollControlled: true,
-                                      //       backgroundColor: Theme
-                                      //           .of(context)
-                                      //           .selectedRowColor,
-                                      //       shape: const RoundedRectangleBorder(
-                                      //           borderRadius: BorderRadius.only(
-                                      //               topLeft: Radius.circular(20),
-                                      //               topRight: Radius.circular(20)
-                                      //           )
-                                      //       ),
-                                      //     );
-                                      //   },
-                                      //   child: DottedBorder(
-                                      //     borderType: BorderType.RRect,
-                                      //     color: MyColors().primaryColor,
-                                      //     dashPattern: [6, 6, 6, 6],
-                                      //     strokeWidth: 2,
-                                      //     radius: Radius.circular(12),
-                                      //     padding: EdgeInsets.all(6),
-                                      //     child: ClipRRect(
-                                      //       borderRadius: BorderRadius.all(Radius.circular(12)),
-                                      //       child: Container(
-                                      //         width: 100.w,
-                                      //         height: 12.h,
-                                      //         decoration: BoxDecoration(
-                                      //           image: DecorationImage(
-                                      //               fit: BoxFit.cover,
-                                      //               image:
-                                      //               (permit.value.path == ""?
-                                      //               AuthController.i.user.value.permit!=''?
-                                      //               NetworkImage(APIEndpoints.baseImageURL+AuthController.i.user.value.permit) :
-                                      //               const AssetImage(ImagePath.noUserImage) :
-                                      //               FileImage(permit.value)) as ImageProvider
-                                      //           ),
-                                      //           //   color: MyColors().secondaryColor.withValues(alpha: .26),
-                                      //           // border: Border.all(
-                                      //           //   color: MyColors().secondaryColor
-                                      //           // )
-                                      //         ),
-                                      //       ),
-                                      //     ),
-                                      //   ),
-                                      // ):
-                                      (widget.model?.image != null)
-                                      ? Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius: BorderRadius.circular(8),
-                                            child: CustomImage(width: 100.w, height: 12.h, url: widget.model?.image),
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              FocusManager.instance.primaryFocus?.unfocus();
-                                              ImageGalleryClass().imageGalleryBottomSheet(
-                                                context: context,
-                                                onMediaChanged: (val) {
-                                                  if (val != null) {
-                                                    permit = File(val);
-                                                    setState(() {});
-                                                  }
-                                                },
-                                              );
-                                            },
-                                            child: Opacity(
-                                              opacity: .7,
-                                              child: CircleAvatar(
-                                                backgroundColor: CustomColors.primaryGreenColor,
-                                                child: const Icon(Icons.close, color: Colors.black),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                      : uploadMedia(),
-                                  if (error)
-                                    const Text(
-                                      "Upload Image can't be empty",
-                                      style: TextStyle(height: 1, color: Colors.red),
-                                    ),
-                                  SizedBox(height: 2.h),
-                                  customTitle(title: 'Title'),
-                                  SizedBox(height: 1.h),
-                                  CustomTextFormField(
-                                    hintText: 'Title',
-                                    controller: titleController,
-                                    maxLength: 32,
-                                    showLabel: false,
-                                    backgroundColor: CustomColors.container,
-                                    validation: (p0) => p0?.validateEmpty('Title'),
-                                    // borderColor: MyColors().secondaryColor,
-                                    // hintTextColor: MyColors().grey,
-                                    // textColor: MyColors().black,
-                                  ),
-                                  SizedBox(height: 2.h),
-                                  customTitle(title: 'Select Category'),
-                                  SizedBox(height: 1.h),
-                                  CustomDropDown2(
-                                    hintText: 'Select Category',
-                                    bgColor: CustomColors.container,
-                                    dropDownData: val.categories,
-                                    dropdownValue: selected,
-                                    validator: (p0) => (p0 == null) ? "Category can't be empty" : null,
-                                    onChanged: (v) {
-                                      selected = v;
-                                      setState(() {});
-                                    },
-                                  ),
-                                  SizedBox(height: 2.h),
-                                  customTitle(title: 'Actual Price'),
-                                  SizedBox(height: 1.h),
-                                  CustomTextFormField(
-                                    hintText: 'Actual Price',
-                                    controller: actualPriceController,
-                                    maxLength: 6,
-                                    inputType: const TextInputType.numberWithOptions(decimal: true),
-                                    showLabel: false,
-                                    numberWithDecimal: true,
-                                    backgroundColor: CustomColors.container,
-                                    validation: (p0) => p0?.validateEmpty('Actual Price'),
-                                    // borderColor: MyColors().secondaryColor,
-                                    // hintTextColor: MyColors().grey,
-                                    // textColor: MyColors().black,
-                                  ),
-                                  SizedBox(height: 2.h),
-                                  customTitle(title: 'Discount Price'),
-                                  SizedBox(height: 1.h),
-                                  CustomTextFormField(
-                                    hintText: 'Discount Price',
-                                    controller: discountController,
-                                    maxLength: 6,
-                                    inputType: const TextInputType.numberWithOptions(decimal: true),
-                                    showLabel: false,
-                                    numberWithDecimal: true,
-                                    backgroundColor: CustomColors.container,
-                                    validation: (p0) => p0?.validateEmpty('Discount Price'),
-                                    // borderColor: MyColors().secondaryColor,
-                                    // hintTextColor: MyColors().grey,
-                                    // textColor: MyColors().black,
-                                  ),
-                                  SizedBox(height: 2.h),
-
-                                  // customTitle(
-                                  //   title: 'Reward Points',
-                                  // ),
-                                  // SizedBox(
-                                  //   height: 1.h,
-                                  // ),
-                                  // MyTextField(
-                                  //   hintText: 'Reward Points',
-                                  //   controller: rewardPointsController,
-                                  //   maxLength: 6,
-                                  //   inputType: TextInputType.number,
-                                  //   showLabel: false,
-                                  //   onlyNumber: true,
-                                  //   backgroundColor: MyColors().container,
-                                  //                     //   validation: (p0) =>
-                                  //       p0?.validateEmpty("Reward Points"),
-                                  //   // borderColor: MyColors().secondaryColor,
-                                  //   // hintTextColor: MyColors().grey,
-                                  //   // textColor: MyColors().black,
-                                  // ),
-                                  // SizedBox(
-                                  //   height: 2.h,
-                                  // ),
-                                  customTitle(title: 'Short Details'),
-                                  SizedBox(height: 1.h),
-                                  CustomTextFormField(
-                                    height: 8.h,
-                                    hintText: 'Short Details',
-                                    showLabel: false,
-                                    maxLines: 5,
-                                    minLines: 5,
-                                    controller: shortDetailController,
-                                    validation: (p0) => p0?.validateEmpty('Short Detail'),
-                                    borderRadius: 10,
-                                    maxLength: 275,
-                                    backgroundColor: CustomColors.container,
-                                  ),
-                                  SizedBox(height: 2.h),
-                                  customTitle(title: 'Description'),
-                                  SizedBox(height: 1.h),
-                                  CustomTextFormField(
-                                    height: 8.h,
-                                    hintText: 'Description',
-                                    showLabel: false,
-                                    maxLines: 5,
-                                    minLines: 5,
-                                    controller: descriptionController,
-                                    validation: (p0) => p0?.validateEmpty('Description'),
-                                    borderRadius: 10,
-                                    maxLength: 275,
-                                    backgroundColor: CustomColors.container,
-                                  ),
-                                  SizedBox(height: 2.h),
-                                  MyButton(
-                                    title: widget.edit ? 'Update' : 'Continue',
-                                    onTap: () async {
-                                      if (!widget.edit) {
-                                        setState(() {
-                                          error = permit.path.isEmpty;
-                                        });
-                                      }
-                                      if ((form.currentState?.validate() ?? false) && !error) {
-                                        if (widget.edit) {
-                                          getIt<AppNetwork>().loadingProgressIndicator();
-                                          final val = await BusAPIS.editOffer(
-                                            offerId: widget.model?.id?.toString(),
-                                            title: titleController.text,
-                                            categoryId: selected?.id?.toString() ?? '',
-                                            actualPrice: actualPriceController.text,
-                                            discountPrice: discountController.text,
-                                            rewardPoints: '2',
-                                            shortDetail: shortDetailController.text,
-                                            desc: descriptionController.text,
-                                            image: permit,
-                                          );
-                                          context.maybePop();
-                                          if (val) {
-                                            context.maybePop();
-                                            context.maybePop();
-                                          }
-                                        } else {
-                                          getIt<AppNetwork>().loadingProgressIndicator();
-                                          final val = await BusAPIS.addOffer(
-                                            title: titleController.text,
-                                            categoryId: selected?.id?.toString() ?? '',
-                                            actualPrice: actualPriceController.text,
-                                            discountPrice: discountController.text,
-                                            rewardPoints: '2',
-                                            shortDetail: shortDetailController.text,
-                                            desc: descriptionController.text,
-                                            image: permit,
-                                          );
-                                          context.maybePop();
-                                          if (val) {
-                                            titleController.text = widget.model?.title ?? '';
-                                            discountController.clear();
-                                            rewardPointsController.clear();
-                                            shortDetailController.clear();
-                                            descriptionController.clear();
-                                            actualPriceController.clear();
-                                            selected = null;
-                                            setState(() {});
-                                            completeDialog();
-                                          }
-                                        }
-                                      }
-                                    },
-                                  ),
-                                  SizedBox(height: 3.h),
-                                  // SizedBox(height: 10.h,),
-                                ],
+                                      ),
+                                    ],
+                                  )
+                                  : uploadMedia(),
+                              if (error)
+                                const Text(
+                                  "Upload Image can't be empty",
+                                  style: TextStyle(height: 1, color: Colors.red),
+                                ),
+                              SizedBox(height: 2.h),
+                              customTitle(title: 'Title'),
+                              SizedBox(height: 1.h),
+                              CustomTextFormField(
+                                hintText: 'Title',
+                                controller: titleController,
+                                maxLength: 32,
+                                showLabel: false,
+                                backgroundColor: CustomColors.container,
+                                validation: (p0) => p0?.validateEmpty('Title'),
                               ),
-                            ),
+                              SizedBox(height: 2.h),
+                              customTitle(title: 'Select Category'),
+                              SizedBox(height: 1.h),
+                              CustomDropDown2(
+                                hintText: 'Select Category',
+                                bgColor: CustomColors.container,
+                                dropDownData: val.categories ?? [],
+                                dropdownValue: selected,
+                                validator: (p0) => (p0 == null) ? "Category can't be empty" : null,
+                                onChanged: (v) {
+                                  selected = v;
+                                  setState(() {});
+                                },
+                              ),
+                              SizedBox(height: 2.h),
+                              customTitle(title: 'Actual Price'),
+                              SizedBox(height: 1.h),
+                              CustomTextFormField(
+                                hintText: 'Actual Price',
+                                controller: actualPriceController,
+                                maxLength: 6,
+                                inputType: const TextInputType.numberWithOptions(decimal: true),
+                                showLabel: false,
+                                numberWithDecimal: true,
+                                backgroundColor: CustomColors.container,
+                                validation: (p0) => p0?.validateEmpty('Actual Price'),
+                              ),
+                              SizedBox(height: 2.h),
+                              customTitle(title: 'Discount Price'),
+                              SizedBox(height: 1.h),
+                              CustomTextFormField(
+                                hintText: 'Discount Price',
+                                controller: discountController,
+                                maxLength: 6,
+                                inputType: const TextInputType.numberWithOptions(decimal: true),
+                                showLabel: false,
+                                numberWithDecimal: true,
+                                backgroundColor: CustomColors.container,
+                                validation: (p0) => p0?.validateEmpty('Discount Price'),
+                              ),
+                              SizedBox(height: 2.h),
+                              customTitle(title: 'Short Details'),
+                              SizedBox(height: 1.h),
+                              CustomTextFormField(
+                                height: 8.h,
+                                hintText: 'Short Details',
+                                showLabel: false,
+                                maxLines: 5,
+                                minLines: 5,
+                                controller: shortDetailController,
+                                validation: (p0) => p0?.validateEmpty('Short Detail'),
+                                borderRadius: 10,
+                                maxLength: 275,
+                                backgroundColor: CustomColors.container,
+                              ),
+                              SizedBox(height: 2.h),
+                              customTitle(title: 'Description'),
+                              SizedBox(height: 1.h),
+                              CustomTextFormField(
+                                height: 8.h,
+                                hintText: 'Description',
+                                showLabel: false,
+                                maxLines: 5,
+                                minLines: 5,
+                                controller: descriptionController,
+                                validation: (p0) => p0?.validateEmpty('Description'),
+                                borderRadius: 10,
+                                maxLength: 275,
+                                backgroundColor: CustomColors.container,
+                              ),
+                              SizedBox(height: 2.h),
+                              MyButton(
+                                title: widget.edit ? 'Update' : 'Continue',
+                                onTap: () async {
+                                  if (!widget.edit) {
+                                    setState(() {
+                                      error = permit.path.isEmpty;
+                                    });
+                                  }
+                                  if ((form.currentState?.validate() ?? false) && !error) {
+                                    if (widget.edit) {
+                                      getIt<AppNetwork>().loadingProgressIndicator();
+                                      final val = await BusAPIS.editOffer(
+                                        offerId: widget.model?.id?.toString(),
+                                        title: titleController.text,
+                                        categoryId: selected?.id?.toString() ?? '',
+                                        actualPrice: actualPriceController.text,
+                                        discountPrice: discountController.text,
+                                        rewardPoints: '2',
+                                        shortDetail: shortDetailController.text,
+                                        desc: descriptionController.text,
+                                        image: permit,
+                                      );
+                                      context.maybePop();
+                                      if (val) {
+                                        context.maybePop();
+                                        context.maybePop();
+                                      }
+                                    } else {
+                                      getIt<AppNetwork>().loadingProgressIndicator();
+                                      final val = await BusAPIS.addOffer(
+                                        title: titleController.text,
+                                        categoryId: selected?.id?.toString() ?? '',
+                                        actualPrice: actualPriceController.text,
+                                        discountPrice: discountController.text,
+                                        rewardPoints: '2',
+                                        shortDetail: shortDetailController.text,
+                                        desc: descriptionController.text,
+                                        image: permit,
+                                      );
+                                      context.maybePop();
+                                      if (val) {
+                                        titleController.text = widget.model?.title ?? '';
+                                        discountController.clear();
+                                        rewardPointsController.clear();
+                                        shortDetailController.clear();
+                                        descriptionController.clear();
+                                        actualPriceController.clear();
+                                        selected = null;
+                                        setState(() {});
+                                        completeDialog();
+                                      }
+                                    }
+                                  }
+                                },
+                              ),
+                              SizedBox(height: 3.h),
+                              // SizedBox(height: 10.h,),
+                            ],
                           ),
                         ),
-                      ],
-                    );
+                      ),
+                    ),
+                  ],
+                );
               },
             ),
           ),

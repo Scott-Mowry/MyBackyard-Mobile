@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_classes_with_only_static_members
+
 import 'dart:developer';
 import 'dart:io';
 
@@ -51,6 +53,7 @@ class BusAPIS {
 
   static Future<bool> availOffer({String? offerId}) async {
     try {
+      await EasyLoading.show();
       final controller = getIt<HomeController>();
       final attachments = <MultipartFile>[];
       final parameters = <String, String>{};
@@ -74,12 +77,16 @@ class BusAPIS {
       }
     } catch (e) {
       log('AVAIL OFFERS ENDPOINT: ${e.toString()}');
+    } finally {
+      await EasyLoading.dismiss();
     }
+
     return false;
   }
 
   static Future<bool> submiteReview({String? busId, String? rate, String? feedback}) async {
     try {
+      await EasyLoading.show();
       final controller = getIt<UserController>();
       final parameters = <String, String>{};
       parameters.addAll({'bus_id': busId ?? '', 'rate': rate ?? '', 'feedback': feedback ?? ''});
@@ -101,12 +108,15 @@ class BusAPIS {
       }
     } catch (e) {
       log('AVAIL OFFERS ENDPOINT: ${e.toString()}');
+    } finally {
+      await EasyLoading.dismiss();
     }
     return false;
   }
 
   static Future<bool> claimOffer({String? offerId, String? userId}) async {
     try {
+      await EasyLoading.show();
       final attachments = <MultipartFile>[];
       final parameters = <String, String>{};
       parameters.addAll({'offer_id': offerId ?? '', 'user_id': userId ?? ''});
@@ -128,6 +138,8 @@ class BusAPIS {
       }
     } catch (e) {
       log('CLAIM OFFERS ENDPOINT: ${e.toString()}');
+    } finally {
+      await EasyLoading.dismiss();
     }
     return false;
   }
@@ -143,6 +155,7 @@ class BusAPIS {
     File? image,
   }) async {
     try {
+      await EasyLoading.show();
       final controller = getIt<HomeController>();
       final attachments = <MultipartFile>[];
       final parameters = <String, String>{
@@ -176,7 +189,10 @@ class BusAPIS {
       }
     } catch (e) {
       log('ADD OFFERS ENDPOINT: ${e.toString()}');
+    } finally {
+      await EasyLoading.dismiss();
     }
+
     return false;
   }
 
@@ -192,6 +208,7 @@ class BusAPIS {
     File? image,
   }) async {
     try {
+      await EasyLoading.show();
       final controller = getIt<HomeController>();
       final attachments = <MultipartFile>[];
       final parameters = <String, String>{};
@@ -242,12 +259,16 @@ class BusAPIS {
       }
     } catch (e) {
       log('EDIT OFFERS ENDPOINT: ${e.toString()}');
+    } finally {
+      await EasyLoading.dismiss();
     }
+
     return false;
   }
 
   static Future<bool> deleteOffer({String? offerId}) async {
     try {
+      await EasyLoading.show();
       final controller = getIt<HomeController>();
       final attachments = <MultipartFile>[];
       final parameters = <String, String>{};
@@ -273,12 +294,16 @@ class BusAPIS {
       }
     } catch (e) {
       log('DELETE OFFERS ENDPOINT: ${e.toString()}');
+    } finally {
+      await EasyLoading.dismiss();
     }
+
     return false;
   }
 
   static Future<void> getOfferById(String busId) async {
     try {
+      await EasyLoading.show();
       final controller = getIt<HomeController>();
       controller.setOffers([]);
       final res = await getIt<AppNetwork>().networkRequest(
@@ -296,11 +321,14 @@ class BusAPIS {
       }
     } catch (e) {
       log('GET OFFERS ENDPOINT: ${e.toString()}');
+    } finally {
+      await EasyLoading.dismiss();
     }
   }
 
   static Future<void> getTrendingOffers(String categoryId) async {
     try {
+      await EasyLoading.show();
       final controller = getIt<HomeController>();
       controller.setOffers([]);
       final res = await getIt<AppNetwork>().networkRequest(
@@ -318,6 +346,8 @@ class BusAPIS {
       }
     } catch (e) {
       log('GET OFFERS ENDPOINT: ${e.toString()}');
+    } finally {
+      await EasyLoading.dismiss();
     }
   }
 
@@ -349,6 +379,7 @@ class BusAPIS {
 
   static Future<void> getFavOffer() async {
     try {
+      await EasyLoading.show();
       final controller = getIt<HomeController>();
       controller.setOffers([]);
       final res = await getIt<AppNetwork>().networkRequest(
@@ -366,11 +397,14 @@ class BusAPIS {
       }
     } catch (e) {
       log('GET OFFERS ENDPOINT: ${e.toString()}');
+    } finally {
+      await EasyLoading.dismiss();
     }
   }
 
   static Future<void> getCustomerOffers(String userId) async {
     try {
+      await EasyLoading.show();
       final controller = getIt<HomeController>();
       controller.setCustomerOffers([]);
       final res = await getIt<AppNetwork>().networkRequest(
@@ -387,11 +421,14 @@ class BusAPIS {
       }
     } catch (e) {
       log('GET CUSTOMER OFFERS ENDPOINT: ${e.toString()}');
+    } finally {
+      await EasyLoading.dismiss();
     }
   }
 
   static Future<void> getCustomers() async {
     try {
+      await EasyLoading.show();
       final controller = getIt<HomeController>();
       controller.setCustomersList([]);
       final res = await getIt<AppNetwork>().networkRequest(RequestTypeEnum.GET.name, API.GET_CUSTOMERS_ENDPOINT);
@@ -408,11 +445,14 @@ class BusAPIS {
       }
     } catch (e) {
       log('GET CUSTOMERS ENDPOINT: ${e.toString()}');
+    } finally {
+      await EasyLoading.dismiss();
     }
   }
 
   static Future<void> getReview(String busId) async {
     try {
+      await EasyLoading.show();
       final controller = getIt<UserController>();
       controller.setReviews([]);
       final res = await getIt<AppNetwork>().networkRequest(
@@ -431,6 +471,8 @@ class BusAPIS {
       }
     } catch (e) {
       log('GET REVIEWS ENDPOINT: ${e.toString()}');
+    } finally {
+      await EasyLoading.dismiss();
     }
   }
 }

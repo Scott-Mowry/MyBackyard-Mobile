@@ -60,128 +60,121 @@ class _SubscriptionViewState extends State<SubscriptionView> {
           Expanded(
             child: Consumer<UserController>(
               builder: (context, value, child) {
-                if (value.loading) {
-                  return Center(child: CircularProgressIndicator(color: CustomColors.greenColor));
-                } else {
-                  return SingleChildScrollView(
-                    child:
-                        value.productDetails.length == 1
-                            ? Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SubscriptionTile(
-                                value: value,
-                                productDetails: value.productDetails[0],
-                                userSubscriptionPlan: userSubscriptionPlan,
-                              ),
-                            )
-                            : Wrap(
-                              spacing: 10,
-                              alignment: WrapAlignment.center,
-                              runSpacing: 10,
-                              children:
-                                  value.productDetails.mapIndexed((index, productDetails) {
-                                    final subscriptionType = getSubscriptionTypeFromProductId(productDetails.id);
-                                    return GestureDetector(
-                                      onTap: () {
-                                        showDialog(
-                                          barrierDismissible: true,
-                                          barrierColor: Colors.white70,
-                                          context: context,
-                                          builder:
-                                              (c) => Scaffold(
-                                                backgroundColor: Colors.transparent,
-                                                body: Center(
-                                                  child: Stack(
-                                                    alignment: Alignment.topRight,
-                                                    children: [
-                                                      Container(
-                                                        margin: const EdgeInsets.symmetric(horizontal: 10),
-                                                        child: SubscriptionTile(
-                                                          value: value,
-                                                          productDetails: productDetails,
-                                                          userSubscriptionPlan: userSubscriptionPlan,
-                                                        ),
-                                                      ),
-                                                      IconButton(
-                                                        onPressed: context.maybePop,
-                                                        padding: const EdgeInsets.symmetric(
-                                                          horizontal: 35,
-                                                          vertical: 40,
-                                                        ),
-                                                        icon: const Icon(Icons.close, size: 30, color: Colors.white),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                        );
-                                      },
-                                      child: Stack(
-                                        alignment: Alignment.bottomRight,
-                                        children: [
-                                          Container(
-                                            width: cardWidth(index),
-                                            height: 22.h,
-                                            padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.w),
-                                            decoration: BoxDecoration(
-                                              color: CustomColors.primaryGreenColor,
-                                              borderRadius: BorderRadius.circular(20),
-                                              border: Border.all(color: Colors.white),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.black.withValues(alpha: 0.1), // Shadow color
-                                                  blurRadius: 10, // Spread of the shadow
-                                                  spreadRadius: 5, // Size of the shadow
-                                                  offset: const Offset(0, 4), // Position of the shadow
-                                                ),
-                                              ],
-                                            ),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Row(
-                                                  mainAxisSize: MainAxisSize.min,
+                return SingleChildScrollView(
+                  child:
+                      value.productDetails.length == 1
+                          ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SubscriptionTile(
+                              value: value,
+                              productDetails: value.productDetails[0],
+                              userSubscriptionPlan: userSubscriptionPlan,
+                            ),
+                          )
+                          : Wrap(
+                            spacing: 10,
+                            alignment: WrapAlignment.center,
+                            runSpacing: 10,
+                            children:
+                                value.productDetails.mapIndexed((index, productDetails) {
+                                  final subscriptionType = getSubscriptionTypeFromProductId(productDetails.id);
+                                  return GestureDetector(
+                                    onTap: () {
+                                      showDialog(
+                                        barrierDismissible: true,
+                                        barrierColor: Colors.white70,
+                                        context: context,
+                                        builder:
+                                            (c) => Scaffold(
+                                              backgroundColor: Colors.transparent,
+                                              body: Center(
+                                                child: Stack(
+                                                  alignment: Alignment.topRight,
                                                   children: [
-                                                    MyText(
-                                                      title: productDetails.price,
-                                                      clr: CustomColors.whiteColor,
-                                                      fontWeight: FontWeight.w600,
-                                                      size: 26,
+                                                    Container(
+                                                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                                                      child: SubscriptionTile(
+                                                        value: value,
+                                                        productDetails: productDetails,
+                                                        userSubscriptionPlan: userSubscriptionPlan,
+                                                      ),
                                                     ),
-                                                    MyText(
-                                                      title: subscriptionType!.duration,
-                                                      clr: CustomColors.whiteColor.withValues(alpha: .5),
-                                                      fontWeight: FontWeight.w600,
-                                                      size: 14,
+                                                    IconButton(
+                                                      onPressed: context.maybePop,
+                                                      padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 40),
+                                                      icon: const Icon(Icons.close, size: 30, color: Colors.white),
                                                     ),
                                                   ],
                                                 ),
-                                                MyText(
-                                                  title: productDetails.title.split('(').firstOrNull ?? '',
-                                                  clr: CustomColors.whiteColor,
-                                                  align: TextAlign.center,
-                                                  fontStyle: FontStyle.italic,
-                                                  fontWeight: FontWeight.w500,
-                                                  size: 14,
-                                                  height: 1.1,
-                                                ),
-                                              ],
+                                              ),
                                             ),
+                                      );
+                                    },
+                                    child: Stack(
+                                      alignment: Alignment.bottomRight,
+                                      children: [
+                                        Container(
+                                          width: cardWidth(index),
+                                          height: 22.h,
+                                          padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.w),
+                                          decoration: BoxDecoration(
+                                            color: CustomColors.primaryGreenColor,
+                                            borderRadius: BorderRadius.circular(20),
+                                            border: Border.all(color: Colors.white),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black.withValues(alpha: 0.1), // Shadow color
+                                                blurRadius: 10, // Spread of the shadow
+                                                spreadRadius: 5, // Size of the shadow
+                                                offset: const Offset(0, 4), // Position of the shadow
+                                              ),
+                                            ],
                                           ),
-                                          Container(
-                                            margin: EdgeInsets.all(10),
-                                            child: Icon(
-                                              Icons.arrow_forward_rounded,
-                                              color: CustomColors.whiteColor.withValues(alpha: .5),
-                                            ),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  MyText(
+                                                    title: productDetails.price,
+                                                    clr: CustomColors.whiteColor,
+                                                    fontWeight: FontWeight.w600,
+                                                    size: 26,
+                                                  ),
+                                                  MyText(
+                                                    title: subscriptionType!.duration,
+                                                    clr: CustomColors.whiteColor.withValues(alpha: .5),
+                                                    fontWeight: FontWeight.w600,
+                                                    size: 14,
+                                                  ),
+                                                ],
+                                              ),
+                                              MyText(
+                                                title: productDetails.title.split('(').firstOrNull ?? '',
+                                                clr: CustomColors.whiteColor,
+                                                align: TextAlign.center,
+                                                fontStyle: FontStyle.italic,
+                                                fontWeight: FontWeight.w500,
+                                                size: 14,
+                                                height: 1.1,
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                    );
-                                  }).toList(),
-                            ),
-                  );
-                }
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.all(10),
+                                          child: Icon(
+                                            Icons.arrow_forward_rounded,
+                                            color: CustomColors.whiteColor.withValues(alpha: .5),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }).toList(),
+                          ),
+                );
               },
             ),
           ),

@@ -18,9 +18,8 @@ class HomeController extends ChangeNotifier {
 
   String adminID = '';
 
-  bool loading = true;
-
   List<UserProfileModel> _customers = [];
+
   List<UserProfileModel> get customers => _customers;
 
   void setCustomers(List<UserProfileModel> val) {
@@ -28,13 +27,9 @@ class HomeController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setLoading(bool val) {
-    loading = val;
-    notifyListeners();
-  }
-
   List<Offer>? _offers;
   List<Offer>? searchOffers = [];
+
   List<Offer>? get offers => _offers;
 
   void setOffers(List<Offer>? val) {
@@ -80,6 +75,7 @@ class HomeController extends ChangeNotifier {
   }
 
   List<PlacesModel>? _places;
+
   List<PlacesModel>? get places => _places;
 
   void setPlaces(List<PlacesModel>? model) {
@@ -88,6 +84,7 @@ class HomeController extends ChangeNotifier {
   }
 
   List<CategoryModel>? _categories;
+
   List<CategoryModel>? get categories => _categories;
 
   void setCategories(List<CategoryModel>? model) {
@@ -97,6 +94,7 @@ class HomeController extends ChangeNotifier {
 
   //Customer Offers
   List<Offer> _customerOffers = [];
+
   List<Offer> get customerOffers => _customerOffers;
 
   void setCustomerOffers(List<Offer> model) {
@@ -106,6 +104,7 @@ class HomeController extends ChangeNotifier {
 
   //Customers
   List<UserProfileModel> _customersList = [];
+
   List<UserProfileModel> get customersList => _customersList;
 
   void setCustomersList(List<UserProfileModel> model) {

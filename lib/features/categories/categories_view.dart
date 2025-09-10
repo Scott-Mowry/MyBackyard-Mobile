@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
+import 'package:backyard/legacy/Component/custom_empty_data.dart';
 import 'package:backyard/legacy/Component/custom_image.dart';
 import 'package:backyard/legacy/Component/custom_refresh.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
@@ -49,20 +50,8 @@ class _CategoriesViewState extends State<CategoriesView> with AutomaticKeepAlive
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      setLoading(true);
-      await getCategories();
-      setLoading(false);
-    });
     super.initState();
-  }
-
-  Future<void> getCategories() async {
-    await GeneralAPIS.getCategories();
-  }
-
-  void setLoading(bool val) {
-    context.read<HomeController>().setLoading(val);
+    WidgetsBinding.instance.addPostFrameCallback((_) => GeneralAPIS.getCategories());
   }
 
   @override
@@ -76,11 +65,11 @@ class _CategoriesViewState extends State<CategoriesView> with AutomaticKeepAlive
         bottomSafeArea: false,
         resizeBottomInset: false,
         child: CustomRefresh(
-          onRefresh: getCategories,
+          onRefresh: GeneralAPIS.getCategories,
           child: Consumer<HomeController>(
             builder: (context, val, _) {
+              print('CATEGORIES ${val.categories}');
               return Column(
-                // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     decoration: BoxDecoration(
@@ -99,30 +88,23 @@ class _CategoriesViewState extends State<CategoriesView> with AutomaticKeepAlive
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        CustomAppBar(
-                          screenTitle: 'Offers & Discounts',
-                          leading: MenuIcon(),
-                          trailing: NotificationIcon(),
-                          bottom: 2.h,
-                        ),
-                        // SearchTile(
-                        //   showFilter: false,
-                        //   search: s,
-                        //   onTap: () async {
-                        //     // await getAddress(context);
-                        //   },
-                        //   onChange: (v) async {
-                        //     // await getAddress(context);
-                        //   },
-                        // ),
+                        CustomAppBar(screenTitle: 'Offers & Discounts', leading: MenuIcon(), bottom: 2.h),
                         SizedBox(height: 2.h),
                       ],
                     ),
-
-                    // CustomAppBar(screenTitle:"Location",leading: CustomBackButton(),titleColor: MyColors().black,),
                   ),
-                  if (val.loading)
-                    Expanded(child: Center(child: CircularProgressIndicator(color: CustomColors.primaryGreenColor)))
+                  if (val.categories == null)
+                    Expanded(
+                      child: SingleChildScrollView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        child: Column(
+                          children: [
+                            SizedBox(height: 20.h),
+                            Center(child: CustomEmptyData(title: 'No categories found', hasLoader: false)),
+                          ],
+                        ),
+                      ),
+                    )
                   else
                     Expanded(
                       child: GridView.builder(

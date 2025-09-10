@@ -6,6 +6,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/design_system/widgets/app_bar_back_button.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
@@ -120,7 +121,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
           SizedBox(height: 2.h),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 4.w),
-            child: CustomAppBar(screenTitle: title, leading: CustomBackButton(), bottom: 0.h),
+            child: CustomAppBar(screenTitle: title, leading: AppBarBackButton(), bottom: 0.h),
           ),
           Expanded(
             child: CustomPadding(

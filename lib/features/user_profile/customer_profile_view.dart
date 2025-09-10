@@ -33,17 +33,9 @@ class _CustomerProfileViewState extends State<CustomerProfileView> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      setLoading(true);
-      await getOffers();
-      setLoading(false);
-    });
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => BusAPIS.getCustomerOffers(widget.user?.id.toString() ?? ''));
   }
-
-  void setLoading(bool val) => homeController.setLoading(val);
-
-  Future<void> getOffers() => BusAPIS.getCustomerOffers(widget.user?.id.toString() ?? '');
 
   List<String> items = ['Contact Details', 'Offers & Discounts'];
   String i = 'Contact Details';
@@ -75,7 +67,7 @@ class _CustomerProfileViewState extends State<CustomerProfileView> {
       builder: (context, val, _) {
         return Expanded(
           child: RefreshIndicator(
-            onRefresh: getOffers,
+            onRefresh: () => BusAPIS.getCustomerOffers(widget.user?.id.toString() ?? ''),
             child: Column(
               children: [
                 Container(
@@ -125,105 +117,28 @@ class _CustomerProfileViewState extends State<CustomerProfileView> {
                   fontWeight: FontWeight.w600,
                 ),
                 SizedBox(height: 2.h),
-                if (val.loading) ...[
-                  CircularProgressIndicator(color: CustomColors.primaryGreenColor),
-                ] else
+                if (val.customerOffers.isEmpty)
                   Expanded(
                     child: SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+                      physics: const AlwaysScrollableScrollPhysics(),
                       child: Column(
                         children: [
-                          if (val.customerOffers.isEmpty) ...[
-                            SizedBox(height: 14.h),
-                            CustomEmptyData(title: 'No Offer Found', hasLoader: true),
-                          ] else ...[
-                            ListView.builder(
-                              itemCount: val.customerOffers.length,
-                              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0.h),
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemBuilder: (_, index) => OfferTile(model: val.customerOffers[index]),
-                            ),
-                          ],
+                          SizedBox(height: 20.h),
+                          Center(child: CustomEmptyData(title: 'No Offers Found', hasLoader: false)),
                         ],
                       ),
                     ),
+                  )
+                else
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: val.customerOffers.length,
+                      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0.h),
+                      physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+                      shrinkWrap: true,
+                      itemBuilder: (_, index) => OfferTile(model: val.customerOffers[index]),
+                    ),
                   ),
-                // Container(decoration: BoxDecoration(color: MyColors().primaryColor,borderRadius: BorderRadius.circular(30)),
-                //   padding: EdgeInsets.all(12)+EdgeInsets.symmetric(horizontal: 20),
-                //   child: Row(
-                //     mainAxisSize: MainAxisSize.min,
-                //     children: [
-                //       Image.asset(ImagePath.coins,scale: 2,),
-                //       MyText(title: '  150',fontWeight: FontWeight.w600,size: 16,clr: MyColors().whiteColor),
-                //     ],),
-                // ),
-                // MyText(title: u.value.fullName,fontWeight: FontWeight.w600,size: 18,),
-                // SizedBox(
-                //   height: 2.h,
-                // ),
-
-                // if (!business) ...[
-                // Row(
-                //   children: [
-                //     sessionButton(title: items[0]),
-                //     SizedBox(
-                //       width: 3.w,
-                //     ),
-                //     sessionButton(title: items[1]),
-                //   ],
-                // ),
-                // SizedBox(
-                //   height: 2.h,
-                // ),
-
-                // if (i == items[0]) ...[
-                //   Container(
-                //     width: double.infinity,
-                //     decoration: BoxDecoration(
-                //       color: MyColors().container,
-                //       borderRadius: BorderRadius.circular(8),
-                //       boxShadow: [
-                //         BoxShadow(
-                //           color: Colors.black.withValues(alpha: 0.2), // Shadow color
-                //           blurRadius: 10, // Spread of the shadow
-                //           spreadRadius: 2, // Size of the shadow
-                //           offset: const Offset(0, 4), // Position of the shadow
-                //         ),
-                //       ],
-                //     ),
-                //     padding: EdgeInsets.all(3.w),
-                //     child: Column(
-                //       children: [
-                //         // if(u.value.email!='')...[
-                //         //                 userDetail(title: ImagePath.location,text: u.value.location?.address??''),
-                //         // ],
-                //         userDetail(
-                //             title: 'Phone Number', text: '+1 234 567 890'),
-                //         userDetail(
-                //             title: 'Email Address', text: 'abcd@gmail.com'),
-                //         userDetail(
-                //             title: 'Address',
-                //             text: '812 lorum street, dummy address, USA'),
-                //       ],
-                //     ),
-                //   ),
-                // ],
-                // if (i == items[1]) ...[
-                // ListView.builder(
-                //     // itemCount:s.length,
-                //     itemCount: 8,
-                //     padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.h),
-                //     physics: NeverScrollableScrollPhysics(),
-                //     shrinkWrap: true,
-                //     itemBuilder: (_, index) => OfferTile(
-                //         // availed: true,
-                //         )),
-                // ],
-                // SizedBox(
-                //   height: 2.h,
-                // ),
-                // ],
               ],
             ),
           ),

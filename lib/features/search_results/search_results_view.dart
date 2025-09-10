@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
-import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/features/offers/offers_view.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
@@ -11,8 +10,6 @@ import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/bus_apis.dart';
-// import 'package:backyard/legacy/Model/session_model.dart';
-import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/View/Widget/search_tile.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
@@ -36,35 +33,12 @@ class SearchResultsView extends StatefulWidget {
 }
 
 class _SearchResultsViewState extends State<SearchResultsView> {
-  List<String> i = [
-    ImagePath.random1,
-    ImagePath.random2,
-    ImagePath.random3,
-    ImagePath.random1,
-    ImagePath.random2,
-    ImagePath.random3,
-    ImagePath.random1,
-  ];
-
   late final homeController = context.read<HomeController>();
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      setLoading(true);
-      await getTrendingOffers();
-      setLoading(false);
-    });
-    // TODO: implement initState
     super.initState();
-  }
-
-  Future<void> getTrendingOffers() async {
-    await BusAPIS.getTrendingOffers(widget.categoryId ?? '');
-  }
-
-  void setLoading(bool val) {
-    homeController.setLoading(val);
+    WidgetsBinding.instance.addPostFrameCallback((_) => BusAPIS.getTrendingOffers(widget.categoryId ?? ''));
   }
 
   @override
@@ -95,20 +69,18 @@ class _SearchResultsViewState extends State<SearchResultsView> {
                     ],
                   ),
                 ),
-                if (val2.loading)
-                  Center(child: CircularProgressIndicator(color: CustomColors.greenColor))
-                else if (val2.busList.isEmpty)
+                if (val2.businessesList.isEmpty)
                   Center(child: CustomEmptyData(title: 'No Nearby Business Found', hasLoader: false))
                 else
                   CustomHeight(
                     prototype: businessTile(context: context),
                     listView: ListView.builder(
-                      itemCount: val2.busList.length,
+                      itemCount: val2.businessesList.length,
                       scrollDirection: Axis.horizontal,
                       padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.h),
                       physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
                       shrinkWrap: true,
-                      itemBuilder: (_, index) => businessTile(user: val2.busList[index], context: context),
+                      itemBuilder: (_, index) => businessTile(user: val2.businessesList[index], context: context),
                     ),
                   ),
                 Padding(
@@ -116,9 +88,7 @@ class _SearchResultsViewState extends State<SearchResultsView> {
                   child: const MyText(title: 'Trending Offers', size: 16, fontWeight: FontWeight.w600),
                 ),
                 // offerList(),
-                if (val.loading)
-                  Center(child: CircularProgressIndicator(color: CustomColors.greenColor))
-                else if ((val.offers ?? []).isEmpty)
+                if (val.offers == null || val.offers!.isEmpty)
                   Center(child: CustomEmptyData(title: 'No Trending Offers Found', hasLoader: false))
                 else
                   Expanded(

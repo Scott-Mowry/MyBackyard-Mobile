@@ -82,8 +82,7 @@ class UserController extends ChangeNotifier {
   List<Review> reviews = [];
   double rating = 0;
   List<in_app.ProductDetails> productDetails = [];
-  bool loading = false;
-  List<UserProfileModel> busList = [];
+  List<UserProfileModel> businessesList = [];
   double lat = 0;
   double lng = 0;
   String address = '';
@@ -132,12 +131,7 @@ class UserController extends ChangeNotifier {
   }
 
   void setBusList(List<UserProfileModel> val) {
-    busList = val;
-    notifyListeners();
-  }
-
-  void setLoading(bool val) {
-    loading = val;
+    businessesList = val;
     notifyListeners();
   }
 

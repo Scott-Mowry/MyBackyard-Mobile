@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/design_system/widgets/app_bar_back_button.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
@@ -52,7 +53,7 @@ class _EnterOTPViewState extends State<EnterOTPView> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CustomAppBar(screenTitle: '', leading: CustomBackButton(), bottom: 6.h),
+            CustomAppBar(screenTitle: '', leading: AppBarBackButton(), bottom: 6.h),
             Expanded(
               child: SingleChildScrollView(
                 child: SizedBox(
