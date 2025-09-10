@@ -5,6 +5,7 @@ import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/design_system/widgets/custom_web_view.dart';
+import 'package:backyard/core/repositories/permission_repository.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
@@ -112,7 +113,10 @@ class _SignInViewState extends State<SignInView> {
                         children: [
                           const Spacer(),
                           GestureDetector(
-                            onTap: () => context.pushRoute(ForgotPasswordRoute()),
+                            onTap: () async {
+                              await getIt<PermissionRepository>().requestTrackingPermission();
+                              return context.pushRoute<void>(ForgotPasswordRoute());
+                            },
                             child: Text(
                               'Forgot Password?',
                               style: GoogleFonts.roboto(
@@ -190,6 +194,8 @@ class _SignInViewState extends State<SignInView> {
   }
 
   Future<void> onSubmit() async {
+    await getIt<PermissionRepository>().requestTrackingPermission();
+
     if (!_form.currentState!.validate()) return;
     FocusManager.instance.primaryFocus?.unfocus();
 

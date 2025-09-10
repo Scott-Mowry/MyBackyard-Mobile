@@ -55,6 +55,8 @@
 		<string>This app requires to access location when the app is open or run in background for searching nearby business user.</string>
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>This app requires to access your photo library to show image for upload on profile/offer</string>
+		<key>NSUserTrackingUsageDescription</key>
+        <string>This app uses tracking data to improve app stability and performance</string>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<key>NSAppTransportSecurity</key>

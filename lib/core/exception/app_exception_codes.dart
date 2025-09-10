@@ -23,5 +23,10 @@ const kChangePasswordErrorKey = 'CHANGE_PASSWORD_ERROR';
 const kSignOutErrorKey = 'SIGN_OUT_ERROR';
 const kDeleteAccountErrorKey = 'DELETE_ACCOUNT_ERROR';
 
+// Geolocation & Google Maps
+const kReverseLocationSearchErrorKey = 'REVERSE_LOCATION_SEARCH_ERROR';
+const kSearchLocationsByQueryErrorKey = 'SEARCH_LOCATIONS_BY_QUERY_ERROR';
+const kLoadCurrentPositionErrorKey = 'LOAD_CURRENT_POSITION_ERROR';
+
 // In-app purchase errors
 const kBuySubscriptionErrorKey = 'BUY_SUBSCRIPTION_ERROR';

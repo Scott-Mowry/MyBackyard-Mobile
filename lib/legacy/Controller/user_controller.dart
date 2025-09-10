@@ -1,75 +1,25 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
+import 'package:backyard/core/repositories/geolocator_repository.dart';
 import 'package:backyard/core/repositories/local_storage_repository.dart';
+import 'package:backyard/core/repositories/permission_repository.dart';
 import 'package:backyard/legacy/Model/reiview_model.dart';
 import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/my-backyard-app.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:in_app_purchase/in_app_purchase.dart' as in_app;
 import 'package:injectable/injectable.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 @singleton
 class UserController extends ChangeNotifier {
-  UserController() {
-    Platform.isAndroid ? Permission.location.request() : Permission.locationAlways.request();
-
-    locationStream = Geolocator.getPositionStream(
-      locationSettings: const LocationSettings(accuracy: LocationAccuracy.best),
-    ).listen((event) async {
-      if ((geo ?? false) && (_user?.bearerToken != null)) {
-        if (onTap && mapController != null) {
-          if (user?.role == UserRoleEnum.User) {
-            _user = user!.copyWith(latitude: event.latitude, longitude: event.longitude);
-          } else {
-            lat = event.latitude;
-            lng = event.longitude;
-          }
-          final placemarks = await placemarkFromCoordinates(event.latitude, event.longitude);
-          if (user?.role == UserRoleEnum.User) {
-            _user = user!.copyWith(address: placemarks[0].locality ?? '');
-          } else {
-            address = placemarks[0].locality ?? '';
-          }
-          if (mapController != null && _user?.bearerToken != null && _user!.bearerToken!.isNotEmpty) {
-            await mapController?.moveCamera(
-              CameraUpdate.newCameraPosition(
-                CameraPosition(target: LatLng(event.latitude, event.longitude), zoom: 13.4746),
-              ),
-            );
-            circles.clear();
-            circles.add(
-              Circle(
-                circleId: const CircleId('myLocation'),
-                radius: mile * 1609.344,
-                strokeWidth: 1,
-                zIndex: 0,
-                center: LatLng(event.latitude, event.longitude),
-                fillColor: CustomColors.primaryGreenColor.withValues(alpha: .15),
-                strokeColor: CustomColors.primaryGreenColor,
-              ),
-            );
-            notifyListeners();
-            onTap = false;
-            Timer(const Duration(minutes: 10), () {
-              onTap = true;
-            });
-          }
-        }
-      }
-    });
-  }
-
   bool isSwitch = false;
   late StreamSubscription<Position>? locationStream;
   bool onTap = true;
@@ -84,12 +34,7 @@ class UserController extends ChangeNotifier {
   double rating = 0;
   List<in_app.ProductDetails> productDetails = [];
   List<UserProfileModel> businessesList = [];
-  double lat = 0;
-  double lng = 0;
-  String address = '';
-  int mile =
-      50 //25
-      ;
+  int mile = 50;
 
   void setMile(int val) {
     mile = val;
@@ -166,8 +111,8 @@ class UserController extends ChangeNotifier {
   Future<void> zoomOutFitBusinesses() async {
     if (businessesList.isEmpty || mapController == null) return;
 
-    final position = await Geolocator.getLastKnownPosition();
-    if (position == null) return;
+    await getIt<PermissionRepository>().requestLocationPermission();
+    final position = await getIt<GeolocatorRepository>().loadCurrentPosition();
     final radiusInDegrees = (mile * 1609.344) / 111320;
     final bounds = LatLngBounds(
       southwest: LatLng(position.latitude - radiusInDegrees, position.longitude - radiusInDegrees),

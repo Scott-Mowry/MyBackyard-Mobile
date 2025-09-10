@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:ui' as ui;
 
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
-import 'package:backyard/core/helper/target_platform_helper.dart';
-import 'package:backyard/legacy/Component/custom_toast.dart';
+import 'package:backyard/core/repositories/permission_repository.dart';
 import 'package:backyard/legacy/Utils/app_strings.dart';
 import 'package:backyard/my-backyard-app.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -14,12 +14,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart' as picker;
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:place_picker/place_picker.dart';
 
 class Utils {
@@ -84,43 +82,6 @@ class Utils {
   DateTime selectedDate = DateTime.now();
   String formattedDate = '';
   static const googleApiKey = 'AIzaSyBmaS0B0qwokES4a_CiFNVkVJGkimXkNsk';
-
-  static Future<bool> requestLocationPermission({bool openSettings = true}) async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      // CustomToast().showToast('Error', 'Location services are disabled. Please enable the services', true);
-      return false;
-    }
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        CustomToast().showToast(message: 'Location permissions are denied');
-        return false;
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      if (openSettings) await openAppSettings();
-      return false;
-    }
-
-    return true;
-  }
-
-  Future<Position?> pickLocation({bool openSettings = true}) async {
-    if (await requestLocationPermission(openSettings: openSettings)) {
-      final position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-        forceAndroidLocationManager: true,
-      );
-      return position;
-    } else {
-      return null;
-    }
-  }
 
   static Future<ByteData> getCircularImageByteData(ui.Image image) async {
     final pictureRecorder = ui.PictureRecorder();
@@ -229,7 +190,7 @@ class Utils {
   }
 
   Future<LocationResult> showPlacePicker(context) async {
-    defaultTargetPlatform.isAndroid ? await Permission.location.request() : await Permission.locationAlways.request();
+    await getIt<PermissionRepository>().requestLocationPermission();
     final LocationResult result = await Navigator.of(
       context,
     ).push(MaterialPageRoute(builder: (context) => PlacePicker(AppStrings.GOOGLE_API_KEY)));

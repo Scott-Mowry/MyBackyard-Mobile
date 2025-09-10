@@ -9,7 +9,6 @@ import 'package:backyard/features/home/business_home_view.dart';
 import 'package:backyard/features/home/home_view.dart';
 import 'package:backyard/features/home/user_home_view.dart';
 import 'package:backyard/features/landing/landing_view.dart';
-import 'package:backyard/features/scan_qr/scan_qr_view.dart';
 import 'package:backyard/features/search_results/search_results_view.dart';
 import 'package:backyard/features/settings/settings_view.dart';
 import 'package:backyard/features/sign_in/enter_otp_view.dart';
@@ -40,7 +39,6 @@ class AppRouter extends RootStackRouter {
     AutoRoute(path: '/category', page: BusinessCategoryRoute.page),
     AutoRoute(path: '/profile-setup', page: ProfileSetupRoute.page),
     AutoRoute(path: '/home', page: HomeRoute.page),
-    AutoRoute(path: '/scan-qr', page: ScanQRRoute.page),
     AutoRoute(path: '/discount-offers', page: DiscountOffersRoute.page),
     AutoRoute(path: '/SearchResult', page: SearchResultsRoute.page),
     AutoRoute(path: '/give-review', page: GiveReviewRoute.page),

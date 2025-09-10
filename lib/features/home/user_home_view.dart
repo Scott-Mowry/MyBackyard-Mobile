@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:auto_route/annotations.dart';
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
-import 'package:backyard/core/helper/target_platform_helper.dart';
+import 'package:backyard/core/repositories/geolocator_repository.dart';
+import 'package:backyard/core/repositories/permission_repository.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_bottomsheet_indicator.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -21,12 +23,10 @@ import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Utils/app_size.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -46,7 +46,7 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
   CategoryModel? selected;
   int i = 99;
   bool filter = false;
-  Position? pos;
+  Position? devicePosition;
 
   @override
   bool get wantKeepAlive => widget.wantKeepAlive;
@@ -59,18 +59,19 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
 
   Future<void> getBuses() async {
     try {
+      await getIt<PermissionRepository>().requestLocationPermission();
       final controller = context.read<UserController>();
-      defaultTargetPlatform.isAndroid ? await Permission.location.request() : await Permission.locationAlways.request();
 
-      pos = await Geolocator.getLastKnownPosition();
-      await BusAPIS.getBuses(pos?.latitude, pos?.longitude);
+      await getIt<PermissionRepository>().requestLocationPermission();
+      devicePosition = await getIt<GeolocatorRepository>().loadCurrentPosition();
+      await BusAPIS.getBuses(devicePosition?.latitude, devicePosition?.longitude);
       controller.addCircles(
         Circle(
           circleId: const CircleId('myLocation'),
           radius: (controller.mile * 1609.344),
           strokeWidth: 1,
           zIndex: 0,
-          center: LatLng(pos?.latitude ?? 0, pos?.longitude ?? 0),
+          center: LatLng(devicePosition?.latitude ?? 0, devicePosition?.longitude ?? 0),
           fillColor: CustomColors.primaryGreenColor.withValues(alpha: .15),
           strokeColor: CustomColors.primaryGreenColor,
         ),
@@ -99,7 +100,6 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
                         zoom: 14.4746,
                       ),
                       myLocationButtonEnabled: Utils.isTablet == false,
-                      //true
                       circles: val.circles,
                       myLocationEnabled: true,
                       onMapCreated: (controller) async {
@@ -107,10 +107,15 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
                           '[{"elementType":"geometry","stylers":[{"color":"#f5f5f5"}]},{"elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"elementType":"labels.text.fill","stylers":[{"color":"#616161"}]},{"elementType":"labels.text.stroke","stylers":[{"color":"#f5f5f5"}]},{"featureType":"administrative.land_parcel","elementType":"labels.text.fill","stylers":[{"color":"#bdbdbd"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#eeeeee"}]},{"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#757575"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#e5e5e5"}]},{"featureType":"poi.park","elementType":"labels.text.fill","stylers":[{"color":"#9e9e9e"}]},{"featureType":"road","elementType":"geometry","stylers":[{"color":"#ffffff"}]},{"featureType":"road.arterial","elementType":"labels.text.fill","stylers":[{"color":"#757575"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#dadada"}]},{"featureType":"road.highway","elementType":"labels.text.fill","stylers":[{"color":"#616161"}]},{"featureType":"road.local","elementType":"labels.text.fill","stylers":[{"color":"#9e9e9e"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"color":"#e5e5e5"}]},{"featureType":"transit.station","elementType":"geometry","stylers":[{"color":"#eeeeee"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#c9c9c9"}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"color":"#9e9e9e"}]}]',
                         );
                         val.setMapController(controller);
-                        final pos = await Geolocator.getLastKnownPosition();
+
+                        await getIt<PermissionRepository>().requestLocationPermission();
+                        final devicePosition = await getIt<GeolocatorRepository>().loadCurrentPosition();
                         val.moveMap(
                           CameraUpdate.newCameraPosition(
-                            CameraPosition(target: LatLng(pos?.latitude ?? 0, pos?.longitude ?? 0), zoom: 13.4746),
+                            CameraPosition(
+                              target: LatLng(devicePosition.latitude, devicePosition.longitude),
+                              zoom: 13.4746,
+                            ),
                           ),
                         );
                       },
@@ -152,8 +157,8 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
                                   //25
                                   divisions: 10,
                                   value: val.mile.toDouble(),
-                                  onChangeEnd: (v) => BusAPIS.getBuses(pos?.latitude, pos?.longitude),
-                                  onChanged: (v) => val.setMile(v.toInt()),
+                                  onChangeEnd: (_) => getBuses(),
+                                  onChanged: (radius) => val.setMile(radius.toInt()),
                                 ),
                               ),
                               Text(
