@@ -7,6 +7,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/design_system/theme/custom_spacer.dart';
+import 'package:backyard/core/design_system/theme/custom_text_style.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Component/custom_bottomsheet_indicator.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -17,7 +19,7 @@ import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:backyard/legacy/Service/bus_apis.dart';
+import 'package:backyard/legacy/Service/business_apis.dart';
 import 'package:backyard/legacy/Utils/app_size.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
@@ -144,49 +146,58 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
               ),
               SizedBox(height: 2.h),
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Expanded(child: MyText(title: offer?.title ?? '', fontWeight: FontWeight.w600, size: 16)),
-                  Container(
-                    constraints: BoxConstraints(maxWidth: 53.w),
-                    decoration: BoxDecoration(
-                      color: CustomColors.primaryGreenColor,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    child: MyText(
-                      title: offer?.category?.categoryName ?? '',
-                      clr: CustomColors.whiteColor,
-                      size: Utils.isTablet ? 6.sp : 10.sp,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 2.h),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset(
-                    ImagePath.location,
-                    color: CustomColors.primaryGreenColor,
-                    height: 13.sp,
-                    fit: BoxFit.fitHeight,
-                  ),
-                  SizedBox(width: 1.w),
-                  SizedBox(
-                    width: 85.w,
+                  Expanded(
                     child: Text(
-                      offer?.address ?? '',
-                      maxLines: 2,
-                      overflow: TextOverflow.visible,
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w400,
-                        fontSize: Utils.isTablet ? 6.sp : 10.sp,
-                        color: Colors.black,
+                      offer?.title ?? '',
+                      maxLines: 1,
+                      style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black),
+                    ),
+                  ),
+                  if (offer?.category?.categoryName != null && offer!.category!.categoryName!.isNotEmpty)
+                    Padding(
+                      padding: CustomSpacer.left.xs,
+                      child: Container(
+                        padding: CustomSpacer.horizontal.xs + CustomSpacer.vertical.xxs,
+                        decoration: BoxDecoration(
+                          color: CustomColors.primaryGreenColor,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          offer?.category!.categoryName?.split(' ').firstOrNull ?? '',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: CustomTextStyle.labelSmall.copyWith(color: CustomColors.white, fontSize: 16),
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
+              if (offer?.address != null && offer!.address!.isNotEmpty)
+                Padding(
+                  padding: CustomSpacer.top.xs,
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        ImagePath.location,
+                        color: CustomColors.primaryGreenColor,
+                        height: 18,
+                        fit: BoxFit.fitHeight,
+                      ),
+                      Flexible(
+                        child: Padding(
+                          padding: CustomSpacer.left.xxs,
+                          child: Text(
+                            offer!.address ?? '',
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               SizedBox(height: 2.h),
               textDetail(
                 title: 'Offers Details:',

@@ -1,8 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/helper/snackbar_helper.dart';
-import 'package:backyard/features/offers/offers_view.dart';
+import 'package:backyard/features/offers/offer_card_widget.dart';
 import 'package:backyard/features/subscription/enum/subscription_type_enum.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
@@ -11,7 +12,7 @@ import 'package:backyard/legacy/Component/custom_refresh.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
-import 'package:backyard/legacy/Service/bus_apis.dart';
+import 'package:backyard/legacy/Service/business_apis.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/View/Widget/search_tile.dart';
 import 'package:backyard/legacy/View/base_view.dart';
@@ -141,7 +142,8 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
         physics: const AlwaysScrollableScrollPhysics(),
         shrinkWrap: true,
         children: [
-          for (int index = 0; index < val.length; index++) OfferTile(offer: val[index]),
+          for (int index = 0; index < val.length; index++)
+            Padding(padding: CustomSpacer.top.md, child: OfferCardWidget(offer: val[index])),
           SizedBox(height: 5.h),
         ],
       ),

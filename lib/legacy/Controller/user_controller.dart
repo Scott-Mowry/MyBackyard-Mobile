@@ -8,7 +8,7 @@ import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/core/repositories/geolocator_repository.dart';
 import 'package:backyard/core/repositories/local_storage_repository.dart';
 import 'package:backyard/core/repositories/permission_repository.dart';
-import 'package:backyard/features/home/widget/model/offers_filter_model.dart';
+import 'package:backyard/features/home/widget/model/filter_model.dart';
 import 'package:backyard/legacy/Model/reiview_model.dart';
 import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
@@ -36,10 +36,10 @@ class UserController extends ChangeNotifier {
   List<in_app.ProductDetails> productDetails = [];
   List<UserProfileModel> businessesList = [];
 
-  var offersFilter = OffersFilterModel();
+  var filter = FilterModel();
 
-  void setOffersFilter(OffersFilterModel offersFilter) {
-    this.offersFilter = offersFilter;
+  void setOffersFilter(FilterModel offersFilter) {
+    this.filter = offersFilter;
     circles.clear();
     circles.add(
       Circle(
@@ -76,7 +76,7 @@ class UserController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setBusList(List<UserProfileModel> val) {
+  void setBusinessesList(List<UserProfileModel> val) {
     businessesList = val;
     notifyListeners();
   }
@@ -107,7 +107,7 @@ class UserController extends ChangeNotifier {
 
     await getIt<PermissionRepository>().requestLocationPermission();
     final position = await getIt<GeolocatorRepository>().loadCurrentPosition();
-    final radiusInDegrees = (offersFilter.radiusInMiles * 1609.344) / 111320;
+    final radiusInDegrees = (filter.radiusInMiles * 1609.344) / 111320;
     final bounds = LatLngBounds(
       southwest: LatLng(position.latitude - radiusInDegrees, position.longitude - radiusInDegrees),
       northeast: LatLng(position.latitude + radiusInDegrees, position.longitude + radiusInDegrees),

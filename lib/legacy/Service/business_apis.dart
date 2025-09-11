@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
+import 'package:backyard/features/home/widget/model/filter_model.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
@@ -14,37 +15,51 @@ import 'package:backyard/legacy/Model/reiview_model.dart';
 import 'package:backyard/legacy/Model/response_model.dart';
 import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
+import 'package:collection/collection.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 
 class BusinessAPIS {
-  static Future<void> getBusinesses(double? lat, double? long) async {
+  static Future<void> getBusinesses(FilterModel filter) async {
     try {
       await EasyLoading.show();
       final controller = getIt<UserController>();
-      final offersFilter = controller.offersFilter;
       final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.GET.name,
-        '${API.GET_BUSINESSES_ENDPOINT}?lat=${lat ?? 0.0}&long=${long ?? 0.0}&radius=${(controller.offersFilter.radiusInMiles)}',
+        '${API.GET_BUSINESSES_ENDPOINT}?lat=${filter.latitude}&long=${filter.longitude}&radius=${filter.radiusInMiles}',
       );
-      if (res != null) {
-        final model = responseModelFromJson(res.body);
 
-        if (model.status) {
-          controller.clearMarkers();
-          var users = <UserProfileModel>[];
-          users = List<UserProfileModel>.from(
-            (model.data?['businesses'] ?? {}).map((x) => UserProfileModel.fromJson(x)),
-          );
+      if (res == null) return;
+      final model = responseModelFromJson(res.body);
 
-          controller.setBusList(users);
-          await Future.wait(users.map(controller.addMarker));
-          await controller.zoomOutFitBusinesses();
-        } else {
-          CustomToast().showToast(message: model.message ?? '');
-        }
-      }
+      if (!model.status) return CustomToast().showToast(message: model.message ?? '');
+
+      final businessesRaw = model.data?['businesses'] ?? [];
+      final allBusinesses =
+          businessesRaw is List
+              ? businessesRaw.map((el) => UserProfileModel.fromJson(el)).toList()
+              : <UserProfileModel>[];
+
+      final filteredBusinesses =
+          allBusinesses
+              .where((el) {
+                final hasCategoryId = filter.category == null || el.categoryId == filter.category!.id;
+
+                late final businessName = el.name?.toLowerCase().trim();
+                final query = filter.query?.toLowerCase().trim();
+                final matchQuery = query == null || businessName!.contains(query);
+
+                return hasCategoryId && matchQuery;
+              })
+              .toList()
+              .shuffled();
+
+      controller.clearMarkers();
+      controller.setBusinessesList(filteredBusinesses);
+
+      await Future.wait(filteredBusinesses.map(controller.addMarker));
+      await controller.zoomOutFitBusinesses();
     } catch (e) {
       log('GET BUSES ENDPOINT: ${e.toString()}');
     } finally {

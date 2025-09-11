@@ -4,7 +4,7 @@ import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
-import 'package:backyard/features/offers/offers_view.dart';
+import 'package:backyard/features/offers/offer_card_widget.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
@@ -15,7 +15,7 @@ import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
-import 'package:backyard/legacy/Service/bus_apis.dart';
+import 'package:backyard/legacy/Service/business_apis.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/base_view.dart';
@@ -199,59 +199,6 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
                             ],
                             SizedBox(height: 2.h),
                             if (i == items[0]) ...[
-                              // Container(
-                              //   decoration: BoxDecoration(
-                              //       color: MyColors().primaryColor,
-                              //       borderRadius:
-                              //           BorderRadius.circular(10)),
-                              //   padding: EdgeInsets.all(12),
-                              //   child: Row(
-                              //     children: [
-                              //       Image.asset(
-                              //         ImagePath.offer,
-                              //         scale: 2,
-                              //       ),
-                              //       SizedBox(
-                              //         width: 2.w,
-                              //       ),
-                              //       Expanded(
-                              //         child: Column(
-                              //           crossAxisAlignment:
-                              //               CrossAxisAlignment.start,
-                              //           children: [
-                              //             MyText(
-                              //               title:
-                              //                   'Extra 25%, off, up to \$\$. 3,000.00',
-                              //               fontWeight: FontWeight.w600,
-                              //               clr: MyColors().whiteColor,
-                              //             ),
-                              //             MyText(
-                              //               title:
-                              //                   'Promo Code SAVE. Ends 6/9.',
-                              //               clr: MyColors().whiteColor,
-                              //             ),
-                              //           ],
-                              //         ),
-                              //       ),
-                              //       SizedBox(
-                              //         width: 2.w,
-                              //       ),
-                              //       MyButton(
-                              //         title: 'Apply',
-                              //         onTap: () {},
-                              //         gradient: false,
-                              //         bgColor: MyColors().black,
-                              //         borderColor: MyColors().black,
-                              //         textColor: MyColors().whiteColor,
-                              //         height: 5.2.h,
-                              //         width: 24.w,
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
-                              // SizedBox(
-                              //   height: 2.h,
-                              // ),
                               if ((val2.offers ?? []).isEmpty) ...[
                                 SizedBox(height: 14.h),
                                 CustomEmptyData(title: 'No Offer Found', hasLoader: true),
@@ -261,23 +208,13 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
                                   padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0.h),
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
-                                  itemBuilder: (_, index) => OfferTile(offer: val2.offers?[index]),
+                                  itemBuilder: (_, index) {
+                                    return Padding(
+                                      padding: CustomSpacer.top.md,
+                                      child: OfferCardWidget(offer: val2.offers![index]),
+                                    );
+                                  },
                                 ),
-                              // Consumer<HomeController>(builder: (context, val, _) {
-                              //   if (val.loading) {
-                              //     return CircularProgressIndicator(
-                              //       color: MyColors().primaryColor,
-                              //     );
-                              //   } else {
-                              //     return ListView.builder(
-                              //         itemCount: val.offers?.length,
-                              //         padding: EdgeInsets.symmetric(
-                              //             horizontal: 3.w, vertical: 0.h),
-                              //         physics: NeverScrollableScrollPhysics(),
-                              //         shrinkWrap: true,
-                              //         itemBuilder: (_, index) => OfferTile());
-                              //   }
-                              // })
                             ],
                             if (i == items[1]) ...[
                               MyText(title: 'Description', fontWeight: FontWeight.w600, size: 14),
@@ -461,10 +398,14 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
                                 SizedBox(height: 34.h),
                               ],
                             if (widget.user?.id != val.user?.id && !widget.isMe) ...[
-                              MyButton(
-                                title: 'Write a Review',
-                                onTap:
-                                    () => context.pushRoute(GiveReviewRoute(busId: widget.user?.id?.toString() ?? '')),
+                              Padding(
+                                padding: CustomSpacer.top.xmd,
+                                child: MyButton(
+                                  title: 'Write a Review',
+                                  onTap:
+                                      () =>
+                                          context.pushRoute(GiveReviewRoute(busId: widget.user?.id?.toString() ?? '')),
+                                ),
                               ),
                             ],
                           ],

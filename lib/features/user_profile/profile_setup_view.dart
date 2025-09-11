@@ -200,7 +200,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                         child: Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: Text(
-                            "Missing profile picture",
+                            'Missing profile picture',
                             style: TextStyle(color: CustomColors.redColor, fontSize: 16.sp),
                           ),
                         ),

@@ -1,7 +1,8 @@
 import 'package:auto_route/annotations.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
-import 'package:backyard/features/offers/offers_view.dart';
+import 'package:backyard/features/offers/offer_card_widget.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
@@ -10,7 +11,7 @@ import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Model/file_network.dart';
-import 'package:backyard/legacy/Service/bus_apis.dart';
+import 'package:backyard/legacy/Service/business_apis.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -138,7 +139,12 @@ class _CustomerProfileViewState extends State<CustomerProfileView> {
                       padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0.h),
                       physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
                       shrinkWrap: true,
-                      itemBuilder: (_, index) => OfferTile(offer: val.customerOffers[index]),
+                      itemBuilder: (_, index) {
+                        return Padding(
+                          padding: CustomSpacer.top.md,
+                          child: OfferCardWidget(offer: val.customerOffers[index]),
+                        );
+                      },
                     ),
                   ),
               ],

@@ -76,8 +76,9 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      child: Consumer2<HomeController, UserController>(
-        builder: (context, val, val2, _) {
+      child: Consumer<HomeController>(
+        builder: (context, homeController, _) {
+          final isUserHome = !isBusiness && homeController.currentIndex == 0;
           return Scaffold(
             key: key,
             backgroundColor: Colors.white,
@@ -86,11 +87,14 @@ class _HomeViewState extends State<HomeView> {
               height: 90,
               width: 1.sw,
               padding: EdgeInsets.symmetric(horizontal: 19.sp, vertical: Utils.isTablet ? 5.5.sp : 15.sp),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: const [BoxShadow(color: Colors.black12, offset: Offset(0, -5), blurRadius: 10)],
-              ),
+              decoration:
+                  isUserHome
+                      ? null
+                      : BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: const [BoxShadow(color: Colors.black12, offset: Offset(0, -5), blurRadius: 10)],
+                      ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,17 +109,17 @@ class _HomeViewState extends State<HomeView> {
                             isBusiness ? (businessTab[i]['icon'] ?? '') : (userTabs[i]['icon'] ?? ''),
                             scale: 1,
                             fit: BoxFit.fitHeight,
-                            color: Color(val.currentIndex == i ? activeColor : inActiveColor),
+                            color: Color(homeController.currentIndex == i ? activeColor : inActiveColor),
                             height: Utils.isTablet ? 11.sp : 22.sp,
                           ),
                           const SizedBox(height: 6),
                           Text(
                             isBusiness ? (businessTab[i]['title'] ?? '') : (userTabs[i]['title'] ?? ''),
                             style: TextStyle(
-                              color: Color(val.currentIndex == i ? activeColor : inActiveColor),
-                              fontWeight: val.currentIndex == i ? FontWeight.w600 : FontWeight.w500,
+                              color: Color(homeController.currentIndex == i ? activeColor : inActiveColor),
+                              fontWeight: homeController.currentIndex == i ? FontWeight.w600 : FontWeight.w500,
                               fontSize:
-                                  val.currentIndex == i
+                                  homeController.currentIndex == i
                                       ? (Utils.isTablet ? 8.sp : 14.sp)
                                       : (Utils.isTablet ? 7.sp : 12.sp),
                             ),
