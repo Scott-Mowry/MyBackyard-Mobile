@@ -16,12 +16,10 @@ import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/business_apis.dart';
 import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
-import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:sizer/sizer.dart';
 
 @RoutePage()
 class UserHomeView extends StatefulWidget {
@@ -60,15 +58,15 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
             builder: (context, userController, _) {
               final user = userController.user;
               return GoogleMap(
-                padding: Utils.isTablet ? EdgeInsets.only(top: 11.h, right: 2.w) : EdgeInsets.zero,
                 mapType: MapType.normal,
+                padding: EdgeInsets.only(bottom: CustomSpacer.bottom.xl.bottom),
                 initialCameraPosition: CameraPosition(
                   target: LatLng(user?.latitude ?? 0, user?.longitude ?? 0),
                   zoom: 14.4746,
                 ),
-                myLocationButtonEnabled: Utils.isTablet == false,
-                circles: userController.circles,
+                myLocationButtonEnabled: true,
                 myLocationEnabled: true,
+                circles: userController.circles,
                 onMapCreated: onMapCreated,
                 markers: context.watch<UserController>().markers,
               );

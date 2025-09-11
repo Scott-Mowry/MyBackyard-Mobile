@@ -71,9 +71,7 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
       trailingAppBar:
           business
               ? IconButton(
-                onPressed: () {
-                  editOffer(context);
-                },
+                onPressed: () => editOffer(context),
                 icon: const Icon(Icons.more_horiz_rounded, size: 35, color: Colors.black),
               )
               : null,
@@ -86,61 +84,52 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
               Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
-                  Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      CustomImage(
-                        width: 95.w,
-                        height: 32.h,
-                        fit: BoxFit.cover,
-                        borderRadius: BorderRadius.circular(10),
-                        url: offer?.image,
-                      ),
-                      Container(
-                        width: 95.w,
-                        height: 32.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          gradient: LinearGradient(
-                            colors: [
-                              CustomColors.primaryGreenColor.withValues(alpha: 0),
-                              CustomColors.primaryGreenColor,
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                          ),
-                        ),
-                      ),
-                    ],
+                  CustomImage(
+                    width: 95.w,
+                    height: 32.h,
+                    fit: BoxFit.cover,
+                    borderRadius: BorderRadius.circular(10),
+                    url: offer?.image,
                   ),
-                  Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(color: CustomColors.black, borderRadius: BorderRadius.circular(30)),
-                        padding: EdgeInsets.all(16) + EdgeInsets.symmetric(horizontal: 20),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            MyText(
-                              title: '\$${offer?.actualPrice}   ',
-                              fontWeight: FontWeight.w600,
-                              size: 16,
-                              clr: CustomColors.whiteColor,
-                              cut: true,
-                            ),
-                            MyText(
-                              title: '\$${offer?.discountPrice}',
-                              fontWeight: FontWeight.w600,
-                              size: 16,
-                              clr: CustomColors.whiteColor,
-                            ),
-                          ],
-                        ),
+                  Container(
+                    width: 95.w,
+                    height: 32.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: LinearGradient(
+                        colors: [
+                          CustomColors.primaryGreenColor.withValues(alpha: 0),
+                          CustomColors.primaryGreenColor.withValues(alpha: 0.8),
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
                       ),
-                      SizedBox(height: 3.h),
-                      SizedBox(height: 1.h),
-                      SizedBox(height: 2.h),
-                    ],
+                    ),
+                  ),
+                  Positioned(
+                    bottom: CustomSpacer.bottom.xl.bottom,
+                    child: Container(
+                      decoration: BoxDecoration(color: CustomColors.black, borderRadius: BorderRadius.circular(30)),
+                      padding: EdgeInsets.all(16) + EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          MyText(
+                            title: '\$${offer?.actualPrice}   ',
+                            fontWeight: FontWeight.w600,
+                            size: 16,
+                            clr: CustomColors.grey,
+                            cut: true,
+                          ),
+                          MyText(
+                            title: '\$${offer?.discountPrice}',
+                            fontWeight: FontWeight.w600,
+                            size: 16,
+                            clr: CustomColors.whiteColor,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -205,64 +194,72 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                 // 'Classic checkerboard slip ons with office white under tone and reinforced waffle cup soles is a tone and reinforced waffle cup soles.CIassic ka checkerboard slip ons with office white hnan dunder tone and reinforced.'
               ),
               SizedBox(height: 2.h),
-              if (!business) ...[
-                if (offer?.ownerId != context.watch<UserController>().user?.id)
-                  if (offer?.isClaimed == 0)
-                    Opacity(
-                      opacity: context.watch<UserController>().user?.subId == null ? .5 : 1,
-                      child: MyButton(
-                        title: offer?.isAvailed == 1 ? 'Download QR Code' : 'Redeem Offer',
-                        onTap: () async {
-                          if (context.read<UserController>().user?.subId != null) {
-                            if (offer?.isAvailed == 1) {
-                              downloadDialog2(context, data);
-                            } else {
-                              getIt<AppNetwork>().loadingProgressIndicator();
-                              final val = await BusinessAPIS.availOffer(offerId: offer?.id?.toString());
-                              context.maybePop();
-                              if (val) {
-                                setState(() {
-                                  offer = offer?.copyWith(isAvailed: 1);
-                                });
-                                // ignore: use_build_context_synchronously
-                                downloadDialog(context, data);
-                              }
-                            }
-                          } else {
-                            CustomToast().showToast(message: 'You Need to Subscribe to Avail an Offer.');
-                            await context.pushRoute<void>(SubscriptionRoute());
-                          }
-                        },
-                        bgColor: CustomColors.whiteColor,
-                        textColor: CustomColors.black,
-                        borderColor: CustomColors.black,
-                      ),
-                    ),
-                SizedBox(height: 2.h),
-                if (offer?.ownerId != context.watch<UserController>().user?.id)
-                  Opacity(
-                    opacity: context.watch<UserController>().user?.subId == null ? .5 : 1,
-                    child: MyButton(
-                      title: 'Share with Friends',
-                      onTap: () async {
-                        final subId = context.read<UserController>().user?.subId;
-                        if (subId == null) {
-                          CustomToast().showToast(message: 'You Need to Subscribe to Share an Offer.');
-                          return context.pushRoute(SubscriptionRoute());
-                        }
-
-                        return SharePlus.instance.share(
-                          ShareParams(
-                            text:
-                                "Share App with Friends,\n\n Link:${Platform.isAndroid ? "https://play.google.com/store/apps/details?id=com.app.mybackyardusa1" : "https://apps.apple.com/us/app/mb-my-backyard/id6736581907"}",
-                            subject: 'Share with Friends',
+              if (!business)
+                Row(
+                  children: [
+                    if (offer?.ownerId != context.watch<UserController>().user?.id)
+                      if (offer?.isClaimed == 0)
+                        Expanded(
+                          child: Opacity(
+                            opacity: context.watch<UserController>().user?.subId == null ? .5 : 1,
+                            child: MyButton(
+                              title: offer?.isAvailed == 1 ? 'QR Code' : 'Redeem',
+                              onTap: () async {
+                                if (context.read<UserController>().user?.subId != null) {
+                                  if (offer?.isAvailed == 1) {
+                                    downloadDialog2(context, data);
+                                  } else {
+                                    getIt<AppNetwork>().loadingProgressIndicator();
+                                    final val = await BusinessAPIS.availOffer(offerId: offer?.id?.toString());
+                                    context.maybePop();
+                                    if (val) {
+                                      setState(() {
+                                        offer = offer?.copyWith(isAvailed: 1);
+                                      });
+                                      // ignore: use_build_context_synchronously
+                                      downloadDialog(context, data);
+                                    }
+                                  }
+                                } else {
+                                  CustomToast().showToast(message: 'You Need to Subscribe to Avail an Offer.');
+                                  await context.pushRoute<void>(SubscriptionRoute());
+                                }
+                              },
+                              bgColor: CustomColors.whiteColor,
+                              textColor: CustomColors.black,
+                              borderColor: CustomColors.black,
+                            ),
                           ),
-                        );
-                      },
-                    ),
-                  ),
-                SizedBox(height: 2.h),
-              ],
+                        ),
+                    if (offer?.ownerId != context.watch<UserController>().user?.id)
+                      Expanded(
+                        child: Padding(
+                          padding: CustomSpacer.left.xs,
+                          child: Opacity(
+                            opacity: context.watch<UserController>().user?.subId == null ? .5 : 1,
+                            child: MyButton(
+                              title: 'Share',
+                              onTap: () async {
+                                final subId = context.read<UserController>().user?.subId;
+                                if (subId == null) {
+                                  CustomToast().showToast(message: 'You Need to Subscribe to Share an Offer.');
+                                  return context.pushRoute(SubscriptionRoute());
+                                }
+
+                                return SharePlus.instance.share(
+                                  ShareParams(
+                                    text:
+                                        "Share App with Friends,\n\n Link:${Platform.isAndroid ? "https://play.google.com/store/apps/details?id=com.app.mybackyardusa1" : "https://apps.apple.com/us/app/mb-my-backyard/id6736581907"}",
+                                    subject: 'Share with Friends',
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
             ],
           ),
         ),

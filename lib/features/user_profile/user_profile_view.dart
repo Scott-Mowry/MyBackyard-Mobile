@@ -52,6 +52,7 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
       (context.read<UserController>().isSwitch)
           ? false
           : context.read<UserController>().user?.role == UserRoleEnum.Business;
+
   List<String> items = ['Offers', 'About', 'Reviews'];
   String i = 'Offers';
 
@@ -138,8 +139,6 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
                                 Expanded(
                                   child: MyText(
                                     title: widget.isMe ? (val.user?.name ?? '') : (widget.user?.name ?? ''),
-
-                                    //'Lorum Ipsum Cafe'
                                     fontWeight: FontWeight.w600,
                                     size: 16,
                                   ),
@@ -543,7 +542,7 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
 
   Padding sessionButton({required String title}) {
     return Padding(
-      padding: EdgeInsets.only(right: 2.w),
+      padding: EdgeInsets.only(right: 1.w),
       child: MyButton(
         title: title,
         onTap: () async {
