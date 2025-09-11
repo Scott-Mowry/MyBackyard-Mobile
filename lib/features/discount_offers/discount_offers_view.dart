@@ -33,18 +33,11 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 
-class DiscountOffersArgs {
-  const DiscountOffersArgs({this.model, this.fromSaved});
-
-  final Offer? model;
-  final bool? fromSaved;
-}
-
 @RoutePage()
 class DiscountOffersView extends StatefulWidget {
-  const DiscountOffersView({super.key, this.model, this.fromSaved});
+  const DiscountOffersView({super.key, this.offer, this.fromSaved});
 
-  final Offer? model;
+  final Offer? offer;
   final bool? fromSaved;
 
   @override
@@ -52,6 +45,8 @@ class DiscountOffersView extends StatefulWidget {
 }
 
 class _DiscountOffersViewState extends State<DiscountOffersView> {
+  late var offer = widget.offer;
+
   late final user = context.read<UserController>().user;
   late bool business =
       (context.read<UserController>().isSwitch)
@@ -59,8 +54,8 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
           : context.read<UserController>().user?.role == UserRoleEnum.Business;
 
   String get data => json.encode({
-    'title': widget.model?.title ?? '',
-    'offer': (widget.fromSaved ?? false) ? widget.model?.offerId?.toString() : widget.model?.id?.toString(),
+    'title': offer?.title ?? '',
+    'offer': (widget.fromSaved ?? false) ? offer?.offerId?.toString() : offer?.id?.toString(),
     'user_id': user?.id?.toString(),
   });
 
@@ -97,7 +92,7 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                         height: 32.h,
                         fit: BoxFit.cover,
                         borderRadius: BorderRadius.circular(10),
-                        url: widget.model?.image,
+                        url: offer?.image,
                       ),
                       Container(
                         width: 95.w,
@@ -125,14 +120,14 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             MyText(
-                              title: '\$${widget.model?.actualPrice}   ',
+                              title: '\$${offer?.actualPrice}   ',
                               fontWeight: FontWeight.w600,
                               size: 16,
                               clr: CustomColors.whiteColor,
                               cut: true,
                             ),
                             MyText(
-                              title: '\$${widget.model?.discountPrice}',
+                              title: '\$${offer?.discountPrice}',
                               fontWeight: FontWeight.w600,
                               size: 16,
                               clr: CustomColors.whiteColor,
@@ -150,7 +145,7 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
               SizedBox(height: 2.h),
               Row(
                 children: [
-                  Expanded(child: MyText(title: widget.model?.title ?? '', fontWeight: FontWeight.w600, size: 16)),
+                  Expanded(child: MyText(title: offer?.title ?? '', fontWeight: FontWeight.w600, size: 16)),
                   Container(
                     constraints: BoxConstraints(maxWidth: 53.w),
                     decoration: BoxDecoration(
@@ -159,7 +154,7 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                     ),
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     child: MyText(
-                      title: widget.model?.category?.categoryName ?? '',
+                      title: offer?.category?.categoryName ?? '',
                       clr: CustomColors.whiteColor,
                       size: Utils.isTablet ? 6.sp : 10.sp,
                     ),
@@ -180,7 +175,7 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                   SizedBox(
                     width: 85.w,
                     child: Text(
-                      widget.model?.address ?? '',
+                      offer?.address ?? '',
                       maxLines: 2,
                       overflow: TextOverflow.visible,
                       style: GoogleFonts.poppins(
@@ -195,28 +190,28 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
               SizedBox(height: 2.h),
               textDetail(
                 title: 'Offers Details:',
-                description: widget.model?.description ?? '',
+                description: offer?.description ?? '',
                 // 'Classic checkerboard slip ons with office white under tone and reinforced waffle cup soles is a tone and reinforced waffle cup soles.CIassic ka checkerboard slip ons with office white hnan dunder tone and reinforced.'
               ),
               SizedBox(height: 2.h),
               if (!business) ...[
-                if (widget.model?.ownerId != context.watch<UserController>().user?.id)
-                  if (widget.model?.isClaimed == 0)
+                if (offer?.ownerId != context.watch<UserController>().user?.id)
+                  if (offer?.isClaimed == 0)
                     Opacity(
                       opacity: context.watch<UserController>().user?.subId == null ? .5 : 1,
                       child: MyButton(
-                        title: widget.model?.isAvailed == 1 ? 'Download QR Code' : 'Redeem Offer',
+                        title: offer?.isAvailed == 1 ? 'Download QR Code' : 'Redeem Offer',
                         onTap: () async {
                           if (context.read<UserController>().user?.subId != null) {
-                            if (widget.model?.isAvailed == 1) {
+                            if (offer?.isAvailed == 1) {
                               downloadDialog2(context, data);
                             } else {
                               getIt<AppNetwork>().loadingProgressIndicator();
-                              final val = await BusAPIS.availOffer(offerId: widget.model?.id?.toString());
+                              final val = await BusinessAPIS.availOffer(offerId: offer?.id?.toString());
                               context.maybePop();
                               if (val) {
                                 setState(() {
-                                  widget.model?.isAvailed = 1;
+                                  offer = offer?.copyWith(isAvailed: 1);
                                 });
                                 // ignore: use_build_context_synchronously
                                 downloadDialog(context, data);
@@ -233,7 +228,7 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                       ),
                     ),
                 SizedBox(height: 2.h),
-                if (widget.model?.ownerId != context.watch<UserController>().user?.id)
+                if (offer?.ownerId != context.watch<UserController>().user?.id)
                   Opacity(
                     opacity: context.watch<UserController>().user?.subId == null ? .5 : 1,
                     child: MyButton(
@@ -301,7 +296,7 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                   GestureDetector(
                     onTap: () async {
                       await context.maybePop();
-                      return context.pushRoute<void>(CreateOfferRoute(edit: true, model: widget.model));
+                      return context.pushRoute<void>(CreateOfferRoute(edit: true, model: offer));
                     },
                     child: Row(
                       children: [
@@ -315,7 +310,7 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                   GestureDetector(
                     onTap: () {
                       context.maybePop();
-                      deleteDialog(context, widget.model);
+                      deleteDialog(context, offer);
                     },
                     child: Row(
                       children: [
@@ -355,7 +350,7 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
               b2: 'No',
               onYes: (v) async {
                 getIt<AppNetwork>().loadingProgressIndicator();
-                final val = await BusAPIS.deleteOffer(offerId: widget.model?.id?.toString() ?? '');
+                final val = await BusinessAPIS.deleteOffer(offerId: offer?.id?.toString() ?? '');
                 context.maybePop();
                 if (val) {
                   context.maybePop();

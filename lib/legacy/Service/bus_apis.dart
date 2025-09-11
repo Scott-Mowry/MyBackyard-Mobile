@@ -18,14 +18,15 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 
-class BusAPIS {
-  static Future<void> getBuses(double? lat, double? long) async {
+class BusinessAPIS {
+  static Future<void> getBusinesses(double? lat, double? long) async {
     try {
       await EasyLoading.show();
       final controller = getIt<UserController>();
+      final offersFilter = controller.offersFilter;
       final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.GET.name,
-        '${API.GET_BUSES_ENDPOINT}?lat=${lat ?? 0.0}&long=${long ?? 0.0}&radius=${(controller.mile)}',
+        '${API.GET_BUSINESSES_ENDPOINT}?lat=${lat ?? 0.0}&long=${long ?? 0.0}&radius=${(controller.offersFilter.radiusInMiles)}',
       );
       if (res != null) {
         final model = responseModelFromJson(res.body);

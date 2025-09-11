@@ -67,7 +67,7 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
         if (user != null) {
           if (widget.user?.id != null) {
-            await BusAPIS.getReview(widget.user?.id?.toString() ?? '');
+            await BusinessAPIS.getReview(widget.user?.id?.toString() ?? '');
           }
         }
       });
@@ -77,10 +77,10 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
         if (widget.user != null) {
           widget.user?.id != null
               ? await Future.wait([
-                BusAPIS.getReview(widget.user?.id?.toString() ?? ''),
-                BusAPIS.getOfferById(widget.user?.id?.toString() ?? ''),
+                BusinessAPIS.getReview(widget.user?.id?.toString() ?? ''),
+                BusinessAPIS.getOfferById(widget.user?.id?.toString() ?? ''),
               ])
-              : await BusAPIS.getOfferById(widget.user?.id?.toString() ?? '');
+              : await BusinessAPIS.getOfferById(widget.user?.id?.toString() ?? '');
         }
       });
     }
@@ -261,7 +261,7 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
                                   padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0.h),
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
-                                  itemBuilder: (_, index) => OfferTile(model: val2.offers?[index]),
+                                  itemBuilder: (_, index) => OfferTile(offer: val2.offers?[index]),
                                 ),
                               // Consumer<HomeController>(builder: (context, val, _) {
                               //   if (val.loading) {
@@ -608,7 +608,7 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
         onTap: () async {
           i = title;
           if (title == items[2] && widget.user?.id != null) {
-            await BusAPIS.getReview(widget.user?.id?.toString() ?? '');
+            await BusinessAPIS.getReview(widget.user?.id?.toString() ?? '');
           }
           setState(() {});
         },

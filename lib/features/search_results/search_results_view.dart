@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
+import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/features/offers/offers_view.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
-import 'package:backyard/legacy/Component/custom_height.dart';
 import 'package:backyard/legacy/Component/custom_image.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
@@ -38,7 +38,7 @@ class _SearchResultsViewState extends State<SearchResultsView> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => BusAPIS.getTrendingOffers(widget.categoryId ?? ''));
+    WidgetsBinding.instance.addPostFrameCallback((_) => BusinessAPIS.getTrendingOffers(widget.categoryId ?? ''));
   }
 
   @override
@@ -48,59 +48,44 @@ class _SearchResultsViewState extends State<SearchResultsView> {
       bgImage: '',
       showAppBar: true,
       showBackButton: true,
-      // backgroundColor: Colors.white,
       child: CustomPadding(
         horizontalPadding: 0.w,
         topPadding: 0,
         child: Consumer2<HomeController, UserController>(
-          builder: (context, val, val2, _) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 3.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SearchTile(showFilter: false),
-                      SizedBox(height: 2.h),
-                      MyText(title: 'Nearby Business', size: 16, fontWeight: FontWeight.w600),
-                      SizedBox(height: 2.h),
-                    ],
-                  ),
-                ),
-                if (val2.businessesList.isEmpty)
-                  Center(child: CustomEmptyData(title: 'No Nearby Business Found', hasLoader: false))
-                else
-                  CustomHeight(
-                    prototype: businessTile(context: context),
-                    listView: ListView.builder(
-                      itemCount: val2.businessesList.length,
+          builder: (context, homeController, userController, _) {
+            return SingleChildScrollView(
+              padding: CustomSpacer.horizontal.sm,
+              physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SearchTile(showFilter: false),
+                  SizedBox(height: 2.h),
+                  MyText(title: 'Nearby Business', size: 16, fontWeight: FontWeight.w600),
+                  SizedBox(height: 2.h),
+                  if (userController.businessesList.isEmpty)
+                    Center(child: CustomEmptyData(title: 'No Nearby Business Found', hasLoader: false))
+                  else
+                    SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.h),
                       physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
-                      shrinkWrap: true,
-                      itemBuilder: (_, index) => businessTile(user: val2.businessesList[index], context: context),
+                      child: Row(
+                        children:
+                            userController.businessesList.map((el) {
+                              return businessTile(context: context, user: el);
+                            }).toList(),
+                      ),
                     ),
+                  Padding(
+                    padding: CustomSpacer.top.sm,
+                    child: MyText(title: 'Trending Offers', size: 16, fontWeight: FontWeight.w600),
                   ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.w),
-                  child: const MyText(title: 'Trending Offers', size: 16, fontWeight: FontWeight.w600),
-                ),
-                // offerList(),
-                if (val.offers == null || val.offers!.isEmpty)
-                  Center(child: CustomEmptyData(title: 'No Trending Offers Found', hasLoader: false))
-                else
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: val.offers?.length,
-                      padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.h),
-                      physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
-                      shrinkWrap: true,
-                      itemBuilder: (_, index) => OfferTile(model: val.offers?[index]),
-                    ),
-                  ),
-              ],
+                  if (homeController.offers == null || homeController.offers!.isEmpty)
+                    Center(child: CustomEmptyData(title: 'No Trending Offers Found', hasLoader: false))
+                  else
+                    ...homeController.offers!.map((el) => OfferTile(offer: el)),
+                ],
+              ),
             );
           },
         ),

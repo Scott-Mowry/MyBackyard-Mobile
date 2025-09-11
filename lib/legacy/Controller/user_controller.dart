@@ -8,6 +8,7 @@ import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/core/repositories/geolocator_repository.dart';
 import 'package:backyard/core/repositories/local_storage_repository.dart';
 import 'package:backyard/core/repositories/permission_repository.dart';
+import 'package:backyard/features/home/widget/model/offers_filter_model.dart';
 import 'package:backyard/legacy/Model/reiview_model.dart';
 import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
@@ -34,25 +35,24 @@ class UserController extends ChangeNotifier {
   double rating = 0;
   List<in_app.ProductDetails> productDetails = [];
   List<UserProfileModel> businessesList = [];
-  int mile = 50;
 
-  void setMile(int val) {
-    mile = val;
-    final temp = circles.where((element) => element.circleId == const CircleId('myLocation')).firstOrNull;
-    if (temp != null) {
-      circles.clear();
-      circles.add(
-        Circle(
-          circleId: const CircleId('myLocation'),
-          radius: mile * 1609.344,
-          strokeWidth: 1,
-          zIndex: 0,
-          center: temp.center,
-          fillColor: CustomColors.primaryGreenColor.withValues(alpha: .15),
-          strokeColor: CustomColors.primaryGreenColor,
-        ),
-      );
-    }
+  var offersFilter = OffersFilterModel();
+
+  void setOffersFilter(OffersFilterModel offersFilter) {
+    this.offersFilter = offersFilter;
+    circles.clear();
+    circles.add(
+      Circle(
+        circleId: const CircleId('myLocation'),
+        radius: offersFilter.radiusInMiles * 1609.344,
+        strokeWidth: 1,
+        zIndex: 0,
+        center: LatLng(offersFilter.latitude, offersFilter.longitude),
+        fillColor: CustomColors.primaryGreenColor.withValues(alpha: .15),
+        strokeColor: CustomColors.primaryGreenColor,
+      ),
+    );
+
     notifyListeners();
   }
 
@@ -92,12 +92,6 @@ class UserController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addCircles(Circle val) {
-    circles.clear();
-    circles.add(val);
-    notifyListeners();
-  }
-
   void moveMap(CameraUpdate cameraUpdate) {
     mapController?.moveCamera(cameraUpdate);
     notifyListeners();
@@ -113,7 +107,7 @@ class UserController extends ChangeNotifier {
 
     await getIt<PermissionRepository>().requestLocationPermission();
     final position = await getIt<GeolocatorRepository>().loadCurrentPosition();
-    final radiusInDegrees = (mile * 1609.344) / 111320;
+    final radiusInDegrees = (offersFilter.radiusInMiles * 1609.344) / 111320;
     final bounds = LatLngBounds(
       southwest: LatLng(position.latitude - radiusInDegrees, position.longitude - radiusInDegrees),
       northeast: LatLng(position.latitude + radiusInDegrees, position.longitude + radiusInDegrees),
@@ -137,7 +131,7 @@ class UserController extends ChangeNotifier {
       final profileImage = user.profileImage ?? '';
       final imageBitmapDescriptor =
           textBitmapDescriptor == null && profileImage.isNotEmpty
-              ? await Utils.getNetworkImageMarker("${API.public_url}${user.profileImage ?? ""}")
+              ? await Utils.getNetworkImageMarker("${API.publicUrl}${user.profileImage ?? ""}")
               : null;
 
       final marker = Marker(

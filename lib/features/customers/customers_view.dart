@@ -37,7 +37,7 @@ class _CustomersState extends State<Customers> with AutomaticKeepAliveClientMixi
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => BusAPIS.getCustomers());
+    WidgetsBinding.instance.addPostFrameCallback((_) => BusinessAPIS.getCustomers());
   }
 
   @override
@@ -50,7 +50,7 @@ class _CustomersState extends State<Customers> with AutomaticKeepAliveClientMixi
         bottomSafeArea: false,
         topSafeArea: false,
         child: CustomRefresh(
-          onRefresh: BusAPIS.getCustomers,
+          onRefresh: BusinessAPIS.getCustomers,
           child: Consumer<HomeController>(
             builder: (context, val, _) {
               return CustomPadding(

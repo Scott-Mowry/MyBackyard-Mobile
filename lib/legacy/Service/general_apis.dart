@@ -13,29 +13,6 @@ import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class GeneralAPIS {
-  static Future<String?> getContent(String type) async {
-    try {
-      await EasyLoading.show();
-      final res = await getIt<AppNetwork>().networkRequest(
-        RequestTypeEnum.POST.name,
-        API.CONTENT_ENDPOINT,
-        parameters: {'type': type},
-      );
-      if (res != null) {
-        final model = responseModelFromJson(res.body);
-        if (model.status) {
-          return model.data.toString();
-        }
-      }
-    } catch (e) {
-      log('CONTENT ENDPOINT: ${e.toString()}');
-    } finally {
-      await EasyLoading.dismiss();
-    }
-
-    return null;
-  }
-
   static Future<void> getCategories() async {
     try {
       await EasyLoading.show();

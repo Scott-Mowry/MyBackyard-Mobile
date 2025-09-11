@@ -40,7 +40,7 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => BusAPIS.getSavedOrOwnedOffers());
+    WidgetsBinding.instance.addPostFrameCallback((_) => BusinessAPIS.getSavedOrOwnedOffers());
   }
 
   @override
@@ -53,7 +53,7 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
         bottomSafeArea: false,
         topSafeArea: false,
         child: CustomRefresh(
-          onRefresh: BusAPIS.getSavedOrOwnedOffers,
+          onRefresh: BusinessAPIS.getSavedOrOwnedOffers,
           child: Consumer2<UserController, HomeController>(
             builder: (context, val, val2, _) {
               return CustomPadding(
@@ -141,7 +141,7 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
         physics: const AlwaysScrollableScrollPhysics(),
         shrinkWrap: true,
         children: [
-          for (int index = 0; index < val.length; index++) OfferTile(model: val[index]),
+          for (int index = 0; index < val.length; index++) OfferTile(offer: val[index]),
           SizedBox(height: 5.h),
         ],
       ),

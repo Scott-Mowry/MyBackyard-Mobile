@@ -74,7 +74,7 @@ class AddImages extends StatelessWidget {
                             ? DecorationImage(
                               image:
                                   (imagePath[index].isNetwork
-                                          ? NetworkImage(API.public_url + imagePath[index].path)
+                                          ? NetworkImage(API.publicUrl + imagePath[index].path)
                                           : FileImage(File(imagePath[index].path)))
                                       as ImageProvider,
                               fit: BoxFit.cover,

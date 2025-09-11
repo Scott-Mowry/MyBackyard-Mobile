@@ -1,26 +1,38 @@
 import 'package:backyard/legacy/Model/category_model.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-class Offer {
-  int? id;
-  int? offerId;
-  int? userId;
-  int? isClaimed;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  String? title;
-  String? image;
-  int? categoryId;
-  int? ownerId;
-  double? actualPrice;
-  double? discountPrice;
-  int? rewardPoints;
-  String? shortDetail;
-  String? description;
-  String? address;
-  CategoryModel? category;
-  int? isAvailed;
+part 'offer_model.g.dart';
 
-  Offer({
+@CopyWith()
+@JsonSerializable()
+class Offer extends Equatable {
+  final int? id;
+  final int? offerId;
+  final int? userId;
+  final int? isClaimed;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final String? title;
+  final String? image;
+  final int? categoryId;
+  final int? ownerId;
+
+  @JsonKey(fromJson: _parseDouble)
+  final double? actualPrice;
+
+  @JsonKey(fromJson: _parseDouble)
+  final double? discountPrice;
+
+  final int? rewardPoints;
+  final String? shortDetail;
+  final String? description;
+  final String? address;
+  final CategoryModel? category;
+  final int? isAvailed;
+
+  const Offer({
     this.id,
     this.offerId,
     this.userId,
@@ -41,24 +53,37 @@ class Offer {
     this.isAvailed,
   });
 
-  factory Offer.fromJson(Map<String, dynamic> json) => Offer(
-    id: json['id'],
-    offerId: json['offer_id'],
-    userId: json['user_id'],
-    isClaimed: json['is_claimed'],
-    createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at']),
-    updatedAt: json['updated_at'] == null ? null : DateTime.parse(json['updated_at']),
-    title: json['title'],
-    image: json['image'],
-    categoryId: json['category_id'],
-    ownerId: json['owner_id'],
-    actualPrice: double.parse(json['actual_price'].toString()),
-    discountPrice: double.parse(json['discount_price'].toString()),
-    rewardPoints: json['reward_points'],
-    shortDetail: json['short_detail'],
-    description: json['description'],
-    address: json['address'],
-    category: json['category'] == null ? null : CategoryModel.fromJson(json['category']),
-    isAvailed: json['is_availed'],
-  );
+  factory Offer.fromJson(Map<String, dynamic> json) => _$OfferFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OfferToJson(this);
+
+  static double? _parseDouble(dynamic value) {
+    if (value == null) return null;
+    if (value is double) return value;
+    if (value is int) return value.toDouble();
+    if (value is String) return double.tryParse(value);
+    return null;
+  }
+
+  @override
+  List<Object?> get props => [
+    id,
+    offerId,
+    userId,
+    isClaimed,
+    createdAt,
+    updatedAt,
+    title,
+    image,
+    categoryId,
+    ownerId,
+    actualPrice,
+    discountPrice,
+    rewardPoints,
+    shortDetail,
+    description,
+    address,
+    category,
+    isAvailed,
+  ];
 }

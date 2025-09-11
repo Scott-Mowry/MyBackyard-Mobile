@@ -278,7 +278,7 @@ class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAli
                                   if ((form.currentState?.validate() ?? false) && !error) {
                                     if (widget.edit) {
                                       getIt<AppNetwork>().loadingProgressIndicator();
-                                      final val = await BusAPIS.editOffer(
+                                      final val = await BusinessAPIS.editOffer(
                                         offerId: widget.model?.id?.toString(),
                                         title: titleController.text,
                                         categoryId: selected?.id?.toString() ?? '',
@@ -296,7 +296,7 @@ class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAli
                                       }
                                     } else {
                                       getIt<AppNetwork>().loadingProgressIndicator();
-                                      final val = await BusAPIS.addOffer(
+                                      final val = await BusinessAPIS.addOffer(
                                         title: titleController.text,
                                         categoryId: selected?.id?.toString() ?? '',
                                         actualPrice: actualPriceController.text,

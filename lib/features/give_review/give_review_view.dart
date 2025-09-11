@@ -92,7 +92,7 @@ class _GiveReviewViewState extends State<GiveReviewView> {
                 onTap: () async {
                   if (_form.currentState?.validate() ?? false) {
                     getIt<AppNetwork>().loadingProgressIndicator();
-                    final val = await BusAPIS.submiteReview(
+                    final val = await BusinessAPIS.submiteReview(
                       busId: widget.busId,
                       rate: rate.toInt().toString(),
                       feedback: review.text,

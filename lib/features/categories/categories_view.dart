@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
 import 'package:backyard/legacy/Component/custom_image.dart';
@@ -68,7 +69,6 @@ class _CategoriesViewState extends State<CategoriesView> with AutomaticKeepAlive
           onRefresh: GeneralAPIS.getCategories,
           child: Consumer<HomeController>(
             builder: (context, val, _) {
-              print('CATEGORIES ${val.categories}');
               return Column(
                 children: [
                   Container(
@@ -96,7 +96,7 @@ class _CategoriesViewState extends State<CategoriesView> with AutomaticKeepAlive
                   if (val.categories == null)
                     Expanded(
                       child: SingleChildScrollView(
-                        physics: const AlwaysScrollableScrollPhysics(),
+                        physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
                         child: Column(
                           children: [
                             SizedBox(height: 20.h),
@@ -117,7 +117,7 @@ class _CategoriesViewState extends State<CategoriesView> with AutomaticKeepAlive
                         ),
                         itemCount: val.categories?.length,
                         shrinkWrap: true,
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        padding: CustomSpacer.horizontal.md + CustomSpacer.top.xmd,
                         itemBuilder: (ctx, index) {
                           return Stack(
                             children: [

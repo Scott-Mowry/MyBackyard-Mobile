@@ -2,7 +2,7 @@ import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_radius.dart';
 import 'package:flutter/material.dart';
 
-Future<void> showCustomBottomSheet({
+Future<T?> showCustomBottomSheet<T>({
   required BuildContext context,
   required Widget child,
   required String routeName,
@@ -16,7 +16,7 @@ Future<void> showCustomBottomSheet({
   final childWidget = Container(height: height, width: screenSize.width, color: CustomColors.white, child: child);
 
   const borderRadius = const BorderRadius.vertical(top: Radius.circular(CustomRadius.m));
-  return showModalBottomSheet<void>(
+  return showModalBottomSheet<T>(
     context: context,
     isScrollControlled: true,
     backgroundColor: CustomColors.white,

@@ -40,7 +40,7 @@ class HomeController extends ChangeNotifier {
   void availOffer(String id) {
     final ind = _offers?.indexWhere((element) => element.id.toString() == id);
     if (ind != -1) {
-      _offers![ind ?? 0].isAvailed = 1;
+      _offers![ind ?? 0] = _offers![ind ?? 0].copyWith(isAvailed: 1);
     }
     notifyListeners();
   }
@@ -52,16 +52,17 @@ class HomeController extends ChangeNotifier {
   }
 
   void addOffers(Offer val) {
-    val.category = _categories?.where((element) => element.id == val.categoryId).firstOrNull;
-    _offers?.add(val);
+    final newOffer = val.copyWith(category: _categories?.where((element) => element.id == val.categoryId).firstOrNull);
+    _offers?.add(newOffer);
     notifyListeners();
   }
 
   void editOffers(Offer val) {
     final ind = _offers?.indexWhere((element) => element.id == val.id);
     if (ind != -1) {
-      _offers![ind ?? 0] = val;
-      _offers![ind ?? 0].category = _categories?.where((element) => element.id == val.categoryId).firstOrNull;
+      _offers![ind ?? 0] = val.copyWith(
+        category: _categories?.where((element) => element.id == val.categoryId).firstOrNull,
+      );
     }
     notifyListeners();
   }

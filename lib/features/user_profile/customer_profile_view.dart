@@ -34,7 +34,9 @@ class _CustomerProfileViewState extends State<CustomerProfileView> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => BusAPIS.getCustomerOffers(widget.user?.id.toString() ?? ''));
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => BusinessAPIS.getCustomerOffers(widget.user?.id.toString() ?? ''),
+    );
   }
 
   List<String> items = ['Contact Details', 'Offers & Discounts'];
@@ -67,7 +69,7 @@ class _CustomerProfileViewState extends State<CustomerProfileView> {
       builder: (context, val, _) {
         return Expanded(
           child: RefreshIndicator(
-            onRefresh: () => BusAPIS.getCustomerOffers(widget.user?.id.toString() ?? ''),
+            onRefresh: () => BusinessAPIS.getCustomerOffers(widget.user?.id.toString() ?? ''),
             child: Column(
               children: [
                 Container(
@@ -136,7 +138,7 @@ class _CustomerProfileViewState extends State<CustomerProfileView> {
                       padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0.h),
                       physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
                       shrinkWrap: true,
-                      itemBuilder: (_, index) => OfferTile(model: val.customerOffers[index]),
+                      itemBuilder: (_, index) => OfferTile(offer: val.customerOffers[index]),
                     ),
                   ),
               ],

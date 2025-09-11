@@ -1,18 +1,12 @@
-//Class: returns the urls thorughout the app.
+// ignore_for_file: avoid_classes_with_only_static_members
 
 class API {
   /// [url] : Base url for apis.
   static String url = 'https://admin.mybackyardusa.com/public/api';
-  static String public_url = 'https://admin.mybackyardusa.com/public/';
-  static String socket_url = 'https://admin.mybackyardusa.com:3000';
+  static String publicUrl = 'https://admin.mybackyardusa.com/public/';
 
   //timeout Duraiton
   static Duration timeout = const Duration(seconds: 20);
-
-  //**End points**//
-
-  // General
-  static const CONTENT_ENDPOINT = '/content';
 
   // Auth
   static const SIGN_IN_ENDPOINT = '/login';
@@ -36,7 +30,7 @@ class API {
   static const PLACES_ENDPOINT = '/places';
 
   //buses
-  static const GET_BUSES_ENDPOINT = '/getBuses';
+  static const GET_BUSINESSES_ENDPOINT = '/getBuses';
   static const GET_OFFERS_ENDPOINT = '/getOffers';
   static const ADD_OFFETS_ENDPOINT = '/addOffer';
   static const EDIT_OFFETS_ENDPOINT = '/editOffer';

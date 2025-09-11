@@ -157,7 +157,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                             radius: 65.0,
                             backgroundImage:
                                 (type == ImageTypeEnum.network
-                                        ? NetworkImage("${API.public_url}${imageProfile ?? ""}")
+                                        ? NetworkImage("${API.publicUrl}${imageProfile ?? ""}")
                                         : type == ImageTypeEnum.file
                                         ? FileImage(File(imageProfile ?? ''))
                                         : const AssetImage(ImagePath.noUserImage))
