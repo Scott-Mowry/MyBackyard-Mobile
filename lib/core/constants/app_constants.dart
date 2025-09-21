@@ -17,7 +17,7 @@ final kMinVisualDensity = VisualDensity(
 const kMinMapRadiusInMiles = 5.0;
 const kMaxMapRadiusInMiles = 50.0;
 const kMapRadiusFilterDivisions = 10;
-const kDefaultMapRadiusInMiles = 10;
+const kDefaultMapRadiusInMiles = 50;
 
 // External links
 const privacyPolicyUrl = 'https://mybackyardusa.com/privacy';

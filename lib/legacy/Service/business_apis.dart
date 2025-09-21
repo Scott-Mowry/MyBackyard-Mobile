@@ -317,14 +317,14 @@ class BusinessAPIS {
     return false;
   }
 
-  static Future<void> getOfferById(String busId) async {
+  static Future<void> getOffersByBusinessId(String businessId) async {
     try {
       await EasyLoading.show();
       final controller = getIt<HomeController>();
       controller.setOffers([]);
       final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.GET.name,
-        '${API.GET_OFFERS_ENDPOINT}?bus_id=$busId',
+        '${API.GET_OFFERS_ENDPOINT}?bus_id=$businessId&page=500',
       );
       if (res != null) {
         final model = responseModelFromJson(res.body);

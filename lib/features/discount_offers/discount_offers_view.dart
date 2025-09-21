@@ -8,7 +8,8 @@ import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
-import 'package:backyard/core/design_system/theme/custom_text_style.dart';
+import 'package:backyard/core/design_system/widgets/category_name_widget.dart';
+import 'package:backyard/core/design_system/widgets/price_discount_widget.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Component/custom_bottomsheet_indicator.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -63,6 +64,8 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
 
   @override
   Widget build(BuildContext context) {
+    final imgWidth = 92.w;
+    final imgHeight = 22.h;
     return BaseView(
       screenTitle: 'Discount Offers',
       bgImage: '',
@@ -85,52 +88,43 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                 alignment: Alignment.bottomCenter,
                 children: [
                   CustomImage(
-                    width: 95.w,
-                    height: 32.h,
+                    width: imgWidth,
+                    height: imgHeight,
                     fit: BoxFit.cover,
                     borderRadius: BorderRadius.circular(10),
                     url: offer?.image,
                   ),
                   Container(
-                    width: 95.w,
-                    height: 32.h,
+                    width: imgWidth,
+                    height: imgHeight,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       gradient: LinearGradient(
                         colors: [
                           CustomColors.primaryGreenColor.withValues(alpha: 0),
-                          CustomColors.primaryGreenColor.withValues(alpha: 0.8),
+                          CustomColors.primaryGreenColor.withValues(alpha: 0.6),
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                       ),
                     ),
                   ),
-                  Positioned(
-                    bottom: CustomSpacer.bottom.xl.bottom,
-                    child: Container(
-                      decoration: BoxDecoration(color: CustomColors.black, borderRadius: BorderRadius.circular(30)),
-                      padding: EdgeInsets.all(16) + EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          MyText(
-                            title: '\$${offer?.actualPrice}   ',
-                            fontWeight: FontWeight.w600,
-                            size: 16,
-                            clr: CustomColors.grey,
-                            cut: true,
-                          ),
-                          MyText(
-                            title: '\$${offer?.discountPrice}',
-                            fontWeight: FontWeight.w600,
-                            size: 16,
-                            clr: CustomColors.whiteColor,
-                          ),
-                        ],
+                  if (offer != null && offer!.actualPrice != null && offer!.discountPrice != null)
+                    Positioned(
+                      bottom: CustomSpacer.bottom.lg.bottom,
+                      child: PriceDiscountWidget(
+                        actualPrice: offer!.actualPrice!,
+                        discountPrice: offer!.discountPrice!,
                       ),
                     ),
-                  ),
+                  if (offer?.category?.categoryName != null && offer!.category!.categoryName!.isNotEmpty)
+                    Positioned(
+                      top: CustomSpacer.top.xs.top,
+                      child: Padding(
+                        padding: CustomSpacer.left.xs,
+                        child: CategoryNameWidget(name: offer!.category!.categoryName!.split(' ').first),
+                      ),
+                    ),
                 ],
               ),
               SizedBox(height: 2.h),
@@ -144,23 +138,6 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                       style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black),
                     ),
                   ),
-                  if (offer?.category?.categoryName != null && offer!.category!.categoryName!.isNotEmpty)
-                    Padding(
-                      padding: CustomSpacer.left.xs,
-                      child: Container(
-                        padding: CustomSpacer.horizontal.xs + CustomSpacer.vertical.xxs,
-                        decoration: BoxDecoration(
-                          color: CustomColors.primaryGreenColor,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          offer?.category!.categoryName?.split(' ').firstOrNull ?? '',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: CustomTextStyle.labelSmall.copyWith(color: CustomColors.white, fontSize: 16),
-                        ),
-                      ),
-                    ),
                 ],
               ),
               if (offer?.address != null && offer!.address!.isNotEmpty)
@@ -179,6 +156,7 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
                           padding: CustomSpacer.left.xxs,
                           child: Text(
                             offer!.address ?? '',
+                            maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
                           ),

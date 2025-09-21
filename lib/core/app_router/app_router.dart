@@ -14,7 +14,6 @@ import 'package:backyard/features/sign_in/enter_otp_view.dart';
 import 'package:backyard/features/sign_in/sign_in_view.dart';
 import 'package:backyard/features/subscription/subscription_view.dart';
 import 'package:backyard/features/time_schedule/time_schedule_edit_view.dart';
-import 'package:backyard/features/trending_offers/trending_offers_view.dart';
 import 'package:backyard/features/user_profile/business_category_view.dart';
 import 'package:backyard/features/user_profile/customer_profile_view.dart';
 import 'package:backyard/features/user_profile/profile_setup_view.dart';
@@ -40,7 +39,6 @@ class AppRouter extends RootStackRouter {
     AutoRoute(path: '/profile-setup', page: ProfileSetupRoute.page),
     AutoRoute(path: '/home', page: HomeRoute.page),
     AutoRoute(path: '/discount-offers', page: DiscountOffersRoute.page),
-    AutoRoute(path: '/trending-offers', page: TrendingOffersRoute.page),
     AutoRoute(path: '/give-review', page: GiveReviewRoute.page),
     AutoRoute(path: '/create-offer', page: CreateOfferRoute.page),
     AutoRoute(path: '/subscription-screen', page: SubscriptionRoute.page),

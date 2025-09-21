@@ -3,7 +3,7 @@ import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/helper/snackbar_helper.dart';
-import 'package:backyard/features/offers/offer_card_widget.dart';
+import 'package:backyard/features/home/widget/widget/offer_card_widget.dart';
 import 'package:backyard/features/subscription/enum/subscription_type_enum.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
@@ -143,7 +143,7 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
         shrinkWrap: true,
         children: [
           for (int index = 0; index < val.length; index++)
-            Padding(padding: CustomSpacer.top.md, child: OfferCardWidget(offer: val[index])),
+            Padding(padding: CustomSpacer.top.md, child: OfferCardWidget(offer: val[index], showAddress: false)),
           SizedBox(height: 5.h),
         ],
       ),

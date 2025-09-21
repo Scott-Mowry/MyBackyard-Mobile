@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/enum/enum.dart';
-import 'package:backyard/features/categories/categories_view.dart';
 import 'package:backyard/features/customers/customers_view.dart';
 import 'package:backyard/features/home/business_home_view.dart';
 import 'package:backyard/features/home/user_home_view.dart';
@@ -42,7 +41,6 @@ class _HomeViewState extends State<HomeView> {
 
   final userPages = <Widget>[
     const UserHomeView(wantKeepAlive: true),
-    const CategoriesView(wantKeepAlive: true),
     const OffersView(wantKeepAlive: true),
     const UserProfileView(wantKeepAlive: true),
   ];
@@ -55,7 +53,6 @@ class _HomeViewState extends State<HomeView> {
 
   List<Map<String, String>> userTabs = [
     {'title': 'Home', 'icon': ImagePath.homeAltered},
-    {'title': 'Offers', 'icon': ImagePath.offerAltered},
     {'title': 'Saved', 'icon': ImagePath.savedOffersIcon},
     {'title': 'Profile', 'icon': ImagePath.profile},
   ];

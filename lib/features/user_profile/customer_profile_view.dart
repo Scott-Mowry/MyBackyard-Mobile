@@ -2,7 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
-import 'package:backyard/features/offers/offer_card_widget.dart';
+import 'package:backyard/features/home/widget/widget/offer_card_widget.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';

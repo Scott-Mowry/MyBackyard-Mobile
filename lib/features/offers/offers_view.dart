@@ -1,5 +1,5 @@
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
-import 'package:backyard/features/offers/offer_card_widget.dart';
+import 'package:backyard/features/home/widget/widget/offer_card_widget.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
