@@ -8,6 +8,7 @@ import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
+import 'package:backyard/core/design_system/widgets/address_info_widget.dart';
 import 'package:backyard/core/design_system/widgets/category_name_widget.dart';
 import 'package:backyard/core/design_system/widgets/price_discount_widget.dart';
 import 'package:backyard/core/enum/enum.dart';
@@ -37,21 +38,21 @@ import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 
 @RoutePage()
-class DiscountOffersView extends StatefulWidget {
-  const DiscountOffersView({super.key, this.offer, this.fromSaved});
+class OfferItemView extends StatefulWidget {
+  const OfferItemView({super.key, this.offer, this.fromSaved});
 
   final Offer? offer;
   final bool? fromSaved;
 
   @override
-  State<DiscountOffersView> createState() => _DiscountOffersViewState();
+  State<OfferItemView> createState() => _OfferItemViewState();
 }
 
-class _DiscountOffersViewState extends State<DiscountOffersView> {
+class _OfferItemViewState extends State<OfferItemView> {
   late var offer = widget.offer;
 
   late final user = context.read<UserController>().user;
-  late bool business =
+  late bool isBusiness =
       (context.read<UserController>().isSwitch)
           ? false
           : context.read<UserController>().user?.role == UserRoleEnum.Business;
@@ -72,7 +73,7 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
       showAppBar: true,
       showBackButton: true,
       trailingAppBar:
-          business
+          isBusiness
               ? IconButton(
                 onPressed: () => editOffer(context),
                 icon: const Icon(Icons.more_horiz_rounded, size: 35, color: Colors.black),
@@ -81,165 +82,150 @@ class _DiscountOffersViewState extends State<DiscountOffersView> {
       child: CustomPadding(
         horizontalPadding: 4.w,
         topPadding: 0,
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  CustomImage(
-                    width: imgWidth,
-                    height: imgHeight,
-                    fit: BoxFit.cover,
-                    borderRadius: BorderRadius.circular(10),
-                    url: offer?.image,
-                  ),
-                  Container(
-                    width: imgWidth,
-                    height: imgHeight,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      gradient: LinearGradient(
-                        colors: [
-                          CustomColors.primaryGreenColor.withValues(alpha: 0),
-                          CustomColors.primaryGreenColor.withValues(alpha: 0.6),
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
-                    ),
-                  ),
-                  if (offer != null && offer!.actualPrice != null && offer!.discountPrice != null)
-                    Positioned(
-                      bottom: CustomSpacer.bottom.lg.bottom,
-                      child: PriceDiscountWidget(
-                        actualPrice: offer!.actualPrice!,
-                        discountPrice: offer!.discountPrice!,
-                      ),
-                    ),
-                  if (offer?.category?.categoryName != null && offer!.category!.categoryName!.isNotEmpty)
-                    Positioned(
-                      top: CustomSpacer.top.xs.top,
-                      child: Padding(
-                        padding: CustomSpacer.left.xs,
-                        child: CategoryNameWidget(name: offer!.category!.categoryName!.split(' ').first),
-                      ),
-                    ),
-                ],
-              ),
-              SizedBox(height: 2.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Text(
-                      offer?.title ?? '',
-                      maxLines: 1,
-                      style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black),
-                    ),
-                  ),
-                ],
-              ),
-              if (offer?.address != null && offer!.address!.isNotEmpty)
-                Padding(
-                  padding: CustomSpacer.top.xs,
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        ImagePath.location,
-                        color: CustomColors.primaryGreenColor,
-                        height: 18,
-                        fit: BoxFit.fitHeight,
-                      ),
-                      Flexible(
-                        child: Padding(
-                          padding: CustomSpacer.left.xxs,
-                          child: Text(
-                            offer!.address ?? '',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.black),
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        CustomImage(
+                          width: imgWidth,
+                          height: imgHeight,
+                          fit: BoxFit.cover,
+                          borderRadius: BorderRadius.circular(10),
+                          url: offer?.image,
+                        ),
+                        Container(
+                          width: imgWidth,
+                          height: imgHeight,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            gradient: LinearGradient(
+                              colors: [
+                                CustomColors.primaryGreenColor.withValues(alpha: 0),
+                                CustomColors.primaryGreenColor.withValues(alpha: 0.6),
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              SizedBox(height: 2.h),
-              textDetail(
-                title: 'Offers Details:',
-                description: offer?.description ?? '',
-                // 'Classic checkerboard slip ons with office white under tone and reinforced waffle cup soles is a tone and reinforced waffle cup soles.CIassic ka checkerboard slip ons with office white hnan dunder tone and reinforced.'
-              ),
-              SizedBox(height: 2.h),
-              if (!business)
-                Row(
-                  children: [
-                    if (offer?.ownerId != context.watch<UserController>().user?.id)
-                      if (offer?.isClaimed == 0)
+                        if (offer != null && offer!.actualPrice != null && offer!.discountPrice != null)
+                          Positioned(
+                            bottom: CustomSpacer.bottom.lg.bottom,
+                            child: PriceDiscountWidget(
+                              actualPrice: offer!.actualPrice!,
+                              discountPrice: offer!.discountPrice!,
+                            ),
+                          ),
+                        if (offer?.category?.categoryName != null && offer!.category!.categoryName!.isNotEmpty)
+                          Positioned(
+                            top: CustomSpacer.top.xs.top,
+                            child: Padding(
+                              padding: CustomSpacer.left.xs,
+                              child: CategoryNameWidget(name: offer!.category!.categoryName!.split(' ').first),
+                            ),
+                          ),
+                      ],
+                    ),
+                    SizedBox(height: 2.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
                         Expanded(
-                          child: Opacity(
-                            opacity: context.watch<UserController>().user?.subId == null ? .5 : 1,
-                            child: MyButton(
-                              title: offer?.isAvailed == 1 ? 'QR Code' : 'Redeem',
-                              onTap: () async {
-                                if (context.read<UserController>().user?.subId != null) {
-                                  if (offer?.isAvailed == 1) {
-                                    downloadDialog2(context, data);
-                                  } else {
-                                    getIt<AppNetwork>().loadingProgressIndicator();
-                                    final val = await BusinessAPIS.availOffer(offerId: offer?.id?.toString());
-                                    context.maybePop();
-                                    if (val) {
-                                      setState(() {
-                                        offer = offer?.copyWith(isAvailed: 1);
-                                      });
-                                      // ignore: use_build_context_synchronously
-                                      downloadDialog(context, data);
-                                    }
-                                  }
-                                } else {
-                                  CustomToast().showToast(message: 'You Need to Subscribe to Avail an Offer.');
-                                  await context.pushRoute<void>(SubscriptionRoute());
-                                }
-                              },
-                              bgColor: CustomColors.whiteColor,
-                              textColor: CustomColors.black,
-                              borderColor: CustomColors.black,
-                            ),
+                          child: Text(
+                            offer?.title ?? '',
+                            maxLines: 1,
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black),
                           ),
                         ),
-                    if (offer?.ownerId != context.watch<UserController>().user?.id)
-                      Expanded(
-                        child: Padding(
-                          padding: CustomSpacer.left.xs,
-                          child: Opacity(
-                            opacity: context.watch<UserController>().user?.subId == null ? .5 : 1,
-                            child: MyButton(
-                              title: 'Share',
-                              onTap: () async {
-                                final subId = context.read<UserController>().user?.subId;
-                                if (subId == null) {
-                                  CustomToast().showToast(message: 'You Need to Subscribe to Share an Offer.');
-                                  return context.pushRoute(SubscriptionRoute());
-                                }
-
-                                return SharePlus.instance.share(
-                                  ShareParams(
-                                    text:
-                                        "Share App with Friends,\n\n Link:${Platform.isAndroid ? "https://play.google.com/store/apps/details?id=com.app.mybackyardusa1" : "https://apps.apple.com/us/app/mb-my-backyard/id6736581907"}",
-                                    subject: 'Share with Friends',
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
+                      ],
+                    ),
+                    if (offer?.address != null && offer!.address!.isNotEmpty)
+                      Padding(
+                        padding: CustomSpacer.top.xs,
+                        child: AddressInfoWidget(address: offer!.address ?? '', maxLines: 2),
                       ),
+                    SizedBox(height: 2.h),
+                    textDetail(
+                      title: 'Offers Details:',
+                      description: offer?.description ?? '',
+                      // 'Classic checkerboard slip ons with office white under tone and reinforced waffle cup soles is a tone and reinforced waffle cup soles.CIassic ka checkerboard slip ons with office white hnan dunder tone and reinforced.'
+                    ),
+                    SizedBox(height: 2.h),
                   ],
                 ),
-            ],
-          ),
+              ),
+            ),
+            if (!isBusiness)
+              Row(
+                children: [
+                  if (offer?.ownerId != context.watch<UserController>().user?.id && offer?.isClaimed == 0)
+                    Expanded(
+                      child: Opacity(
+                        opacity: context.watch<UserController>().user?.subId == null ? .5 : 1,
+                        child: MyButton(
+                          title: offer?.isAvailed == 1 ? 'QR Code' : 'Redeem',
+                          onTap: () async {
+                            if (context.read<UserController>().user?.subId != null) {
+                              if (offer?.isAvailed == 1) {
+                                downloadDialog2(context, data);
+                              } else {
+                                getIt<AppNetwork>().loadingProgressIndicator();
+                                final val = await BusinessAPIS.availOffer(offerId: offer?.id?.toString());
+                                context.maybePop();
+                                if (val) {
+                                  setState(() {
+                                    offer = offer?.copyWith(isAvailed: 1);
+                                  });
+                                  // ignore: use_build_context_synchronously
+                                  downloadDialog(context, data);
+                                }
+                              }
+                            } else {
+                              CustomToast().showToast(message: 'You Need to Subscribe to Avail an Offer.');
+                              await context.pushRoute<void>(SubscriptionRoute());
+                            }
+                          },
+                          bgColor: CustomColors.whiteColor,
+                          textColor: CustomColors.black,
+                          borderColor: CustomColors.black,
+                        ),
+                      ),
+                    ),
+                  if (offer?.ownerId != context.watch<UserController>().user?.id)
+                    Expanded(
+                      child: Padding(
+                        padding: CustomSpacer.left.xs,
+                        child: Opacity(
+                          opacity: context.watch<UserController>().user?.subId == null ? .5 : 1,
+                          child: MyButton(
+                            title: 'Share',
+                            onTap: () async {
+                              final subId = context.read<UserController>().user?.subId;
+                              if (subId == null) {
+                                CustomToast().showToast(message: 'You Need to Subscribe to Share an Offer.');
+                                return context.pushRoute(SubscriptionRoute());
+                              }
+
+                              return SharePlus.instance.share(
+                                ShareParams(
+                                  text:
+                                      "Share App with Friends,\n\n Link:${Platform.isAndroid ? "https://play.google.com/store/apps/details?id=com.app.mybackyardusa1" : "https://apps.apple.com/us/app/mb-my-backyard/id6736581907"}",
+                                  subject: 'Share with Friends',
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+          ],
         ),
       ),
     );

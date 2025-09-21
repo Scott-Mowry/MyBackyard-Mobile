@@ -37,7 +37,7 @@ class OfferCardWidget extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: borderRadius),
       margin: EdgeInsets.zero,
       child: InkWell(
-        onTap: () => context.pushRoute(DiscountOffersRoute(offer: offer, fromSaved: fromSaved)),
+        onTap: () => context.pushRoute(OfferItemRoute(offer: offer, fromSaved: fromSaved)),
         borderRadius: borderRadius,
         child: Row(
           children: [

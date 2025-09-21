@@ -41,13 +41,7 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
   @override
   bool get wantKeepAlive => widget.wantKeepAlive;
 
-  @override
-  void initState() {
-    super.initState();
-    getData();
-  }
-
-  bool get getBusinesses =>
+  bool get isBusiness =>
       (context.read<UserController>().isSwitch)
           ? false
           : context.read<UserController>().user?.role == UserRoleEnum.Business;
@@ -215,16 +209,10 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
     );
   }
 
-  void getData() {
-    if (context.read<UserController>().user?.isPushNotify ?? false) {
-      allowNotifications = true;
-    }
-  }
-
   late List<MenuModel> optionsList = [
     MenuModel(name: 'Push Notification', onTap: () {}),
     MenuModel(name: 'Change Password', onTap: () => context.pushRoute<void>(ChangePasswordRoute(fromSettings: true))),
-    MenuModel(name: 'Subscriptions', onTap: () => context.pushRoute(SubscriptionRoute())),
+    if (isBusiness) MenuModel(name: 'Subscriptions', onTap: () => context.pushRoute(SubscriptionRoute())),
     MenuModel(name: 'Privacy Policy', onTap: () => showWebViewBottomSheet(url: privacyPolicyUrl, context: context)),
     MenuModel(name: 'Terms & Conditions', onTap: () => showWebViewBottomSheet(url: termsOfUseUrl, context: context)),
     MenuModel(

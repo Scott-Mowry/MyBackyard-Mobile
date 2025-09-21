@@ -60,7 +60,7 @@ class BusinessCardWidget extends StatelessWidget {
             ),
             Expanded(
               child: Padding(
-                padding: CustomSpacer.all.xs,
+                padding: CustomSpacer.left.xxs + CustomSpacer.all.xs,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
