@@ -150,7 +150,7 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
                                   if (i != items[2])
                                     Row(
                                       children: [
-                                        MyText(title: '${userController.rating.toStringAsFixed(1)}  ', size: 12),
+                                        MyText(title: '${userController.rating.toStringAsFixed(1)}  ', size: 16),
                                         RatingBar(
                                           initialRating: userController.rating,
                                           direction: Axis.horizontal,
@@ -166,9 +166,9 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
                                           ),
                                           itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
                                           onRatingUpdate: (rating) {},
-                                          itemSize: 3.w,
+                                          itemSize: 4.w,
                                         ),
-                                        MyText(title: '  ${userController.reviews.length} Ratings', size: 12),
+                                        MyText(title: '  ${userController.reviews.length} Ratings', size: 16),
                                       ],
                                     ),
                                   SizedBox(height: 2.h),

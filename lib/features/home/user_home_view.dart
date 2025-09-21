@@ -18,6 +18,7 @@ import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -99,8 +100,28 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            MyText(title: 'Nearby Business', size: 16, fontWeight: FontWeight.w600),
-                            InkWell(onTap: onFilterTap, child: Image.asset(ImagePath.filterIcon, scale: 2)),
+                            MyText(title: 'Local businesses', size: 16, fontWeight: FontWeight.w600),
+                            InkWell(
+                              onTap: onFilterTap,
+                              child: Row(
+                                children: [
+                                  Image.asset(ImagePath.filterIcon, scale: 3),
+                                  Padding(
+                                    padding: CustomSpacer.left.xs,
+                                    child: Text(
+                                      'Filter',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                         if (businessesList.isEmpty) ...[
