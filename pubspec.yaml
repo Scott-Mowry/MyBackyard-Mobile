@@ -58,6 +58,7 @@ dependencies:
   json_annotation: ^4.8.1
   image: ^4.5.4
   collection: ^1.18.0
+  map_launcher: ^3.5.0
 
   # UI
   google_fonts: ^6.2.1
@@ -95,6 +96,7 @@ dependencies:
   image_cropper: ^9.1.0
   image_picker : ^1.2.0
   mask_text_input_formatter: ^2.5.0
+  flutter_svg: ^2.0.6
 
   place_picker:
     path: locationpicker

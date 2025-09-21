@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
+import 'package:backyard/core/design_system/widgets/address_info_widget.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/features/home/widget/widget/offer_card_widget.dart';
@@ -21,7 +22,6 @@ import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -140,17 +140,11 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
                                   else
                                     Image.asset(ImagePath.random6),
                                   SizedBox(height: 2.h),
-                                  Text(
-                                    widget.isMe
-                                        ? (userController.user?.address ?? '')
-                                        : widget.user?.address ?? 'Unknown',
-                                    overflow: TextOverflow.ellipsis,
+                                  AddressInfoWidget(
+                                    address:
+                                        widget.isMe ? (userController.user?.address ?? '') : widget.user?.address ?? '',
                                     maxLines: 2,
-                                    style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                    ),
+                                    fontSize: 16,
                                   ),
                                   SizedBox(height: 1.h),
                                   if (i != items[2])

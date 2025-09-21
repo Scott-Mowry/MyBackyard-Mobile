@@ -3,6 +3,7 @@ import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_radius.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
+import 'package:backyard/core/design_system/widgets/address_info_widget.dart';
 import 'package:backyard/core/design_system/widgets/category_name_widget.dart';
 import 'package:backyard/legacy/Component/custom_image.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
@@ -64,7 +65,7 @@ class OfferCardWidget extends StatelessWidget {
             ),
             Expanded(
               child: Padding(
-                padding: CustomSpacer.left.xs + CustomSpacer.vertical.xs,
+                padding: CustomSpacer.all.xs,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -73,73 +74,50 @@ class OfferCardWidget extends StatelessWidget {
                       maxLines: 2,
                       style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 14, color: Colors.black),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        if (availed) ...[
-                          Flexible(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: CustomColors.primaryGreenColor,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              padding: EdgeInsets.all(6) + EdgeInsets.symmetric(horizontal: 6),
-                              child: Row(
-                                children: [
-                                  Image.asset(ImagePath.coins, color: CustomColors.whiteColor, scale: 3),
-                                  MyText(title: '  500', clr: CustomColors.whiteColor, size: 14),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ] else ...[
-                          Flexible(
-                            child: MyText(
-                              title: '\$${offer.actualPrice?.toStringAsFixed(2) ?? ""}   ',
-                              fontWeight: FontWeight.w600,
-                              size: 14,
-                              clr: CustomColors.grey,
-                              cut: true,
-                            ),
-                          ),
-                          Flexible(
-                            child: MyText(
-                              title: '\$${offer.discountPrice?.toStringAsFixed(2) ?? ""}',
-                              fontWeight: FontWeight.w600,
-                              size: 14,
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
                     if (showAddress && offer.address != null && offer.address!.isNotEmpty)
-                      Padding(
-                        padding: CustomSpacer.top.xs,
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              ImagePath.location,
-                              color: CustomColors.primaryGreenColor,
-                              height: 18,
-                              fit: BoxFit.fitHeight,
-                            ),
+                      AddressInfoWidget(address: offer.address ?? ''),
+                    Padding(
+                      padding: CustomSpacer.top.xxs,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          if (availed) ...[
                             Flexible(
-                              child: Padding(
-                                padding: CustomSpacer.left.xxs,
-                                child: Text(
-                                  offer.address ?? '',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14,
-                                    color: Colors.black,
-                                  ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: CustomColors.primaryGreenColor,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                padding: EdgeInsets.all(6) + EdgeInsets.symmetric(horizontal: 6),
+                                child: Row(
+                                  children: [
+                                    Image.asset(ImagePath.coins, color: CustomColors.whiteColor, scale: 3),
+                                    MyText(title: '  500', clr: CustomColors.whiteColor, size: 14),
+                                  ],
                                 ),
                               ),
                             ),
+                          ] else ...[
+                            Flexible(
+                              child: MyText(
+                                title: '\$${offer.actualPrice?.toStringAsFixed(2) ?? ""}   ',
+                                fontWeight: FontWeight.w600,
+                                size: 14,
+                                clr: CustomColors.grey,
+                                cut: true,
+                              ),
+                            ),
+                            Flexible(
+                              child: MyText(
+                                title: '\$${offer.discountPrice?.toStringAsFixed(2) ?? ""}',
+                                fontWeight: FontWeight.w600,
+                                size: 14,
+                              ),
+                            ),
                           ],
-                        ),
+                        ],
                       ),
+                    ),
                     Padding(
                       padding: CustomSpacer.top.xxs,
                       child: Row(
