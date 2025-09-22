@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 .PHONY: ci-tests
 
-PROJECT_BUILD_NUMBER=1
+PROJECT_BUILD_NUMBER=2
 
 gen-code:
 	fvm dart run build_runner build --delete-conflicting-outputs

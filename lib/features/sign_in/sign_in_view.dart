@@ -7,7 +7,6 @@ import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/design_system/widgets/custom_web_view.dart';
 import 'package:backyard/core/repositories/permission_repository.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
-import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
@@ -48,23 +47,19 @@ class _SignInViewState extends State<SignInView> {
   Widget build(BuildContext context) {
     return CustomBackgroundImage(
       child: CustomPadding(
-        topPadding: 6.h,
+        topPadding: 0,
         child: Column(
           children: [
-            CustomAppBar(
-              screenTitle: '',
-              // leading: CustomBackButton(),
-              bottom: 6.h,
-            ),
-            AppLogo(onTap: () {}),
-            SizedBox(height: 2.h),
             Expanded(
               child: SingleChildScrollView(
                 physics: const ClampingScrollPhysics(),
+                padding: CustomSpacer.top.xxl,
                 child: SizedBox(
                   width: Utils.isTablet ? 60.w : null,
                   child: Column(
                     children: [
+                      AppLogo(onTap: () {}),
+                      SizedBox(height: 2.h),
                       SizedBox(height: 2.h),
                       const MyText(
                         title: 'Login / Register', //'Login With Email',
@@ -129,63 +124,63 @@ class _SignInViewState extends State<SignInView> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 2.h),
-                      MyButton(title: 'Continue', onTap: onSubmit),
                     ],
                   ),
                 ),
               ),
             ),
-            if (MediaQuery.viewInsetsOf(context).bottom == 0)
-              Padding(
-                padding: CustomSpacer.bottom.xlg,
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    text: 'By sign-in, you agree to our ',
-                    style: GoogleFonts.roboto(fontWeight: FontWeight.w400, fontSize: 13, color: CustomColors.black),
-                    children: [
-                      TextSpan(
-                        text: '\nTerms & Conditions',
-                        style: GoogleFonts.roboto(
-                          decoration: TextDecoration.underline,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                          decorationThickness: 2,
-                          color: CustomColors.black,
-                        ),
-                        recognizer:
-                            TapGestureRecognizer()
-                              ..onTap = () => showWebViewBottomSheet(url: termsOfUseUrl, context: context),
+            Padding(padding: CustomSpacer.top.xs, child: MyButton(title: 'Continue', onTap: onSubmit)),
+            Padding(
+              padding:
+                  CustomSpacer.top.md +
+                  (MediaQuery.viewInsetsOf(context).bottom == 0 ? CustomSpacer.bottom.xlg : CustomSpacer.bottom.xxs),
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  text: 'By sign-in, you agree to our ',
+                  style: GoogleFonts.roboto(fontWeight: FontWeight.w400, fontSize: 13, color: CustomColors.black),
+                  children: [
+                    TextSpan(
+                      text: '\nTerms & Conditions',
+                      style: GoogleFonts.roboto(
+                        decoration: TextDecoration.underline,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                        decorationThickness: 2,
+                        color: CustomColors.black,
                       ),
-                      TextSpan(
-                        text: ' & ',
-                        style: GoogleFonts.roboto(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                          decorationThickness: 2,
-                          color: CustomColors.black,
-                        ),
-                        recognizer: TapGestureRecognizer()..onTap = () {},
+                      recognizer:
+                          TapGestureRecognizer()
+                            ..onTap = () => showWebViewBottomSheet(url: termsOfUseUrl, context: context),
+                    ),
+                    TextSpan(
+                      text: ' & ',
+                      style: GoogleFonts.roboto(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                        decorationThickness: 2,
+                        color: CustomColors.black,
                       ),
-                      TextSpan(
-                        text: 'Privacy Policy',
-                        style: GoogleFonts.roboto(
-                          decoration: TextDecoration.underline,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                          decorationThickness: 2,
-                          color: CustomColors.black,
-                        ),
-                        recognizer:
-                            TapGestureRecognizer()
-                              ..onTap = () => showWebViewBottomSheet(url: privacyPolicyUrl, context: context),
+                      recognizer: TapGestureRecognizer()..onTap = () {},
+                    ),
+                    TextSpan(
+                      text: 'Privacy Policy',
+                      style: GoogleFonts.roboto(
+                        decoration: TextDecoration.underline,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                        decorationThickness: 2,
+                        color: CustomColors.black,
                       ),
-                    ],
-                  ),
-                  textScaler: TextScaler.linear(1.03),
+                      recognizer:
+                          TapGestureRecognizer()
+                            ..onTap = () => showWebViewBottomSheet(url: privacyPolicyUrl, context: context),
+                    ),
+                  ],
                 ),
+                textScaler: TextScaler.linear(1.03),
               ),
+            ),
           ],
         ),
       ),

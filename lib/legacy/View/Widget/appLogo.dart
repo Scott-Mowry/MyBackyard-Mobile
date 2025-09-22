@@ -1,4 +1,5 @@
 import 'package:backyard/legacy/Utils/image_path.dart';
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 
 class AppLogo extends StatefulWidget {
@@ -14,6 +15,7 @@ class AppLogo extends StatefulWidget {
 class _AppLogoState extends State<AppLogo> {
   @override
   Widget build(BuildContext context) {
+    final isAfterHalloween = clock.now().isAfter(DateTime(2025, 11, 01));
     return Center(
       child: GestureDetector(
         onTap: () {
@@ -21,7 +23,10 @@ class _AppLogoState extends State<AppLogo> {
             widget.onTap?.call();
           }
         },
-        child: Image.asset(ImagePath.appLogo, scale: widget.scale ?? 2.5),
+        child: Image.asset(
+          isAfterHalloween ? ImagePath.appLogo : ImagePath.appLogoHalloween,
+          scale: widget.scale ?? 2.5,
+        ),
       ),
     );
   }

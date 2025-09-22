@@ -54,7 +54,10 @@ class MyBackyardApp extends StatelessWidget {
                 minScaleFactor: 1.0,
                 maxScaleFactor: defaultTargetPlatform == TargetPlatform.android ? 1.2 : 1.4,
               );
-              return MediaQuery(data: mediaQueryData.copyWith(textScaler: scale), child: child!);
+              return MediaQuery(
+                data: mediaQueryData.copyWith(textScaler: scale),
+                child: GestureDetector(onTap: FocusScope.of(context).unfocus, child: child!),
+              );
             },
           ),
           routerConfig: appRouter.config(navigatorObservers: () => [getIt<CustomNavigatorObserver>()]),

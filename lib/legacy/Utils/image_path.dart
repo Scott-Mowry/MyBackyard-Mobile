@@ -9,6 +9,7 @@ class ImagePath {
   static const String splashImage = '${imagePath}splash.png';
   static const String bgImage1 = '${imagePath}bg1.png';
   static const String appLogo = '${imagePath}logo.png';
+  static const String appLogoHalloween = '${imagePath}logo_halloween.png';
   static const String appLogoAnimation = '${imagePath}logo.gif';
   static const String noUserImage = '${imagePath}no_user.png';
   static const String noImage = '${imagePath}no_image.png';

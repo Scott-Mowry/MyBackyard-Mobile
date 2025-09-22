@@ -11,24 +11,6 @@ class CustomBackgroundImage extends StatelessWidget {
 
   const CustomBackgroundImage({super.key, this.child, this.image, this.color, this.align, this.blurEffect = false});
 
-  @override
-  // Widget build(BuildContext context) {
-  //   return Container(
-  //       width: 100.sw,
-  //       decoration: const BoxDecoration(
-  //         // color: Colors.transparent,
-  //         image: DecorationImage(
-  //           // fit: BoxFit.fill,
-  //             image: AssetImage(
-  //               ImagePath.backgroundImage,
-  //             ),
-  //             fit: BoxFit.cover
-  //         ),
-  //       ),
-  //       alignment:align??Alignment.center,
-  //       child: child
-  //   );
-  // }
   Widget build(BuildContext context) {
     return Container(
       width: 100.w,
