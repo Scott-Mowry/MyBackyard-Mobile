@@ -43,7 +43,7 @@ class _OffersViewState extends State<OffersView> with AutomaticKeepAliveClientMi
       onRefresh: loadOwnedOffers,
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
-        padding: CustomSpacer.horizontal.sm + CustomSpacer.top.xl,
+        padding: CustomSpacer.horizontal.sm + CustomSpacer.top.xl + CustomSpacer.bottom.xlg,
         child: Column(
           children: [
             SearchTile(showFilter: false, onChange: searchOffer),
@@ -61,6 +61,13 @@ class _OffersViewState extends State<OffersView> with AutomaticKeepAliveClientMi
 
   Future<void> loadOwnedOffers() async {
     final offers = await BusinessAPIS.getSavedOrOwnedOffers(isSwitch: userController.isSwitch);
+    offers.sort((a, b) {
+      // Put claimed offers last
+      if ((a.isClaimed) && !(b.isClaimed)) return 1;
+      if (!(a.isClaimed) && (b.isClaimed)) return -1;
+
+      return 0;
+    });
     savedOffers.clear();
     savedOffers.addAll(offers);
     setState(() {});

@@ -163,7 +163,7 @@ class _OfferItemViewState extends State<OfferItemView> {
             else if (!isBusiness &&
                 offer != null &&
                 offer!.ownerId != context.watch<UserController>().user?.id &&
-                offer!.isClaimed)
+                !offer!.isClaimed)
               MyButton(
                 title: offer!.isAvailed ? 'QR Code' : 'Redeem',
                 onTap: () async {
@@ -171,8 +171,6 @@ class _OfferItemViewState extends State<OfferItemView> {
                     return downloadDialog2(context, data);
                   } else {
                     final success = await BusinessAPIS.availOffer(offerId: offer?.id?.toString());
-                    await context.maybePop();
-
                     if (success) {
                       setState(() => offer = offer?.copyWith(isAvailed: true));
                       await downloadDialog(context, data);

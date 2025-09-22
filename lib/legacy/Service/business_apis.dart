@@ -97,8 +97,6 @@ class BusinessAPIS {
           CustomToast().showToast(message: model.message ?? '');
         }
       }
-    } catch (e) {
-      log('AVAIL OFFERS ENDPOINT: ${e.toString()}');
     } finally {
       await EasyLoading.dismiss();
     }
