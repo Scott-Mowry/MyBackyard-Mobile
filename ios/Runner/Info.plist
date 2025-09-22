@@ -56,7 +56,7 @@
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>This app requires to access your photo library to show image for upload on profile/offer</string>
 		<key>NSUserTrackingUsageDescription</key>
-        <string>This app uses tracking data to improve app stability and performance</string>
+		<string>This app uses tracking data to improve app stability and performance</string>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<key>NSAppTransportSecurity</key>
