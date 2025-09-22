@@ -36,7 +36,7 @@ class EditIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconContainer(
       image: ImagePath.editProfile,
-      onTap: () => context.pushRoute(ProfileSetupRoute(editProfile: true)),
+      onTap: () => context.pushRoute(ProfileSetupRoute(isEditProfile: true)),
     );
   }
 }

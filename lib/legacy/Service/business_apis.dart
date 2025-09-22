@@ -10,6 +10,7 @@ import 'package:backyard/features/home/widget/model/filter_model.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
+import 'package:backyard/legacy/Model/category_model.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
 import 'package:backyard/legacy/Model/reiview_model.dart';
 import 'package:backyard/legacy/Model/response_model.dart';
@@ -21,6 +22,24 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 
 class BusinessAPIS {
+  static Future<void> getCategories() async {
+    try {
+      await EasyLoading.show();
+      final controller = getIt<HomeController>();
+      final res = await getIt<AppNetwork>().networkRequest(RequestTypeEnum.GET.name, API.CATEGORIES_ENDPOINT);
+      if (res != null) {
+        final model = responseModelFromJson(res.body);
+        if (model.status) {
+          controller.setCategories(List<CategoryModel>.from((model.data ?? {}).map((x) => CategoryModel.fromJson(x))));
+        }
+      }
+    } catch (e) {
+      log('CATEGORY ENDPOINT: ${e.toString()}');
+    } finally {
+      await EasyLoading.dismiss();
+    }
+  }
+
   static Future<void> getBusinesses(FilterModel filter) async {
     try {
       await EasyLoading.show();
@@ -186,7 +205,7 @@ class BusinessAPIS {
       attachments.add(await http.MultipartFile.fromPath('image', image?.path ?? ''));
       final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.POST.name,
-        API.ADD_OFFETS_ENDPOINT,
+        API.ADD_OFFER_ENDPOINT,
 
         parameters: parameters,
         attachments: attachments,
@@ -256,7 +275,7 @@ class BusinessAPIS {
 
       final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.POST.name,
-        API.EDIT_OFFETS_ENDPOINT,
+        API.EDIT_OFFER_ENDPOINT,
 
         parameters: parameters,
         attachments: attachments,
@@ -292,7 +311,7 @@ class BusinessAPIS {
 
       final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.POST.name,
-        API.DELETE_OFFETS_ENDPOINT,
+        API.DELETE_OFFER_ENDPOINT,
 
         parameters: parameters,
         attachments: attachments,

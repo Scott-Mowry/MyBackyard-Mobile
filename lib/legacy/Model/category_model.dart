@@ -1,3 +1,4 @@
+import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -7,7 +8,9 @@ part 'category_model.g.dart';
 @CopyWith()
 @JsonSerializable()
 class CategoryModel extends Equatable {
+  @JsonKey(fromJson: intFromJson)
   final int? id;
+
   final String? categoryName;
   final String? categoryIcon;
 

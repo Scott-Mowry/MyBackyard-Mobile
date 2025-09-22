@@ -4,7 +4,6 @@ import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/legacy/Model/card_model.dart';
 import 'package:backyard/legacy/Model/category_model.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
-import 'package:backyard/legacy/Model/places_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -72,15 +71,6 @@ class HomeController extends ChangeNotifier {
     if (ind != -1) {
       _offers?.removeAt(ind ?? 0);
     }
-    notifyListeners();
-  }
-
-  List<PlacesModel>? _places;
-
-  List<PlacesModel>? get places => _places;
-
-  void setPlaces(List<PlacesModel>? model) {
-    _places = model;
     notifyListeners();
   }
 

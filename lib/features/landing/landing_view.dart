@@ -33,8 +33,9 @@ class _LandingViewState extends State<LandingView> {
       final bearerToken = savedUser?.bearerToken;
       if (savedUser != null && bearerToken != null && bearerToken.isNotEmpty) {
         context.read<UserController>().setUser(savedUser);
-        await context.replaceRoute(HomeRoute());
-        return;
+
+        if (!savedUser.isProfileCompleted) return context.replaceRoute<void>(ProfileSetupRoute(isEditProfile: false));
+        return context.replaceRoute<void>(HomeRoute());
       }
 
       return context.replaceRoute<void>(SignInRoute());

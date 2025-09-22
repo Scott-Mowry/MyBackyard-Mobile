@@ -97,9 +97,6 @@ dependencies:
   image_picker : ^1.2.0
   mask_text_input_formatter: ^2.5.0
   flutter_svg: ^2.0.6
-
-  place_picker:
-    path: locationpicker
 dependency_overrides:
 
 dev_dependencies:

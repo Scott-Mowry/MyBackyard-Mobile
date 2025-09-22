@@ -11,7 +11,6 @@ import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
-import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
 import 'package:flutter/gestures.dart';
@@ -186,14 +185,13 @@ class _EnterOTPViewState extends State<EnterOTPView> {
     final userProfile = await getIt<UserAuthRepository>().verifyAccount(otpCode: otpCode, id: widget.userId);
 
     if (userProfile == null) return CustomToast().showToast(message: 'OTP validation failed.');
-    if (!widget.fromForgot) await GeneralAPIS.getPlaces();
 
     CustomToast().showToast(message: 'Account validation completed. OTP verified');
 
     if (widget.fromForgot) return context.replaceRoute<void>(ChangePasswordRoute());
     if (userProfile.isProfileCompleted) return context.pushRoute<void>(HomeRoute());
 
-    return context.pushRoute<void>(ProfileSetupRoute(editProfile: false));
+    return context.pushRoute<void>(ProfileSetupRoute(isEditProfile: false));
   }
 
   Future<void> resendCode() async {

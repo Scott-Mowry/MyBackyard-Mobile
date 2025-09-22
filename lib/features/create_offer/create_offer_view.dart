@@ -19,7 +19,6 @@ import 'package:backyard/legacy/Model/category_model.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/business_apis.dart';
-import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/custom_dialog.dart';
 import 'package:backyard/legacy/View/Widget/upload_media.dart';
@@ -61,7 +60,7 @@ class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAli
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await GeneralAPIS.getCategories();
+      await BusinessAPIS.getCategories();
       if (widget.edit) {
         selected =
             context
@@ -85,12 +84,12 @@ class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAli
         bgImage: '',
         bottomSafeArea: false,
         child: CustomRefresh(
-          onRefresh: GeneralAPIS.getCategories,
+          onRefresh: BusinessAPIS.getCategories,
           child: CustomPadding(
             topPadding: 0.h,
             horizontalPadding: 3.w,
             child: Consumer<HomeController>(
-              builder: (context, val, _) {
+              builder: (context, homeController, _) {
                 return Column(
                   children: [
                     CustomAppBar(
@@ -202,7 +201,7 @@ class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAli
                               CustomDropDown2(
                                 hintText: 'Select Category',
                                 bgColor: CustomColors.container,
-                                dropDownData: val.categories ?? [],
+                                dropDownData: homeController.categories ?? [],
                                 dropdownValue: selected,
                                 validator: (p0) => (p0 == null) ? "Category can't be empty" : null,
                                 onChanged: (v) {

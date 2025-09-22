@@ -11,7 +11,6 @@ import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
 import 'package:backyard/legacy/Component/custom_image.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
-import 'package:backyard/legacy/Component/custom_switch.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
@@ -224,43 +223,7 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
                                               : widget.user?.description ?? '',
                                       // 'Classic checkerboard slip ons with office white under tone and reinforced waffle cup soles is a tone and reinforced waffle cup soles.CIassic ka checkerboard slip ons with office white hnan dunder tone and reinforced.'
                                     ),
-                                    SizedBox(height: 2.h),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              MyText(title: 'Contact No:', fontWeight: FontWeight.w600, size: 14),
-                                              SizedBox(height: .5.h),
-                                              MyText(
-                                                title:
-                                                    (widget.isMe)
-                                                        ? (userController.user?.phone ?? '')
-                                                        : (widget.user?.phone ?? ''),
-                                                // '+1 234 567 890'
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              MyText(title: 'Location:', fontWeight: FontWeight.w600, size: 14),
-                                              SizedBox(height: .5.h),
-                                              MyText(
-                                                title:
-                                                    (widget.isMe)
-                                                        ? (userController.user?.address ?? '')
-                                                        : (widget.user?.address ?? ''),
-                                                //'abc School & college'
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+
                                     SizedBox(height: 2.h),
                                     const MyText(title: 'Opening Hours', fontWeight: FontWeight.w600),
                                     SizedBox(height: 1.h),
@@ -498,24 +461,7 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
                       ],
                     ),
                     padding: EdgeInsets.all(3.w),
-                    child: Column(
-                      children: [
-                        userDetail(title: 'Email Address', text: val.user?.email ?? ''),
-                        userDetail(
-                          title: 'Geo Location',
-                          widget: CustomSwitch(
-                            height: 3,
-                            width: Utils.isTablet ? 8 : 12,
-                            switchValue: val.geo,
-                            onChange: (v) {},
-                            toggleColor: CustomColors.primaryGreenColor,
-                            onChange2: (v) async {
-                              val.setGeo(v);
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
+                    child: Column(children: [userDetail(title: 'Email Address', text: val.user?.email ?? '')]),
                   ),
                   SizedBox(height: 2.h),
                 ],

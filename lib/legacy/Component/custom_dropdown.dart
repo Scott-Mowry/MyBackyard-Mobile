@@ -67,13 +67,7 @@ class CustomDropDown2 extends StatelessWidget {
         ),
         menuItemStyleData: MenuItemStyleData(padding: EdgeInsets.symmetric(horizontal: menuItemPadding ?? 2.w)),
         iconStyleData: const IconStyleData(
-          // icon: Padding(
-          //   padding: EdgeInsets.only(right: 16.w),
-          //   child: Image.asset(AssetPath.DROPDOWN_ICON, scale: 4),
-          // ),
           icon: Padding(padding: EdgeInsets.only(right: 20), child: Icon(Icons.expand_more_rounded)),
-
-          // iconSize: 30,
         ),
         isExpanded: true,
         items:
@@ -90,16 +84,10 @@ class CustomDropDown2 extends StatelessWidget {
           onChanged?.call(newValue);
         },
         hint: _text(text: hintText, fontWeight: FontWeight.w400),
-        buttonStyleData: const ButtonStyleData(
-          // padding: EdgeInsets.symmetric(vertical: 7.w),
-          //width: 0.5.sw,
-        ),
+        buttonStyleData: const ButtonStyleData(),
         dropdownStyleData: DropdownStyleData(
-          // padding: EdgeInsets.only(left: horizontalPadding ?? 5.w),
           elevation: 1,
-
           width: dropDownWidth,
-          // width: dropDownWidth ?? 0.813.sw,
           offset: offset ?? const Offset(-2.5, -10),
           isOverButton: false,
           decoration: BoxDecoration(

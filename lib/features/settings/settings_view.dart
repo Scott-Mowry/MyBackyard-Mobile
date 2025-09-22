@@ -180,23 +180,11 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
                           fontWeight: FontWeight.w500,
                           size: Utils.isTablet ? 18 : 15,
                         ),
-                        if (index == 0)
-                          CustomSwitch(
-                            switchValue: allowNotifications,
-                            toggleColor: CustomColors.primaryGreenColor,
-                            inActiveColor: CustomColors.pinkColor.withValues(alpha: .2),
-                            onChange: (v) {},
-                            onChange2: (v) async {
-                              allowNotifications = !allowNotifications;
-                              setState(() {});
-                            },
-                          )
-                        else
-                          Icon(
-                            Icons.keyboard_arrow_right,
-                            size: Utils.isTablet ? 12.sp : null,
-                            // color: Colors.white,
-                          ),
+                        Icon(
+                          Icons.keyboard_arrow_right,
+                          size: Utils.isTablet ? 12.sp : null,
+                          // color: Colors.white,
+                        ),
                       ],
                     ),
                   ),
@@ -210,7 +198,6 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
   }
 
   late List<MenuModel> optionsList = [
-    MenuModel(name: 'Push Notification', onTap: () {}),
     MenuModel(name: 'Change Password', onTap: () => context.pushRoute<void>(ChangePasswordRoute(fromSettings: true))),
     if (isBusiness) MenuModel(name: 'Subscriptions', onTap: () => context.pushRoute(SubscriptionRoute())),
     MenuModel(name: 'Privacy Policy', onTap: () => showWebViewBottomSheet(url: privacyPolicyUrl, context: context)),

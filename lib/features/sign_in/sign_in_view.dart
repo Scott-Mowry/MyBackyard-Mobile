@@ -15,7 +15,6 @@ import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Component/validations.dart';
-import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
@@ -214,8 +213,7 @@ class _SignInViewState extends State<SignInView> {
     }
 
     if (!userProfile.isProfileCompleted) {
-      await GeneralAPIS.getPlaces();
-      return context.pushRoute<void>(ProfileSetupRoute(editProfile: false));
+      return context.pushRoute<void>(ProfileSetupRoute(isEditProfile: false));
     }
 
     return context.pushRoute<void>(HomeRoute());

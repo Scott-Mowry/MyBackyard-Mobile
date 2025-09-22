@@ -2,6 +2,7 @@ import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/legacy/Model/day_schedule.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_profile_model.g.dart';
@@ -9,14 +10,21 @@ part 'user_profile_model.g.dart';
 @CopyWith()
 @JsonSerializable()
 class UserProfileModel extends Equatable {
+  @JsonKey(fromJson: intFromJson)
   final int? id;
+
   final UserRoleEnum? role;
   final String? name;
   final String? profileImage;
   final String? zipCode;
   final String? address;
+
+  @JsonKey(fromJson: doubleFromJson)
   final double? latitude;
+
+  @JsonKey(fromJson: doubleFromJson)
   final double? longitude;
+
   final String? email;
   final String? bearerToken;
   final String? emailOtp;
@@ -33,7 +41,10 @@ class UserProfileModel extends Equatable {
   final String? deviceToken;
   final String? socialType;
   final String? socialToken;
+
+  @JsonKey(fromJson: intFromJson)
   final int? categoryId;
+
   final String? description;
 
   @JsonKey(fromJson: _daysFromJson)
@@ -99,7 +110,7 @@ class UserProfileModel extends Equatable {
   }
 
   static List<BusinessSchedulingModel> sortingDays(List<BusinessSchedulingModel> schedules) {
-    final days = daysOfWeek.values.map((e) => e.name).toList();
+    final days = WeekDayEnum.values.map((e) => e.name).toList();
     final list = List.of(schedules);
 
     int daysSorting(String val) {
@@ -204,4 +215,24 @@ bool intToBool(dynamic value) {
 int boolToInt(bool? value) {
   if (value == null) return 0;
   return value ? 1 : 0;
+}
+
+extension UserProfileModelExtension on UserProfileModel {
+  LatLng? get latLng => latitude != null && longitude != null ? LatLng(latitude!, longitude!) : null;
+}
+
+double? doubleFromJson(dynamic value) {
+  if (value == null) return null;
+  if (value is double) return value;
+  if (value is int) return value.toDouble();
+  if (value is String) return double.tryParse(value);
+  return null;
+}
+
+int? intFromJson(dynamic value) {
+  if (value == null) return null;
+  if (value is double) return value.toInt();
+  if (value is int) return value;
+  if (value is String) return int.tryParse(value);
+  return null;
 }

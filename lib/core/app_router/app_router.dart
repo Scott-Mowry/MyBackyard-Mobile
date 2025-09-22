@@ -14,10 +14,9 @@ import 'package:backyard/features/sign_in/enter_otp_view.dart';
 import 'package:backyard/features/sign_in/sign_in_view.dart';
 import 'package:backyard/features/subscription/subscription_view.dart';
 import 'package:backyard/features/time_schedule/time_schedule_edit_view.dart';
-import 'package:backyard/features/user_profile/business_category_view.dart';
+import 'package:backyard/features/user_profile/business_availability_view.dart';
 import 'package:backyard/features/user_profile/customer_profile_view.dart';
 import 'package:backyard/features/user_profile/profile_setup_view.dart';
-import 'package:backyard/features/user_profile/schedule_view.dart';
 import 'package:backyard/features/user_profile/user_profile_view.dart';
 import 'package:backyard/legacy/Model/day_schedule.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
@@ -34,8 +33,7 @@ class AppRouter extends RootStackRouter {
     AutoRoute(path: '/changePassword', page: ChangePasswordRoute.page),
     AutoRoute(path: '/forget-password', page: ForgotPasswordRoute.page),
     AutoRoute(path: '/enter-otp', page: EnterOTPRoute.page),
-    AutoRoute(path: '/schedule', page: ScheduleRoute.page),
-    AutoRoute(path: '/category', page: BusinessCategoryRoute.page),
+    AutoRoute(path: '/business-availabilities', page: BusinessAvailabilityRoute.page),
     AutoRoute(path: '/profile-setup', page: ProfileSetupRoute.page),
     AutoRoute(path: '/home', page: HomeRoute.page),
     AutoRoute(path: '/offer-item', page: OfferItemRoute.page),

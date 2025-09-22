@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -64,9 +62,8 @@ class _ProfileCompleteDialogState extends State<ProfileCompleteDialog> {
                   SizedBox(height: 2.h),
                   MyButton(
                     onTap: () {
-                      context.maybePop();
-                      log('Yaha arha h 3');
                       widget.onYes(context);
+                      context.maybePop();
                     },
                     title: 'Continue',
                   ),

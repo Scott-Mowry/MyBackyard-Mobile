@@ -38,7 +38,7 @@ class _TimeScheduleEditViewState extends State<TimeScheduleEditView> {
   TimeOfDay? startTime;
   TimeOfDay? endTime;
   bool errorText = false;
-  List<daysOfWeek> list = [];
+  List<WeekDayEnum> list = [];
 
   void nextFunction() {
     errorText = active ? (startTime == null || endTime == null) : false;
@@ -75,10 +75,9 @@ class _TimeScheduleEditViewState extends State<TimeScheduleEditView> {
 
   @override
   void initState() {
+    super.initState();
     startTime = widget.daySchedule?.startTime;
     endTime = widget.daySchedule?.endTime;
-    // TODO: implement initState
-    super.initState();
   }
 
   @override
@@ -100,7 +99,7 @@ class _TimeScheduleEditViewState extends State<TimeScheduleEditView> {
                 Wrap(
                   spacing: 10,
                   children: List.generate(
-                    daysOfWeek.values.length,
+                    WeekDayEnum.values.length,
                     (index) => SizedBox(
                       width: 150,
                       child: Row(
@@ -108,20 +107,20 @@ class _TimeScheduleEditViewState extends State<TimeScheduleEditView> {
                         children: [
                           Checkbox(
                             activeColor: CustomColors.primaryGreenColor,
-                            value: list.any((element) => element == daysOfWeek.values[index]),
+                            value: list.any((element) => element == WeekDayEnum.values[index]),
                             onChanged: (val) {
                               if (val != null) {
                                 if (val) {
-                                  list.add(daysOfWeek.values[index]);
+                                  list.add(WeekDayEnum.values[index]);
                                 } else {
-                                  list.removeWhere((element) => element == daysOfWeek.values[index]);
+                                  list.removeWhere((element) => element == WeekDayEnum.values[index]);
                                 }
                               }
                               setState(() {});
                             },
                           ),
                           Text(
-                            daysOfWeek.values[index].name.titleCase(),
+                            WeekDayEnum.values[index].name.titleCase(),
                             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                         ],
@@ -142,12 +141,6 @@ class _TimeScheduleEditViewState extends State<TimeScheduleEditView> {
                     const SizedBox(height: 15),
                     GestureDetector(
                       onTap: () async {
-                        //   final val = await showTimePicker(
-                        //       initialEntryMode: TimePickerEntryMode.dialOnly,
-                        //       barrierColor:
-                        //           MyColors().primaryColor.withValues(alpha: .8),
-                        //       context: context,
-                        //       initialTime: TimeOfDay.now());
                         final val = await Utils().selectTime(context);
                         if (val != null) {
                           startTime = val;
@@ -170,9 +163,6 @@ class _TimeScheduleEditViewState extends State<TimeScheduleEditView> {
                     GestureDetector(
                       onTap: () async {
                         if (startTime != null) {
-                          // final val = await showTimePicker(
-                          //     context: context,
-                          //     initialTime: TimeOfDay.now());
                           final val = await Utils().selectTime(context);
                           if (val != null) {
                             final now = DateTime.now();
@@ -303,12 +293,6 @@ class _TimeScheduleEditViewState extends State<TimeScheduleEditView> {
 
   String timeFormatterAM(TimeOfDay? time) {
     if (time != null) {
-      // final val = time.hour;
-      // if (val > 12) {
-      //   return "PM";
-      // } else {
-      //   return "AM";
-      // }
       final value = time.format(context);
       return value.split(':').last.split(' ').last;
     } else {

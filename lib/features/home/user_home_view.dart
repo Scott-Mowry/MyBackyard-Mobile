@@ -14,7 +14,6 @@ import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/business_apis.dart';
-import 'package:backyard/legacy/Service/general_apis.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -157,7 +156,7 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
 
   Future<void> onFilterTap() async {
     final homeController = context.read<HomeController>();
-    if (homeController.categories == null || homeController.categories!.isEmpty) await GeneralAPIS.getCategories();
+    if (homeController.categories == null || homeController.categories!.isEmpty) await BusinessAPIS.getCategories();
     final categories = homeController.categories ?? [];
 
     final userController = context.read<UserController>();
@@ -208,7 +207,7 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
       ),
     );
 
-    await GeneralAPIS.getCategories();
+    await BusinessAPIS.getCategories();
     await loadBusinesses();
   }
 

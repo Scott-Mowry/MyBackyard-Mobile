@@ -2,10 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:ui' as ui;
 
-import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
-import 'package:backyard/core/repositories/permission_repository.dart';
-import 'package:backyard/legacy/Utils/app_strings.dart';
 import 'package:backyard/my-backyard-app.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:encrypt/encrypt.dart' as en;
@@ -13,12 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart' as picker;
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/intl.dart';
-import 'package:jiffy/jiffy.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:place_picker/place_picker.dart';
 
 class Utils {
   static bool isTablet = false;
@@ -189,59 +181,7 @@ class Utils {
     return BitmapDescriptor.fromBytes(bytes); // Return the bitmap descriptor
   }
 
-  Future<LocationResult> showPlacePicker(context) async {
-    await getIt<PermissionRepository>().requestLocationPermission();
-    final LocationResult result = await Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (context) => PlacePicker(AppStrings.GOOGLE_API_KEY)));
-    return result;
-  }
-
-  Future<Object?>? selectDate(
-    BuildContext context, {
-    DateTime? firstDate,
-    DateTime? lastDate,
-    initialDate,
-    String? format,
-    bool formatted = true,
-  }) async {
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: initialDate ?? selectedDate,
-      firstDate: firstDate ?? DateTime(1800),
-      lastDate: lastDate ?? DateTime.now(),
-    );
-    if (picked != null) {
-      selectedDate = picked;
-      formattedDate = DateFormat(format ?? mDY).format(selectedDate);
-      if (formatted) {
-        return formattedDate;
-      } else {
-        return selectedDate;
-      }
-    } else {
-      return null;
-    }
-  }
-
-  static String relativeTime(String date) {
-    final d = DateTime.parse(date);
-    return Jiffy.parse(d.toLocal().toString()).fromNow();
-  }
-
-  String parseDate({required String d}) {
-    return DateFormat('MMM dd yyyy').format(((DateTime.parse(d))).toUtc().toLocal());
-  }
-
-  FutureOr<TimeOfDay?> selectTime(
-    BuildContext context,
-    // {required Function(TimeOfDay) onTap}
-  ) async {
-    // TimeOfDay? pickedTime = await showTimePicker(
-    //   initialTime: TimeOfDay.now(),
-    //   context: context, //context of current state
-    // );
-
+  FutureOr<TimeOfDay?> selectTime(BuildContext context) async {
     final pickedTime = await DatePicker.showTime12hPicker(
       context,
       showTitleActions: true,
@@ -252,64 +192,8 @@ class Utils {
       locale: LocaleType.en,
     );
     if (pickedTime != null) {
-      // onTap(pickedTime);
-      // onTap(TimeOfDay.fromDateTime(pickedTime));
-      // return pickedTime.format(context);
       return TimeOfDay.fromDateTime(pickedTime);
     }
     return null;
-    // else{
-    // }
-  }
-
-  int convertTimeToMinutes({required int h, required int m}) {
-    final duration = Duration(hours: h, minutes: m, seconds: 0);
-    return duration.inMinutes;
-  }
-
-  // getUserChat(
-  //     {required User? u1, required User? u2, required User currentUser}) {
-  //   if (u1!.id != currentUser.id) {
-  //     return u1;
-  //   } else {
-  //     return u2;
-  //   }
-  // }
-
-  String maskedNumber({required String phone}) {
-    final maskFormatter = MaskTextInputFormatter(
-      mask: '(###) ###-####',
-      filter: {'#': RegExp(r'[0-9]')},
-      type: MaskAutoCompletionType.lazy,
-    );
-    return maskFormatter.maskText(phone);
-  }
-
-  String unMaskedNumber({required String phone}) {
-    final maskFormatter = MaskTextInputFormatter(
-      mask: '(###) ###-####',
-      filter: {'#': RegExp(r'[0-9]')},
-      type: MaskAutoCompletionType.lazy,
-    );
-    return maskFormatter.unmaskText(phone);
-  }
-
-  void loadingOn() {
-    EasyLoading.instance.userInteractions = false;
-    EasyLoading.show(status: 'Please wait...', dismissOnTap: false);
-  }
-
-  void loadingOff() {
-    EasyLoading.dismiss();
-  }
-
-  DateTime convertToDateTime({String? formattedDateTime, required String d}) {
-    return DateFormat(formattedDateTime ?? mDY).parse(d);
-  }
-}
-
-extension StringExtension on String {
-  String? capitalizeFirstLetter() {
-    return '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
   }
 }
