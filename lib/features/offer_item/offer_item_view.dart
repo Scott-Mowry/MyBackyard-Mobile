@@ -4,7 +4,6 @@ import 'dart:ui' as ui;
 
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
-import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/design_system/widgets/address_info_widget.dart';
@@ -19,7 +18,6 @@ import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
-import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/business_apis.dart';
 import 'package:backyard/legacy/Utils/app_size.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
@@ -157,23 +155,26 @@ class _OfferItemViewState extends State<OfferItemView> {
                 ),
               ),
             ),
-            if (offer?.isClaimed != null && offer?.isClaimed != 0)
+            if (offer?.isClaimed ?? false)
               Text(
                 'This offer was already claimed',
                 style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16, color: Colors.black),
               )
-            else if (!isBusiness && offer?.ownerId != context.watch<UserController>().user?.id && offer?.isClaimed == 0)
+            else if (!isBusiness &&
+                offer != null &&
+                offer!.ownerId != context.watch<UserController>().user?.id &&
+                offer!.isClaimed)
               MyButton(
-                title: offer?.isAvailed == 1 ? 'QR Code' : 'Redeem',
+                title: offer!.isAvailed ? 'QR Code' : 'Redeem',
                 onTap: () async {
-                  if (offer?.isAvailed == 1) {
+                  if (offer!.isAvailed) {
                     return downloadDialog2(context, data);
                   } else {
                     final success = await BusinessAPIS.availOffer(offerId: offer?.id?.toString());
                     await context.maybePop();
 
                     if (success) {
-                      setState(() => offer = offer?.copyWith(isAvailed: 1));
+                      setState(() => offer = offer?.copyWith(isAvailed: true));
                       await downloadDialog(context, data);
                     }
                   }
@@ -277,8 +278,7 @@ class _OfferItemViewState extends State<OfferItemView> {
               description: 'Are you sure you want to delete this offer?',
               b1: 'Yes',
               b2: 'No',
-              onYes: (v) async {
-                getIt<AppNetwork>().loadingProgressIndicator();
+              onConfirm: (v) async {
                 final val = await BusinessAPIS.deleteOffer(offerId: offer?.id?.toString() ?? '');
                 context.maybePop();
                 if (val) {
@@ -308,7 +308,7 @@ class _OfferItemViewState extends State<OfferItemView> {
               title: 'Successful',
               description: "Offer is Redeemed, It's available in the Saved Section",
               b1: 'Download',
-              onYes: (v) async {
+              onConfirm: (v) async {
                 await generatePdfWithQrCode(data);
                 CustomToast().showToast(message: 'QR Code downloaded successfully');
               },
@@ -345,7 +345,7 @@ class _OfferItemViewState extends State<OfferItemView> {
             content: CustomDialog(
               title: 'QR-Code',
               b1: 'Download',
-              onYes: (v) async {
+              onConfirm: (v) async {
                 await generatePdfWithQrCode(data);
                 CustomToast().showToast(message: 'QR Code downloaded successfully');
               },

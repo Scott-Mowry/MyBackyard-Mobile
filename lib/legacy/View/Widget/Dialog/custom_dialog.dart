@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomDialog extends StatelessWidget {
-  final Function onYes;
+  final Function onConfirm;
   final Function? button2;
   final Widget? child;
   final String? title, description, image, b1, b2;
 
   const CustomDialog({
     super.key,
-    required this.onYes,
+    required this.onConfirm,
     this.title,
     this.button2,
     this.description,
@@ -71,7 +71,7 @@ class CustomDialog extends StatelessWidget {
                     MyButton(
                       onTap: () {
                         context.maybePop();
-                        onYes(context);
+                        onConfirm(context);
                       },
                       title: b1 ?? 'Continue',
                     ),

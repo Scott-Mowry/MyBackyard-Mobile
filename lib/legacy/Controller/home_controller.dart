@@ -39,7 +39,7 @@ class HomeController extends ChangeNotifier {
   void availOffer(String id) {
     final ind = _offers?.indexWhere((element) => element.id.toString() == id);
     if (ind != -1) {
-      _offers![ind ?? 0] = _offers![ind ?? 0].copyWith(isAvailed: 1);
+      _offers![ind ?? 0] = _offers![ind ?? 0].copyWith(isAvailed: true);
     }
     notifyListeners();
   }

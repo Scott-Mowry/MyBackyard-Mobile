@@ -1,12 +1,10 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:backyard/legacy/Component/validations.dart';
-import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/business_apis.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/View/base_view.dart';
@@ -91,7 +89,6 @@ class _GiveReviewViewState extends State<GiveReviewView> {
                 title: 'Submit Review',
                 onTap: () async {
                   if (_form.currentState?.validate() ?? false) {
-                    getIt<AppNetwork>().loadingProgressIndicator();
                     final val = await BusinessAPIS.submiteReview(
                       busId: widget.busId,
                       rate: rate.toInt().toString(),

@@ -11,7 +11,6 @@ class Offer extends Equatable {
   final int? id;
   final int? offerId;
   final int? userId;
-  final int? isClaimed;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final String? title;
@@ -19,10 +18,10 @@ class Offer extends Equatable {
   final int? categoryId;
   final int? ownerId;
 
-  @JsonKey(fromJson: _parseDouble)
+  @JsonKey(fromJson: doubleFromJson)
   final double? actualPrice;
 
-  @JsonKey(fromJson: _parseDouble)
+  @JsonKey(fromJson: doubleFromJson)
   final double? discountPrice;
 
   final int? rewardPoints;
@@ -30,13 +29,17 @@ class Offer extends Equatable {
   final String? description;
   final String? address;
   final CategoryModel? category;
-  final int? isAvailed;
+
+  @JsonKey(fromJson: boolFromJson)
+  final bool isAvailed;
+
+  @JsonKey(fromJson: boolFromJson)
+  final bool isClaimed;
 
   const Offer({
     this.id,
     this.offerId,
     this.userId,
-    this.isClaimed,
     this.createdAt,
     this.updatedAt,
     this.title,
@@ -50,27 +53,19 @@ class Offer extends Equatable {
     this.description,
     this.address,
     this.category,
-    this.isAvailed,
+    this.isAvailed = false,
+    this.isClaimed = false,
   });
 
   factory Offer.fromJson(Map<String, dynamic> json) => _$OfferFromJson(json);
 
   Map<String, dynamic> toJson() => _$OfferToJson(this);
 
-  static double? _parseDouble(dynamic value) {
-    if (value == null) return null;
-    if (value is double) return value;
-    if (value is int) return value.toDouble();
-    if (value is String) return double.tryParse(value);
-    return null;
-  }
-
   @override
   List<Object?> get props => [
     id,
     offerId,
     userId,
-    isClaimed,
     createdAt,
     updatedAt,
     title,
@@ -85,5 +80,22 @@ class Offer extends Equatable {
     address,
     category,
     isAvailed,
+    isClaimed,
   ];
+}
+
+double? doubleFromJson(dynamic value) {
+  if (value == null) return null;
+  if (value is double) return value;
+  if (value is int) return value.toDouble();
+  if (value is String) return double.tryParse(value);
+  return null;
+}
+
+bool boolFromJson(dynamic value) {
+  if (value == null) return false;
+  if (value is bool) return value;
+  if (value is int) return value == 1;
+  if (value is String) return value == '1' || value.toLowerCase() == 'true';
+  return false;
 }

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
-import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/repositories/connectivity_repository.dart';
 import 'package:backyard/core/repositories/local_storage_repository.dart';
@@ -10,7 +9,6 @@ import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/my-backyard-app.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';
 
@@ -23,8 +21,6 @@ abstract class AppNetwork {
   });
 
   void on401Error();
-
-  void loadingProgressIndicator({double? value});
 }
 
 @Injectable(as: AppNetwork)
@@ -89,23 +85,5 @@ class AppNetworkImpl implements AppNetwork {
       MyBackyardApp.appRouter.popUntilRoot();
       MyBackyardApp.appRouter.replace(LandingRoute());
     });
-  }
-
-  void loadingProgressIndicator({double? value}) {
-    showDialog(
-      barrierDismissible: false,
-      barrierColor: const Color(0XFF22093C).withValues(alpha: .5),
-      builder: (ctx) {
-        return Center(
-          child: CircularProgressIndicator(
-            strokeWidth: 3,
-            backgroundColor: CustomColors.primaryGreenColor,
-            value: value,
-            valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
-          ),
-        );
-      },
-      context: MyBackyardApp.appRouter.navigatorKey.currentContext!,
-    );
   }
 }

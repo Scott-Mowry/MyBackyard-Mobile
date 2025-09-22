@@ -15,7 +15,6 @@ import 'package:backyard/legacy/Component/custom_switch.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/menu_model.dart';
-import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/delete_account.dart';
@@ -219,7 +218,6 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
                   title: 'Delete Account',
                   subTitle: 'Do you want to delete your account?',
                   onYes: () async {
-                    getIt<AppNetwork>().loadingProgressIndicator();
                     await getIt<UserAuthRepository>().deleteAccount();
                   },
                 ),

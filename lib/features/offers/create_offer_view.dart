@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/widgets/app_bar_back_button.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
@@ -17,7 +16,6 @@ import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Model/category_model.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
-import 'package:backyard/legacy/Service/app_network.dart';
 import 'package:backyard/legacy/Service/business_apis.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/custom_dialog.dart';
@@ -276,7 +274,6 @@ class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAli
                                   }
                                   if ((form.currentState?.validate() ?? false) && !error) {
                                     if (widget.edit) {
-                                      getIt<AppNetwork>().loadingProgressIndicator();
                                       final val = await BusinessAPIS.editOffer(
                                         offerId: widget.model?.id?.toString(),
                                         title: titleController.text,
@@ -294,7 +291,6 @@ class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAli
                                         context.maybePop();
                                       }
                                     } else {
-                                      getIt<AppNetwork>().loadingProgressIndicator();
                                       final val = await BusinessAPIS.addOffer(
                                         title: titleController.text,
                                         categoryId: selected?.id?.toString() ?? '',
@@ -406,7 +402,8 @@ class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAli
                   widget.edit ? 'Offer have been successfully updated.' : 'Offer have been successfully created.',
               b1: 'Continue',
               // b2: 'Download QR Code',
-              onYes: (v) {
+              onConfirm: (v) {
+                context.maybePop();
                 context.maybePop();
               },
               // button2: (v) {

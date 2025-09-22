@@ -28,14 +28,14 @@ class OfferCardWidget extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: borderRadius),
       margin: EdgeInsets.zero,
       child: Opacity(
-        opacity: offer.isClaimed != 0 ? 0.6 : 1,
+        opacity: offer.isClaimed ? 0.6 : 1,
         child: InkWell(
           onTap: () => context.pushRoute(OfferItemRoute(offer: offer)),
           borderRadius: borderRadius,
           child: Ink(
             decoration: BoxDecoration(
               borderRadius: borderRadius,
-              color: offer.isClaimed != 0 ? CustomColors.grey.withValues(alpha: 0.2) : null,
+              color: offer.isClaimed ? CustomColors.grey.withValues(alpha: 0.2) : null,
             ),
             child: Row(
               children: [
@@ -121,21 +121,21 @@ class OfferCardWidget extends StatelessWidget {
                             ],
                           ),
                         ),
-                        if (offer.isAvailed != 0 || offer.isClaimed != 0)
+                        if (offer.isAvailed || offer.isClaimed)
                           Padding(
                             padding: CustomSpacer.top.md,
                             child: Row(
                               spacing: CustomSpacer.horizontal.xxs.horizontal,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                if (offer.isClaimed != 0)
+                                if (offer.isClaimed)
                                   MyText(
                                     title: 'Already used',
                                     size: 14,
                                     fontWeight: FontWeight.w600,
                                     clr: CustomColors.fbColor,
                                   )
-                                else if (offer.isAvailed != 0)
+                                else if (offer.isAvailed)
                                   MyText(
                                     title: 'Saved',
                                     size: 14,
