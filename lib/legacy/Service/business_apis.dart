@@ -384,27 +384,26 @@ class BusinessAPIS {
     }
   }
 
-  static Future<void> getSavedOrOwnedOffers({bool? isSwitch}) async {
+  static Future<List<Offer>> getSavedOrOwnedOffers({bool? isSwitch}) async {
     try {
       await EasyLoading.show();
       final controller = getIt<HomeController>();
       controller.setOffers([]);
-      var endpoint = API.GET_OFFERS_ENDPOINT;
-      if (isSwitch ?? false) {
-        endpoint += '?switch=User';
-      }
-      final res = await getIt<AppNetwork>().networkRequest(RequestTypeEnum.GET.name, endpoint);
-      if (res != null) {
-        final model = responseModelFromJson(res.body);
 
-        if (model.status) {
-          controller.setOffers(List<Offer>.from((model.data?['offers'] ?? {}).map((x) => Offer.fromJson(x))));
-        } else {
-          CustomToast().showToast(message: model.message ?? '');
-        }
+      var endpoint = API.GET_OFFERS_ENDPOINT;
+      if (isSwitch ?? false) endpoint += '?switch=User';
+
+      final res = await getIt<AppNetwork>().networkRequest(RequestTypeEnum.GET.name, endpoint);
+      if (res == null) return [];
+
+      final model = responseModelFromJson(res.body);
+      if (!model.status) {
+        CustomToast().showToast(message: model.message ?? '');
+        return [];
       }
-    } catch (e) {
-      log('GET OFFERS ENDPOINT: ${e.toString()}');
+
+      final savedOffers = List<Offer>.from((model.data?['offers'] ?? {}).map((x) => Offer.fromJson(x)));
+      return savedOffers;
     } finally {
       await EasyLoading.dismiss();
     }

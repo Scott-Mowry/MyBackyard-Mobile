@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
@@ -34,15 +33,13 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 
 @RoutePage()
 class OfferItemView extends StatefulWidget {
-  const OfferItemView({super.key, this.offer, this.fromSaved});
-
   final Offer? offer;
-  final bool? fromSaved;
+
+  const OfferItemView({super.key, this.offer});
 
   @override
   State<OfferItemView> createState() => _OfferItemViewState();
@@ -59,7 +56,7 @@ class _OfferItemViewState extends State<OfferItemView> {
 
   String get data => json.encode({
     'title': offer?.title ?? '',
-    'offer': (widget.fromSaved ?? false) ? offer?.offerId?.toString() : offer?.id?.toString(),
+    'offer': offer?.id?.toString() ?? offer?.offerId?.toString(),
     'user_id': user?.id?.toString(),
   });
 
@@ -160,70 +157,30 @@ class _OfferItemViewState extends State<OfferItemView> {
                 ),
               ),
             ),
-            if (!isBusiness)
-              Row(
-                children: [
-                  if (offer?.ownerId != context.watch<UserController>().user?.id && offer?.isClaimed == 0)
-                    Expanded(
-                      child: Opacity(
-                        opacity: context.watch<UserController>().user?.subId == null ? .5 : 1,
-                        child: MyButton(
-                          title: offer?.isAvailed == 1 ? 'QR Code' : 'Redeem',
-                          onTap: () async {
-                            if (context.read<UserController>().user?.subId != null) {
-                              if (offer?.isAvailed == 1) {
-                                downloadDialog2(context, data);
-                              } else {
-                                getIt<AppNetwork>().loadingProgressIndicator();
-                                final val = await BusinessAPIS.availOffer(offerId: offer?.id?.toString());
-                                context.maybePop();
-                                if (val) {
-                                  setState(() {
-                                    offer = offer?.copyWith(isAvailed: 1);
-                                  });
-                                  // ignore: use_build_context_synchronously
-                                  downloadDialog(context, data);
-                                }
-                              }
-                            } else {
-                              CustomToast().showToast(message: 'You Need to Subscribe to Avail an Offer.');
-                              await context.pushRoute<void>(SubscriptionRoute());
-                            }
-                          },
-                          bgColor: CustomColors.whiteColor,
-                          textColor: CustomColors.black,
-                          borderColor: CustomColors.black,
-                        ),
-                      ),
-                    ),
-                  if (offer?.ownerId != context.watch<UserController>().user?.id)
-                    Expanded(
-                      child: Padding(
-                        padding: CustomSpacer.left.xs,
-                        child: Opacity(
-                          opacity: context.watch<UserController>().user?.subId == null ? .5 : 1,
-                          child: MyButton(
-                            title: 'Share',
-                            onTap: () async {
-                              final subId = context.read<UserController>().user?.subId;
-                              if (subId == null) {
-                                CustomToast().showToast(message: 'You Need to Subscribe to Share an Offer.');
-                                return context.pushRoute(SubscriptionRoute());
-                              }
+            if (offer?.isClaimed != null && offer?.isClaimed != 0)
+              Text(
+                'This offer was already claimed',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16, color: Colors.black),
+              )
+            else if (!isBusiness && offer?.ownerId != context.watch<UserController>().user?.id && offer?.isClaimed == 0)
+              MyButton(
+                title: offer?.isAvailed == 1 ? 'QR Code' : 'Redeem',
+                onTap: () async {
+                  if (offer?.isAvailed == 1) {
+                    return downloadDialog2(context, data);
+                  } else {
+                    final success = await BusinessAPIS.availOffer(offerId: offer?.id?.toString());
+                    await context.maybePop();
 
-                              return SharePlus.instance.share(
-                                ShareParams(
-                                  text:
-                                      "Share App with Friends,\n\n Link:${Platform.isAndroid ? "https://play.google.com/store/apps/details?id=com.app.mybackyardusa1" : "https://apps.apple.com/us/app/mb-my-backyard/id6736581907"}",
-                                  subject: 'Share with Friends',
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
+                    if (success) {
+                      setState(() => offer = offer?.copyWith(isAvailed: 1));
+                      await downloadDialog(context, data);
+                    }
+                  }
+                },
+                bgColor: CustomColors.whiteColor,
+                textColor: CustomColors.black,
+                borderColor: CustomColors.black,
               ),
           ],
         ),

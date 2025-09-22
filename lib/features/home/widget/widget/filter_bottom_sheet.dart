@@ -88,7 +88,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               ),
             ],
           ),
-          Padding(padding: CustomSpacer.top.md, child: MyText(title: 'Business name')),
+          Padding(padding: CustomSpacer.top.md, child: MyText(title: 'Keyword search')),
           Padding(
             padding: CustomSpacer.top.xxs,
             child: CustomTextFormField(

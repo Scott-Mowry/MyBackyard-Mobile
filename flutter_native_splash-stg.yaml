@@ -1,10 +1,10 @@
 flutter_native_splash:
-  background_image: "assets_v2/launcher/splash_background.png"
-  image: "assets_v2/launcher/splash_logo.png"
+  image: "assets_v2/launcher/splash_logo_halloween.png"
+  color: "#BD4C00"
 
   android_12:
-    image: "assets_v2/launcher/splash_logo_android12.png"
-    color: "#FFFFFF"
-    icon_background_color: "#FFFFFF"
+    image: "assets_v2/launcher/splash_logo_halloween_android12.png"
+    color: "#BD4C00"
+    icon_background_color: "#BD4C00"
 
   web: true
