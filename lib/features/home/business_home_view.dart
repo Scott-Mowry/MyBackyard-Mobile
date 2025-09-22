@@ -46,6 +46,7 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
 
   @override
   Widget build(BuildContext context) {
+    final trailingBtnSize = 32.0;
     super.build(context);
     return PopScope(
       canPop: true,
@@ -61,7 +62,6 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
                 topPadding: 0.h,
                 horizontalPadding: 0.w,
                 child: Column(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       decoration: BoxDecoration(
@@ -69,10 +69,10 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
                         borderRadius: const BorderRadius.vertical(bottom: Radius.circular(15)),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.2), // Shadow color
-                            blurRadius: 10, // Spread of the shadow
-                            spreadRadius: 5, // Size of the shadow
-                            offset: const Offset(0, 4), // Position of the shadow
+                            color: Colors.black.withValues(alpha: 0.2),
+                            blurRadius: 10,
+                            spreadRadius: 5,
+                            offset: const Offset(0, 4),
                           ),
                         ],
                       ),
@@ -81,21 +81,42 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           CustomAppBar(
-                            screenTitle: 'Home',
+                            screenTitle: 'Offers',
                             leading: MenuIcon(),
-                            trailing: GestureDetector(
-                              onTap: onCreateOffer,
-                              child: Container(
-                                height: 32,
-                                width: 32,
-                                decoration: BoxDecoration(color: CustomColors.whiteColor, shape: BoxShape.circle),
-                                child: Image.asset(
-                                  ImagePath.add,
-                                  fit: BoxFit.fitHeight,
-                                  color: CustomColors.primaryGreenColor,
-                                  scale: 3.0,
+                            trailing: Row(
+                              children: [
+                                Padding(
+                                  padding: CustomSpacer.right.xs,
+                                  child: GestureDetector(
+                                    onTap: () => context.pushRoute(ScanOfferRoute()),
+                                    child: Container(
+                                      height: trailingBtnSize,
+                                      width: trailingBtnSize,
+                                      decoration: BoxDecoration(color: CustomColors.whiteColor, shape: BoxShape.circle),
+                                      child: Image.asset(
+                                        ImagePath.scan2,
+                                        fit: BoxFit.fitHeight,
+                                        color: CustomColors.primaryGreenColor,
+                                        scale: 3.0,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                GestureDetector(
+                                  onTap: onCreateOffer,
+                                  child: Container(
+                                    height: trailingBtnSize,
+                                    width: trailingBtnSize,
+                                    decoration: BoxDecoration(color: CustomColors.whiteColor, shape: BoxShape.circle),
+                                    child: Image.asset(
+                                      ImagePath.add,
+                                      fit: BoxFit.fitHeight,
+                                      color: CustomColors.primaryGreenColor,
+                                      scale: 3.0,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                             bottom: 2.h,
                           ),

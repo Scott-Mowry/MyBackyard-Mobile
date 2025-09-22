@@ -158,7 +158,6 @@ class BusinessAPIS {
       final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.POST.name,
         API.CLAIM_OFFER_ENDPOINT,
-
         parameters: parameters,
         attachments: attachments,
       );
@@ -171,11 +170,10 @@ class BusinessAPIS {
           CustomToast().showToast(message: model.message ?? '');
         }
       }
-    } catch (e) {
-      log('CLAIM OFFERS ENDPOINT: ${e.toString()}');
     } finally {
       await EasyLoading.dismiss();
     }
+
     return false;
   }
 

@@ -8,13 +8,14 @@ import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
 class OfferAvailedDialog extends StatelessWidget {
-  final Function onYes;
+  final void Function() onConfirm;
   final String? title;
 
-  const OfferAvailedDialog({super.key, required this.onYes, this.title});
+  const OfferAvailedDialog({super.key, required this.onConfirm, this.title});
 
   @override
   Widget build(BuildContext context) {
+    print(title);
     return Container(
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
       width: 100.w,
@@ -34,12 +35,7 @@ class OfferAvailedDialog extends StatelessWidget {
                 children: [
                   Image.asset(ImagePath.close, scale: 2, color: Colors.transparent),
                   MyText(title: 'Success', clr: CustomColors.whiteColor, fontWeight: FontWeight.w600, size: 18),
-                  GestureDetector(
-                    onTap: () {
-                      onYes(context);
-                    },
-                    child: Image.asset(ImagePath.close, scale: 2),
-                  ),
+                  GestureDetector(onTap: onConfirm, child: Image.asset(ImagePath.close, scale: 2)),
                 ],
               ),
             ),
@@ -64,7 +60,7 @@ class OfferAvailedDialog extends StatelessWidget {
                   MyButton(
                     onTap: () {
                       context.maybePop();
-                      onYes(context);
+                      onConfirm();
                     },
                     title: 'Continue',
                   ),

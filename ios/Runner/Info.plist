@@ -42,7 +42,7 @@
 		<key>io.flutter.embedded_views_preview</key>
 		<true/>
 		<key>NSCameraUsageDescription</key>
-		<string>This app requires to access your photo library to show image on profile and send via chat</string>
+		<string>This app requires to access your photo library to show image on profile and scan QR codes of coupons</string>
 		<key>NSLocationAlwaysAndWhenInUsageDescription</key>
 		<string>This app requires to access your location for searching nearby business user</string>
 		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
