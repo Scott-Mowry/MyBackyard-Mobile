@@ -66,7 +66,6 @@ abstract class _UserAuthRepository with Store {
   @action
   Future<UserProfileModel?> completeProfile({
     String? fullName,
-    String? isPushNotify,
     String? zipCode,
     String? address,
     String? email,
@@ -84,7 +83,6 @@ abstract class _UserAuthRepository with Store {
       await EasyLoading.show();
       final userProfile = await _userAuthService.completeProfile(
         fullName: fullName,
-        isPushNotify: isPushNotify,
         zipCode: zipCode,
         address: address,
         email: email,

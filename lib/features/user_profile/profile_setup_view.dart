@@ -443,8 +443,8 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                               child: MyButton(
                                 width: Utils.isTablet ? 60.w : 90.w,
                                 title: 'Update Hours',
-                                borderColor: CustomColors.black,
-                                bgColor: CustomColors.whiteColor,
+                                borderColor: widget.isEditProfile ? CustomColors.black : null,
+                                bgColor: widget.isEditProfile ? CustomColors.whiteColor : CustomColors.secondaryColor,
                                 textColor: CustomColors.black,
                                 onTap: () async {
                                   final newAvailabilities = await context.pushRoute(
@@ -462,13 +462,14 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                                 },
                               ),
                             ),
-                          Expanded(
-                            child: MyButton(
-                              width: Utils.isTablet ? 60.w : 90.w,
-                              title: widget.isEditProfile ? 'Save' : 'Continue',
-                              onTap: saveProfile,
+                          if (!isBusiness || availabilities.isNotEmpty)
+                            Expanded(
+                              child: MyButton(
+                                width: Utils.isTablet ? 60.w : 90.w,
+                                title: widget.isEditProfile ? 'Save' : 'Continue',
+                                onTap: saveProfile,
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ),
@@ -495,19 +496,19 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
 
     await getIt<UserAuthRepository>().completeProfile(
       fullName: nameTextController.text,
-      categoryId: isBusiness ? (selectedCategory?.id ?? userController.user?.categoryId) : null,
-      description: isBusiness ? descriptionTextController.text : null,
-      isPushNotify: '1',
+      zipCode: isBusiness ? null : zipCodeTextController.text,
+      address: isBusiness ? addressTextController.text : null,
       email:
           emailTextController.text != userController.user?.email && emailTextController.text.isNotEmpty
               ? emailTextController.text
               : null,
       phone: phoneTextController.text != (userController.user?.phone ?? '') ? phoneTextController.text : null,
-      days: availabilities.isEmpty ? userController.user?.days : availabilities,
-      address: isBusiness ? addressTextController.text : null,
+      description: isBusiness ? descriptionTextController.text : null,
       lat: isBusiness ? latLng.latitude : null,
       long: isBusiness ? latLng.longitude : null,
-      zipCode: isBusiness ? null : zipCodeTextController.text,
+      role: role!.name,
+      categoryId: isBusiness ? (selectedCategory?.id ?? userController.user?.categoryId) : null,
+      days: availabilities.isEmpty ? userController.user?.days : availabilities,
       image:
           imageProfile == null
               ? null
@@ -521,7 +522,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
   }
 }
 
-Future showProfileCompletedDialog(BuildContext context) {
+Future<void> showProfileCompletedDialog(BuildContext context) {
   return showDialog(
     context: context,
     barrierDismissible: false,
@@ -534,7 +535,7 @@ Future showProfileCompletedDialog(BuildContext context) {
             backgroundColor: Colors.transparent,
             contentPadding: const EdgeInsets.all(0),
             insetPadding: EdgeInsets.symmetric(horizontal: 4.w),
-            content: ProfileCompleteDialog(onYes: () => context.pushRoute(HomeRoute())),
+            content: ProfileCompleteDialog(onConfirm: () => context.pushRoute(HomeRoute())),
           ),
         ),
       );

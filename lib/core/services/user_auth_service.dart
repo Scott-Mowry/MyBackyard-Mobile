@@ -21,7 +21,6 @@ abstract class UserAuthService {
 
   Future<UserProfileModel?> completeProfile({
     String? fullName,
-    String? isPushNotify,
     String? lastName,
     String? zipCode,
     String? address,
@@ -83,7 +82,6 @@ class UserAuthServiceImpl implements UserAuthService {
   @override
   Future<UserProfileModel?> completeProfile({
     String? fullName,
-    String? isPushNotify,
     String? lastName,
     String? zipCode,
     String? address,
@@ -122,7 +120,6 @@ class UserAuthServiceImpl implements UserAuthService {
 
     if (email != null) bodyPayload['email'] = email;
     if (phone != null) bodyPayload['phone'] = phone;
-    if (isPushNotify != null) bodyPayload['is_push_notify'] = isPushNotify;
     if (zipCode != null) bodyPayload['zip_code'] = zipCode;
     if (address != null) bodyPayload['address'] = address;
     if (description != null) bodyPayload['description'] = description;

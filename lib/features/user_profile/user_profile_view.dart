@@ -114,7 +114,9 @@ class _UserProfileViewState extends State<UserProfileView> with AutomaticKeepAli
                   screenTitle: isBusiness ? 'Business Profile' : widget.user?.name ?? 'Profile',
                   leading: BackButton(),
                   trailing:
-                      isBusiness ? Image.asset(ImagePath.favorite, scale: 2.5, color: CustomColors.redColor) : null,
+                      isBusiness
+                          ? Image.asset(ImagePath.favorite, scale: 2.5, color: CustomColors.lightGreyColor)
+                          : null,
                   bottom: 2.h,
                 ),
               ],

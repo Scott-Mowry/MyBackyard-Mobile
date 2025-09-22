@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfileCompleteDialog extends StatefulWidget {
-  final Function onYes;
+  final void Function() onConfirm;
 
-  const ProfileCompleteDialog({super.key, required this.onYes});
+  const ProfileCompleteDialog({super.key, required this.onConfirm});
 
   @override
   State<ProfileCompleteDialog> createState() => _ProfileCompleteDialogState();
@@ -41,7 +41,7 @@ class _ProfileCompleteDialogState extends State<ProfileCompleteDialog> {
                   GestureDetector(
                     onTap: () {
                       context.maybePop();
-                      widget.onYes(context);
+                      widget.onConfirm();
                     },
                     child: Image.asset(ImagePath.close, scale: 2),
                   ),
@@ -53,8 +53,6 @@ class _ProfileCompleteDialogState extends State<ProfileCompleteDialog> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // SizedBox(height: 2.h,),
-                  // Center(child: CircleAvatar(radius: 45, backgroundColor: MyColors().purpleColor,child:Image.asset(ImagePath.delete,scale: 3,color: MyColors().whiteColor,),)),
                   SizedBox(height: 2.h),
                   Image.asset(ImagePath.like, scale: 2),
                   SizedBox(height: 2.h),
@@ -62,8 +60,8 @@ class _ProfileCompleteDialogState extends State<ProfileCompleteDialog> {
                   SizedBox(height: 2.h),
                   MyButton(
                     onTap: () {
-                      widget.onYes(context);
                       context.maybePop();
+                      widget.onConfirm();
                     },
                     title: 'Continue',
                   ),
