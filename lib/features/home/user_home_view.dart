@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:auto_route/annotations.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
@@ -170,19 +169,15 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
   }
 
   Future<void> loadBusinesses() async {
-    try {
-      final userController = context.read<UserController>();
-      final devicePosition = await getIt<GeolocatorRepository>().loadCurrentPosition();
-      final offersFilter = userController.filter.copyWith(
-        latitude: devicePosition.latitude,
-        longitude: devicePosition.longitude,
-      );
+    final userController = context.read<UserController>();
+    final devicePosition = await getIt<GeolocatorRepository>().loadCurrentPosition();
+    final offersFilter = userController.filter.copyWith(
+      latitude: devicePosition.latitude,
+      longitude: devicePosition.longitude,
+    );
 
-      userController.setOffersFilter(offersFilter);
-      await BusinessAPIS.getBusinesses(offersFilter);
-    } catch (e) {
-      log('GET BUSES FUNCTION ERROR: $e');
-    }
+    userController.setOffersFilter(offersFilter);
+    await BusinessAPIS.getBusinesses(offersFilter);
   }
 
   Future<void> onMapCreated(GoogleMapController controller) async {

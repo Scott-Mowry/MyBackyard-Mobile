@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/enum/enum.dart';
+import 'package:backyard/core/helper/business_helper.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/features/home/widget/model/filter_model.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
@@ -16,7 +17,6 @@ import 'package:backyard/legacy/Model/reiview_model.dart';
 import 'package:backyard/legacy/Model/response_model.dart';
 import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Service/app_network.dart';
-import 'package:collection/collection.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
@@ -43,7 +43,7 @@ class BusinessAPIS {
   static Future<void> getBusinesses(FilterModel filter) async {
     try {
       await EasyLoading.show();
-      final controller = getIt<UserController>();
+      final userController = getIt<UserController>();
       final res = await getIt<AppNetwork>().networkRequest(
         RequestTypeEnum.GET.name,
         '${API.GET_BUSINESSES_ENDPOINT}?lat=${filter.latitude}&long=${filter.longitude}&radius=${filter.radiusInMiles}',
@@ -60,25 +60,12 @@ class BusinessAPIS {
               ? businessesRaw.map((el) => UserProfileModel.fromJson(el)).toList()
               : <UserProfileModel>[];
 
-      final filteredBusinesses =
-          allBusinesses
-              .where((el) {
-                final hasCategoryId = filter.category == null || el.categoryId == filter.category!.id;
+      final filteredBusinesses = await filterAndSortBusinesses(allBusinesses, filter);
+      userController.clearMarkers();
+      userController.setBusinessesList(filteredBusinesses);
 
-                late final businessName = el.name?.toLowerCase().trim();
-                final query = filter.query?.toLowerCase().trim();
-                final matchQuery = query == null || businessName!.contains(query);
-
-                return hasCategoryId && matchQuery;
-              })
-              .toList()
-              .shuffled();
-
-      controller.clearMarkers();
-      controller.setBusinessesList(filteredBusinesses);
-
-      await Future.wait(filteredBusinesses.map(controller.addMarker));
-      await controller.zoomOutFitBusinesses();
+      await Future.wait(filteredBusinesses.map(userController.addMarker));
+      await userController.zoomOutFitBusinesses();
     } catch (e) {
       log('GET BUSES ENDPOINT: ${e.toString()}');
     } finally {
