@@ -107,7 +107,7 @@ class _HomeViewState extends State<HomeView> {
                             scale: 1,
                             fit: BoxFit.fitHeight,
                             color: Color(homeController.currentIndex == i ? activeColor : inActiveColor),
-                            height: Utils.isTablet ? 11.sp : 22.sp,
+                            height: Utils.isTablet ? 8.sp : 22.sp,
                           ),
                           const SizedBox(height: 6),
                           Text(
