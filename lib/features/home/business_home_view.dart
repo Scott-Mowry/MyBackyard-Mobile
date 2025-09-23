@@ -1,18 +1,20 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
+import 'package:backyard/core/constants/app_constants.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
+import 'package:backyard/core/design_system/widgets/custom_web_view.dart';
 import 'package:backyard/core/helper/snackbar_helper.dart';
 import 'package:backyard/features/home/widget/widget/offer_card_widget.dart';
 import 'package:backyard/features/subscription/enum/subscription_type_enum.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
+import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
 import 'package:backyard/legacy/Component/custom_padding.dart';
 import 'package:backyard/legacy/Component/custom_refresh.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
 import 'package:backyard/legacy/Service/business_apis.dart';
-import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/View/Widget/search_tile.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +48,7 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final trailingBtnSize = 32.0;
+    final bottomButtonsHeight = 46.0;
     final offersList = searchQuery.isNotEmpty ? searchedOffers : ownedOffers;
 
     return PopScope(
@@ -79,46 +81,7 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      CustomAppBar(
-                        screenTitle: 'Offers',
-                        leading: MenuIcon(),
-                        trailing: Row(
-                          children: [
-                            Padding(
-                              padding: CustomSpacer.right.xs,
-                              child: GestureDetector(
-                                onTap: () => context.pushRoute(ScanOfferRoute()),
-                                child: Container(
-                                  height: trailingBtnSize,
-                                  width: trailingBtnSize,
-                                  decoration: BoxDecoration(color: CustomColors.whiteColor, shape: BoxShape.circle),
-                                  child: Image.asset(
-                                    ImagePath.scan2,
-                                    fit: BoxFit.fitHeight,
-                                    color: CustomColors.primaryGreenColor,
-                                    scale: 3.0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: onCreateOffer,
-                              child: Container(
-                                height: trailingBtnSize,
-                                width: trailingBtnSize,
-                                decoration: BoxDecoration(color: CustomColors.whiteColor, shape: BoxShape.circle),
-                                child: Image.asset(
-                                  ImagePath.add,
-                                  fit: BoxFit.fitHeight,
-                                  color: CustomColors.primaryGreenColor,
-                                  scale: 3.0,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        bottom: 2.h,
-                      ),
+                      CustomAppBar(screenTitle: 'Offers', leading: MenuIcon(), bottom: 2.h),
                       SearchTile(showFilter: false, onChange: searchOffer),
                       SizedBox(height: 2.h),
                     ],
@@ -154,6 +117,48 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
                       ],
                     ),
                   ),
+                Padding(
+                  padding: CustomSpacer.top.xxs + CustomSpacer.bottom.sm + CustomSpacer.horizontal.sm,
+                  child: Row(
+                    spacing: CustomSpacer.horizontal.xxs.horizontal,
+                    children: [
+                      Expanded(
+                        child: Material(
+                          elevation: 1,
+                          borderRadius: BorderRadius.circular(25),
+                          child: MyButton(
+                            title: 'Scan QR',
+                            height: bottomButtonsHeight,
+                            onTap: onCreateOffer,
+                            bgColor: CustomColors.primaryGreenColor,
+                            textColor: CustomColors.white,
+                            prefixIconData: Icons.qr_code_scanner,
+                            prefixIconColor: CustomColors.white,
+                            prefixIconSize: 24,
+                            showPrefix: true,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Material(
+                          elevation: 1,
+                          borderRadius: BorderRadius.circular(25),
+                          child: MyButton(
+                            title: 'Add offer',
+                            height: bottomButtonsHeight,
+                            onTap: onCreateOffer,
+                            bgColor: CustomColors.primaryGreenColor,
+                            textColor: CustomColors.white,
+                            prefixIconData: Icons.add,
+                            prefixIconColor: CustomColors.white,
+                            prefixIconSize: 24,
+                            showPrefix: true,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -167,7 +172,7 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
     final subscriptionPlan = getSubscriptionTypeFromSubId(userController.user?.subId);
     if (subscriptionPlan == null || subscriptionPlan.isBusinessSubBasic || subscriptionPlan.isUserSub) {
       showSnackbar(context: context, content: 'You need to subscribe to monthly or yearly plans to create an offer.');
-      return context.pushRoute<void>(SubscriptionRoute());
+      return showWebViewBottomSheet(url: plansUrl, context: context);
     }
 
     return context.pushRoute<void>(CreateOfferRoute());

@@ -51,7 +51,6 @@ class MyButton extends StatelessWidget {
         height: height ?? 55,
         width: width ?? double.infinity,
         padding: EdgeInsets.symmetric(horizontal: horPadding ?? 15),
-        // margin: EdgeInsets.symmetric(horizontal: 8),
         margin: const EdgeInsets.symmetric(horizontal: 0),
         decoration: BoxDecoration(
           color: bgColor ?? CustomColors.black,
@@ -61,11 +60,6 @@ class MyButton extends StatelessWidget {
                     colors: [CustomColors.primaryGreenColor, CustomColors.primaryGreenColor],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
-
-                    // begin: Alignment(0.0, 0.0),
-                    // end: Alignment(0.2, 2.5),
-                    // stops: [ 0.02, 0.4],
-                    // transform: GradientRotation(math.pi*5 / 5),
                   )
                   : null,
           borderRadius: BorderRadius.circular(radius ?? 25),

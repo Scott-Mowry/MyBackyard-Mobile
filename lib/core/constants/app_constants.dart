@@ -22,3 +22,4 @@ const kDefaultMapRadiusInMiles = 50;
 // External links
 const privacyPolicyUrl = 'https://mybackyardusa.com/privacy';
 const termsOfUseUrl = 'https://mybackyardusa.com/terms';
+const plansUrl = 'https://mybackyardusa.com/#pricing';
