@@ -8,12 +8,12 @@ android.apply {
     productFlavors {
         create("stg") {
             dimension = "flavor-type"
-            applicationId = "com.app.mybackyardusa.stg"
+            applicationId = "com.app.mybackyardusa1.stg"
             resValue(type = "string", name = "app_name", value = "[Stg]My Backyard")
         }
         create("prod") {
             dimension = "flavor-type"
-            applicationId = "com.app.mybackyardusa"
+            applicationId = "com.app.mybackyardusa1"
             resValue(type = "string", name = "app_name", value = "My Backyard")
         }
     }

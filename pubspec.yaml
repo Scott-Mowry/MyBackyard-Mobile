@@ -144,7 +144,7 @@ flavorizr:
       app:
         name: "[Stg]Backyard"
       android:
-        applicationId: "com.app.mybackyardusa.stg"
+        applicationId: "com.app.mybackyardusa1.stg"
         firebase:
           config: ".firebase/stg/google-services.json"
       ios:
@@ -155,7 +155,7 @@ flavorizr:
       app:
         name: "Backyard"
       android:
-        applicationId: "com.app.mybackyardusa"
+        applicationId: "com.app.mybackyardusa1"
         firebase:
           config: ".firebase/prod/google-services.json"
       ios:

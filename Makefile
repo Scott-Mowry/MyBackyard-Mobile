@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 .PHONY: ci-tests
 
-PROJECT_BUILD_NUMBER=3
+PROJECT_BUILD_NUMBER=4
 
 gen-code:
 	fvm dart run build_runner build --delete-conflicting-outputs
@@ -75,7 +75,7 @@ gen-native-splash:
 apply-lint:
 	fvm dart fix --apply
 
-ANDROID_APP_ID=com.app.mybackyardusa
+ANDROID_APP_ID=com.app.mybackyardusa1
 IOS_APP_ID=com.celect.mybackyardapp
 FIREBASE_ID=my-backyard-usa
 
