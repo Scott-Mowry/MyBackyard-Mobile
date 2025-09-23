@@ -129,7 +129,7 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
                           child: MyButton(
                             title: 'Scan QR',
                             height: bottomButtonsHeight,
-                            onTap: onCreateOffer,
+                            onTap: () => context.pushRoute(ScanOfferRoute()),
                             bgColor: CustomColors.primaryGreenColor,
                             textColor: CustomColors.white,
                             prefixIconData: Icons.qr_code_scanner,
