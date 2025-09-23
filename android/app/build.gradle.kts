@@ -26,7 +26,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.app.mybackyardusa1"
+    namespace = "com.app.mybackyardusa"
     compileSdk = flutter.compileSdkVersion
 
     compileOptions {
@@ -40,7 +40,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.app.mybackyardusa1"
+        applicationId = "com.app.mybackyardusa"
         minSdk = 24
         targetSdk = 35
         compileSdk = 35

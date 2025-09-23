@@ -75,7 +75,7 @@ gen-native-splash:
 apply-lint:
 	fvm dart fix --apply
 
-ANDROID_APP_ID=com.app.mybackyardusa1
+ANDROID_APP_ID=com.app.mybackyardusa
 IOS_APP_ID=com.celect.mybackyardapp
 FIREBASE_ID=my-backyard-usa
 
@@ -87,5 +87,5 @@ gen-firebase-configs-stg:
 	mv ios/Runner/GoogleService-Info.plist .firebase/stg && mv android/app/google-services.json .firebase/stg
 
 gen-firebase-configs-prod:
-	fvm exec flutterfire config -y -p ${FIREBASE_ID} -o ${FIREBASE_OPTIONS_PATH}_prod.dart -i ${IOS_APP_ID} -a ${ANDROID_APP_ID}
+	fvm exec flutterfire config -y -p ${FIREBASE_ID} -o ${FIREBASE_OPTIONS_PATH}_prod.dart -i ${IOS_APP_ID} -a ${ANDROID_APP_ID}1
 	mv ios/Runner/GoogleService-Info.plist .firebase/prod && mv android/app/google-services.json .firebase/prod

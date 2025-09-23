@@ -1,4 +1,4 @@
-package com.app.mybackyardusa1
+package com.app.mybackyardusa
 
 import io.flutter.embedding.android.FlutterActivity
 
