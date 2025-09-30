@@ -27,6 +27,8 @@ const kDeleteAccountErrorKey = 'DELETE_ACCOUNT_ERROR';
 const kReverseLocationSearchErrorKey = 'REVERSE_LOCATION_SEARCH_ERROR';
 const kSearchLocationsByQueryErrorKey = 'SEARCH_LOCATIONS_BY_QUERY_ERROR';
 const kLoadCurrentPositionErrorKey = 'LOAD_CURRENT_POSITION_ERROR';
+const kGetAddressesByQueryErrorKey = 'GET_ADDRESSES_BY_QUERY_ERROR';
+const kGetPlaceDetailsErrorKey = 'GET_PLACE_DETAILS_ERROR';
 
 // In-app purchase errors
 const kBuySubscriptionErrorKey = 'BUY_SUBSCRIPTION_ERROR';

@@ -8,8 +8,10 @@ import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
+import 'package:backyard/core/design_system/widgets/address_autocomplete_text_form_field.dart';
 import 'package:backyard/core/design_system/widgets/app_bar_back_button.dart';
 import 'package:backyard/core/enum/enum.dart';
+import 'package:backyard/core/model/place_details_model.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
@@ -30,7 +32,6 @@ import 'package:backyard/legacy/View/Widget/upload_media.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:intl_phone_field/helpers.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -56,10 +57,10 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
 
   final nameTextController = TextEditingController();
   final emailTextController = TextEditingController();
-  final addressTextController = TextEditingController();
   final descriptionTextController = TextEditingController();
   final phoneTextController = TextEditingController();
-  final zipCodeTextController = TextEditingController();
+
+  PlaceDetailsModel? addressDetails;
 
   final availabilities = <BusinessSchedulingModel>[];
   CategoryModel? selectedCategory;
@@ -86,9 +87,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
     emailTextController.text = userProfile?.email ?? '';
 
     if (widget.isEditProfile) {
-      zipCodeTextController.text = userProfile?.zipCode ?? '';
       phoneTextController.text = userProfile?.phone ?? '';
-      addressTextController.text = userProfile?.address ?? '';
 
       descriptionTextController.text = userProfile?.description ?? '';
       imageProfile = userProfile?.profileImage ?? '';
@@ -326,6 +325,15 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                                   backgroundColor: !widget.isEditProfile ? null : CustomColors.container,
                                   validation: (p0) => p0?.validateEmpty(isBusiness ? 'Business Name' : 'First Name'),
                                 ),
+                                Padding(
+                                  padding: CustomSpacer.top.xs,
+                                  child: AddressAutocompleteTextFormField(
+                                    hintText: 'Address',
+                                    validation: (p0) => p0?.validateEmpty('address'),
+                                    backgroundColor: !widget.isEditProfile ? null : CustomColors.container,
+                                    onAddressSelected: (val) => addressDetails = val,
+                                  ),
+                                ),
                                 SizedBox(height: 1.5.h),
                                 if (userController.user?.socialType == null ||
                                     userController.user?.socialType == 'phone') ...[
@@ -383,32 +391,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                                       return null;
                                     },
                                   ),
-                                if (isBusiness) SizedBox(height: 1.5.h),
-                                if (!isBusiness) ...[
-                                  CustomTextFormField(
-                                    controller: zipCodeTextController,
-                                    hintText: 'Zip Code',
-                                    maxLength: 6,
-                                    prefixWidget: Icon(Icons.map, color: CustomColors.primaryGreenColor),
-                                    backgroundColor: !widget.isEditProfile ? null : CustomColors.container,
-                                    validation: (p0) => p0?.validateZipCOde,
-                                  ),
-                                  SizedBox(height: 1.5.h),
-                                ] else ...[
-                                  CustomTextFormField(
-                                    controller: addressTextController,
-                                    hintText: 'Address',
-                                    prefixWidget: Image.asset(
-                                      ImagePath.location,
-                                      scale: 2,
-                                      color:
-                                          widget.isEditProfile
-                                              ? CustomColors.primaryGreenColor
-                                              : CustomColors.primaryGreenColor,
-                                    ),
-                                    validation: (p0) => p0?.validateEmpty('address'),
-                                    backgroundColor: !widget.isEditProfile ? null : CustomColors.container,
-                                  ),
+                                if (isBusiness) ...[
                                   SizedBox(height: 1.5.h),
                                   CustomTextFormField(
                                     height: 8.h,
@@ -488,24 +471,21 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
     FocusManager.instance.primaryFocus?.unfocus();
     setState(() => errorText = (imageProfile ?? '').isEmpty);
 
-    final locations = await locationFromAddress(addressTextController.text);
-    final latLng = locations.first;
-
     if (!_form.currentState!.validate() || errorText) return;
     _form.currentState!.save();
 
     await getIt<UserAuthRepository>().completeProfile(
       fullName: nameTextController.text,
-      zipCode: isBusiness ? null : zipCodeTextController.text,
-      address: isBusiness ? addressTextController.text : null,
+      zipCode: addressDetails!.postalCode!,
+      address: addressDetails!.formattedAddress,
       email:
           emailTextController.text != userController.user?.email && emailTextController.text.isNotEmpty
               ? emailTextController.text
               : null,
       phone: phoneTextController.text != (userController.user?.phone ?? '') ? phoneTextController.text : null,
       description: isBusiness ? descriptionTextController.text : null,
-      lat: isBusiness ? latLng.latitude : null,
-      long: isBusiness ? latLng.longitude : null,
+      lat: addressDetails!.geometry!.location!.lat,
+      long: addressDetails!.geometry!.location!.lng,
       role: role!.name,
       categoryId: isBusiness ? (selectedCategory?.id ?? userController.user?.categoryId) : null,
       days: availabilities.isEmpty ? userController.user?.days : availabilities,

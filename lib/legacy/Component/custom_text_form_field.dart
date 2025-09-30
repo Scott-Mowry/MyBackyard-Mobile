@@ -178,30 +178,31 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
               prefixText: widget.prefixText ?? '',
               suffixIcon: widget.suffixIcons,
               prefixIcon:
-                  widget.prefixWidget ??
-                  (widget.prefixIconData == null
-                      ? null
-                      : GestureDetector(
-                        onTap: () {
-                          widget.onTapPrefixIcon!();
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(right: widget.horizontalPadding ?? 0),
-                          padding: EdgeInsets.symmetric(
-                            vertical: responsive.setHeight(0.3),
-                            horizontal: responsive.setWidth(5),
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: widget.filed == true ? CustomColors.prefixContainerColor : Colors.transparent,
-                          ),
-                          child: Icon(
-                            widget.prefixIconData,
-                            color: widget.prefixIconColor ?? const Color(0xffFF6D09),
-                            size: widget.prefixIconSize != null ? responsive.setWidth(widget.prefixIconSize) : null,
-                          ),
-                        ),
-                      )),
+                  widget.prefixWidget != null
+                      ? Align(widthFactor: 1.0, heightFactor: 1.0, child: widget.prefixWidget)
+                      : (widget.prefixIconData == null
+                          ? null
+                          : GestureDetector(
+                            onTap: () {
+                              widget.onTapPrefixIcon!();
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(right: widget.horizontalPadding ?? 0),
+                              padding: EdgeInsets.symmetric(
+                                vertical: responsive.setHeight(0.3),
+                                horizontal: responsive.setWidth(5),
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: widget.filed == true ? CustomColors.prefixContainerColor : Colors.transparent,
+                              ),
+                              child: Icon(
+                                widget.prefixIconData,
+                                color: widget.prefixIconColor ?? const Color(0xffFF6D09),
+                                size: widget.prefixIconSize != null ? responsive.setWidth(widget.prefixIconSize) : null,
+                              ),
+                            ),
+                          )),
               focusedBorder:
                   widget.fullBorder
                       ? OutlineInputBorder(

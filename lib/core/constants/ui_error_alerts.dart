@@ -20,6 +20,10 @@ final uiErrorAlertsMap = {
   kSignOutErrorKey: 'We couldn\'t sign you out properly. Please try again.',
   kDeleteAccountErrorKey: 'We couldn\'t delete your account. Please try again later.',
 
+  // Geolocation & Google Maps
+  kGetAddressesByQueryErrorKey: 'We couldn\'t search for addresses. Please try again.',
+  kGetPlaceDetailsErrorKey: 'We couldn\'t load location details. Please try again.',
+
   // In-app purchase errors
   kBuySubscriptionErrorKey:
       'We couldn\'t complete your purchase. Please try again or contact support if the issue persists.',

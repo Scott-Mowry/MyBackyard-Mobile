@@ -1,31 +1,30 @@
 import 'package:backyard/core/api_client/api_client.dart';
 import 'package:backyard/core/api_client/dio_helper.dart';
-import 'package:backyard/core/api_client/interceptors/auth_interceptor.dart';
 import 'package:backyard/core/constants/app_constants.dart';
 import 'package:backyard/flavors.dart';
 import 'package:curl_logger_dio_interceptor/curl_logger_dio_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
-@Named(kMyBackyardApiClient)
+@Named(kGoogleMapsApiClient)
 @Injectable(as: ApiClient)
-class MyBackyardApiClient extends ApiClient {
+class GoogleMapsApiClient extends ApiClient {
   static final baseUrl = switch (appBuildFlavor) {
-    AppBuildFlavorEnum.STG => 'https://admin.mybackyardusa.com/public/api',
-    AppBuildFlavorEnum.PROD => 'https://admin.mybackyardusa.com/public/api',
+    AppBuildFlavorEnum.STG => 'https://maps.googleapis.com/maps/api',
+    AppBuildFlavorEnum.PROD => 'https://maps.googleapis.com/maps/api',
   };
 
   final _connectTimeout = switch (appBuildFlavor) {
-    AppBuildFlavorEnum.STG => const Duration(seconds: 20),
-    _ => const Duration(seconds: 20),
+    AppBuildFlavorEnum.STG => const Duration(seconds: 10),
+    _ => const Duration(seconds: 10),
   };
 
   final _receiveTimeout = switch (appBuildFlavor) {
-    AppBuildFlavorEnum.STG => const Duration(seconds: 20),
-    _ => const Duration(seconds: 20),
+    AppBuildFlavorEnum.STG => const Duration(seconds: 10),
+    _ => const Duration(seconds: 10),
   };
 
-  late final _interceptors = [AuthInterceptor(this), CurlLoggerDioInterceptor(printOnSuccess: true)];
+  late final _interceptors = [CurlLoggerDioInterceptor(printOnSuccess: true)];
 
   late final _baseOptions = BaseOptions(
     baseUrl: baseUrl,

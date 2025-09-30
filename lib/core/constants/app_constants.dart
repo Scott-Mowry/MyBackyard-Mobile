@@ -3,6 +3,7 @@ import 'package:backyard/flavors.dart';
 import 'package:flutter/material.dart';
 
 const kMyBackyardApiClient = 'myBackyardApiClient';
+const kGoogleMapsApiClient = 'googleMapsApiClient';
 
 // Push notification topics
 late final kFcmTopicAll = '${appBuildFlavor.name.toLowerCase()}.fcm.topic.all';
