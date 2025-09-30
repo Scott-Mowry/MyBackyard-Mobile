@@ -89,7 +89,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
 
     if (widget.isEditProfile) {
       phoneTextController.text = userProfile?.phone ?? '';
-      addressTextController.text = userProfile?.address ?? '';
+      addressTextController.text = userProfile?.address ?? userProfile?.zipCode ?? '';
 
       descriptionTextController.text = userProfile?.description ?? '';
       imageProfile = userProfile?.profileImage ?? '';
@@ -469,6 +469,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
   }
 
   Future<void> saveProfile() async {
+    print('HERE ${addressDetails}');
     final userController = context.read<UserController>();
 
     FocusManager.instance.primaryFocus?.unfocus();
@@ -477,18 +478,20 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
     if (!_form.currentState!.validate() || errorText) return;
     _form.currentState!.save();
 
+    final currentUser = userController.user;
+    final addressLocation = addressDetails?.geometry?.location;
     await getIt<UserAuthRepository>().completeProfile(
       fullName: nameTextController.text,
-      zipCode: addressDetails!.postalCode!,
-      address: addressDetails!.formattedAddress,
+      zipCode: addressDetails?.postalCode ?? currentUser?.zipCode,
+      address: addressDetails?.formattedAddress ?? currentUser?.address,
       email:
           emailTextController.text != userController.user?.email && emailTextController.text.isNotEmpty
               ? emailTextController.text
               : null,
       phone: phoneTextController.text != (userController.user?.phone ?? '') ? phoneTextController.text : null,
       description: isBusiness ? descriptionTextController.text : null,
-      lat: addressDetails!.geometry!.location!.lat,
-      long: addressDetails!.geometry!.location!.lng,
+      lat: addressLocation?.lat ?? currentUser?.latitude,
+      long: addressLocation?.lng ?? currentUser?.longitude,
       role: role!.name,
       categoryId: isBusiness ? (selectedCategory?.id ?? userController.user?.categoryId) : null,
       days: availabilities.isEmpty ? userController.user?.days : availabilities,

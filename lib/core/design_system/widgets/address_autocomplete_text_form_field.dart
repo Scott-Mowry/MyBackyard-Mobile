@@ -62,6 +62,7 @@ class _AddressAutocompleteTextFormFieldState extends State<AddressAutocompleteTe
   Widget build(BuildContext context) {
     return Autocomplete<AddressSuggestionModel>(
       optionsBuilder: optionsBuilder,
+      displayStringForOption: (val) => val.description ?? '',
       onSelected: onSelected,
       fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
         // Sync the autocomplete controller with our internal controller
@@ -76,6 +77,7 @@ class _AddressAutocompleteTextFormFieldState extends State<AddressAutocompleteTe
           controller: textEditingController,
           focusNode: widget.focusNode ?? focusNode,
           validation: widget.validation,
+          prefixWidget: Icon(Icons.map, color: CustomColors.primaryGreenColor),
           onFieldSubmit: (val) {
             onFieldSubmitted();
             widget.onFieldSubmitted?.call(val);
@@ -150,6 +152,8 @@ class _AddressAutocompleteTextFormFieldState extends State<AddressAutocompleteTe
 
   Future<List<AddressSuggestionModel>> optionsBuilder(TextEditingValue val) async {
     if (val.text.length < 3 || val.text == _lastQuery) return _lastSuggestions;
+
+    _lastQuery = val.text;
     final service = getIt<GoogleMapsRepository>();
 
     final suggestions = await _debouncer.run(
@@ -157,7 +161,6 @@ class _AddressAutocompleteTextFormFieldState extends State<AddressAutocompleteTe
       orElse: _lastSuggestions,
     );
 
-    if (suggestions != _lastSuggestions) _lastQuery = val.text;
     _lastSuggestions.clear();
     _lastSuggestions.addAll(suggestions);
 
@@ -165,11 +168,12 @@ class _AddressAutocompleteTextFormFieldState extends State<AddressAutocompleteTe
   }
 
   Future<void> onSelected(AddressSuggestionModel address) async {
-    if (_autocompleteController != null) _autocompleteController!.text = address.description ?? '';
-    _internalController.text = address.description ?? '';
-
     final details = await getIt<GoogleMapsRepository>().getPlaceDetails(address.placeId!);
     widget.onAddressSelected?.call(details!);
+
+    final description = address.description ?? '';
+    _lastQuery = description;
+    _internalController.text = description;
   }
 
   @override
