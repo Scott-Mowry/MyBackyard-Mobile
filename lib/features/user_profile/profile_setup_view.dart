@@ -88,7 +88,6 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
     emailTextController.text = userProfile?.email ?? '';
 
     if (widget.isEditProfile) {
-      print('ADDRESS ${userProfile?.toJson()}');
       phoneTextController.text = userProfile?.phone ?? '';
       addressTextController.text = userProfile?.address ?? '';
 
