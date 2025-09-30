@@ -469,7 +469,6 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
   }
 
   Future<void> saveProfile() async {
-    print('HERE ${addressDetails}');
     final userController = context.read<UserController>();
 
     FocusManager.instance.primaryFocus?.unfocus();
