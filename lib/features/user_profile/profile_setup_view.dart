@@ -59,6 +59,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
   final emailTextController = TextEditingController();
   final descriptionTextController = TextEditingController();
   final phoneTextController = TextEditingController();
+  final addressTextController = TextEditingController();
 
   PlaceDetailsModel? addressDetails;
 
@@ -87,7 +88,9 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
     emailTextController.text = userProfile?.email ?? '';
 
     if (widget.isEditProfile) {
+      print('ADDRESS ${userProfile?.toJson()}');
       phoneTextController.text = userProfile?.phone ?? '';
+      addressTextController.text = userProfile?.address ?? '';
 
       descriptionTextController.text = userProfile?.description ?? '';
       imageProfile = userProfile?.profileImage ?? '';
@@ -329,9 +332,10 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                                   padding: CustomSpacer.top.xs,
                                   child: AddressAutocompleteTextFormField(
                                     hintText: 'Address',
+                                    controller: addressTextController,
                                     validation: (p0) => p0?.validateEmpty('address'),
                                     backgroundColor: !widget.isEditProfile ? null : CustomColors.container,
-                                    onAddressSelected: (val) => addressDetails = val,
+                                    onAddressSelected: (val) => setState(() => addressDetails = val),
                                   ),
                                 ),
                                 SizedBox(height: 1.5.h),

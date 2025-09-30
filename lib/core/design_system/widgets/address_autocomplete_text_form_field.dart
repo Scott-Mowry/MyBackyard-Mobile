@@ -52,14 +52,11 @@ class AddressAutocompleteTextFormField extends StatefulWidget {
 
 class _AddressAutocompleteTextFormFieldState extends State<AddressAutocompleteTextFormField> {
   final _debouncer = Debouncer(milliseconds: 500);
-  late final TextEditingController _internalController;
+  late final _internalController = widget.controller ?? TextEditingController();
   TextEditingController? _autocompleteController;
 
-  @override
-  void initState() {
-    super.initState();
-    _internalController = widget.controller ?? TextEditingController();
-  }
+  var _lastQuery = '';
+  final _lastSuggestions = <AddressSuggestionModel>[];
 
   @override
   Widget build(BuildContext context) {
@@ -152,15 +149,19 @@ class _AddressAutocompleteTextFormFieldState extends State<AddressAutocompleteTe
   }
 
   Future<List<AddressSuggestionModel>> optionsBuilder(TextEditingValue val) async {
-    if (val.text.length < 3) return [];
+    if (val.text.length < 3 || val.text == _lastQuery) return _lastSuggestions;
     final service = getIt<GoogleMapsRepository>();
 
-    final options = await _debouncer.run(
+    final suggestions = await _debouncer.run(
       () async => service.getAddressesByQuery(val.text),
-      orElse: <AddressSuggestionModel>[],
+      orElse: _lastSuggestions,
     );
 
-    return options;
+    if (suggestions != _lastSuggestions) _lastQuery = val.text;
+    _lastSuggestions.clear();
+    _lastSuggestions.addAll(suggestions);
+
+    return suggestions;
   }
 
   Future<void> onSelected(AddressSuggestionModel address) async {
@@ -173,9 +174,8 @@ class _AddressAutocompleteTextFormFieldState extends State<AddressAutocompleteTe
 
   @override
   void dispose() {
-    if (widget.controller == null) {
-      _internalController.dispose();
-    }
+    if (widget.controller == null) _internalController.dispose();
+    _debouncer.dispose();
     super.dispose();
   }
 }

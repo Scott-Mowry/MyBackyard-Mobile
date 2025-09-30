@@ -21,7 +21,7 @@ class GoogleMapsServiceImpl implements GoogleMapsService {
     if (query.length < 3) return [];
 
     final queryParams = {'input': query, 'key': AppStrings.GOOGLE_API_KEY, 'types': 'address'};
-    final resp = await _apiClient.post('/place/autocomplete/json', queryParameters: queryParams);
+    final resp = await _apiClient.get('/place/autocomplete/json', queryParameters: queryParams);
     final respData = resp.data?['predictions'] as List? ?? [];
     final places = respData.map((el) => AddressSuggestionModel.fromJson(el as Map<String, dynamic>)).toList();
 
@@ -35,7 +35,7 @@ class GoogleMapsServiceImpl implements GoogleMapsService {
       'key': AppStrings.GOOGLE_API_KEY,
       'fields': 'place_id,formatted_address,geometry,address_components',
     };
-    final resp = await _apiClient.post('/place/details/json', queryParameters: queryParams);
+    final resp = await _apiClient.get('/place/details/json', queryParameters: queryParams);
     final respData = resp.data?['result'] as Map<String, dynamic>?;
     if (respData == null) return null;
 
