@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/design_system/widgets/app_bar_back_button.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
@@ -98,6 +99,7 @@ class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAli
                     SizedBox(height: 2.h),
                     Expanded(
                       child: SingleChildScrollView(
+                        physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
                         child: Form(
                           key: form,
                           child: Column(
@@ -237,11 +239,10 @@ class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAli
                               customTitle(title: 'Card teaser'),
                               SizedBox(height: 1.h),
                               CustomTextFormField(
-                                height: 8.h,
                                 hintText: 'Teaser',
                                 showLabel: false,
-                                maxLines: 5,
-                                minLines: 5,
+                                maxLines: 10,
+                                minLines: 3,
                                 controller: shortDetailController,
                                 validation: (p0) => p0?.validateEmpty('Short Detail'),
                                 borderRadius: 10,
@@ -252,76 +253,76 @@ class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAli
                               customTitle(title: 'Full description'),
                               SizedBox(height: 1.h),
                               CustomTextFormField(
-                                height: 8.h,
                                 hintText: 'Full description',
                                 showLabel: false,
-                                maxLines: 5,
-                                minLines: 5,
+                                maxLines: 15,
+                                minLines: 3,
                                 controller: descriptionController,
                                 validation: (p0) => p0?.validateEmpty('Full description'),
                                 borderRadius: 10,
                                 maxLength: 500,
                                 backgroundColor: CustomColors.container,
                               ),
-                              SizedBox(height: 2.h),
-                              MyButton(
-                                title: widget.edit ? 'Update' : 'Continue',
-                                onTap: () async {
-                                  if (!widget.edit) {
-                                    setState(() {
-                                      error = permit.path.isEmpty;
-                                    });
-                                  }
-                                  if ((form.currentState?.validate() ?? false) && !error) {
-                                    if (widget.edit) {
-                                      final val = await BusinessAPIS.editOffer(
-                                        offerId: widget.model?.id?.toString(),
-                                        title: titleController.text,
-                                        categoryId: selected?.id?.toString() ?? '',
-                                        actualPrice: actualPriceController.text,
-                                        discountPrice: discountController.text,
-                                        rewardPoints: '2',
-                                        shortDetail: shortDetailController.text,
-                                        desc: descriptionController.text,
-                                        image: permit,
-                                      );
-                                      context.maybePop();
-                                      if (val) {
-                                        context.maybePop();
-                                        context.maybePop();
-                                      }
-                                    } else {
-                                      final val = await BusinessAPIS.addOffer(
-                                        title: titleController.text,
-                                        categoryId: selected?.id?.toString() ?? '',
-                                        actualPrice: actualPriceController.text,
-                                        discountPrice: discountController.text,
-                                        rewardPoints: '2',
-                                        shortDetail: shortDetailController.text,
-                                        desc: descriptionController.text,
-                                        image: permit,
-                                      );
-                                      context.maybePop();
-                                      if (val) {
-                                        titleController.text = widget.model?.title ?? '';
-                                        discountController.clear();
-                                        rewardPointsController.clear();
-                                        shortDetailController.clear();
-                                        descriptionController.clear();
-                                        actualPriceController.clear();
-                                        selected = null;
-                                        setState(() {});
-                                        completeDialog();
-                                      }
-                                    }
-                                  }
-                                },
-                              ),
                               SizedBox(height: 3.h),
-                              // SizedBox(height: 10.h,),
                             ],
                           ),
                         ),
+                      ),
+                    ),
+                    Padding(
+                      padding: CustomSpacer.top.xs + CustomSpacer.bottom.lg,
+                      child: MyButton(
+                        title: widget.edit ? 'Update' : 'Continue',
+                        onTap: () async {
+                          if (!widget.edit) {
+                            setState(() {
+                              error = permit.path.isEmpty;
+                            });
+                          }
+                          if ((form.currentState?.validate() ?? false) && !error) {
+                            if (widget.edit) {
+                              final val = await BusinessAPIS.editOffer(
+                                offerId: widget.model?.id?.toString(),
+                                title: titleController.text,
+                                categoryId: selected?.id?.toString() ?? '',
+                                actualPrice: actualPriceController.text,
+                                discountPrice: discountController.text,
+                                rewardPoints: '2',
+                                shortDetail: shortDetailController.text,
+                                desc: descriptionController.text,
+                                image: permit,
+                              );
+                              context.maybePop();
+                              if (val) {
+                                context.maybePop();
+                                context.maybePop();
+                              }
+                            } else {
+                              final val = await BusinessAPIS.addOffer(
+                                title: titleController.text,
+                                categoryId: selected?.id?.toString() ?? '',
+                                actualPrice: actualPriceController.text,
+                                discountPrice: discountController.text,
+                                rewardPoints: '2',
+                                shortDetail: shortDetailController.text,
+                                desc: descriptionController.text,
+                                image: permit,
+                              );
+                              context.maybePop();
+                              if (val) {
+                                titleController.text = widget.model?.title ?? '';
+                                discountController.clear();
+                                rewardPointsController.clear();
+                                shortDetailController.clear();
+                                descriptionController.clear();
+                                actualPriceController.clear();
+                                selected = null;
+                                setState(() {});
+                                completeDialog();
+                              }
+                            }
+                          }
+                        },
                       ),
                     ),
                   ],
