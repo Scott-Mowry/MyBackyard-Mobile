@@ -110,7 +110,11 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
                         ...offersList.map((offer) {
                           return Padding(
                             padding: CustomSpacer.top.md,
-                            child: OfferCardWidget(offer: offer, showAddress: false),
+                            child: OfferCardWidget(
+                              offer: offer,
+                              showAddress: false,
+                              onTap: () => onTapOfferCard(offer),
+                            ),
                           );
                         }),
                         SizedBox(height: 5.h),
@@ -167,6 +171,12 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
     );
   }
 
+  Future<void> onTapOfferCard(Offer offer) async {
+    final reload = await context.pushRoute(OfferItemRoute(offer: offer));
+    if (reload == null || reload is! bool) return;
+    if (reload) await loadOwnedOffers();
+  }
+
   Future<void> onCreateOffer() async {
     final userController = context.read<UserController>();
     final subscriptionPlan = getSubscriptionTypeFromSubId(userController.user?.subId);
@@ -175,7 +185,9 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
       return showWebViewBottomSheet(url: plansUrl, context: context);
     }
 
-    return context.pushRoute<void>(CreateOfferRoute());
+    final reload = await context.pushRoute(CreateOfferRoute());
+    if (reload == null || reload is! bool) return;
+    if (reload) await loadOwnedOffers();
   }
 
   Future<void> loadOwnedOffers() async {

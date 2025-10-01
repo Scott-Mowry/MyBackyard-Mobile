@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
@@ -47,10 +48,14 @@ class _OfferItemViewState extends State<OfferItemView> {
   late var offer = widget.offer;
 
   late final user = context.read<UserController>().user;
-  late bool isBusiness =
-      (context.read<UserController>().isSwitch)
-          ? false
-          : context.read<UserController>().user?.role == UserRoleEnum.Business;
+
+  bool get isOfferOwnedByCurrentBusinessUser {
+    final userController = context.read<UserController>();
+    if (userController.isSwitch) return false;
+
+    final user = userController.user;
+    return offer != null && user != null && user.role == UserRoleEnum.Business && offer?.ownerId == user.id;
+  }
 
   String get data => json.encode({
     'title': offer?.title ?? '',
@@ -68,7 +73,7 @@ class _OfferItemViewState extends State<OfferItemView> {
       showAppBar: true,
       showBackButton: true,
       trailingAppBar:
-          isBusiness
+          isOfferOwnedByCurrentBusinessUser
               ? IconButton(
                 onPressed: () => editOffer(context),
                 icon: const Icon(Icons.more_horiz_rounded, size: 35, color: Colors.black),
@@ -160,7 +165,7 @@ class _OfferItemViewState extends State<OfferItemView> {
                 'This offer was already claimed',
                 style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16, color: Colors.black),
               )
-            else if (!isBusiness &&
+            else if (!isOfferOwnedByCurrentBusinessUser &&
                 offer != null &&
                 offer!.ownerId != context.watch<UserController>().user?.id &&
                 !offer!.isClaimed)
@@ -236,9 +241,9 @@ class _OfferItemViewState extends State<OfferItemView> {
                   ),
                   SizedBox(height: 2.h),
                   GestureDetector(
-                    onTap: () {
-                      context.maybePop();
-                      deleteDialog(context, offer);
+                    onTap: () async {
+                      await context.maybePop();
+                      await deleteDialog(offer);
                     },
                     child: Row(
                       children: [
@@ -259,7 +264,7 @@ class _OfferItemViewState extends State<OfferItemView> {
     );
   }
 
-  Future deleteDialog(context, Offer? model) {
+  Future<void> deleteDialog(Offer? model) {
     return showDialog(
       context: context,
       barrierDismissible: false,
@@ -277,13 +282,12 @@ class _OfferItemViewState extends State<OfferItemView> {
               b1: 'Yes',
               b2: 'No',
               onConfirm: (v) async {
-                final val = await BusinessAPIS.deleteOffer(offerId: offer?.id?.toString() ?? '');
-                context.maybePop();
-                if (val) {
-                  context.maybePop();
+                final success = await BusinessAPIS.deleteOffer(offerId: offer?.id?.toString() ?? '');
+                if (success) {
+                  await this.context.maybePop(true);
+                  await this.context.maybePop(true);
                 }
               },
-              button2: (v) {},
             ),
           ),
         );

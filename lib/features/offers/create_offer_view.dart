@@ -292,10 +292,11 @@ class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAli
                                 desc: descriptionController.text,
                                 image: permit,
                               );
-                              context.maybePop();
+
                               if (val) {
-                                context.maybePop();
-                                context.maybePop();
+                                await completeDialog();
+                                await context.maybePop<bool>(true);
+                                await context.maybePop<bool>(true);
                               }
                             } else {
                               final val = await BusinessAPIS.addOffer(
@@ -308,17 +309,10 @@ class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAli
                                 desc: descriptionController.text,
                                 image: permit,
                               );
-                              context.maybePop();
+
                               if (val) {
-                                titleController.text = widget.model?.title ?? '';
-                                discountController.clear();
-                                rewardPointsController.clear();
-                                shortDetailController.clear();
-                                descriptionController.clear();
-                                actualPriceController.clear();
-                                selected = null;
-                                setState(() {});
-                                completeDialog();
+                                await completeDialog();
+                                await context.maybePop<bool>(true);
                               }
                             }
                           }
@@ -384,7 +378,7 @@ class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAli
     );
   }
 
-  Future completeDialog() {
+  Future<void> completeDialog() {
     context.read<HomeController>().setIndex(0);
     return showDialog(
       context: context,
@@ -398,18 +392,10 @@ class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAli
             insetPadding: EdgeInsets.symmetric(horizontal: 4.w),
             content: CustomDialog(
               title: 'Successfully',
-              // image: ImagePath.scan3,
               description:
                   widget.edit ? 'Offer have been successfully updated.' : 'Offer have been successfully created.',
               b1: 'Continue',
-              // b2: 'Download QR Code',
-              onConfirm: (v) {
-                context.maybePop();
-                context.maybePop();
-              },
-              // button2: (v) {
-              //   downloadDialog();
-              // },
+              onConfirm: (_) => context.maybePop(),
             ),
           ),
         );

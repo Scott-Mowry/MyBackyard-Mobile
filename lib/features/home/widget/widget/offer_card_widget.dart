@@ -15,8 +15,9 @@ import 'package:google_fonts/google_fonts.dart';
 class OfferCardWidget extends StatelessWidget {
   final Offer offer;
   final bool showAddress;
+  final GestureTapCallback? onTap;
 
-  const OfferCardWidget({super.key, required this.offer, this.showAddress = true});
+  const OfferCardWidget({super.key, required this.offer, this.showAddress = true, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class OfferCardWidget extends StatelessWidget {
       child: Opacity(
         opacity: offer.isClaimed ? 0.6 : 1,
         child: InkWell(
-          onTap: () => context.pushRoute(OfferItemRoute(offer: offer)),
+          onTap: onTap ?? () => context.pushRoute(OfferItemRoute(offer: offer)),
           borderRadius: borderRadius,
           child: Ink(
             decoration: BoxDecoration(
