@@ -33,9 +33,11 @@ class AuthInterceptor extends Interceptor {
   Future<void> onError(DioException err, ErrorInterceptorHandler handler) async {
     final reqOpts = err.requestOptions;
     final isUnauthError = err.response?.statusCode == HttpStatus.unauthorized;
+    final isLogout = reqOpts.path.contains('/logout');
 
     // 1.0 If public route, or not a unauthorized error, proceed without interference
-    if (!isUnauthError) return super.onError(err, handler);
+    // 1.0.1 If this is the logout request failing, don't retry or call signOut again
+    if (!isUnauthError || isLogout) return super.onError(err, handler);
 
     // 1.1 If not a retry request, attempt to refresh the token
     // 1.2 Logout if it's a retry request or the refresh attempt was unsuccessful

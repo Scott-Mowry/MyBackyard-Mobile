@@ -53,6 +53,7 @@ class _LogoutAlertState extends State<LogoutAlert> {
                   SizedBox(height: 3.h),
                   MyButton(
                     onTap: () async {
+                      await context.maybePop();
                       await getIt<UserAuthRepository>().signOut();
                     },
                     title: 'Logout',

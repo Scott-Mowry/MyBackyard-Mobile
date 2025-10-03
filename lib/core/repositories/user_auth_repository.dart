@@ -168,14 +168,20 @@ abstract class _UserAuthRepository with Store {
       await EasyLoading.show();
       await _userAuthService.signOut();
       await _userController.clear();
-
-      MyBackyardApp.appRouter.popUntilRoot();
-      return MyBackyardApp.appRouter.replace<void>(LandingRoute());
+      await _removeLoggedInRoutes();
     } catch (error, stacktrace) {
+      await _removeLoggedInRoutes();
       throw AppInternalError(code: 'SIGN_OUT_ERROR', error: error, stack: stacktrace);
     } finally {
       await EasyLoading.dismiss();
     }
+  }
+
+  Future<void> _removeLoggedInRoutes() async {
+    try {
+      MyBackyardApp.appRouter.popUntilRoot();
+      await MyBackyardApp.appRouter.replace<void>(LandingRoute());
+    } catch (_) {}
   }
 
   Future<void> deleteAccount() async {
