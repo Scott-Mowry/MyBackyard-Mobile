@@ -180,8 +180,8 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
   Future<void> onCreateOffer() async {
     final userController = context.read<UserController>();
     final subscriptionPlan = getSubscriptionTypeFromSubId(userController.user?.subId);
-    if (subscriptionPlan == null || subscriptionPlan.isBusinessSubBasic || subscriptionPlan.isUserSub) {
-      showSnackbar(context: context, content: 'You need to subscribe to monthly or yearly plans to create an offer.');
+    if (subscriptionPlan == null || subscriptionPlan.isUserSub) {
+      showSnackbar(context: context, content: 'You need to subscribe to create an offer.');
       return showWebViewBottomSheet(url: plansUrl, context: context);
     }
 
