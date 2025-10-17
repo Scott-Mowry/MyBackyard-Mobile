@@ -1,10 +1,13 @@
+import 'dart:ui';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/constants/app_constants.dart';
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/design_system/widgets/custom_web_view.dart';
-import 'package:backyard/core/helper/snackbar_helper.dart';
+import 'package:backyard/core/repositories/user_auth_repository.dart';
 import 'package:backyard/features/home/widget/widget/offer_card_widget.dart';
 import 'package:backyard/features/subscription/enum/subscription_type_enum.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
@@ -15,9 +18,11 @@ import 'package:backyard/legacy/Component/custom_refresh.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
 import 'package:backyard/legacy/Service/business_apis.dart';
+import 'package:backyard/legacy/View/Widget/Dialog/custom_dialog.dart';
 import 'package:backyard/legacy/View/Widget/search_tile.dart';
 import 'package:backyard/legacy/View/base_view.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -181,8 +186,10 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
     final userController = context.read<UserController>();
     final subscriptionPlan = getSubscriptionTypeFromSubId(userController.user?.subId);
     if (subscriptionPlan == null || subscriptionPlan.isUserSub) {
-      showSnackbar(context: context, content: 'You need to subscribe to create an offer.');
-      return showWebViewBottomSheet(url: plansUrl, context: context);
+      final triedSubscribing = await showSubscribeLinkDialog();
+      if (triedSubscribing != null && triedSubscribing) await showSubscribedAlreadyDialog();
+
+      return;
     }
 
     final reload = await context.pushRoute(CreateOfferRoute());
@@ -205,5 +212,78 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
     searchedOffers.clear();
     searchedOffers.addAll(offerResults);
     setState(() {});
+  }
+
+  Future<bool?> showSubscribeLinkDialog() async {
+    return showDialog<bool?>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: AlertDialog(
+            backgroundColor: Colors.transparent,
+            contentPadding: const EdgeInsets.all(0),
+            insetPadding: EdgeInsets.symmetric(horizontal: 4.w),
+            content: CustomDialog(
+              title: 'Almost there!',
+              b1: 'Subscribe!',
+              onConfirm: (_) async {
+                await showWebViewBottomSheet(url: plansUrl, context: context);
+                return context.maybePop<bool>(true);
+              },
+              child: Text(
+                'You\'re just one step away from sharing amazing offers with your customers! Subscribe to get started',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 14, color: Colors.black),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> showSubscribedAlreadyDialog() async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: AlertDialog(
+            backgroundColor: Colors.transparent,
+            contentPadding: const EdgeInsets.all(0),
+            insetPadding: EdgeInsets.symmetric(horizontal: 4.w),
+            content: CustomDialog(
+              title: 'Activate your plan!',
+              b1: 'Logout',
+              onConfirm: (_) async {
+                await context.maybePop();
+                await getIt<UserAuthRepository>().signOut();
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'If you\'ve just subscribed, simply log out and sign back in to activate your plan.',
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 14, color: Colors.black),
+                    textAlign: TextAlign.center,
+                  ),
+                  Padding(
+                    padding: CustomSpacer.top.xxs,
+                    child: Text(
+                      'We know this isn\'t ideal and we\'re working to make this smoother!',
+                      style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 12, color: Colors.grey),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

@@ -1,17 +1,23 @@
+import 'dart:async';
+import 'dart:developer';
+
+import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/constants/app_constants.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/design_system/widgets/custom_bottom_sheet.dart';
-import 'package:backyard/core/design_system/widgets/custom_loading_widget.dart';
 import 'package:backyard/core/exception/app_exception_codes.dart';
 import 'package:backyard/core/exception/app_internal_error.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-Future<void> showWebViewBottomSheet({required String url, required BuildContext context}) async {
+Future<T?> showWebViewBottomSheet<T>({required String url, required BuildContext context}) async {
   try {
-    return showCustomBottomSheet(
+    return showCustomBottomSheet<T>(
       context: context,
       child: CustomWebView(url: url, showCloseButton: true),
       height: MediaQuery.sizeOf(context).height * 0.93,
@@ -33,7 +39,6 @@ class CustomWebView extends StatefulWidget {
 }
 
 class _CustomWebViewState extends State<CustomWebView> {
-  bool isLoading = true;
   final webViewController = WebViewController();
   final gestureRecognizers = {const Factory(EagerGestureRecognizer.new)};
   final webViewKey = UniqueKey();
@@ -42,20 +47,23 @@ class _CustomWebViewState extends State<CustomWebView> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await webViewController.setNavigationDelegate(
+    unawaited(EasyLoading.showProgress(0.0, status: 'Loading...'));
+    webViewController
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setUserAgent(kWebviewUserAgent)
+      ..enableZoom(false)
+      ..setNavigationDelegate(
         NavigationDelegate(
+          onProgress: (progress) {
+            EasyLoading.showProgress(progress / 100, status: '\nLoading...\n$progress%');
+          },
           onPageFinished: (url) {
-            setState(() => isLoading = false);
+            Future.delayed(Duration(milliseconds: 500), EasyLoading.dismiss);
           },
-          onWebResourceError: (error) {
-            setState(() => isLoading = false);
-          },
+          onWebResourceError: onWebResourceError,
         ),
-      );
-
-      await webViewController.loadRequest(Uri.parse(widget.url));
-    });
+      )
+      ..loadRequest(Uri.parse(widget.url));
   }
 
   @override
@@ -81,8 +89,15 @@ class _CustomWebViewState extends State<CustomWebView> {
           alignment: Alignment.topCenter,
           child: Container(height: 20, width: screenWidth, color: Colors.transparent),
         ),
-        if (isLoading) const CustomLoadingWidget(),
       ],
     );
+  }
+
+  Future<void> onWebResourceError(WebResourceError error) async {
+    await EasyLoading.dismiss();
+    await context.maybePop<bool>(true);
+
+    log('WebView error: ${error.description} (code: ${error.errorCode})');
+    await launchUrlString(widget.url);
   }
 }

@@ -4,6 +4,7 @@ import 'dart:isolate';
 
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
+import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/exception/exception_handler.dart';
 import 'package:backyard/core/firebase_options/firebase_options.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
@@ -16,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 Future<void> boot() async {
@@ -73,7 +75,10 @@ void configLoading() {
     ..indicatorType = EasyLoadingIndicatorType.ring
     ..backgroundColor = Colors.transparent
     ..indicatorColor = CustomColors.primaryGreenColor
-    ..textColor = Colors.transparent
+    ..progressColor = CustomColors.primaryGreenColor
+    ..textColor = CustomColors.black
+    ..textPadding = CustomSpacer.top.md
+    ..textStyle = GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 18, color: Colors.black)
     ..boxShadow = [const BoxShadow(color: Colors.transparent)]
     ..maskType = EasyLoadingMaskType.custom
     ..loadingStyle = EasyLoadingStyle.custom
