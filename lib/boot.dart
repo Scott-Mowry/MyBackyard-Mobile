@@ -24,7 +24,6 @@ Future<void> boot() async {
   return runZonedGuarded(
     () async {
       {
-        configLoading();
         WidgetsFlutterBinding.ensureInitialized();
         await Firebase.initializeApp(options: currentFirebasePlatform);
 
@@ -59,6 +58,7 @@ Future<void> boot() async {
           ChangeNotifierProvider(create: (context) => getIt<HomeController>()),
         ];
 
+        configLoading();
         runApp(MultiProvider(providers: providersList, child: MyBackyardApp()));
       }
     },

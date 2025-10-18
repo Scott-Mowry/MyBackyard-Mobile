@@ -15,7 +15,6 @@ class OfferAvailedDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(title);
     return Container(
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
       width: 100.w,

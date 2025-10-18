@@ -116,6 +116,8 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
         bgImage: widget.isEditProfile ? '' : ImagePath.bgImage1,
         child: Consumer2<UserController, HomeController>(
           builder: (context, userController, homeController, _) {
+            final categoriesList = homeController.categories ?? <CategoryModel>[];
+
             return Form(
               key: _form,
               child: Column(
@@ -305,7 +307,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                                     hintText: 'Select Category',
                                     bgColor:
                                         !widget.isEditProfile ? CustomColors.secondaryColor : CustomColors.container,
-                                    dropDownData: homeController.categories ?? [],
+                                    dropDownData: categoriesList,
                                     dropdownValue: selectedCategory,
                                     validator: (p0) => (p0 == null) ? "Category can't be empty" : null,
                                     onChanged: (category) => setState(() => selectedCategory = category),
@@ -420,7 +422,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                   SizedBox(height: 1.h),
                   if (MediaQuery.viewInsetsOf(context).bottom == 0)
                     Padding(
-                      padding: CustomSpacer.horizontal.md,
+                      padding: CustomSpacer.vertical.xs + CustomSpacer.horizontal.md,
                       child: Row(
                         spacing: CustomSpacer.horizontal.xs.horizontal,
                         children: [

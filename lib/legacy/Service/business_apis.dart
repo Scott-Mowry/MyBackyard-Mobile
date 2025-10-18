@@ -3,6 +3,8 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:backyard/core/api_client/api_client.dart';
+import 'package:backyard/core/constants/app_constants.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/helper/business_helper.dart';
@@ -24,15 +26,14 @@ import 'package:http/http.dart' as http;
 class BusinessAPIS {
   static Future<void> getCategories() async {
     try {
-      await EasyLoading.show();
-      final controller = getIt<HomeController>();
-      final res = await getIt<AppNetwork>().networkRequest(RequestTypeEnum.GET.name, API.CATEGORIES_ENDPOINT);
-      if (res != null) {
-        final model = responseModelFromJson(res.body);
-        if (model.status) {
-          controller.setCategories(List<CategoryModel>.from((model.data ?? {}).map((x) => CategoryModel.fromJson(x))));
-        }
-      }
+      final apiClient = getIt<ApiClient>(instanceName: kMyBackyardApiClient);
+      final res = await apiClient.get(API.CATEGORIES_ENDPOINT);
+      final respModel = ResponseModel.fromJson(res.data);
+      final categoriesRaw = respModel.data is List ? respModel.data as List : [];
+      final categories = categoriesRaw.map((el) => CategoryModel.fromJson(el as Map<String, dynamic>)).toList();
+
+      final homeController = getIt<HomeController>();
+      homeController.setCategories(categories);
     } catch (e) {
       log('CATEGORY ENDPOINT: ${e.toString()}');
     } finally {

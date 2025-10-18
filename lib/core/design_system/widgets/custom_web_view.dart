@@ -3,11 +3,14 @@ import 'dart:developer';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/constants/app_constants.dart';
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/design_system/widgets/custom_bottom_sheet.dart';
 import 'package:backyard/core/exception/app_exception_codes.dart';
 import 'package:backyard/core/exception/app_internal_error.dart';
+import 'package:backyard/core/helper/snackbar_helper.dart';
+import 'package:backyard/core/repositories/connectivity_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +20,12 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 Future<T?> showWebViewBottomSheet<T>({required String url, required BuildContext context}) async {
   try {
+    final connectivityRepository = getIt<ConnectivityRepository>();
+    if (!connectivityRepository.hasInternetAccess) {
+      showSnackbar(context: context, content: 'Ops... No internet connection');
+      return null;
+    }
+
     return showCustomBottomSheet<T>(
       context: context,
       child: CustomWebView(url: url, showCloseButton: true),
