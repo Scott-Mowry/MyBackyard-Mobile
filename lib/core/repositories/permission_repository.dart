@@ -29,7 +29,6 @@ abstract class _PermissionRepository with Store {
 
       _isRequestingPermission = true;
       final permStatus = await Permission.appTrackingTransparency.request();
-      await _crashlyticsRepository.setCrashlyticsCollectionEnabled(permStatus.isGranted);
       await _analyticsRepository.setAnalyticsCollectionEnabled(permStatus.isGranted);
 
       return permStatus.isGranted;
