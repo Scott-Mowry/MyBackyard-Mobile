@@ -26,6 +26,7 @@ import 'package:http/http.dart' as http;
 class BusinessAPIS {
   static Future<void> getCategories() async {
     try {
+      await EasyLoading.show();
       final apiClient = getIt<ApiClient>(instanceName: kMyBackyardApiClient);
       final res = await apiClient.get(API.CATEGORIES_ENDPOINT);
       final respModel = ResponseModel.fromJson(res.data);
