@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:778233061802:android:56794af423eac633eecbd3",
+        "mobilesdk_app_id": "1:778233061802:android:1e0b39ffbeee16cfeecbd3",
         "android_client_info": {
-          "package_name": "com.app.mybackyardusa1"
+          "package_name": "com.app.mybackyardusa1.stg"
         }
       },
       "oauth_client": [],
@@ -26,9 +26,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:778233061802:android:131b3e3de756695feecbd3",
+        "mobilesdk_app_id": "1:778233061802:android:c588e3963ae61cd5eecbd3",
         "android_client_info": {
-          "package_name": "com.app.mybackyardusa1.stg"
+          "package_name": "com.app.mybackyardusa11"
         }
       },
       "oauth_client": [],
