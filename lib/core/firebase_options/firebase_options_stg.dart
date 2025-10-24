@@ -62,5 +62,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'my-backyard-usa.firebasestorage.app',
     iosBundleId: 'com.celect.mybackyardapp.stg',
   );
-
 }

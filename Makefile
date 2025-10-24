@@ -47,10 +47,10 @@ build-apk-stg:
 	fvm flutter build apk --release --flavor stg -t lib/main_stg.dart --build-number=${PROJECT_BUILD_NUMBER} --no-tree-shake-icons
 
 build-ipa-prod:
-	fvm flutter build ipa --release --flavor prod -t lib/main_prod.dart --build-number=${PROJECT_BUILD_NUMBER} --export-options-plist=./ios/export_options_prod.plist --obfuscate  --split-debug-info=debug-info-ios/ --no-tree-shake-icons
+	fvm flutter build ipa --release --flavor prod -t lib/main_prod.dart --build-number=${PROJECT_BUILD_NUMBER} --export-options-plist=./ios/export_options_prod.pliss --no-tree-shake-icons
 
 build-aab-prod:
-	fvm flutter build aab --release --flavor prod -t lib/main_prod.dart --build-number=${PROJECT_BUILD_NUMBER} --obfuscate --split-debug-info=debug-info-android/ --no-tree-shake-icons
+	fvm flutter build aab --release --flavor prod -t lib/main_prod.dart --build-number=${PROJECT_BUILD_NUMBER} --no-tree-shake-icons
 
 ########################################
 ########## LESS USED COMMANDS ##########
