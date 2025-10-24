@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     // START: FlutterFire Configuration
     id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
     // END: FlutterFire Configuration
     id("kotlin-android")
     id("dev.flutter.flutter-gradle-plugin")
@@ -26,7 +27,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.app.mybackyardusa"
+    namespace = "com.app.mybackyardusa1"
     compileSdk = flutter.compileSdkVersion
 
     compileOptions {
@@ -40,7 +41,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.app.mybackyardusa"
+        applicationId = "com.app.mybackyardusa1"
         minSdk = 24
         targetSdk = 35
         compileSdk = 35

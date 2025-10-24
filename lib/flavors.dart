@@ -1,5 +1,5 @@
 enum AppBuildFlavorEnum {
-  STG('[Stg]Backyard', 'com.app.mybackyardusa.stg', 'com.celect.mybackyardapp.stg', '-', '-'),
+  STG('[Stg]Backyard', 'com.app.mybackyardusa1.stg', 'com.celect.mybackyardapp.stg', '-', '-'),
   PROD('Backyard', 'com.app.mybackyardusa1', 'com.celect.mybackyardapp', '-', '-');
 
   const AppBuildFlavorEnum(

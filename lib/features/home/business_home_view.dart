@@ -9,7 +9,6 @@ import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/design_system/widgets/custom_web_view.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
 import 'package:backyard/features/home/widget/widget/offer_card_widget.dart';
-import 'package:backyard/features/subscription/enum/subscription_type_enum.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_empty_data.dart';
@@ -184,8 +183,7 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
 
   Future<void> onCreateOffer() async {
     final userController = context.read<UserController>();
-    final subscriptionPlan = getSubscriptionTypeFromSubId(userController.user?.subId);
-    if (subscriptionPlan == null || subscriptionPlan.isUserSub) {
+    if (userController.user?.subId == null) {
       final triedSubscribing = await showSubscribeLinkDialog();
       if (triedSubscribing != null && triedSubscribing) await showSubscribedAlreadyDialog();
 

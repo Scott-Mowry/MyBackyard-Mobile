@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 .PHONY: ci-tests
 
-PROJECT_BUILD_NUMBER=50
+PROJECT_BUILD_NUMBER=51
 
 gen-code:
 	fvm dart run build_runner build --delete-conflicting-outputs
@@ -75,7 +75,7 @@ gen-native-splash:
 apply-lint:
 	fvm dart fix --apply
 
-ANDROID_APP_ID=com.app.mybackyardusa
+ANDROID_APP_ID=com.app.mybackyardusa1
 IOS_APP_ID=com.celect.mybackyardapp
 FIREBASE_ID=my-backyard-usa
 
@@ -83,9 +83,11 @@ FIREBASE_OPTIONS_PATH=./lib/core/firebase_options/firebase_options
 
 # Generate firebase configurations for each environment
 gen-firebase-configs-stg:
+	fvm dart pub global activate flutterfire_cli
 	fvm exec flutterfire config -y -p ${FIREBASE_ID} -o ${FIREBASE_OPTIONS_PATH}_stg.dart -i ${IOS_APP_ID}.stg -a ${ANDROID_APP_ID}.stg
 	mv ios/Runner/GoogleService-Info.plist .firebase/stg && mv android/app/google-services.json .firebase/stg
 
 gen-firebase-configs-prod:
+	fvm dart pub global activate flutterfire_cli
 	fvm exec flutterfire config -y -p ${FIREBASE_ID} -o ${FIREBASE_OPTIONS_PATH}_prod.dart -i ${IOS_APP_ID} -a ${ANDROID_APP_ID}1
 	mv ios/Runner/GoogleService-Info.plist .firebase/prod && mv android/app/google-services.json .firebase/prod
