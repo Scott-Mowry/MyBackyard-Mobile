@@ -17,7 +17,6 @@ import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -189,8 +188,6 @@ class _SignInViewState extends State<SignInView> {
   }
 
   Future<void> onSubmit() async {
-    FirebaseCrashlytics.instance.crash();
-    throw Exception();
     await getIt<PermissionRepository>().requestTrackingPermission();
 
     if (!_form.currentState!.validate()) return;
