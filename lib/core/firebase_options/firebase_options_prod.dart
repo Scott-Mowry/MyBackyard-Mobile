@@ -48,7 +48,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyC0VdGpdRGnbTx-OpRu4Vm8NT4AQ_VVuso',
-    appId: '1:778233061802:android:5a5c673853ccd54aeecbd3',
+    appId: '1:778233061802:android:4ccc2a5ba7f2926beecbd3',
     messagingSenderId: '778233061802',
     projectId: 'my-backyard-usa',
     storageBucket: 'my-backyard-usa.firebasestorage.app',
@@ -56,7 +56,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBM3EaXixlJh0xQIiyUBu5Cyc6WMOgKAsU',
-    appId: '1:778233061802:ios:785085c0f01788d2eecbd3',
+    appId: '1:778233061802:ios:a57c494eb8814a27eecbd3',
     messagingSenderId: '778233061802',
     projectId: 'my-backyard-usa',
     storageBucket: 'my-backyard-usa.firebasestorage.app',
