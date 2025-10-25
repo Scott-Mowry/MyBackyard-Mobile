@@ -525,6 +525,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y9W9JN6KRK;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenProd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -681,6 +682,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = Y9W9JN6KRK;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenStg;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -697,6 +699,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = Y9W9JN6KRK;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenProd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -760,6 +763,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y9W9JN6KRK;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenProd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -847,6 +851,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y9W9JN6KRK;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenStg;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -861,6 +866,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y9W9JN6KRK;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenStg;
 				PRODUCT_NAME = "$(TARGET_NAME)";

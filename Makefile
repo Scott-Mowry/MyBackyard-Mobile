@@ -89,5 +89,5 @@ gen-firebase-configs-stg:
 
 gen-firebase-configs-prod:
 	fvm dart pub global activate flutterfire_cli
-	fvm exec flutterfire config -y -p ${FIREBASE_ID} -o ${FIREBASE_OPTIONS_PATH}_prod.dart -i ${IOS_APP_ID} -a ${ANDROID_APP_ID}1
+	fvm exec flutterfire config -y -p ${FIREBASE_ID} -o ${FIREBASE_OPTIONS_PATH}_prod.dart -i ${IOS_APP_ID} -a ${ANDROID_APP_ID}
 	mv ios/Runner/GoogleService-Info.plist .firebase/prod && mv android/app/google-services.json .firebase/prod
