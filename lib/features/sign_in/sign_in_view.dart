@@ -188,7 +188,6 @@ class _SignInViewState extends State<SignInView> {
   }
 
   Future<void> onSubmit() async {
-    throw Exception();
     await getIt<PermissionRepository>().requestTrackingPermission();
 
     if (!_form.currentState!.validate()) return;
