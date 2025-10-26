@@ -7,8 +7,8 @@ import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/widgets/custom_web_view.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
-import 'package:backyard/features/subscription/enum/subscription_type_enum.dart';
-import 'package:backyard/features/subscription/widget/subscription_tile.dart';
+import 'package:backyard/features/subscriptions/enum/subscription_type_enum.dart';
+import 'package:backyard/features/subscriptions/view/widget/in_app_subscription_plan_tile.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Service/app_in_app_purchase.dart';
@@ -23,16 +23,16 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 @RoutePage()
-class SubscriptionView extends StatefulWidget {
+class InAppSubscriptionsView extends StatefulWidget {
   final bool fromCompleteProfile;
 
-  const SubscriptionView({super.key, this.fromCompleteProfile = false});
+  const InAppSubscriptionsView({super.key, this.fromCompleteProfile = false});
 
   @override
-  State<SubscriptionView> createState() => _SubscriptionViewState();
+  State<InAppSubscriptionsView> createState() => _InAppSubscriptionsViewState();
 }
 
-class _SubscriptionViewState extends State<SubscriptionView> {
+class _InAppSubscriptionsViewState extends State<InAppSubscriptionsView> {
   late final user = context.read<UserController>().user;
   final pageController = PageController();
 
@@ -65,7 +65,7 @@ class _SubscriptionViewState extends State<SubscriptionView> {
                       value.productDetails.length == 1
                           ? Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: SubscriptionTile(
+                            child: InAppSubscriptionPlanTile(
                               value: value,
                               productDetails: value.productDetails[0],
                               userSubscriptionPlan: userSubscriptionPlan,
@@ -93,7 +93,7 @@ class _SubscriptionViewState extends State<SubscriptionView> {
                                                   children: [
                                                     Container(
                                                       margin: const EdgeInsets.symmetric(horizontal: 10),
-                                                      child: SubscriptionTile(
+                                                      child: InAppSubscriptionPlanTile(
                                                         value: value,
                                                         productDetails: productDetails,
                                                         userSubscriptionPlan: userSubscriptionPlan,

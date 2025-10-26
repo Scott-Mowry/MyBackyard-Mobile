@@ -25,6 +25,9 @@ abstract class _UserAuthRepository with Store {
 
   _UserAuthRepository(this._userController, this._localStorageRepository, this._userAuthService);
 
+  @observable
+  UserProfileModel? currentUser;
+
   @computed
   bool get isAuthenticated => _localStorageRepository.userProfile != null;
 
@@ -36,6 +39,7 @@ abstract class _UserAuthRepository with Store {
       if (userProfile?.isVerified ?? false) {
         await _localStorageRepository.saveUserCredentials(userProfile!);
         _userController.setUser(userProfile);
+        currentUser = userProfile;
       }
 
       return userProfile;
@@ -54,6 +58,7 @@ abstract class _UserAuthRepository with Store {
       if (userProfile?.isVerified ?? false) {
         await _localStorageRepository.saveUserCredentials(userProfile!);
         _userController.setUser(userProfile);
+        currentUser = userProfile;
       }
 
       return userProfile;
@@ -72,6 +77,7 @@ abstract class _UserAuthRepository with Store {
       if (userProfile != null && userProfile.isVerified) {
         await _localStorageRepository.saveUserCredentials(userProfile);
         _userController.setUser(userProfile);
+        currentUser = userProfile;
       }
 
       return userProfile;
@@ -119,6 +125,7 @@ abstract class _UserAuthRepository with Store {
       if (userProfile != null) {
         await _localStorageRepository.saveUserCredentials(userProfile);
         _userController.setUser(userProfile);
+        currentUser = userProfile;
       }
 
       return userProfile;
@@ -151,6 +158,7 @@ abstract class _UserAuthRepository with Store {
       if (userProfile != null) {
         await _localStorageRepository.saveUserCredentials(userProfile);
         _userController.setUser(userProfile);
+        currentUser = userProfile;
       }
 
       return userProfile;
@@ -166,11 +174,12 @@ abstract class _UserAuthRepository with Store {
     try {
       await EasyLoading.show();
 
-      final currentUser = await _localStorageRepository.getUserCredentials();
-      final newUserProfile = await _userAuthService.postChangePassword(id: currentUser!.id!, password: password);
+      final savedUser = await _localStorageRepository.getUserCredentials();
+      final newUserProfile = await _userAuthService.postChangePassword(id: savedUser!.id!, password: password);
       if (newUserProfile != null) {
         await _localStorageRepository.saveUserCredentials(newUserProfile);
         _userController.setUser(newUserProfile);
+        currentUser = newUserProfile;
       }
 
       return newUserProfile;

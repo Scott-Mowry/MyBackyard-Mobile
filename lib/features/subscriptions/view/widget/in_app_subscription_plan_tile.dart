@@ -1,6 +1,6 @@
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
-import 'package:backyard/features/subscription/enum/subscription_type_enum.dart';
+import 'package:backyard/features/subscriptions/enum/subscription_type_enum.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
@@ -11,12 +11,17 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class SubscriptionTile extends StatelessWidget {
+class InAppSubscriptionPlanTile extends StatelessWidget {
   final UserController? value;
   final ProductDetails productDetails;
   final SubscriptionTypeEnum? userSubscriptionPlan;
 
-  const SubscriptionTile({super.key, required this.value, required this.productDetails, this.userSubscriptionPlan});
+  const InAppSubscriptionPlanTile({
+    super.key,
+    required this.value,
+    required this.productDetails,
+    this.userSubscriptionPlan,
+  });
 
   @override
   Widget build(BuildContext context) {

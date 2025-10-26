@@ -33,3 +33,6 @@ const kGetPlaceDetailsErrorKey = 'GET_PLACE_DETAILS_ERROR';
 
 // In-app purchase errors
 const kBuySubscriptionErrorKey = 'BUY_SUBSCRIPTION_ERROR';
+
+// Subscriptions errors
+const kLoadSubscriptionsErrorKey = 'LOAD_SUBSCRIPTIONS_ERROR';

@@ -236,3 +236,14 @@ int? intFromJson(dynamic value) {
   if (value is String) return int.tryParse(value);
   return null;
 }
+
+bool boolFromJson(dynamic value) {
+  if (value == null) return false;
+  if (value is bool) return value;
+  if (value is int) return value == 1;
+  if (value is String) {
+    final lower = value.toLowerCase();
+    return lower == '1' || lower == 'true' || lower == 'yes';
+  }
+  return false;
+}

@@ -13,7 +13,9 @@ import 'package:backyard/features/offers/scan_offer_view.dart';
 import 'package:backyard/features/settings/settings_view.dart';
 import 'package:backyard/features/sign_in/enter_otp_view.dart';
 import 'package:backyard/features/sign_in/sign_in_view.dart';
-import 'package:backyard/features/subscription/subscription_view.dart';
+import 'package:backyard/features/subscriptions/view/external_subscriptions_view.dart';
+import 'package:backyard/features/subscriptions/view/external_subscriptions_view_model.dart';
+import 'package:backyard/features/subscriptions/view/in_app_subscriptions_view.dart';
 import 'package:backyard/features/time_schedule/time_schedule_edit_view.dart';
 import 'package:backyard/features/user_profile/business_availability_view.dart';
 import 'package:backyard/features/user_profile/customer_profile_view.dart';
@@ -41,7 +43,8 @@ class AppRouter extends RootStackRouter {
     AutoRoute(path: '/give-review', page: GiveReviewRoute.page),
     AutoRoute(path: '/create-offer', page: CreateOfferRoute.page),
     AutoRoute(path: '/scan-offer', page: ScanOfferRoute.page),
-    AutoRoute(path: '/subscription-screen', page: SubscriptionRoute.page),
+    AutoRoute(path: '/external-subscriptions', page: ExternalSubscriptionsRoute.page),
+    AutoRoute(path: '/in-app-subscriptions', page: InAppSubscriptionsRoute.page),
     AutoRoute(path: '/settings', page: SettingsRoute.page),
     AutoRoute(path: '/user-profile', page: UserProfileRoute.page),
     AutoRoute(path: '/customer-profile', page: CustomerProfileRoute.page),

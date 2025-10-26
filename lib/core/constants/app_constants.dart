@@ -37,3 +37,5 @@ const kAndroidWebviewUserAgent =
     'Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36';
 
 final kWebviewUserAgent = defaultTargetPlatform.isIOS ? kIosWebviewUserAgent : kAndroidWebviewUserAgent;
+
+const kGenericExceptionMessage = 'Oh no! Something went wrong.';

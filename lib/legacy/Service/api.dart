@@ -25,6 +25,9 @@ class API {
   // categories
   static const CATEGORIES_ENDPOINT = '/categories';
 
+  // subscriptions
+  static const GET_SUBSCRIPTIONS = '/v2/admin/subscriptions';
+
   //buses
   static const GET_BUSINESSES_ENDPOINT = '/getBuses';
   static const GET_OFFERS_ENDPOINT = '/getOffers';

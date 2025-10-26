@@ -290,31 +290,6 @@ class BusinessAPIS {
     }
   }
 
-  static Future<void> getTrendingOffers(String categoryId) async {
-    try {
-      await EasyLoading.show();
-      final controller = getIt<HomeController>();
-      controller.setOffers([]);
-      final res = await getIt<AppNetwork>().networkRequest(
-        RequestTypeEnum.GET.name,
-        '${API.GET_OFFERS_ENDPOINT}?type=trending&category_id=$categoryId',
-      );
-      if (res != null) {
-        final model = responseModelFromJson(res.body);
-
-        if (model.status) {
-          controller.setOffers(List<Offer>.from((model.data?['offers'] ?? {}).map((x) => Offer.fromJson(x))));
-        } else {
-          CustomToast().showToast(message: model.message ?? '');
-        }
-      }
-    } catch (e) {
-      log('GET OFFERS ENDPOINT: ${e.toString()}');
-    } finally {
-      await EasyLoading.dismiss();
-    }
-  }
-
   static Future<List<Offer>> getSavedOrOwnedOffers({bool? isSwitch}) async {
     try {
       await EasyLoading.show();
@@ -335,31 +310,6 @@ class BusinessAPIS {
 
       final savedOffers = List<Offer>.from((model.data?['offers'] ?? {}).map((x) => Offer.fromJson(x)));
       return savedOffers;
-    } finally {
-      await EasyLoading.dismiss();
-    }
-  }
-
-  static Future<void> getFavOffer() async {
-    try {
-      await EasyLoading.show();
-      final controller = getIt<HomeController>();
-      controller.setOffers([]);
-      final res = await getIt<AppNetwork>().networkRequest(
-        RequestTypeEnum.GET.name,
-        '${API.GET_OFFERS_ENDPOINT}?type=fav',
-      );
-      if (res != null) {
-        final model = responseModelFromJson(res.body);
-
-        if (model.status) {
-          controller.setOffers(List<Offer>.from((model.data?['offers'] ?? {}).map((x) => Offer.fromJson(x))));
-        } else {
-          CustomToast().showToast(message: model.message ?? '');
-        }
-      }
-    } catch (e) {
-      log('GET OFFERS ENDPOINT: ${e.toString()}');
     } finally {
       await EasyLoading.dismiss();
     }

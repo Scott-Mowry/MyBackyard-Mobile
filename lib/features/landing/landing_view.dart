@@ -5,6 +5,7 @@ import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/repositories/local_storage_repository.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
+import 'package:backyard/features/subscriptions/service/subscriptions_service.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
@@ -39,6 +40,7 @@ class _LandingViewState extends State<LandingView> {
           context.read<UserController>().setUser(savedUser);
 
           await getIt<UserAuthRepository>().getUser();
+          await getIt<SubscriptionsService>().getSubscriptions();
 
           if (!savedUser.isProfileCompleted) return context.replaceRoute<void>(ProfileSetupRoute(isEditProfile: false));
           return context.replaceRoute<void>(HomeRoute());

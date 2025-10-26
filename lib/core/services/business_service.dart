@@ -19,10 +19,10 @@ abstract class BusinessService {
 }
 
 @Injectable(as: BusinessService)
-class UserAuthServiceImpl implements BusinessService {
+class BusinessServiceImpl implements BusinessService {
   final ApiClient _apiClient;
 
-  const UserAuthServiceImpl(@Named(kMyBackyardApiClient) this._apiClient);
+  const BusinessServiceImpl(@Named(kMyBackyardApiClient) this._apiClient);
 
   Future<void> getCategories() async {
     try {

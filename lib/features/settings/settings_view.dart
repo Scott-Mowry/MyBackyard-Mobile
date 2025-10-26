@@ -198,8 +198,7 @@ class _SettingsViewState extends State<SettingsView> with AutomaticKeepAliveClie
 
   late List<MenuModel> optionsList = [
     MenuModel(name: 'Change Password', onTap: () => context.pushRoute<void>(ChangePasswordRoute(fromSettings: true))),
-    if (isBusiness)
-      MenuModel(name: 'Subscriptions', onTap: () => showWebViewBottomSheet(url: plansUrl, context: context)),
+    if (isBusiness) MenuModel(name: 'Subscriptions', onTap: () => context.pushRoute(ExternalSubscriptionsRoute())),
     MenuModel(name: 'Privacy Policy', onTap: () => showWebViewBottomSheet(url: privacyPolicyUrl, context: context)),
     MenuModel(name: 'Terms & Conditions', onTap: () => showWebViewBottomSheet(url: termsOfUseUrl, context: context)),
     MenuModel(
