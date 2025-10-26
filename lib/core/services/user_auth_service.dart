@@ -11,15 +11,17 @@ import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 
 abstract class UserAuthService {
-  Future<UserProfileModel?> signIn({required String email, required String password});
+  Future<UserProfileModel?> getUser();
 
-  Future<UserProfileModel?> forgotPassword({required String email});
+  Future<UserProfileModel?> postSignIn({required String email, required String password});
 
-  Future<UserProfileModel?> changePassword({required int id, required String password});
+  Future<UserProfileModel?> postForgotPassword({required String email});
 
-  Future<UserProfileModel?> verifyAccount({required String otpCode, required int id});
+  Future<UserProfileModel?> postChangePassword({required int id, required String password});
 
-  Future<UserProfileModel?> completeProfile({
+  Future<UserProfileModel?> postVerifyAccount({required String otpCode, required int id});
+
+  Future<UserProfileModel?> postCompleteProfile({
     String? fullName,
     String? lastName,
     String? zipCode,
@@ -36,11 +38,11 @@ abstract class UserAuthService {
     File? image,
   });
 
-  Future<void> resendCode(String userId);
+  Future<void> postResendCode(String userId);
 
-  Future<void> signOut();
+  Future<void> postSignOut();
 
-  Future<void> deleteAccount();
+  Future<void> postDeleteAccount();
 }
 
 @Injectable(as: UserAuthService)
@@ -50,7 +52,15 @@ class UserAuthServiceImpl implements UserAuthService {
   const UserAuthServiceImpl(@Named(kMyBackyardApiClient) this._apiClient);
 
   @override
-  Future<UserProfileModel?> signIn({required String email, required String password, String? deviceToken}) async {
+  Future<UserProfileModel?> getUser() async {
+    final res = await _apiClient.get(API.USER);
+    final respModel = ResponseModel.fromJson(res.data);
+    final user = UserProfileModel.fromJson(respModel.data?['user']);
+    return user;
+  }
+
+  @override
+  Future<UserProfileModel?> postSignIn({required String email, required String password, String? deviceToken}) async {
     final payload = {
       'email': email,
       'password': password,
@@ -65,7 +75,7 @@ class UserAuthServiceImpl implements UserAuthService {
   }
 
   @override
-  Future<UserProfileModel?> verifyAccount({required String otpCode, required int id, String? deviceToken}) async {
+  Future<UserProfileModel?> postVerifyAccount({required String otpCode, required int id, String? deviceToken}) async {
     final bodyPayload = {
       'otp': otpCode,
       'user_id': id.toString(),
@@ -80,7 +90,7 @@ class UserAuthServiceImpl implements UserAuthService {
   }
 
   @override
-  Future<UserProfileModel?> completeProfile({
+  Future<UserProfileModel?> postCompleteProfile({
     String? fullName,
     String? lastName,
     String? zipCode,
@@ -141,7 +151,7 @@ class UserAuthServiceImpl implements UserAuthService {
   }
 
   @override
-  Future<UserProfileModel?> forgotPassword({required String email}) async {
+  Future<UserProfileModel?> postForgotPassword({required String email}) async {
     final resp = await _apiClient.post(API.FORGOT_PASSWORD_ENDPOINT, data: {'email': email});
     final respModel = ResponseModel.fromJson(resp.data);
     final user = UserProfileModel.fromJson(respModel.data?['user']);
@@ -149,7 +159,7 @@ class UserAuthServiceImpl implements UserAuthService {
   }
 
   @override
-  Future<UserProfileModel?> changePassword({required int id, required String password}) async {
+  Future<UserProfileModel?> postChangePassword({required int id, required String password}) async {
     final resp = await _apiClient.post(API.CHANGE_PASSWORD_ENDPOINT, data: {'id': id.toString(), 'password': password});
 
     final respModel = ResponseModel.fromJson(resp.data);
@@ -158,15 +168,15 @@ class UserAuthServiceImpl implements UserAuthService {
   }
 
   @override
-  Future<void> resendCode(String userId) {
+  Future<void> postResendCode(String userId) {
     return _apiClient.post(API.RESEND_OTP_ENDPOINT, data: {'user_id': userId});
   }
 
   @override
-  Future<void> signOut() => _apiClient.post(API.SIGN_OUT_ENDPOINT);
+  Future<void> postSignOut() => _apiClient.post(API.SIGN_OUT_ENDPOINT);
 
   @override
-  Future<void> deleteAccount() => _apiClient.post(API.DELETE_ACCOUNT_ENDPOINT);
+  Future<void> postDeleteAccount() => _apiClient.post(API.DELETE_ACCOUNT_ENDPOINT);
 
   TimeOfDay _get24hour(String val) {
     var hour = int.parse(val.split(':').first);

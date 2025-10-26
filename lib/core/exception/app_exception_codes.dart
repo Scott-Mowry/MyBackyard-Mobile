@@ -14,6 +14,7 @@ const kSubscribeToFcmTopicErrorKey = 'SUBSCRIBE_TO_FCM_TOPIC_ERROR';
 const kShowBottomSheetWebViewErrorKey = 'SHOW_BOTTOM_SHEET_WEB_VIEW_ERROR';
 
 // User authentication errors
+const kGetUserErrorKey = 'GET_USER_ERROR';
 const kSignInErrorKey = 'SIGN_IN_ERROR';
 const kVerifyAccountErrorKey = 'VERIFY_ACCOUNT_ERROR';
 const kCompleteProfileErrorKey = 'COMPLETE_PROFILE_ERROR';

@@ -5,6 +5,7 @@ import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/repositories/geolocator_repository.dart';
 import 'package:backyard/core/repositories/permission_repository.dart';
+import 'package:backyard/core/services/business_service.dart';
 import 'package:backyard/features/home/widget/model/filter_model.dart';
 import 'package:backyard/features/home/widget/widget/business_card_widget.dart';
 import 'package:backyard/features/home/widget/widget/filter_bottom_sheet.dart';
@@ -12,7 +13,6 @@ import 'package:backyard/legacy/Component/custom_empty_data.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
-import 'package:backyard/legacy/Service/business_apis.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -155,7 +155,10 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
 
   Future<void> onFilterTap() async {
     final homeController = context.read<HomeController>();
-    if (homeController.categories == null || homeController.categories!.isEmpty) await BusinessAPIS.getCategories();
+    if (homeController.categories == null || homeController.categories!.isEmpty) {
+      await getIt<BusinessService>().getCategories();
+    }
+
     final categories = homeController.categories ?? [];
 
     final userController = context.read<UserController>();
@@ -177,7 +180,7 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
     );
 
     userController.setOffersFilter(offersFilter);
-    await BusinessAPIS.getBusinesses(offersFilter);
+    await getIt<BusinessService>().getBusinesses(offersFilter);
   }
 
   Future<void> onMapCreated(GoogleMapController controller) async {
@@ -202,7 +205,7 @@ class _UserHomeViewState extends State<UserHomeView> with AutomaticKeepAliveClie
       ),
     );
 
-    await BusinessAPIS.getCategories();
+    await getIt<BusinessService>().getCategories();
     await loadBusinesses();
   }
 

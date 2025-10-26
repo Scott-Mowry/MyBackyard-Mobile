@@ -3,17 +3,12 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:backyard/core/api_client/api_client.dart';
-import 'package:backyard/core/constants/app_constants.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/enum/enum.dart';
-import 'package:backyard/core/helper/business_helper.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
-import 'package:backyard/features/home/widget/model/filter_model.dart';
 import 'package:backyard/legacy/Component/custom_toast.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
-import 'package:backyard/legacy/Model/category_model.dart';
 import 'package:backyard/legacy/Model/offer_model.dart';
 import 'package:backyard/legacy/Model/reiview_model.dart';
 import 'package:backyard/legacy/Model/response_model.dart';
@@ -24,57 +19,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 
 class BusinessAPIS {
-  static Future<void> getCategories() async {
-    try {
-      await EasyLoading.show();
-      final apiClient = getIt<ApiClient>(instanceName: kMyBackyardApiClient);
-      final res = await apiClient.get(API.CATEGORIES_ENDPOINT);
-      final respModel = ResponseModel.fromJson(res.data);
-      final categoriesRaw = respModel.data is List ? respModel.data as List : [];
-      final categories = categoriesRaw.map((el) => CategoryModel.fromJson(el as Map<String, dynamic>)).toList();
-
-      final homeController = getIt<HomeController>();
-      homeController.setCategories(categories);
-    } catch (e) {
-      log('CATEGORY ENDPOINT: ${e.toString()}');
-    } finally {
-      await EasyLoading.dismiss();
-    }
-  }
-
-  static Future<void> getBusinesses(FilterModel filter) async {
-    try {
-      await EasyLoading.show();
-      final userController = getIt<UserController>();
-      final res = await getIt<AppNetwork>().networkRequest(
-        RequestTypeEnum.GET.name,
-        '${API.GET_BUSINESSES_ENDPOINT}?lat=${filter.latitude}&long=${filter.longitude}&radius=${filter.radiusInMiles}',
-      );
-
-      if (res == null) return;
-      final model = responseModelFromJson(res.body);
-
-      if (!model.status) return CustomToast().showToast(message: model.message ?? '');
-
-      final businessesRaw = model.data?['businesses'] ?? [];
-      final allBusinesses =
-          businessesRaw is List
-              ? businessesRaw.map((el) => UserProfileModel.fromJson(el)).toList()
-              : <UserProfileModel>[];
-
-      final filteredBusinesses = await filterAndSortBusinesses(allBusinesses, filter);
-      userController.clearMarkers();
-      userController.setBusinessesList(filteredBusinesses);
-
-      await Future.wait(filteredBusinesses.map(userController.addMarker));
-      await userController.zoomOutFitBusinesses();
-    } catch (e) {
-      log('GET BUSES ENDPOINT: ${e.toString()}');
-    } finally {
-      await EasyLoading.dismiss();
-    }
-  }
-
   static Future<bool> availOffer({String? offerId}) async {
     try {
       await EasyLoading.show();

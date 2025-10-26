@@ -17,6 +17,7 @@ class API {
   static const RESEND_OTP_ENDPOINT = '/re_send_code';
   static const SIGN_OUT_ENDPOINT = '/logout';
   static const DELETE_ACCOUNT_ENDPOINT = '/delete_account';
+  static const USER = '/user';
 
   //customers
   static const GET_CUSTOMERS_ENDPOINT = '/getCustomers';

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:backyard/core/app_router/app_router.dart';
+import 'package:backyard/core/exception/app_exception_codes.dart';
 import 'package:backyard/core/exception/app_internal_error.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/core/repositories/local_storage_repository.dart';
@@ -28,10 +29,10 @@ abstract class _UserAuthRepository with Store {
   bool get isAuthenticated => _localStorageRepository.userProfile != null;
 
   @action
-  Future<UserProfileModel?> signIn({required String email, required String password}) async {
+  Future<UserProfileModel?> getUser() async {
     try {
       await EasyLoading.show();
-      final userProfile = await _userAuthService.signIn(email: email, password: password);
+      final userProfile = await _userAuthService.getUser();
       if (userProfile?.isVerified ?? false) {
         await _localStorageRepository.saveUserCredentials(userProfile!);
         _userController.setUser(userProfile);
@@ -39,7 +40,25 @@ abstract class _UserAuthRepository with Store {
 
       return userProfile;
     } catch (error, stacktrace) {
-      throw AppInternalError(code: 'SIGN_IN_ERROR', error: error, stack: stacktrace);
+      throw AppInternalError(code: kGetUserErrorKey, error: error, stack: stacktrace);
+    } finally {
+      await EasyLoading.dismiss();
+    }
+  }
+
+  @action
+  Future<UserProfileModel?> signIn({required String email, required String password}) async {
+    try {
+      await EasyLoading.show();
+      final userProfile = await _userAuthService.postSignIn(email: email, password: password);
+      if (userProfile?.isVerified ?? false) {
+        await _localStorageRepository.saveUserCredentials(userProfile!);
+        _userController.setUser(userProfile);
+      }
+
+      return userProfile;
+    } catch (error, stacktrace) {
+      throw AppInternalError(code: kSignInErrorKey, error: error, stack: stacktrace);
     } finally {
       await EasyLoading.dismiss();
     }
@@ -49,7 +68,7 @@ abstract class _UserAuthRepository with Store {
   Future<UserProfileModel?> verifyAccount({required String otpCode, required int id}) async {
     try {
       await EasyLoading.show();
-      final userProfile = await _userAuthService.verifyAccount(otpCode: otpCode, id: id);
+      final userProfile = await _userAuthService.postVerifyAccount(otpCode: otpCode, id: id);
       if (userProfile != null && userProfile.isVerified) {
         await _localStorageRepository.saveUserCredentials(userProfile);
         _userController.setUser(userProfile);
@@ -57,7 +76,7 @@ abstract class _UserAuthRepository with Store {
 
       return userProfile;
     } catch (error, stacktrace) {
-      throw AppInternalError(code: 'VERIFY_ACCOUNT_ERROR', error: error, stack: stacktrace);
+      throw AppInternalError(code: kVerifyAccountErrorKey, error: error, stack: stacktrace);
     } finally {
       await EasyLoading.dismiss();
     }
@@ -81,7 +100,7 @@ abstract class _UserAuthRepository with Store {
   }) async {
     try {
       await EasyLoading.show();
-      final userProfile = await _userAuthService.completeProfile(
+      final userProfile = await _userAuthService.postCompleteProfile(
         fullName: fullName,
         zipCode: zipCode,
         address: address,
@@ -104,7 +123,7 @@ abstract class _UserAuthRepository with Store {
 
       return userProfile;
     } catch (error, stacktrace) {
-      throw AppInternalError(code: 'COMPLETE_PROFILE_ERROR', error: error, stack: stacktrace);
+      throw AppInternalError(code: kCompleteProfileErrorKey, error: error, stack: stacktrace);
     } finally {
       await EasyLoading.dismiss();
     }
@@ -114,11 +133,11 @@ abstract class _UserAuthRepository with Store {
   Future<bool> resendCode(String userId) async {
     try {
       await EasyLoading.show();
-      await _userAuthService.resendCode(userId);
+      await _userAuthService.postResendCode(userId);
 
       return true;
     } catch (error, stacktrace) {
-      throw AppInternalError(code: 'RESEND_CODE_ERROR', error: error, stack: stacktrace);
+      throw AppInternalError(code: kResendCodeErrorKey, error: error, stack: stacktrace);
     } finally {
       await EasyLoading.dismiss();
     }
@@ -128,7 +147,7 @@ abstract class _UserAuthRepository with Store {
   Future<UserProfileModel?> forgotPassword({required String email}) async {
     try {
       await EasyLoading.show();
-      final userProfile = await _userAuthService.forgotPassword(email: email);
+      final userProfile = await _userAuthService.postForgotPassword(email: email);
       if (userProfile != null) {
         await _localStorageRepository.saveUserCredentials(userProfile);
         _userController.setUser(userProfile);
@@ -136,7 +155,7 @@ abstract class _UserAuthRepository with Store {
 
       return userProfile;
     } catch (error, stacktrace) {
-      throw AppInternalError(code: 'FORGOT_PASSWORD_ERROR', error: error, stack: stacktrace);
+      throw AppInternalError(code: kForgotPasswordErrorKey, error: error, stack: stacktrace);
     } finally {
       await EasyLoading.dismiss();
     }
@@ -148,7 +167,7 @@ abstract class _UserAuthRepository with Store {
       await EasyLoading.show();
 
       final currentUser = await _localStorageRepository.getUserCredentials();
-      final newUserProfile = await _userAuthService.changePassword(id: currentUser!.id!, password: password);
+      final newUserProfile = await _userAuthService.postChangePassword(id: currentUser!.id!, password: password);
       if (newUserProfile != null) {
         await _localStorageRepository.saveUserCredentials(newUserProfile);
         _userController.setUser(newUserProfile);
@@ -156,7 +175,7 @@ abstract class _UserAuthRepository with Store {
 
       return newUserProfile;
     } catch (error, stacktrace) {
-      throw AppInternalError(code: 'CHANGE_PASSWORD_ERROR', error: error, stack: stacktrace);
+      throw AppInternalError(code: kChangePasswordErrorKey, error: error, stack: stacktrace);
     } finally {
       await EasyLoading.dismiss();
     }
@@ -166,12 +185,12 @@ abstract class _UserAuthRepository with Store {
   Future<void> signOut() async {
     try {
       await EasyLoading.show();
-      await _userAuthService.signOut();
+      await _userAuthService.postSignOut();
       await _userController.clear();
       await _removeLoggedInRoutes();
     } catch (error, stacktrace) {
       await _removeLoggedInRoutes();
-      throw AppInternalError(code: 'SIGN_OUT_ERROR', error: error, stack: stacktrace);
+      throw AppInternalError(code: kSignOutErrorKey, error: error, stack: stacktrace);
     } finally {
       await EasyLoading.dismiss();
     }
@@ -187,7 +206,7 @@ abstract class _UserAuthRepository with Store {
   Future<void> deleteAccount() async {
     try {
       await EasyLoading.show();
-      await _userAuthService.deleteAccount();
+      await _userAuthService.postDeleteAccount();
       await _userController.clear();
 
       CustomToast().showToast(message: 'Account Deleted Successfully');
@@ -195,7 +214,7 @@ abstract class _UserAuthRepository with Store {
       MyBackyardApp.appRouter.popUntilRoot();
       return MyBackyardApp.appRouter.replace<void>(LandingRoute());
     } catch (error, stacktrace) {
-      throw AppInternalError(code: 'DELETE_ACCOUNT_ERROR', error: error, stack: stacktrace);
+      throw AppInternalError(code: kDeleteAccountErrorKey, error: error, stack: stacktrace);
     } finally {
       await EasyLoading.dismiss();
     }

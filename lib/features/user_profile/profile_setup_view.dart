@@ -14,6 +14,7 @@ import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/model/place_details_model.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
+import 'package:backyard/core/services/business_service.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_dropdown.dart';
@@ -24,7 +25,6 @@ import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/category_model.dart';
 import 'package:backyard/legacy/Service/api.dart';
-import 'package:backyard/legacy/Service/business_apis.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/profile_complete_dialog.dart';
@@ -98,7 +98,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await BusinessAPIS.getCategories();
+      await getIt<BusinessService>().getCategories();
 
       final categories = context.read<HomeController>().categories;
       setState(() => selectedCategory = categories?.firstWhereOrNull((el) => el.id == userProfile?.categoryId));

@@ -2,9 +2,11 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/design_system/widgets/app_bar_back_button.dart';
+import 'package:backyard/core/services/business_service.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
 import 'package:backyard/legacy/Component/custom_buttom.dart';
 import 'package:backyard/legacy/Component/custom_dropdown.dart';
@@ -59,7 +61,7 @@ class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAli
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await BusinessAPIS.getCategories();
+      await getIt<BusinessService>().getCategories();
       if (widget.edit) {
         selected =
             context
@@ -83,7 +85,7 @@ class _CreateOfferViewState extends State<CreateOfferView> with AutomaticKeepAli
         bgImage: '',
         bottomSafeArea: false,
         child: CustomRefresh(
-          onRefresh: BusinessAPIS.getCategories,
+          onRefresh: getIt<BusinessService>().getCategories,
           child: CustomPadding(
             topPadding: 0.h,
             horizontalPadding: 3.w,

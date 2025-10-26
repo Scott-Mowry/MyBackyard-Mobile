@@ -1,16 +1,16 @@
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/core/repositories/geolocator_repository.dart';
+import 'package:backyard/core/services/business_service.dart';
 import 'package:backyard/features/home/widget/model/filter_model.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
-import 'package:backyard/legacy/Service/business_apis.dart';
 import 'package:collection/collection.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 Future<List<UserProfileModel>> filterAndSortBusinesses(List<UserProfileModel> businesses, FilterModel filter) async {
   final homeController = getIt<HomeController>();
   if (homeController.categories == null || homeController.categories!.isEmpty) {
-    await BusinessAPIS.getCategories();
+    await getIt<BusinessService>().getCategories();
   }
 
   final geolocatorRepo = getIt<GeolocatorRepository>();

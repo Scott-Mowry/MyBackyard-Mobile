@@ -185,9 +185,12 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
     final userController = context.read<UserController>();
     if (userController.user?.subId == null) {
       final triedSubscribing = await showSubscribeLinkDialog();
-      if (triedSubscribing != null && triedSubscribing) await showSubscribedAlreadyDialog();
+      if (triedSubscribing == null || !triedSubscribing) return;
 
-      return;
+      final updatedUser = await getIt<UserAuthRepository>().getUser();
+      if (updatedUser?.subId == null) return;
+
+      await showSuccessfullySubscribedDialog();
     }
 
     final reload = await context.pushRoute(CreateOfferRoute());
@@ -242,7 +245,7 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
     );
   }
 
-  Future<void> showSubscribedAlreadyDialog() async {
+  Future<void> showSuccessfullySubscribedDialog() async {
     return showDialog(
       context: context,
       barrierDismissible: false,
@@ -254,29 +257,15 @@ class _BusinessHomeViewState extends State<BusinessHomeView> with AutomaticKeepA
             contentPadding: const EdgeInsets.all(0),
             insetPadding: EdgeInsets.symmetric(horizontal: 4.w),
             content: CustomDialog(
-              title: 'Activate your plan!',
-              b1: 'Logout',
+              title: 'Success!',
+              b1: 'Continue',
               onConfirm: (_) async {
                 await context.maybePop();
-                await getIt<UserAuthRepository>().signOut();
               },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'If you\'ve just subscribed, simply log out and sign back in to activate your plan.',
-                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 14, color: Colors.black),
-                    textAlign: TextAlign.center,
-                  ),
-                  Padding(
-                    padding: CustomSpacer.top.xxs,
-                    child: Text(
-                      'We know this isn\'t ideal and we\'re working to make this smoother!',
-                      style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 12, color: Colors.grey),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ],
+              child: Text(
+                'Your subscription is now active! You can start creating and sharing offers with your customers.',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 14, color: Colors.black),
+                textAlign: TextAlign.center,
               ),
             ),
           ),

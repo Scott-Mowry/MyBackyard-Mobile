@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/repositories/local_storage_repository.dart';
+import 'package:backyard/core/repositories/user_auth_repository.dart';
 import 'package:backyard/legacy/Component/custom_background_image.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/View/Widget/appLogo.dart';
@@ -36,6 +37,8 @@ class _LandingViewState extends State<LandingView> {
         final bearerToken = savedUser?.bearerToken;
         if (savedUser != null && bearerToken != null && bearerToken.isNotEmpty) {
           context.read<UserController>().setUser(savedUser);
+
+          await getIt<UserAuthRepository>().getUser();
 
           if (!savedUser.isProfileCompleted) return context.replaceRoute<void>(ProfileSetupRoute(isEditProfile: false));
           return context.replaceRoute<void>(HomeRoute());
