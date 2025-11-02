@@ -1,5 +1,5 @@
+import 'package:backyard/core/api_client/my_backyard_api_client.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
-import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/loader.dart';
 import 'package:backyard/legacy/Utils/photo_view.dart';
@@ -40,7 +40,9 @@ class CustomImage extends StatelessWidget {
         : photoView == true
         ? GestureDetector(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => PhotoView(path: API.publicUrl + url!)));
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (context) => PhotoView(path: MyBackyardApiClient.publicUrl + url!)));
           },
           child: networkImage(),
         )
@@ -67,7 +69,7 @@ class CustomImage extends StatelessWidget {
 
   ExtendedImage networkImage() {
     return ExtendedImage.network(
-      API.publicUrl + url!,
+      MyBackyardApiClient.publicUrl + url!,
       width: width ?? 30.w,
       height: height ?? 30.w,
       fit: fit ?? BoxFit.cover,

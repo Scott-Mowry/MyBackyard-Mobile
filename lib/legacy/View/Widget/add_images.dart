@@ -1,9 +1,9 @@
 import 'dart:io';
 
+import 'package:backyard/core/api_client/my_backyard_api_client.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/legacy/Component/custom_text.dart';
 import 'package:backyard/legacy/Model/file_network.dart';
-import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -74,7 +74,7 @@ class AddImages extends StatelessWidget {
                             ? DecorationImage(
                               image:
                                   (imagePath[index].isNetwork
-                                          ? NetworkImage(API.publicUrl + imagePath[index].path)
+                                          ? NetworkImage(MyBackyardApiClient.publicUrl + imagePath[index].path)
                                           : FileImage(File(imagePath[index].path)))
                                       as ImageProvider,
                               fit: BoxFit.cover,

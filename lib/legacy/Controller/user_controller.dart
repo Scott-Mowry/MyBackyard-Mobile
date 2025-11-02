@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:backyard/core/api_client/my_backyard_api_client.dart';
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
@@ -10,7 +11,6 @@ import 'package:backyard/core/repositories/local_storage_repository.dart';
 import 'package:backyard/core/repositories/permission_repository.dart';
 import 'package:backyard/features/home/widget/model/filter_model.dart';
 import 'package:backyard/legacy/Model/reiview_model.dart';
-import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/my-backyard-app.dart';
 import 'package:flutter/material.dart';
@@ -131,7 +131,7 @@ class UserController extends ChangeNotifier {
       final profileImage = user.profileImage ?? '';
       final imageBitmapDescriptor =
           textBitmapDescriptor == null && profileImage.isNotEmpty
-              ? await Utils.getNetworkImageMarker("${API.publicUrl}${user.profileImage ?? ""}")
+              ? await Utils.getNetworkImageMarker("${MyBackyardApiClient.publicUrl}${user.profileImage ?? ""}")
               : null;
 
       final marker = Marker(

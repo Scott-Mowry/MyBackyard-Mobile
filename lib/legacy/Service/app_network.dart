@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:backyard/core/api_client/my_backyard_api_client.dart';
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/enum/enum.dart';
@@ -44,8 +45,8 @@ class AppNetworkImpl implements AppNetwork {
 
       final dynamic request =
           type == RequestTypeEnum.POST.name
-              ? MultipartRequest(type, Uri.parse('${API.url}$path'))
-              : Request(type, Uri.parse('${API.url}$path'));
+              ? MultipartRequest(type, Uri.parse('${MyBackyardApiClient.baseUrl}$path'))
+              : Request(type, Uri.parse('${MyBackyardApiClient.baseUrl}$path'));
       request.headers.addAll({'Content-Type': 'application/json'});
       if (parameters != null) request.fields.addAll(parameters);
       if (attachments != null && attachments.isNotEmpty) request.files.addAll(attachments);

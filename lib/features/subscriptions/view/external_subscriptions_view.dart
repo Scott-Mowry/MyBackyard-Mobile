@@ -45,11 +45,13 @@ class _ExternalSubscriptionsViewState extends State<ExternalSubscriptionsView> {
             return PageView.builder(
               itemCount: subscriptionPlans.length,
               itemBuilder: (context, index) {
-                return Padding(
-                  padding: CustomSpacer.horizontal.md,
-                  child: ExternalSubscriptionPlanTile(
-                    subscriptionPlan: subscriptionPlans[index],
-                    userSubscribedPlanId: currentUser?.subId,
+                return Center(
+                  child: Padding(
+                    padding: CustomSpacer.horizontal.md,
+                    child: ExternalSubscriptionPlanTile(
+                      subscriptionPlan: subscriptionPlans[index],
+                      userSubscribedPlanId: currentUser?.subId,
+                    ),
                   ),
                 );
               },

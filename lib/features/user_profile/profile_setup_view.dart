@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:backyard/core/api_client/my_backyard_api_client.dart';
 import 'package:backyard/core/app_router/app_router.dart';
 import 'package:backyard/core/dependencies/dependency_injector.dart';
 import 'package:backyard/core/design_system/theme/custom_colors.dart';
@@ -24,7 +25,6 @@ import 'package:backyard/legacy/Component/validations.dart';
 import 'package:backyard/legacy/Controller/home_controller.dart';
 import 'package:backyard/legacy/Controller/user_controller.dart';
 import 'package:backyard/legacy/Model/category_model.dart';
-import 'package:backyard/legacy/Service/api.dart';
 import 'package:backyard/legacy/Utils/image_path.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:backyard/legacy/View/Widget/Dialog/profile_complete_dialog.dart';
@@ -165,7 +165,9 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                                           radius: 65.0,
                                           backgroundImage:
                                               (imageType == ImageTypeEnum.network
-                                                      ? NetworkImage("${API.publicUrl}${imageProfile ?? ""}")
+                                                      ? NetworkImage(
+                                                        "${MyBackyardApiClient.publicUrl}${imageProfile ?? ""}",
+                                                      )
                                                       : imageType == ImageTypeEnum.file
                                                       ? FileImage(File(imageProfile ?? ''))
                                                       : const AssetImage(ImagePath.noUserImage))

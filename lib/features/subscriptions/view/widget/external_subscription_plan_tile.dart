@@ -18,7 +18,6 @@ class ExternalSubscriptionPlanTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final isSubscribedToThisPlan = userSubscribedPlanId == subscriptionPlan.id;
     return Container(
-      width: 100.w,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -44,6 +43,7 @@ class ExternalSubscriptionPlanTile extends StatelessWidget {
             ),
             padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.w),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
                   mainAxisSize: MainAxisSize.min,
@@ -94,7 +94,6 @@ class ExternalSubscriptionPlanTile extends StatelessWidget {
               ),
             ),
           SizedBox(height: 2.h),
-          Spacer(flex: 1),
           for (int i = 0; i < subscriptionPlan.subPoints.length; i++)
             Padding(
               padding: CustomSpacer.horizontal.md + CustomSpacer.top.xxs,
@@ -115,7 +114,6 @@ class ExternalSubscriptionPlanTile extends StatelessWidget {
                 ],
               ),
             ),
-          Spacer(flex: 1),
           Padding(
             padding: CustomSpacer.horizontal.md + CustomSpacer.vertical.md,
             child: MyButton(

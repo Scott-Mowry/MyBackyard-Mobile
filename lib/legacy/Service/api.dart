@@ -1,10 +1,6 @@
 // ignore_for_file: avoid_classes_with_only_static_members
 
 class API {
-  /// [url] : Base url for apis.
-  static String url = 'https://admin.mybackyardusa.com/public/api';
-  static String publicUrl = 'https://admin.mybackyardusa.com/public/';
-
   //timeout Duraiton
   static Duration timeout = const Duration(seconds: 20);
 
