@@ -18,3 +18,9 @@ enum AppBuildFlavorEnum {
 }
 
 late final AppBuildFlavorEnum appBuildFlavor;
+
+extension AppBuildFlavorEnumExtension on AppBuildFlavorEnum {
+  bool get isStg => this == AppBuildFlavorEnum.STG;
+
+  bool get isProd => this == AppBuildFlavorEnum.PROD;
+}

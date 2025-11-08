@@ -8,6 +8,7 @@ import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/design_system/theme/theme_data.dart';
 import 'package:backyard/core/helper/custom_navigator_observer.dart';
 import 'package:backyard/core/repositories/connectivity_repository.dart';
+import 'package:backyard/flavors.dart';
 import 'package:backyard/legacy/Utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,10 @@ import 'package:sizer/sizer.dart';
 
 class MyBackyardApp extends StatelessWidget {
   MyBackyardApp({super.key});
+
+  bool get _showFlavorBadge => appBuildFlavor.isStg || kDebugMode;
+
+  Color get _flavorBadgeColor => appBuildFlavor.isStg ? CustomColors.secondaryColor : CustomColors.primaryGreenColor;
 
   bool isTablet(BuildContext context) {
     final shortestSide = MediaQuery.sizeOf(context).shortestSide;
@@ -66,7 +71,7 @@ class MyBackyardApp extends StatelessWidget {
                   child: Observer(
                     builder: (context) {
                       final connectivityRepository = getIt<ConnectivityRepository>();
-                      return Column(
+                      final columnContent = Column(
                         children: [
                           Expanded(child: child!),
                           if (!connectivityRepository.hasInternetAccess)
@@ -96,6 +101,18 @@ class MyBackyardApp extends StatelessWidget {
                               ),
                             ),
                         ],
+                      );
+                      if (!_showFlavorBadge) return columnContent;
+                      return Banner(
+                        message: appBuildFlavor.name.toUpperCase(),
+                        location: BannerLocation.bottomEnd,
+                        color: _flavorBadgeColor,
+                        textStyle: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 10,
+                          color: CustomColors.black,
+                        ),
+                        child: columnContent,
                       );
                     },
                   ),
