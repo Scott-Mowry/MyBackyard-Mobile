@@ -39,10 +39,8 @@ class _LandingViewState extends State<LandingView> {
         if (savedUser != null && bearerToken != null && bearerToken.isNotEmpty) {
           context.read<UserController>().setUser(savedUser);
 
-          print('HERE 1');
           await getIt<UserAuthRepository>().getUser();
           await getIt<SubscriptionsService>().getSubscriptions();
-          print('HERE 2');
 
           if (!savedUser.isProfileCompleted) return context.replaceRoute<void>(ProfileSetupRoute(isEditProfile: false));
           return context.replaceRoute<void>(HomeRoute());
@@ -50,7 +48,6 @@ class _LandingViewState extends State<LandingView> {
 
         return context.replaceRoute<void>(SignInRoute());
       } catch (_) {
-        print('HERE 3');
         return context.replaceRoute<void>(SignInRoute());
       } finally {
         await EasyLoading.dismiss();
