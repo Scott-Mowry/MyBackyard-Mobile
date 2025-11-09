@@ -6,7 +6,6 @@ import 'package:backyard/core/model/place_details_model.dart';
 import 'package:backyard/core/repositories/google_maps_repository.dart';
 import 'package:backyard/legacy/Component/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AddressAutocompleteTextFormField extends StatefulWidget {
@@ -114,15 +113,8 @@ class _AddressAutocompleteTextFormFieldState extends State<AddressAutocompleteTe
                     onTap: () => onSelected(option),
                     child: Builder(
                       builder: (context) {
-                        final highlight = AutocompleteHighlightedOption.of(context) == index;
-                        if (highlight) {
-                          SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                            Scrollable.ensureVisible(context, alignment: 0.5);
-                          }, debugLabel: 'AutocompleteOptions.ensureVisible');
-                        }
-
                         return Container(
-                          color: highlight ? CustomColors.prefixContainerColor.withValues(alpha: 0.2) : null,
+                          color: CustomColors.prefixContainerColor.withValues(alpha: 0.2),
                           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
                           child: Row(
                             children: [
