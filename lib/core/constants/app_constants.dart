@@ -23,9 +23,9 @@ const kMapRadiusFilterDivisions = 10;
 const kDefaultMapRadiusInMiles = 50;
 
 // External links
-const privacyPolicyUrl = 'https://mybackyardusa.com/privacy';
-const termsOfUseUrl = 'https://mybackyardusa.com/terms';
-const plansUrl = 'https://mybackyardusa.com/#pricing';
+const privacyPolicyUrl = 'https://mybackyardusa.net/privacy';
+const termsOfUseUrl = 'https://mybackyardusa.net/terms';
+const plansUrl = 'https://mybackyardusa.net/#pricing';
 
 // Webview user agents
 @visibleForTesting
