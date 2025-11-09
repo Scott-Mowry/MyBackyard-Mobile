@@ -63,7 +63,6 @@ class _AddressAutocompleteTextFormFieldState extends State<AddressAutocompleteTe
     return Autocomplete<AddressSuggestionModel>(
       optionsBuilder: optionsBuilder,
       displayStringForOption: (val) => val.description ?? '',
-      onSelected: onSelected,
       fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
         // Sync the autocomplete controller with our internal controller
         if (_autocompleteController != textEditingController) {
@@ -93,7 +92,7 @@ class _AddressAutocompleteTextFormFieldState extends State<AddressAutocompleteTe
           enable: widget.enable,
         );
       },
-      optionsViewBuilder: (context, onSelected, options) {
+      optionsViewBuilder: (context, _, options) {
         return Align(
           alignment: AlignmentDirectional.topStart,
           child: Material(
@@ -174,6 +173,9 @@ class _AddressAutocompleteTextFormFieldState extends State<AddressAutocompleteTe
     final description = address.description ?? '';
     _lastQuery = description;
     _internalController.text = description;
+    _autocompleteController!.text = description;
+
+    FocusScope.of(context).requestFocus(new FocusNode());
   }
 
   @override

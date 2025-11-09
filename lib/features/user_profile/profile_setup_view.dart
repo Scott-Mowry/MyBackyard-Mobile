@@ -12,6 +12,7 @@ import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/design_system/widgets/address_autocomplete_text_form_field.dart';
 import 'package:backyard/core/design_system/widgets/app_bar_back_button.dart';
 import 'package:backyard/core/enum/enum.dart';
+import 'package:backyard/core/helper/snackbar_helper.dart';
 import 'package:backyard/core/model/place_details_model.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
@@ -62,6 +63,9 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
   final addressTextController = TextEditingController();
 
   PlaceDetailsModel? addressDetails;
+
+  bool get addressNotSelected =>
+      addressDetails == null || addressDetails!.geometry == null || addressDetails!.formattedAddress == null;
 
   final availabilities = <BusinessSchedulingModel>[];
   CategoryModel? selectedCategory;
@@ -336,7 +340,11 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                                   child: AddressAutocompleteTextFormField(
                                     hintText: 'Address',
                                     controller: addressTextController,
-                                    validation: (p0) => p0?.validateEmpty('address'),
+                                    validation: (p0) {
+                                      return p0 == null || p0.isEmpty || addressNotSelected
+                                          ? _selectAddressValidationMsg
+                                          : null;
+                                    },
                                     backgroundColor: !widget.isEditProfile ? null : CustomColors.container,
                                     onAddressSelected: (val) => setState(() => addressDetails = val),
                                   ),
@@ -479,6 +487,10 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
     setState(() => errorText = (imageProfile ?? '').isEmpty);
 
     if (!_form.currentState!.validate() || errorText) return;
+    if (addressNotSelected) {
+      return showSnackbar(context: context, content: _selectAddressValidationMsg);
+    }
+
     _form.currentState!.save();
 
     final currentUser = userController.user;
@@ -531,3 +543,5 @@ Future<void> showProfileCompletedDialog(BuildContext context) {
     },
   );
 }
+
+String _selectAddressValidationMsg = 'Please type an address and select from the list';
