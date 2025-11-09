@@ -145,10 +145,8 @@ class _AddressAutocompleteTextFormFieldState extends State<AddressAutocompleteTe
     if (val.text.length < 3 || val.text == _lastQuery) return _lastSuggestions;
 
     _lastQuery = val.text;
-    final service = getIt<GoogleMapsRepository>();
-
     final suggestions = await _debouncer.run(
-      () async => service.getAddressesByQuery(val.text),
+      () async => getIt<GoogleMapsRepository>().getAddressesByQuery(val.text),
       orElse: _lastSuggestions,
     );
 

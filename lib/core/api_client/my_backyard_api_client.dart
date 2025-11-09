@@ -16,8 +16,8 @@ class MyBackyardApiClient extends ApiClient {
   };
 
   static final publicUrl = switch (appBuildFlavor) {
-    AppBuildFlavorEnum.STG => 'https://api.staging.mybackyardusa.net/',
-    AppBuildFlavorEnum.PROD => 'https://api.mybackyardusa.net/',
+    AppBuildFlavorEnum.STG => 'https://api.staging.mybackyardusa.net',
+    AppBuildFlavorEnum.PROD => 'https://api.mybackyardusa.net',
   };
 
   final _connectTimeout = switch (appBuildFlavor) {

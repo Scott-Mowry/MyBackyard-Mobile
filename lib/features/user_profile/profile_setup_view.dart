@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
@@ -11,10 +10,12 @@ import 'package:backyard/core/design_system/theme/custom_colors.dart';
 import 'package:backyard/core/design_system/theme/custom_spacer.dart';
 import 'package:backyard/core/design_system/widgets/address_autocomplete_text_form_field.dart';
 import 'package:backyard/core/design_system/widgets/app_bar_back_button.dart';
+import 'package:backyard/core/design_system/widgets/custom_network_image.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/helper/snackbar_helper.dart';
 import 'package:backyard/core/model/place_details_model.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
+import 'package:backyard/core/repositories/google_maps_repository.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
 import 'package:backyard/core/services/business_service.dart';
 import 'package:backyard/legacy/Component/Appbar/appbar_components.dart';
@@ -102,10 +103,21 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await getIt<BusinessService>().getCategories();
+      try {
+        await getIt<BusinessService>().getCategories();
 
-      final categories = context.read<HomeController>().categories;
-      setState(() => selectedCategory = categories?.firstWhereOrNull((el) => el.id == userProfile?.categoryId));
+        final categories = context.read<HomeController>().categories;
+        selectedCategory = categories?.firstWhereOrNull((el) => el.id == userProfile?.categoryId);
+
+        final addressRaw = userProfile?.address;
+        if (addressRaw != null && addressRaw.isNotEmpty) {
+          final options = await getIt<GoogleMapsRepository>().getAddressesByQuery(addressRaw);
+          final addressData = await getIt<GoogleMapsRepository>().getPlaceDetails(options.first.placeId!);
+          addressDetails = addressData;
+        }
+      } finally {
+        setState(() {});
+      }
     });
   }
 
@@ -162,22 +174,34 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                                           },
                                         );
                                       },
-                                      child: CircleAvatar(
-                                        radius: 70.0,
-                                        backgroundColor: CustomColors.primaryGreenColor,
-                                        child: CircleAvatar(
-                                          radius: 65.0,
-                                          backgroundImage:
-                                              (imageType == ImageTypeEnum.network
-                                                      ? NetworkImage(
-                                                        "${MyBackyardApiClient.publicUrl}${imageProfile ?? ""}",
-                                                      )
-                                                      : imageType == ImageTypeEnum.file
-                                                      ? FileImage(File(imageProfile ?? ''))
-                                                      : const AssetImage(ImagePath.noUserImage))
-                                                  as ImageProvider,
-                                          child: Align(
-                                            alignment: Alignment.bottomRight,
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            width: 140,
+                                            height: 140,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: CustomColors.primaryGreenColor,
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(5.0),
+                                              child: ClipOval(
+                                                child:
+                                                    imageType == ImageTypeEnum.network
+                                                        ? CustomNetworkImage(
+                                                          imageUrl:
+                                                              "${MyBackyardApiClient.publicUrl}${imageProfile ?? ""}",
+                                                          fit: BoxFit.cover,
+                                                        )
+                                                        : imageType == ImageTypeEnum.file
+                                                        ? Image.file(File(imageProfile ?? ''), fit: BoxFit.cover)
+                                                        : Image.asset(ImagePath.noUserImage, fit: BoxFit.cover),
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            bottom: 0,
+                                            right: 0,
                                             child: CircleAvatar(
                                               backgroundColor: CustomColors.whiteColor,
                                               radius: 14.0,
@@ -205,7 +229,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                                               ),
                                             ),
                                           ),
-                                        ),
+                                        ],
                                       ),
                                     ),
                                     if (errorText)
@@ -394,7 +418,6 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                                         RegExp(r'[()-\s]'),
                                         '',
                                       ); // Remove brackets, dashes, and spaces
-                                      log(cleanedPhoneNumber);
 
                                       if (!isNumeric(cleanedPhoneNumber)) {
                                         return 'Phone number field can"t be empty';
