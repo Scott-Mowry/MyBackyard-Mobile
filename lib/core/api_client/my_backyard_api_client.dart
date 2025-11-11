@@ -12,12 +12,12 @@ import 'package:injectable/injectable.dart';
 class MyBackyardApiClient extends ApiClient {
   static final baseUrl = switch (appBuildFlavor) {
     AppBuildFlavorEnum.STG => 'https://api.staging.mybackyardusa.net/api',
-    AppBuildFlavorEnum.PROD => 'https://api.mybackyardusa.net/api',
+    AppBuildFlavorEnum.PROD => 'https://admin.mybackyardusa.com/public/api',
   };
 
   static final publicUrl = switch (appBuildFlavor) {
     AppBuildFlavorEnum.STG => 'https://api.staging.mybackyardusa.net',
-    AppBuildFlavorEnum.PROD => 'https://api.mybackyardusa.net',
+    AppBuildFlavorEnum.PROD => 'https://admin.mybackyardusa.com/public/',
   };
 
   final _connectTimeout = switch (appBuildFlavor) {

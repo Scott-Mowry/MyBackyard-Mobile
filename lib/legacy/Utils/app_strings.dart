@@ -4,7 +4,7 @@ class AppStrings {
   static const String PHONE_NO_EMPTY_ERROR = 'Phone number is required';
   static const String YEAR_MONTH_DATE = 'yyyy-MM-dd';
   static const String PHONE_NO_INVALID_LENGTH = 'Invalid phone number.';
-  static const String GOOGLE_API_KEY = 'AIzaSyBmaS0B0qwokES4a_CiFNVkVJGkimXkNsk';
+  static const String GOOGLE_API_KEY = 'AIzaSyAK9wVgYvXF6elDtClFb6PsYKN-u8pnsMw';
   static const String OTP_KEY = 'oneTime';
   static const String GIFT_KEY = 'gift';
   static const String APPLE = 'Apple';

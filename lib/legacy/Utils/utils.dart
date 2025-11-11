@@ -73,7 +73,8 @@ class Utils {
   static const String mDY = 'MM-dd-yyyy';
   DateTime selectedDate = DateTime.now();
   String formattedDate = '';
-  static const googleApiKey = 'AIzaSyBmaS0B0qwokES4a_CiFNVkVJGkimXkNsk';
+
+  static const googleApiKey = 'AIzaSyAK9wVgYvXF6elDtClFb6PsYKN-u8pnsMw';
 
   static Future<ByteData> getCircularImageByteData(ui.Image image) async {
     final pictureRecorder = ui.PictureRecorder();

@@ -103,21 +103,8 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      try {
-        await getIt<BusinessService>().getCategories();
-
-        final categories = context.read<HomeController>().categories;
-        selectedCategory = categories?.firstWhereOrNull((el) => el.id == userProfile?.categoryId);
-
-        final addressRaw = userProfile?.address;
-        if (addressRaw != null && addressRaw.isNotEmpty) {
-          final options = await getIt<GoogleMapsRepository>().getAddressesByQuery(addressRaw);
-          final addressData = await getIt<GoogleMapsRepository>().getPlaceDetails(options.first.placeId!);
-          addressDetails = addressData;
-        }
-      } finally {
-        setState(() {});
-      }
+      await initCategory();
+      WidgetsBinding.instance.addPostFrameCallback((_) => initAddress());
     });
   }
 
@@ -432,14 +419,13 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                                 if (isBusiness) ...[
                                   SizedBox(height: 1.5.h),
                                   CustomTextFormField(
-                                    height: 8.h,
                                     hintText: 'Description',
                                     showLabel: false,
-                                    maxLines: 5,
-                                    minLines: 5,
+                                    maxLines: 10,
+                                    minLines: 3,
                                     controller: descriptionTextController,
                                     borderRadius: 10,
-                                    maxLength: 275,
+                                    maxLength: 250,
                                     backgroundColor: !widget.isEditProfile ? null : CustomColors.container,
                                     validation: (p0) => p0?.validateEmpty('description'),
                                   ),
@@ -501,6 +487,30 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
         ),
       ),
     );
+  }
+
+  Future<void> initCategory() async {
+    final userController = context.read<UserController>();
+    final userProfile = userController.user;
+
+    await getIt<BusinessService>().getCategories();
+    final categories = context.read<HomeController>().categories;
+    final category = categories?.firstWhereOrNull((el) => el.id == userProfile?.categoryId);
+    setState(() => selectedCategory = category);
+  }
+
+  Future<void> initAddress() async {
+    final userController = context.read<UserController>();
+    final userProfile = userController.user;
+
+    final address = userProfile?.address;
+    final addressOptions = address == null ? null : await getIt<GoogleMapsRepository>().getAddressesByQuery(address);
+    final addressData =
+        addressOptions == null
+            ? null
+            : await getIt<GoogleMapsRepository>().getPlaceDetails(addressOptions.first.placeId!);
+
+    setState(() => addressDetails = addressData);
   }
 
   Future<void> saveProfile() async {
