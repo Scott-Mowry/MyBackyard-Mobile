@@ -1,7 +1,7 @@
 name: backyard
 description: "My Backyard USA"
 publish_to: "none"
-version: 2.3.0+0
+version: 2.3.1+0
 
 environment:
   flutter: ">=3.29.2 <4.0.0"

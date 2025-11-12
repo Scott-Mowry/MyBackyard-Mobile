@@ -13,7 +13,6 @@ import 'package:backyard/core/design_system/widgets/app_bar_back_button.dart';
 import 'package:backyard/core/design_system/widgets/custom_network_image.dart';
 import 'package:backyard/core/enum/enum.dart';
 import 'package:backyard/core/helper/snackbar_helper.dart';
-import 'package:backyard/core/model/place_details_model.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/core/repositories/google_maps_repository.dart';
 import 'package:backyard/core/repositories/user_auth_repository.dart';
@@ -63,13 +62,13 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
   final phoneTextController = TextEditingController();
   final addressTextController = TextEditingController();
 
-  PlaceDetailsModel? addressDetails;
-
-  bool get addressNotSelected =>
-      addressDetails == null || addressDetails!.geometry == null || addressDetails!.formattedAddress == null;
+  bool get addressNotSelected {
+    final homeController = context.read<HomeController>();
+    final addressDetails = homeController.currentUserAddress;
+    return addressDetails == null || addressDetails.geometry == null || addressDetails.formattedAddress == null;
+  }
 
   final availabilities = <BusinessSchedulingModel>[];
-  CategoryModel? selectedCategory;
 
   bool errorText = false;
 
@@ -79,6 +78,8 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
     UserRoleEnum.User: 'Consumer Interface',
     UserRoleEnum.Business: 'Business + Consumer Interface',
   };
+
+  bool _internalLoading = true;
 
   @override
   void initState() {
@@ -103,8 +104,12 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await initCategory();
-      WidgetsBinding.instance.addPostFrameCallback((_) => initAddress());
+      try {
+        await initCategory();
+        await initAddress();
+      } finally {
+        _internalLoading = false;
+      }
     });
   }
 
@@ -120,7 +125,6 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
         child: Consumer2<UserController, HomeController>(
           builder: (context, userController, homeController, _) {
             final categoriesList = homeController.categories ?? <CategoryModel>[];
-
             return Form(
               key: _form,
               child: Column(
@@ -316,64 +320,28 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                               ],
                             ),
                             SizedBox(height: 3.h),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (isBusiness) ...[
-                                  CustomDropDown2(
-                                    hintText: 'Select Category',
-                                    bgColor:
-                                        !widget.isEditProfile ? CustomColors.secondaryColor : CustomColors.container,
-                                    dropDownData: categoriesList,
-                                    dropdownValue: selectedCategory,
-                                    validator: (p0) => (p0 == null) ? "Category can't be empty" : null,
-                                    onChanged: (category) => setState(() => selectedCategory = category),
-                                  ),
-                                  SizedBox(height: 1.5.h),
-                                ],
-                                CustomTextFormField(
-                                  controller: nameTextController,
-                                  hintText: isBusiness ? 'Business Name' : 'Full Name',
-                                  maxLength: 30,
-                                  prefixWidget: Image.asset(
-                                    ImagePath.person,
-                                    scale: 2,
-                                    color:
-                                        widget.isEditProfile
-                                            ? CustomColors.primaryGreenColor
-                                            : CustomColors.primaryGreenColor,
-                                  ),
-                                  backgroundColor: !widget.isEditProfile ? null : CustomColors.container,
-                                  validation: (p0) => p0?.validateEmpty(isBusiness ? 'Business Name' : 'First Name'),
-                                ),
-                                Padding(
-                                  padding: CustomSpacer.top.xs,
-                                  child: AddressAutocompleteTextFormField(
-                                    hintText: 'Address',
-                                    controller: addressTextController,
-                                    validation: (p0) {
-                                      return p0 == null || p0.isEmpty || addressNotSelected
-                                          ? _selectAddressValidationMsg
-                                          : null;
-                                    },
-                                    backgroundColor: !widget.isEditProfile ? null : CustomColors.container,
-                                    onAddressSelected: (val) => setState(() => addressDetails = val),
-                                  ),
-                                ),
-                                SizedBox(height: 1.5.h),
-                                if (userController.user?.socialType == null ||
-                                    userController.user?.socialType == 'phone') ...[
+                            if (!_internalLoading)
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  if (isBusiness) ...[
+                                    CustomDropDown2(
+                                      hintText: 'Select Category',
+                                      bgColor:
+                                          !widget.isEditProfile ? CustomColors.secondaryColor : CustomColors.container,
+                                      dropDownData: categoriesList,
+                                      dropdownValue: homeController.currentBusinessCategory,
+                                      validator: (p0) => (p0 == null) ? "Category can't be empty" : null,
+                                      onChanged: homeController.setCurrentBusinessCategory,
+                                    ),
+                                    SizedBox(height: 1.5.h),
+                                  ],
                                   CustomTextFormField(
-                                    hintText: 'Email Address',
-                                    controller: emailTextController,
-                                    onChanged: (v) {},
-                                    readOnly:
-                                        widget.isEditProfile
-                                            ? (userController.user?.emailVerifiedAt != null)
-                                            : (userController.user?.email ?? '').isNotEmpty,
-                                    inputType: TextInputType.emailAddress,
+                                    controller: nameTextController,
+                                    hintText: isBusiness ? 'Business Name' : 'Full Name',
+                                    maxLength: 30,
                                     prefixWidget: Image.asset(
-                                      ImagePath.email,
+                                      ImagePath.person,
                                       scale: 2,
                                       color:
                                           widget.isEditProfile
@@ -381,58 +349,95 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
                                               : CustomColors.primaryGreenColor,
                                     ),
                                     backgroundColor: !widget.isEditProfile ? null : CustomColors.container,
-                                    validation: (p0) => p0?.validateEmail,
+                                    validation: (p0) => p0?.validateEmpty(isBusiness ? 'Business Name' : 'First Name'),
                                   ),
-                                  SizedBox(height: 1.5.h),
-                                ],
-                                if (isBusiness)
-                                  CustomTextFormField(
-                                    prefixWidget: Image.asset(
-                                      ImagePath.phone,
-                                      scale: 2,
-                                      color:
-                                          widget.isEditProfile
-                                              ? CustomColors.primaryGreenColor
-                                              : CustomColors.primaryGreenColor,
+                                  Padding(
+                                    padding: CustomSpacer.top.xs,
+                                    child: AddressAutocompleteTextFormField(
+                                      hintText: 'Address',
+                                      controller: addressTextController,
+                                      validation: (p0) {
+                                        return p0 == null || p0.isEmpty || addressNotSelected
+                                            ? _selectAddressValidationMsg
+                                            : null;
+                                      },
+                                      backgroundColor: !widget.isEditProfile ? null : CustomColors.container,
+                                      onAddressSelected: homeController.setCurrentUserAddress,
                                     ),
-                                    controller: phoneTextController,
-                                    hintText: 'Phone Number',
-                                    inputType: TextInputType.phone,
-                                    contact: true,
-                                    backgroundColor: !widget.isEditProfile ? null : CustomColors.container,
-                                    validation: (value) {
-                                      final cleanedPhoneNumber = value.toString().replaceAll(
-                                        RegExp(r'[()-\s]'),
-                                        '',
-                                      ); // Remove brackets, dashes, and spaces
-
-                                      if (!isNumeric(cleanedPhoneNumber)) {
-                                        return 'Phone number field can"t be empty';
-                                      }
-                                      if (cleanedPhoneNumber.length < 10) {
-                                        return 'Invalid Phone Number';
-                                      }
-
-                                      return null;
-                                    },
-                                  ),
-                                if (isBusiness) ...[
-                                  SizedBox(height: 1.5.h),
-                                  CustomTextFormField(
-                                    hintText: 'Description',
-                                    showLabel: false,
-                                    maxLines: 10,
-                                    minLines: 3,
-                                    controller: descriptionTextController,
-                                    borderRadius: 10,
-                                    maxLength: 250,
-                                    backgroundColor: !widget.isEditProfile ? null : CustomColors.container,
-                                    validation: (p0) => p0?.validateEmpty('description'),
                                   ),
                                   SizedBox(height: 1.5.h),
+                                  if (userController.user?.socialType == null ||
+                                      userController.user?.socialType == 'phone') ...[
+                                    CustomTextFormField(
+                                      hintText: 'Email Address',
+                                      controller: emailTextController,
+                                      onChanged: (v) {},
+                                      readOnly:
+                                          widget.isEditProfile
+                                              ? (userController.user?.emailVerifiedAt != null)
+                                              : (userController.user?.email ?? '').isNotEmpty,
+                                      inputType: TextInputType.emailAddress,
+                                      prefixWidget: Image.asset(
+                                        ImagePath.email,
+                                        scale: 2,
+                                        color:
+                                            widget.isEditProfile
+                                                ? CustomColors.primaryGreenColor
+                                                : CustomColors.primaryGreenColor,
+                                      ),
+                                      backgroundColor: !widget.isEditProfile ? null : CustomColors.container,
+                                      validation: (p0) => p0?.validateEmail,
+                                    ),
+                                    SizedBox(height: 1.5.h),
+                                  ],
+                                  if (isBusiness)
+                                    CustomTextFormField(
+                                      prefixWidget: Image.asset(
+                                        ImagePath.phone,
+                                        scale: 2,
+                                        color:
+                                            widget.isEditProfile
+                                                ? CustomColors.primaryGreenColor
+                                                : CustomColors.primaryGreenColor,
+                                      ),
+                                      controller: phoneTextController,
+                                      hintText: 'Phone Number',
+                                      inputType: TextInputType.phone,
+                                      contact: true,
+                                      backgroundColor: !widget.isEditProfile ? null : CustomColors.container,
+                                      validation: (value) {
+                                        final cleanedPhoneNumber = value.toString().replaceAll(
+                                          RegExp(r'[()-\s]'),
+                                          '',
+                                        ); // Remove brackets, dashes, and spaces
+
+                                        if (!isNumeric(cleanedPhoneNumber)) {
+                                          return 'Phone number field can"t be empty';
+                                        }
+                                        if (cleanedPhoneNumber.length < 10) {
+                                          return 'Invalid Phone Number';
+                                        }
+
+                                        return null;
+                                      },
+                                    ),
+                                  if (isBusiness) ...[
+                                    SizedBox(height: 1.5.h),
+                                    CustomTextFormField(
+                                      hintText: 'Description',
+                                      showLabel: false,
+                                      maxLines: 10,
+                                      minLines: 3,
+                                      controller: descriptionTextController,
+                                      borderRadius: 10,
+                                      maxLength: 250,
+                                      backgroundColor: !widget.isEditProfile ? null : CustomColors.container,
+                                      validation: (p0) => p0?.validateEmpty('description'),
+                                    ),
+                                    SizedBox(height: 1.5.h),
+                                  ],
                                 ],
-                              ],
-                            ),
+                              ),
                           ],
                         ),
                       ),
@@ -496,7 +501,9 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
     await getIt<BusinessService>().getCategories();
     final categories = context.read<HomeController>().categories;
     final category = categories?.firstWhereOrNull((el) => el.id == userProfile?.categoryId);
-    setState(() => selectedCategory = category);
+
+    final homeController = context.read<HomeController>();
+    homeController.setCurrentBusinessCategory(category);
   }
 
   Future<void> initAddress() async {
@@ -506,14 +513,16 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
     final address = userProfile?.address;
     final addressOptions = address == null ? null : await getIt<GoogleMapsRepository>().getAddressesByQuery(address);
     final addressData =
-        addressOptions == null
+        addressOptions == null || addressOptions.isEmpty || !addressOptions.any((el) => el.placeId != null)
             ? null
             : await getIt<GoogleMapsRepository>().getPlaceDetails(addressOptions.first.placeId!);
 
-    setState(() => addressDetails = addressData);
+    final homeController = context.read<HomeController>();
+    homeController.setCurrentUserAddress(addressData);
   }
 
   Future<void> saveProfile() async {
+    final homeController = context.read<HomeController>();
     final userController = context.read<UserController>();
 
     FocusManager.instance.primaryFocus?.unfocus();
@@ -527,6 +536,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
     _form.currentState!.save();
 
     final currentUser = userController.user;
+    final addressDetails = homeController.currentUserAddress;
     final addressLocation = addressDetails?.geometry?.location;
     await getIt<UserAuthRepository>().completeProfile(
       fullName: nameTextController.text,
@@ -541,7 +551,7 @@ class _ProfileSetupViewState extends State<ProfileSetupView> {
       lat: addressLocation?.lat ?? currentUser?.latitude,
       long: addressLocation?.lng ?? currentUser?.longitude,
       role: role!.name,
-      categoryId: isBusiness ? (selectedCategory?.id ?? userController.user?.categoryId) : null,
+      categoryId: isBusiness ? (homeController.currentBusinessCategory?.id ?? userController.user?.categoryId) : null,
       days: availabilities.isEmpty ? userController.user?.days : availabilities,
       image:
           imageProfile == null

@@ -1,5 +1,6 @@
 import 'dart:ui' as ui;
 
+import 'package:backyard/core/model/place_details_model.dart';
 import 'package:backyard/core/model/user_profile_model.dart';
 import 'package:backyard/legacy/Model/card_model.dart';
 import 'package:backyard/legacy/Model/category_model.dart';
@@ -78,8 +79,26 @@ class HomeController extends ChangeNotifier {
 
   List<CategoryModel>? get categories => _categories;
 
+  CategoryModel? _currentBusinessCategory;
+
+  CategoryModel? get currentBusinessCategory => _currentBusinessCategory;
+
+  PlaceDetailsModel? _currentUserAddress;
+
+  PlaceDetailsModel? get currentUserAddress => _currentUserAddress;
+
   void setCategories(List<CategoryModel>? model) {
     _categories = model;
+    notifyListeners();
+  }
+
+  void setCurrentBusinessCategory(CategoryModel? category) {
+    _currentBusinessCategory = category;
+    notifyListeners();
+  }
+
+  void setCurrentUserAddress(PlaceDetailsModel? addressDetails) {
+    _currentUserAddress = addressDetails;
     notifyListeners();
   }
 
